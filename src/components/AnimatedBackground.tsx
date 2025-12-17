@@ -67,7 +67,7 @@ const AnimatedBackground = () => {
         // Update position
         particle.x += particle.vx;
         particle.y += particle.vy;
-        
+
         // Update pulse phase
         particle.pulsePhase += particle.pulseSpeed;
 
@@ -80,11 +80,11 @@ const AnimatedBackground = () => {
         // Draw particle with parallax offset and pulsation
         let drawY = (particle.y - scrollOffsetRef.current) % canvas.height;
         if (drawY < 0) drawY += canvas.height;
-        
+
         // Calculate pulsating size
         const pulseFactor = Math.sin(particle.pulsePhase) * 0.3 + 1;
         const currentSize = particle.size * pulseFactor;
-        
+
         ctx.beginPath();
         ctx.arc(particle.x, drawY, currentSize, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(150, 200, 255, ${particle.opacity})`;
@@ -94,7 +94,7 @@ const AnimatedBackground = () => {
         particles.slice(i + 1).forEach((otherParticle) => {
           let otherDrawY = (otherParticle.y - scrollOffsetRef.current) % canvas.height;
           if (otherDrawY < 0) otherDrawY += canvas.height;
-          
+
           const dx = particle.x - otherParticle.x;
           const dy = drawY - otherDrawY;
           const distance = Math.sqrt(dx * dx + dy * dy);
@@ -141,7 +141,6 @@ const AnimatedBackground = () => {
     <canvas
       ref={canvasRef}
       className="absolute inset-0 w-full h-full"
-      style={{ background: 'linear-gradient(180deg, #0a0f1e 0%, #1a2744 100%)' }}
     />
   );
 };

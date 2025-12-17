@@ -1,7 +1,7 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, ArrowUpRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useEffect, useRef, useState } from "react";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import bodystartImage from "@/assets/bodystart-project.png";
 
 type Project = {
@@ -22,167 +22,214 @@ const projects: Project[] = [
     url: "https://bodystart.com",
     technologies: ["React", "Node.js", "Stripe", "Supabase"],
     category: "Site Web",
-    altText: "Capture d'écran du site BodyStart - plateforme de programmes sportifs et coaching en ligne créée par Nexus Développement"
+    altText: "Capture d'écran du site BodyStart - plateforme de programmes sportifs et coaching en ligne"
   },
   {
-    title: "Application de Gestion",
-    description: "Solution complète pour la gestion d'entreprise avec tableau de bord analytics",
+    title: "EcoManager",
+    description: "Solution SaaS pour la gestion énergétique des entreprises avec tableau de bord temps réel",
     image: "/placeholder.svg",
-    url: "https://example.com",
-    technologies: ["React", "TypeScript", "Supabase"],
+    url: "#",
+    technologies: ["React", "TypeScript", "D3.js", "AWS"],
     category: "Web App",
-    altText: "Interface de l'application de gestion d'entreprise avec tableau de bord analytics développée par Nexus Développement"
+    altText: "Interface de l'application EcoManager"
   },
   {
-    title: "Portfolio Créatif",
-    description: "Site vitrine pour artiste avec galerie interactive et système de contact",
+    title: "ArtGallery",
+    description: "Portfolio immersif pour un artiste peintre, galerie 3D et e-shop intégré",
     image: "/placeholder.svg",
-    url: "https://example.com",
-    technologies: ["React", "Tailwind", "Animation"],
+    url: "#",
+    technologies: ["Three.js", "React", "Shopify"],
     category: "Site Vitrine",
-    altText: "Exemple de portfolio créatif pour artiste avec galerie interactive réalisé par Nexus Développement"
+    altText: "Aperçu du portfolio ArtGallery"
   },
   {
-    title: "Plateforme SaaS",
-    description: "Application B2B pour la gestion de projets collaboratifs avec intégrations multiples",
+    title: "TaskFlow",
+    description: "Outil de gestion de projet collaboratif nouvelle génération pour les équipes remote",
     image: "/placeholder.svg",
-    url: "https://example.com",
-    technologies: ["React", "Next.js", "API", "Cloud"],
+    url: "#",
+    technologies: ["Next.js", "Socket.io", "Tailwind"],
     category: "SaaS",
-    altText: "Plateforme SaaS B2B pour gestion de projets collaboratifs développée par Nexus Développement"
+    altText: "Interface de TaskFlow"
   },
   {
-    title: "Site Institutionnel",
-    description: "Site corporate pour grande entreprise avec multilingue et SEO optimisé",
+    title: "CorpFinance",
+    description: "Portail institutionnel sécurisé pour une banque d'affaires internationale",
     image: "/placeholder.svg",
-    url: "https://example.com",
-    technologies: ["React", "CMS", "SEO"],
-    category: "Site Corporate",
-    altText: "Site institutionnel multilingue optimisé SEO pour entreprise créé par Nexus Développement"
+    url: "#",
+    technologies: ["React", "Security", "CMS"],
+    category: "Corporate",
+    altText: "Site institutionnel CorpFinance"
   },
   {
-    title: "Application Mobile",
-    description: "App mobile cross-platform pour le suivi fitness et nutrition",
+    title: "FitTrack Pro",
+    description: "Application mobile de suivi fitness avec IA pour la personnalisation des entraînements",
     image: "/placeholder.svg",
-    url: "https://example.com",
-    technologies: ["React Native", "Firebase", "API"],
+    url: "#",
+    technologies: ["React Native", "TensorFlow", "Firebase"],
     category: "Mobile",
-    altText: "Application mobile fitness et nutrition cross-platform développée par Nexus Développement"
+    altText: "Screenshots de l'application FitTrack Pro"
   }
 ];
 
-const Portfolio = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
+const ProjectCard = ({ project, index }: { project: Project; index: number }) => {
+  const ref = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
+  const mouseXSpring = useSpring(x);
+  const mouseYSpring = useSpring(y);
 
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["15deg", "-15deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-15deg", "15deg"]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const rect = ref.current?.getBoundingClientRect();
+    if (!rect) return;
+
+    const width = rect.width;
+    const height = rect.height;
+
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+
+    x.set(xPct);
+    y.set(yPct);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
 
   return (
-    <section ref={sectionRef} id="portfolio" className="py-20">
-      <div className="container mx-auto px-4">
-        <div className={`text-center mb-16 transition-all duration-1000 ${
-          isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"
-        }`}>
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 pb-3 leading-relaxed bg-gradient-to-r from-blue-400 via-blue-200 to-blue-400 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(100,150,255,0.6)]">
-            Notre Portfolio
-          </h2>
-          <p className="text-lg text-white/90 max-w-2xl mx-auto drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
-            Découvrez nos réalisations et laissez-vous inspirer
-          </p>
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        rotateY,
+        rotateX,
+        transformStyle: "preserve-3d",
+      }}
+      className="relative group cursor-pointer"
+      onClick={() => window.open(project.url, '_blank')}
+    >
+      <div
+        className="relative h-full min-h-[420px] rounded-xl bg-gray-900/40 border border-white/10 backdrop-blur-sm overflow-hidden flex flex-col transition-shadow duration-300 group-hover:shadow-[0_20px_50px_rgba(8,112,184,0.3)]"
+        style={{ transform: "translateZ(0)" }}
+      >
+        {/* Image Section */}
+        <div className="relative h-48 overflow-hidden transform transition-transform duration-300" style={{ transform: "translateZ(30px)" }}>
+          <div className="absolute top-4 right-4 z-20">
+            <Badge className="bg-black/50 text-cyan-300 border border-cyan-500/50 backdrop-blur-md">
+              {project.category}
+            </Badge>
+          </div>
+          <img
+            src={project.image}
+            alt={project.altText}
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-60" />
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        {/* Content Section */}
+        <div className="flex-1 p-6 flex flex-col justify-between transform transition-transform duration-300 bg-gradient-to-b from-gray-900/0 to-gray-900/80" style={{ transform: "translateZ(50px)" }}>
+
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors">
+                {project.title}
+              </h3>
+              <div className="p-2 rounded-full bg-white/5 text-gray-300 group-hover:bg-cyan-500 group-hover:text-black transition-all duration-300">
+                <ArrowUpRight className="w-4 h-4" />
+              </div>
+            </div>
+
+            <p className="text-gray-400 text-sm leading-relaxed line-clamp-3">
+              {project.description}
+            </p>
+          </div>
+
+          {/* Technologies */}
+          <div className="flex flex-wrap gap-2 pt-4 mt-2 border-t border-white/5">
+            {project.technologies.slice(0, 3).map((tech, idx) => (
+              <span
+                key={idx}
+                className="text-xs px-2.5 py-1 rounded-full bg-white/5 text-gray-400 border border-white/5 transition-colors group-hover:border-cyan-500/30 group-hover:text-cyan-200"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Shine Effect */}
+        <div
+          className="absolute inset-0 z-20 pointer-events-none bg-gradient-to-tr from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-shine"
+        />
+
+        {/* Border Glow */}
+        <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none ring-1 ring-cyan-500/50 shadow-[0_0_30px_rgba(34,211,238,0.15)]" />
+      </div>
+    </motion.div>
+  );
+};
+
+const Portfolio = () => {
+  return (
+    <section id="portfolio" className="py-32 relative overflow-hidden">
+      {/* Background Decor */}
+      <div className="absolute top-[20%] left-[-10%] w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[20%] right-[-10%] w-[500px] h-[500px] bg-cyan-600/10 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="container mx-auto px-4 relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-20"
+        >
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            <span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-400 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(59,130,246,0.5)]">
+              Nos Réalisations
+            </span>
+          </h2>
+          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+            Une sélection de nos meilleurs projets, alliant design primé et excellence technique.
+          </p>
+        </motion.div>
+
+        {/* Project Grid with Perspective */}
+        <div
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto"
+          style={{ perspective: "1000px" }}
+        >
           {projects.map((project, index) => (
-            <Card
-              key={index}
-              className={`relative overflow-hidden border-2 transition-all duration-700 hover:shadow-[0_0_50px_rgba(59,130,246,0.6)] group cursor-pointer ${
-                isVisible ? "opacity-100 translate-x-0 rotate-0" : "opacity-0 translate-x-20 rotate-2"
-              }`}
-              style={{
-                background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.9) 100%)',
-                borderImage: 'linear-gradient(135deg, rgba(59, 130, 246, 0.4), rgba(34, 211, 238, 0.4)) 1',
-                transitionDelay: `${index * 150}ms`
-              }}
-              onClick={() => window.open(project.url, '_blank')}
-            >
-              <div className="relative h-48 overflow-hidden">
-                <img 
-                  src={project.image} 
-                  alt={project.altText}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/50 to-transparent"></div>
-                <Badge className="absolute top-4 right-4 bg-blue-500/90 text-white border-none">
-                  {project.category}
-                </Badge>
-              </div>
-
-              <CardContent className="p-6 relative z-10">
-                {/* Titre avec icône */}
-                <div className="flex items-start justify-between mb-3">
-                  <h3 className="text-xl font-bold text-white group-hover:text-blue-300 transition-colors">
-                    {project.title}
-                  </h3>
-                  <ExternalLink className="w-5 h-5 text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 ml-2" />
-                </div>
-
-                {/* Description */}
-                <p className="text-blue-100/80 text-sm mb-4 line-clamp-2">
-                  {project.description}
-                </p>
-
-                {/* Technologies */}
-                <div className="flex flex-wrap gap-2">
-                  {project.technologies.map((tech, idx) => (
-                    <span
-                      key={idx}
-                      className="text-xs px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-400/30"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </CardContent>
-
-              {/* Effet de brillance au hover */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
-                <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/10 via-cyan-500/10 to-transparent" />
-              </div>
-
-              {/* Bordure animée */}
-              <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-blue-500/20 via-cyan-500/20 to-blue-500/20 blur-xl" />
-              </div>
-            </Card>
+            <ProjectCard key={index} project={project} index={index} />
           ))}
         </div>
 
-        {/* CTA */}
-        <div className="text-center mt-12">
-          <p className="text-white/90 text-lg drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
-            Vous avez un projet en tête ?
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.5 }}
+          className="text-center mt-20"
+        >
+          <p className="text-gray-500 font-medium">
+            Et bien plus encore... <button className="text-cyan-400 hover:text-cyan-300 underline underline-offset-4 transition-colors">Voir tout le catalogue</button>
           </p>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
