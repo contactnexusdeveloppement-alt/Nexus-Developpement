@@ -19,7 +19,7 @@ export const properties: Property[] = [
         location: 'Gérardmer',
         bedrooms: 5,
         surface: 240,
-        image: '/images/chalet-luxe.jpg',
+        image: '/agence-immo/images/chalet-luxe.jpg',
         tags: ['Exclusivité', 'Vue Lac']
     },
     {
@@ -41,7 +41,7 @@ export const properties: Property[] = [
         location: 'Xonrupt-Longemer',
         bedrooms: 4,
         surface: 300,
-        image: '/images/ferme-vosgienne.jpg',
+        image: '/agence-immo/images/ferme-vosgienne.jpg',
         tags: ['Coup de Cœur']
     },
     {
@@ -52,7 +52,7 @@ export const properties: Property[] = [
         location: 'Gérardmer',
         bedrooms: 0,
         surface: 1200,
-        image: '/images/terrain-constructible.jpg',
+        image: '/agence-immo/images/terrain-constructible.jpg',
         tags: []
     },
 ];

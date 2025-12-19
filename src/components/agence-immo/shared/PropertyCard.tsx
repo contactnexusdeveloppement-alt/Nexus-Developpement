@@ -8,7 +8,7 @@ interface PropertyCardProps {
 
 export default function PropertyCard({ property }: PropertyCardProps) {
     return (
-        <Link to={`/property/${property.id}`} className="block group bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 w-full md:w-[350px] shrink-0 cursor-pointer border border-gray-100">
+        <Link to={`/agence-immo/property/${property.id}`} className="block group bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 w-full md:w-[350px] shrink-0 cursor-pointer border border-gray-100">
 
             {/* Image Container */}
             <div className="relative h-64 overflow-hidden">
@@ -39,20 +39,20 @@ export default function PropertyCard({ property }: PropertyCardProps) {
                         <Video className="w-5 h-5" />
                     </button>
                 </div>
+
+                <div className="absolute bottom-4 left-4 text-white">
+                    <p className="text-2xl font-bold font-serif">{property.price.toLocaleString('fr-FR')} €</p>
+                </div>
             </div>
 
             {/* Details */}
             <div className="p-6 space-y-4">
-                <div className="flex justify-between items-center pt-4 border-t border-gray-100">
-                    <span className="text-xl font-bold text-black-rich">{property.price.toLocaleString('fr-FR')} €</span>
-                    <Link to={`/agence-immo/property/${property.id}`} className="text-gold font-bold hover:text-black-rich transition-colors text-sm uppercase tracking-wider">
-                        Voir le bien
-                    </Link>
-                </div>
-                <h3 className="text-lg font-serif font-bold text-black-rich line-clamp-1">{property.title}</h3>
-                <div className="flex items-center gap-2 text-gray-500 text-sm mt-1">
-                    <MapPin className="w-4 h-4 text-gold" />
-                    <span>{property.location}</span>
+                <div>
+                    <h3 className="text-lg font-serif font-bold text-black-rich line-clamp-1">{property.title}</h3>
+                    <div className="flex items-center gap-2 text-gray-500 text-sm mt-1">
+                        <MapPin className="w-4 h-4 text-gold" />
+                        <span>{property.location}</span>
+                    </div>
                 </div>
 
                 <div className="flex items-center justify-between py-4 border-t border-gray-100 text-gray-600 text-sm">

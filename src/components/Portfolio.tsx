@@ -35,13 +35,13 @@ const projects: Project[] = [
     altText: "Interface du site Élégance Coiffure"
   },
   {
-    title: "LUXIMMO",
-    description: "Plateforme immobilière de luxe avec filtrage avancé, galerie interactive et design premium 'Gold & Black'.",
-    image: "/agence-immo/assets/hero-bg.jpg",
+    title: "Entre Terre et Mer",
+    description: "Site vitrine d'agence immobilière de prestige dans les Vosges. Design élégant et mise en valeur des biens d'exception.",
+    image: "/agence-immo/images/chalet-luxe.jpg",
     url: "/agence-immo",
     technologies: ["React", "Tailwind", "Framer Motion"],
     category: "Site Vitrine",
-    altText: "Interface du site LUXIMMO"
+    altText: "Aperçu du site Entre Terre et Mer"
   },
   {
     title: "TaskFlow",
