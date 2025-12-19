@@ -35,13 +35,13 @@ const projects: Project[] = [
     altText: "Interface du site Élégance Coiffure"
   },
   {
-    title: "ArtGallery",
-    description: "Portfolio immersif pour un artiste peintre, galerie 3D et e-shop intégré",
-    image: "/placeholder.svg",
-    url: "#",
-    technologies: ["Three.js", "React", "Shopify"],
+    title: "LUXIMMO",
+    description: "Plateforme immobilière de luxe avec filtrage avancé, galerie interactive et design premium 'Gold & Black'.",
+    image: "/agence-immo/assets/hero-bg.jpg",
+    url: "/agence-immo",
+    technologies: ["React", "Tailwind", "Framer Motion"],
     category: "Site Vitrine",
-    altText: "Aperçu du portfolio ArtGallery"
+    altText: "Interface du site LUXIMMO"
   },
   {
     title: "TaskFlow",

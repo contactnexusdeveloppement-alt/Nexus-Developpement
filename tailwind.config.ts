@@ -74,6 +74,18 @@ export default {
 				},
 				'cream': '#FAF9F6',
 				'charcoal': '#1A1A1A',
+
+				// Real Estate App Custom Colors
+				'gold': {
+					light: '#F4D06F',
+					DEFAULT: '#D4AF37',
+					dark: '#AA8C2C',
+				},
+				'black': {
+					rich: '#0A0A0A',
+					DEFAULT: '#000000',
+				},
+				'white-creamy': '#F9F9F9',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
