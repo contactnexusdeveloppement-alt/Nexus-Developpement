@@ -28,7 +28,7 @@ const projects: Project[] = [
   {
     title: "Élégance Coiffure",
     description: "Site vitrine complet pour un salon de coiffure avec présentation des services, réalisations et histoire.",
-    image: "/salon/assets/hero-bg-3.jpg",
+    image: "/salon/screenshot.png",
     url: "/salon-coiffure",
     technologies: ["React", "Tailwind", "Framer Motion"],
     category: "Site Vitrine",
@@ -37,7 +37,7 @@ const projects: Project[] = [
   {
     title: "Entre Terre et Mer",
     description: "Site vitrine d'agence immobilière de prestige dans les Vosges. Design élégant et mise en valeur des biens d'exception.",
-    image: "/agence-immo/images/chalet-luxe.jpg",
+    image: "/agence-immo/screenshot.png",
     url: "/agence-immo",
     technologies: ["React", "Tailwind", "Framer Motion"],
     category: "Site Vitrine",
