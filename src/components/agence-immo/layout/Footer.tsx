@@ -51,26 +51,16 @@ export default function Footer() {
                         </div>
                     </div>
 
-                    {/* Quick Links - Updated */}
+                    {/* Quick Links */}
                     <div className="space-y-6">
-                        <div className="space-y-4">
-                            <h3 className="text-xl font-serif font-bold text-gold">LUXIMMO</h3>
-                            <p className="text-gray-400 text-sm leading-relaxed">
-                                L'excellence immobilière à votre service. Découvrez des biens d'exception sélectionnés avec soin.
-                            </p>
-                        </div>
-
-                        {/* Links */}
-                        <div>
-                            <h4 className="font-bold text-white mb-4 uppercase tracking-wider text-sm">Navigation</h4>
-                            <ul className="space-y-2 text-gray-400">
-                                <li><Link to="/agence-immo" className="hover:text-gold transition-colors">Accueil</Link></li>
-                                <li><Link to="/agence-immo/properties" className="hover:text-gold transition-colors">Nos Biens</Link></li>
-                                <li><a href="#" className="hover:text-gold transition-colors">Services</a></li>
-                                <li><Link to="/agence-immo/login" className="hover:text-gold transition-colors">Espace Client</Link></li>
-                                <li><a href="#" className="hover:text-gold transition-colors">Contact</a></li>
-                            </ul>
-                        </div>
+                        <h4 className="text-xl font-serif text-gold">Navigation</h4>
+                        <ul className="space-y-3 text-gray-300">
+                            <li><Link to="/agence-immo/properties" className="hover:text-gold transition-colors">Nos Biens à la Vente</Link></li>
+                            <li><Link to="/agence-immo/properties?type=rent" className="hover:text-gold transition-colors">Nos Locations</Link></li>
+                            <li><a href="#" className="hover:text-gold transition-colors">Estimer mon Bien</a></li>
+                            <li><Link to="/agence-immo" className="hover:text-gold transition-colors">L'Agence</Link></li>
+                            <li><a href="#" className="hover:text-gold transition-colors">Contact</a></li>
+                        </ul>
                     </div>
                 </div>
 

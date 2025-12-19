@@ -71,18 +71,12 @@ export default function Header({ forceSolid = false }: HeaderProps) {
                     </div>
 
                     {/* Logo */}
-                    <div className="flex items-center">
-                        <Link to="/agence-immo" className="text-2xl font-serif font-bold text-black-rich tracking-tighter">
-                            LUX<span className="text-gold">IMMO</span>
-                        </Link>
-                    </div>
-
-                    {/* Desktop Navigation */}
-                    <div className="hidden md:flex items-center space-x-8">
-                        <Link to="/agence-immo" className="text-white-creamy hover:text-gold transition-colors font-medium">Accueil</Link>
-                        <Link to="/agence-immo/properties" className="text-white-creamy hover:text-gold transition-colors font-medium">Biens</Link>
-                        <a href="#contact" className="text-white-creamy hover:text-gold transition-colors font-medium">Contact</a>
-                    </div>
+                    <Link to="/agence-immo" className="text-2xl md:text-3xl font-serif font-bold tracking-wider text-center">
+                        <span className="text-white-creamy">ENTRE </span>
+                        <span className="text-gold">TERRE</span>
+                        <span className="text-white-creamy"> ET </span>
+                        <span className="text-gold">MER</span>
+                    </Link>
 
                     {/* Right Actions */}
                     <div className="flex items-center gap-6">
@@ -107,12 +101,10 @@ export default function Header({ forceSolid = false }: HeaderProps) {
                             <Heart className="w-5 h-5" />
                             <span className="absolute -top-1 -right-1 w-3 h-3 bg-gold rounded-full text-[8px] flex items-center justify-center text-black-rich font-bold">0</span>
                         </button>
-                        <div className="flex items-center space-x-4">
-                            <Link to="/agence-immo/login" className="hidden md:flex items-center gap-2 px-4 py-2 border border-white-creamy rounded hover:bg-white-creamy hover:text-black-rich transition-all duration-300">
-                                <User className="w-4 h-4" />
-                                <span>Connexion</span>
-                            </Link>
-                        </div>
+                        <Link to="/agence-immo/login" className="hidden md:flex items-center gap-2 hover:text-gold transition-colors">
+                            <User className="w-5 h-5" />
+                            <span className="text-sm font-medium">COMPTE</span>
+                        </Link>
                         <span className="hidden md:inline text-gold">FR</span>
                     </div>
                 </div>
@@ -144,7 +136,7 @@ export default function Header({ forceSolid = false }: HeaderProps) {
                     ].map((item) => (
                         <Link
                             key={item.label}
-                            to={item.path}
+                            to={`/agence-immo${item.path === '/' ? '' : item.path.replace(/^\/properties/, '/properties')}`}
                             onClick={() => setIsMenuOpen(false)}
                             className="text-2xl md:text-3xl font-serif text-white hover:text-gold transition-all duration-300 hover:translate-x-2 font-bold"
                         >
