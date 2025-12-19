@@ -1,7 +1,7 @@
-import { Globe, Zap, Palette, Settings, Smartphone, Layout } from "lucide-react";
+import { Glob, Globe, Zap, Palette, Smartphone, Layout } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import websiteImg from "@/assets/service-website.jpg";
 import automationImg from "@/assets/service-automation.jpg";
 import mobileImg from "@/assets/service-mobile.jpg";
@@ -51,7 +51,7 @@ const services = [
   }
 ];
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -61,7 +61,7 @@ const containerVariants = {
   }
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { y: 50, opacity: 0 },
   visible: {
     y: 0,
@@ -76,7 +76,7 @@ const itemVariants = {
 
 const Services = () => {
   return (
-    <section id="services" className="py-20 relative overflow-hidden">
+    <section id="services" className="py-12 relative overflow-hidden">
       {/* Glow effects background */}
       <div className="absolute top-1/4 left-0 w-96 h-96 bg-primary/20 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-accent/10 rounded-full blur-[100px] pointer-events-none" />

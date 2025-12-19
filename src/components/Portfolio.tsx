@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { useEffect, useRef, useState } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import bodystartImage from "@/assets/bodystart-project.png";
+import { useNavigate } from "react-router-dom";
 
 type Project = {
   title: string;
@@ -25,13 +26,13 @@ const projects: Project[] = [
     altText: "Capture d'écran du site BodyStart - plateforme de programmes sportifs et coaching en ligne"
   },
   {
-    title: "EcoManager",
-    description: "Solution SaaS pour la gestion énergétique des entreprises avec tableau de bord temps réel",
-    image: "/placeholder.svg",
-    url: "#",
-    technologies: ["React", "TypeScript", "D3.js", "AWS"],
-    category: "Web App",
-    altText: "Interface de l'application EcoManager"
+    title: "Élégance Coiffure",
+    description: "Site vitrine complet pour un salon de coiffure avec présentation des services, réalisations et histoire.",
+    image: "/salon/assets/hero-bg-3.jpg",
+    url: "/salon-coiffure",
+    technologies: ["React", "Tailwind", "Framer Motion"],
+    category: "Site Vitrine",
+    altText: "Interface du site Élégance Coiffure"
   },
   {
     title: "ArtGallery",
@@ -83,6 +84,8 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
   const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["15deg", "-15deg"]);
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-15deg", "15deg"]);
 
+  const navigate = useNavigate();
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const rect = ref.current?.getBoundingClientRect();
     if (!rect) return;
@@ -105,6 +108,14 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
     y.set(0);
   };
 
+  const handleClick = () => {
+    if (project.url.startsWith('/')) {
+      navigate(project.url);
+    } else {
+      window.open(project.url, '_blank');
+    }
+  };
+
   return (
     <motion.div
       ref={ref}
@@ -120,7 +131,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
         transformStyle: "preserve-3d",
       }}
       className="relative group cursor-pointer"
-      onClick={() => window.open(project.url, '_blank')}
+      onClick={handleClick}
     >
       <div
         className="relative h-full min-h-[420px] rounded-xl bg-gray-900/40 border border-white/10 backdrop-blur-sm overflow-hidden flex flex-col transition-shadow duration-300 group-hover:shadow-[0_20px_50px_rgba(8,112,184,0.3)]"
@@ -186,7 +197,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
 
 const Portfolio = () => {
   return (
-    <section id="portfolio" className="py-32 relative overflow-hidden">
+    <section id="portfolio" className="py-20 relative overflow-hidden">
       {/* Background Decor */}
       <div className="absolute top-[20%] left-[-10%] w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[20%] right-[-10%] w-[500px] h-[500px] bg-cyan-600/10 rounded-full blur-[120px] pointer-events-none" />

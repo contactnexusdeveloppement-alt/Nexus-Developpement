@@ -96,7 +96,7 @@ Structure ta réponse en markdown avec :
 
 Sois précis et professionnel. Le total doit être réaliste et justifiable.`;
 
-serve(async (req) => {
+serve(async (req: Request) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
@@ -145,7 +145,7 @@ serve(async (req) => {
 
     const { type, query, data } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
-    
+
     if (!LOVABLE_API_KEY) {
       throw new Error('LOVABLE_API_KEY is not configured');
     }
@@ -155,9 +155,9 @@ serve(async (req) => {
 
     if (type === 'estimate_price') {
       systemContent = pricingEstimationPrompt;
-      
+
       const { callNotes, services, budget, businessType, projectDetails } = data;
-      
+
       userMessage = `Génère une estimation de prix détaillée pour ce projet :
 
 ## DEMANDE INITIALE
@@ -239,7 +239,7 @@ Règles STRICTES :
 - Le texte doit être en français`;
 
       const { originalText, fieldContext } = data;
-      
+
       const contextInstructions: Record<string, string> = {
         'notes_appel': 'Notes prises pendant un appel téléphonique avec un client. Structure avec les points clés discutés.',
         'resume_appel': 'Résumé d\'un appel téléphonique. Reformule de façon concise et professionnelle.',
@@ -258,7 +258,7 @@ Règles STRICTES :
       };
 
       const instruction = contextInstructions[fieldContext] || contextInstructions['default'];
-      
+
       userMessage = `Contexte : ${instruction}
 
 Texte original à améliorer :
@@ -283,11 +283,11 @@ Règles :
 - Ne invente pas d'informations, base-toi uniquement sur les données fournies`;
 
       const { client, quotes, calls, callNotes } = data;
-      
-      const quotesInfo = quotes.map((q: any) => `
+
+      const quotesInfo = quotes.map((q: { created_at: string; services?: string[]; budget?: string; status: string; business_type?: string; project_details?: string }) => `
 - Devis du ${new Date(q.created_at).toLocaleDateString('fr-FR')}: Services: ${q.services?.join(', ') || 'N/A'}, Budget: ${q.budget || 'Non spécifié'}, Statut: ${q.status}, Activité: ${q.business_type || 'Non spécifié'}, Détails: ${q.project_details || 'Aucun'}`).join('\n');
-      
-      const callsInfo = calls.map((c: any) => {
+
+      const callsInfo = calls.map((c: { id: string; booking_date: string; time_slot: string; duration: number; status: string }) => {
         const note = callNotes?.[c.id];
         return `
 - Appel du ${new Date(c.booking_date).toLocaleDateString('fr-FR')} à ${c.time_slot} (${c.duration}min): Statut: ${c.status}${note?.call_outcome ? `, Résultat: ${note.call_outcome}` : ''}${note?.call_summary ? `, Résumé: ${note.call_summary}` : ''}`;

@@ -25,9 +25,7 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <div className="mb-6 inline-block px-4 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-300 text-sm font-medium tracking-wide shadow-[0_0_15px_rgba(34,211,238,0.3)]">
-            🚀 Agence Digitale Nouvelle Génération
-          </div>
+          <div className="mb-8"></div>
 
           <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black mb-8 leading-tight tracking-tight min-h-[120px] sm:min-h-[160px] md:min-h-[220px]">
             <span className="bg-gradient-to-r from-white via-blue-100 to-gray-400 bg-clip-text text-transparent drop-shadow-lg">
@@ -58,25 +56,6 @@ const Hero = () => {
           </div>
         </motion.div>
       </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5, duration: 1 }}
-        className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
-      >
-        <div className="flex flex-col items-center gap-2 text-gray-400 text-sm">
-          <span>Scroll</span>
-          <div className="w-5 h-9 border-2 border-gray-500/50 rounded-full flex items-start justify-center p-1">
-            <motion.div
-              animate={{ y: [0, 12, 0] }}
-              transition={{ repeat: Infinity, duration: 1.5 }}
-              className="w-1.5 h-1.5 bg-cyan-400 rounded-full"
-            />
-          </div>
-        </div>
-      </motion.div>
     </section>
   );
 };

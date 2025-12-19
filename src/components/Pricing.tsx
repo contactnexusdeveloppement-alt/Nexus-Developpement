@@ -13,7 +13,7 @@ const Pricing = () => {
   };
 
   return (
-    <section id="tarifs" className="py-24 relative overflow-hidden">
+    <section id="tarifs" className="py-12 relative overflow-hidden">
       {/* Background Decor */}
       <div className="absolute top-[30%] right-[-10%] w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[20%] left-[-10%] w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px] pointer-events-none" />
@@ -44,8 +44,8 @@ const Pricing = () => {
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
                 className={`group relative px-2 py-2 text-sm md:text-base font-medium transition-colors duration-300 flex-shrink-0 snap-center ${activeCategory === category.id
-                    ? "text-white"
-                    : "text-gray-500 hover:text-gray-300"
+                  ? "text-white"
+                  : "text-gray-500 hover:text-gray-300"
                   }`}
               >
                 <div className="flex items-center gap-2">
