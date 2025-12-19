@@ -44,31 +44,31 @@ const projects: Project[] = [
     altText: "Aperçu du site Entre Terre et Mer"
   },
   {
-    title: "TaskFlow",
-    description: "Outil de gestion de projet collaboratif nouvelle génération pour les équipes remote",
-    image: "/placeholder.svg",
+    title: "Saveurs & Traditions",
+    description: "Site vitrine élégant pour un restaurant gastronomique. Menu digital interactif, galerie photos immersive et module de réservation de table en temps réel.",
+    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2070&auto=format&fit=crop",
     url: "#",
-    technologies: ["Next.js", "Socket.io", "Tailwind"],
-    category: "SaaS",
-    altText: "Interface de TaskFlow"
+    technologies: ["React", "Framer Motion", "Reservation API"],
+    category: "Site Vitrine",
+    altText: "Ambiance restaurant gastronomique"
   },
   {
-    title: "CorpFinance",
-    description: "Portail institutionnel sécurisé pour une banque d'affaires internationale",
-    image: "/placeholder.svg",
+    title: "AutoTech Expert",
+    description: "Plateforme de gestion pour garage automobile moderne. Prise de rendez-vous en ligne, suivi des réparations en direct et historique d'entretien digitalisé.",
+    image: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?q=80&w=2072&auto=format&fit=crop",
     url: "#",
-    technologies: ["React", "Security", "CMS"],
-    category: "Corporate",
-    altText: "Site institutionnel CorpFinance"
+    technologies: ["React", "Node.js", "PostgreSQL"],
+    category: "Application Web",
+    altText: "Atelier mécanique moderne"
   },
   {
-    title: "FitTrack Pro",
-    description: "Application mobile de suivi fitness avec IA pour la personnalisation des entraînements",
-    image: "/placeholder.svg",
-    url: "#",
-    technologies: ["React Native", "TensorFlow", "Firebase"],
-    category: "Mobile",
-    altText: "Screenshots de l'application FitTrack Pro"
+    title: "Votre Futur Projet ?",
+    description: "Vous avez une vision ambitieuse ? Transformons-la en réalité digitale. Cliquez ici pour démarrer votre projet avec nous.",
+    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop",
+    url: "#contact",
+    technologies: ["Innovation", "Performance", "Design"],
+    category: "Prochain Succès",
+    altText: "Concept abstrait technologique"
   }
 ];
 
@@ -109,7 +109,10 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
   };
 
   const handleClick = () => {
-    if (project.url.startsWith('/')) {
+    if (project.url.startsWith('#')) {
+      const element = document.querySelector(project.url);
+      element?.scrollIntoView({ behavior: 'smooth' });
+    } else if (project.url.startsWith('/')) {
       navigate(project.url);
     } else {
       window.open(project.url, '_blank');
