@@ -9,6 +9,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { motion } from "framer-motion";
+import { Check, Send, Sparkles, Building2, Globe, Smartphone, Zap, Palette, PenTool, LayoutTemplate } from "lucide-react";
 
 const businessTypes = [
   "Pizzeria / Restaurant",
@@ -22,13 +24,13 @@ const businessTypes = [
 ];
 
 const serviceTypes = [
-  { id: "website", label: "Création d'un site web" },
-  { id: "webapp", label: "Application web" },
-  { id: "mobile", label: "Application mobile" },
-  { id: "automation", label: "Automatisation de processus" },
-  { id: "logo", label: "Création de logo" },
-  { id: "branding", label: "Branding visuel complet" },
-  { id: "custom", label: "Service sur mesure" }
+  { id: "website", label: "Création d'un site web", icon: Globe, description: "Vitrine ou complet" },
+  { id: "webapp", label: "Application web", icon: LayoutTemplate, description: "SaaS ou outil métier" },
+  { id: "mobile", label: "Application mobile", icon: Smartphone, description: "iOS & Android" },
+  { id: "automation", label: "Automatisation", icon: Zap, description: "Gain de temps" },
+  { id: "logo", label: "Création de logo", icon: PenTool, description: "Identité forte" },
+  { id: "branding", label: "Branding complet", icon: Palette, description: "Charte graphique" },
+  { id: "custom", label: "Sur mesure", icon: Sparkles, description: "Projet spécifique" }
 ];
 
 const QuoteForm = () => {
@@ -57,8 +59,7 @@ const QuoteForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Validation basique
+
     if (!formData.name || !formData.email || formData.services.length === 0) {
       toast({
         title: "Informations manquantes",
@@ -68,7 +69,6 @@ const QuoteForm = () => {
       return;
     }
 
-    // Vérification du consentement RGPD
     if (!formData.consentGiven) {
       toast({
         title: "Consentement requis",
@@ -92,7 +92,6 @@ const QuoteForm = () => {
         description: "Nous reviendrons vers vous dans les plus brefs délais.",
       });
 
-      // Reset form
       setFormData({
         name: "",
         email: "",
@@ -104,7 +103,7 @@ const QuoteForm = () => {
         timeline: "",
         consentGiven: false
       });
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error sending quote:", error);
       toast({
         title: "Erreur",
@@ -117,200 +116,255 @@ const QuoteForm = () => {
   };
 
   return (
-    <section id="devis" className="py-20">
-      <div className="container mx-auto px-4">
+    <section id="devis" className="py-12 relative overflow-hidden">
+      {/* Background Ambience */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[100px] pointer-events-none" />
+
+      <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 pb-3 leading-relaxed bg-gradient-to-r from-blue-400 via-blue-200 to-blue-400 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(100,150,255,0.6)]">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-4xl md:text-5xl font-bold mb-4 pb-3 leading-relaxed bg-gradient-to-r from-blue-400 via-purple-300 to-blue-400 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(100,150,255,0.6)]"
+          >
             Demande de Devis
-          </h2>
-          <p className="text-lg text-white/90 max-w-2xl mx-auto drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
-            Parlez-nous de votre projet, nous vous répondons rapidement
-          </p>
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-lg text-blue-100/80 max-w-2xl mx-auto"
+          >
+            Parlez-nous de votre projet, nous construisons l'avenir ensemble
+          </motion.p>
         </div>
 
-        <Card className="max-w-3xl mx-auto bg-gradient-to-br from-slate-900/95 via-blue-950/90 to-slate-900/95 border-2 border-blue-500/40 shadow-[0_0_50px_rgba(59,130,246,0.4)] hover:shadow-[0_0_60px_rgba(59,130,246,0.5)] transition-all duration-500">
-          <CardHeader>
-            <CardTitle className="text-white">Informations sur votre projet</CardTitle>
-            <CardDescription className="text-blue-200/80">
-              Remplissez ce formulaire pour obtenir un devis personnalisé
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Informations de contact */}
-              <div className="grid md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="name" className="text-white">Nom complet *</Label>
-                  <Input
-                    id="name"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="Jean Dupont"
-                    required
-                    aria-required="true"
-                    className="bg-white/10 border-blue-400/30 text-white placeholder:text-blue-200/50"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="email" className="text-white">Email *</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    placeholder="jean@exemple.fr"
-                    required
-                    aria-required="true"
-                    className="bg-white/10 border-blue-400/30 text-white placeholder:text-blue-200/50"
-                  />
-                </div>
-              </div>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+        >
+          <Card className="max-w-4xl mx-auto bg-slate-900/40 backdrop-blur-xl border border-white/10 shadow-[0_0_50px_rgba(59,130,246,0.15)] relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-50" />
 
-              <div className="grid md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="phone" className="text-white">Téléphone</Label>
-                  <Input
-                    id="phone"
-                    type="tel"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    placeholder="+33 6 12 34 56 78"
-                    className="bg-white/10 border-blue-400/30 text-white placeholder:text-blue-200/50"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="businessType" className="text-white">Type d'activité</Label>
-                  <Select 
-                    value={formData.businessType}
-                    onValueChange={(value) => setFormData({ ...formData, businessType: value })}
-                  >
-                    <SelectTrigger className="bg-white/10 border-blue-400/30 text-white" aria-label="Type d'activité">
-                      <SelectValue placeholder="Sélectionnez votre secteur" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {businessTypes.map((type) => (
-                        <SelectItem key={type} value={type}>
-                          {type}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
+            <CardHeader className="text-center pb-8 border-b border-white/5">
+              <CardTitle className="text-2xl text-white">Démarrons votre projet</CardTitle>
+              <CardDescription className="text-blue-200/60">
+                Remplissez ce formulaire pour obtenir une estimation précise
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="pt-8 px-6 md:px-10">
+              <form onSubmit={handleSubmit} className="space-y-8">
 
-              {/* Services souhaités */}
-              <div className="space-y-3">
-                <Label className="text-white">Services souhaités *</Label>
-                <div className="space-y-2">
-                  {serviceTypes.map((service) => (
-                    <div key={service.id} className="flex items-center space-x-2">
-                      <Checkbox
-                        id={service.id}
-                        checked={formData.services.includes(service.id)}
-                        onCheckedChange={() => handleServiceToggle(service.id)}
-                        className="border-blue-400/50 data-[state=checked]:bg-blue-500"
+                {/* Section: Contact */}
+                <div className="space-y-6">
+                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                    <span className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 text-sm border border-blue-500/30">1</span>
+                    Vos informations
+                  </h3>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="name" className="text-blue-200">Nom complet *</Label>
+                      <Input
+                        id="name"
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        placeholder="Jean Dupont"
+                        required
+                        className="bg-slate-800/50 border-white/10 text-white placeholder:text-blue-200/20 focus:border-blue-400/50 focus:bg-slate-800/80 transition-all h-11"
                       />
-                      <label
-                        htmlFor={service.id}
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer text-blue-100"
-                      >
-                        {service.label}
-                      </label>
                     </div>
-                  ))}
+                    <div className="space-y-2">
+                      <Label htmlFor="email" className="text-blue-200">Email *</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        placeholder="jean@exemple.fr"
+                        required
+                        className="bg-slate-800/50 border-white/10 text-white placeholder:text-blue-200/20 focus:border-blue-400/50 focus:bg-slate-800/80 transition-all h-11"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="phone" className="text-blue-200">Téléphone</Label>
+                      <Input
+                        id="phone"
+                        type="tel"
+                        value={formData.phone}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        placeholder="+33 6 12 34 56 78"
+                        className="bg-slate-800/50 border-white/10 text-white placeholder:text-blue-200/20 focus:border-blue-400/50 focus:bg-slate-800/80 transition-all h-11"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="businessType" className="text-blue-200">Type d'activité</Label>
+                      <Select
+                        value={formData.businessType}
+                        onValueChange={(value) => setFormData({ ...formData, businessType: value })}
+                      >
+                        <SelectTrigger className="bg-slate-800/50 border-white/10 text-white h-11 focus:ring-blue-500/30">
+                          <SelectValue placeholder="Sélectionnez votre secteur" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-slate-900 border-white/10 text-white">
+                          {businessTypes.map((type) => (
+                            <SelectItem key={type} value={type} className="focus:bg-blue-600/20 focus:text-blue-200">
+                              {type}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
                 </div>
-              </div>
 
-              {/* Détails du projet */}
-              <div className="space-y-2">
-                <Label htmlFor="projectDetails" className="text-white">Décrivez votre projet</Label>
-                <Textarea
-                  id="projectDetails"
-                  value={formData.projectDetails}
-                  onChange={(e) => setFormData({ ...formData, projectDetails: e.target.value })}
-                  placeholder="Expliquez-nous vos besoins, vos objectifs et vos attentes..."
-                  rows={5}
-                  className="bg-white/10 border-blue-400/30 text-white placeholder:text-blue-200/50"
-                />
-              </div>
+                <div className="w-full h-px bg-white/5" />
 
-              <div className="grid md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="budget" className="text-white">Budget estimé</Label>
-                  <Select
-                    value={formData.budget}
-                    onValueChange={(value) => setFormData({ ...formData, budget: value })}
+                {/* Section: Services */}
+                <div className="space-y-6">
+                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                    <span className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 text-sm border border-blue-500/30">2</span>
+                    Services souhaités *
+                  </h3>
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                    {serviceTypes.map((service) => {
+                      const Icon = service.icon;
+                      const isSelected = formData.services.includes(service.id);
+                      return (
+                        <motion.div
+                          key={service.id}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => handleServiceToggle(service.id)}
+                          className={`cursor-pointer relative p-4 rounded-xl border transition-all duration-300 flex flex-col items-center text-center gap-3 ${isSelected
+                            ? "bg-blue-600/20 border-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.3)]"
+                            : "bg-slate-800/30 border-white/5 hover:bg-slate-800/60 hover:border-white/20"
+                            }`}
+                        >
+                          <div className={`p-2 rounded-lg ${isSelected ? "bg-blue-500 text-white" : "bg-slate-700/50 text-slate-400"}`}>
+                            <Icon className="w-5 h-5" />
+                          </div>
+                          <div className="space-y-1">
+                            <p className={`text-sm font-semibold ${isSelected ? "text-white" : "text-blue-100/70"}`}>
+                              {service.label}
+                            </p>
+                            <p className="text-xs text-blue-200/40">{service.description}</p>
+                          </div>
+                          {isSelected && (
+                            <div className="absolute top-2 right-2 text-blue-400">
+                              <Check className="w-4 h-4" />
+                            </div>
+                          )}
+                        </motion.div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="w-full h-px bg-white/5" />
+
+                {/* Section: Details */}
+                <div className="space-y-6">
+                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                    <span className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 text-sm border border-blue-500/30">3</span>
+                    Détails du projet
+                  </h3>
+                  <div className="space-y-2">
+                    <Label htmlFor="projectDetails" className="text-blue-200">Description</Label>
+                    <Textarea
+                      id="projectDetails"
+                      value={formData.projectDetails}
+                      onChange={(e) => setFormData({ ...formData, projectDetails: e.target.value })}
+                      placeholder="Décrivez vos objectifs, vos références, et les fonctionnalités clés..."
+                      rows={5}
+                      className="bg-slate-800/50 border-white/10 text-white placeholder:text-blue-200/20 focus:border-blue-400/50 focus:bg-slate-800/80 transition-all resize-none"
+                    />
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="budget" className="text-blue-200">Budget estimé</Label>
+                      <Select
+                        value={formData.budget}
+                        onValueChange={(value) => setFormData({ ...formData, budget: value })}
+                      >
+                        <SelectTrigger className="bg-slate-800/50 border-white/10 text-white h-11">
+                          <SelectValue placeholder="Votre budget" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-slate-900 border-white/10 text-white">
+                          <SelectItem value="<500">Moins de 500€</SelectItem>
+                          <SelectItem value="500-1000">500€ - 1 000€</SelectItem>
+                          <SelectItem value="1000-2500">1 000€ - 2 500€</SelectItem>
+                          <SelectItem value="2500-5000">2 500€ - 5 000€</SelectItem>
+                          <SelectItem value="5000-10000">5 000€ - 10 000€</SelectItem>
+                          <SelectItem value=">10000">Plus de 10 000€</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="timeline" className="text-blue-200">Délai souhaité</Label>
+                      <Select
+                        value={formData.timeline}
+                        onValueChange={(value) => setFormData({ ...formData, timeline: value })}
+                      >
+                        <SelectTrigger className="bg-slate-800/50 border-white/10 text-white h-11">
+                          <SelectValue placeholder="Votre échéance" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-slate-900 border-white/10 text-white">
+                          <SelectItem value="urgent">Urgent (moins de 2 semaines)</SelectItem>
+                          <SelectItem value="1month">Dans le mois</SelectItem>
+                          <SelectItem value="2-3months">2-3 mois</SelectItem>
+                          <SelectItem value="flexible">Flexible</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Consent */}
+                <div className="flex items-start space-x-3 p-4 bg-blue-900/10 border border-blue-500/10 rounded-lg">
+                  <Checkbox
+                    id="consent"
+                    checked={formData.consentGiven}
+                    onCheckedChange={(checked) =>
+                      setFormData({ ...formData, consentGiven: checked as boolean })
+                    }
+                    className="mt-1 border-blue-400/50 data-[state=checked]:bg-blue-500"
+                  />
+                  <label
+                    htmlFor="consent"
+                    className="text-sm text-blue-200/80 leading-relaxed cursor-pointer select-none"
                   >
-                    <SelectTrigger className="bg-white/10 border-blue-400/30 text-white" aria-label="Budget estimé">
-                      <SelectValue placeholder="Sélectionnez une fourchette" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="<500">Moins de 500€</SelectItem>
-                      <SelectItem value="500-1000">500€ - 1 000€</SelectItem>
-                      <SelectItem value="1000-2500">1 000€ - 2 500€</SelectItem>
-                      <SelectItem value="2500-5000">2 500€ - 5 000€</SelectItem>
-                      <SelectItem value="5000-10000">5 000€ - 10 000€</SelectItem>
-                      <SelectItem value=">10000">Plus de 10 000€</SelectItem>
-                    </SelectContent>
-                  </Select>
+                    J'accepte que mes données soient traitées pour cette demande. Voir nos{" "}
+                    <Link
+                      to="/mentions-legales"
+                      target="_blank"
+                      className="text-blue-400 hover:text-blue-300 underline"
+                    >
+                      mentions légales
+                    </Link>
+                    .
+                  </label>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="timeline" className="text-white">Délai souhaité</Label>
-                  <Select
-                    value={formData.timeline}
-                    onValueChange={(value) => setFormData({ ...formData, timeline: value })}
-                  >
-                    <SelectTrigger className="bg-white/10 border-blue-400/30 text-white" aria-label="Délai souhaité">
-                      <SelectValue placeholder="Quand en avez-vous besoin ?" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="urgent">Urgent (moins de 2 semaines)</SelectItem>
-                      <SelectItem value="1month">Dans le mois</SelectItem>
-                      <SelectItem value="2-3months">2-3 mois</SelectItem>
-                      <SelectItem value="flexible">Flexible</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
 
-              {/* RGPD Consent */}
-              <div className="flex items-start space-x-3 p-4 bg-blue-950/40 border border-blue-400/30 rounded-lg">
-                <Checkbox
-                  id="consent"
-                  checked={formData.consentGiven}
-                  onCheckedChange={(checked) => 
-                    setFormData({ ...formData, consentGiven: checked as boolean })
-                  }
-                  className="mt-1 border-blue-400/50 data-[state=checked]:bg-blue-500"
-                />
-                <label
-                  htmlFor="consent"
-                  className="text-sm text-blue-100/90 leading-relaxed cursor-pointer"
+                <Button
+                  type="submit"
+                  disabled={isSubmitting || !formData.consentGiven}
+                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold h-14 text-lg shadow-[0_0_30px_rgba(79,70,229,0.4)] hover:shadow-[0_0_40px_rgba(79,70,229,0.6)] rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed group relative overflow-hidden"
                 >
-                  J'accepte que mes données personnelles soient utilisées pour traiter ma demande de devis. 
-                  Vous pouvez consulter notre politique de confidentialité et vos droits dans nos{" "}
-                  <Link 
-                    to="/mentions-legales" 
-                    target="_blank"
-                    className="text-cyan-300 hover:text-cyan-200 underline font-medium"
-                  >
-                    mentions légales
-                  </Link>
-                  . *
-                </label>
-              </div>
-
-              <Button 
-                type="submit" 
-                disabled={isSubmitting || !formData.consentGiven}
-                className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold shadow-[0_0_20px_rgba(59,130,246,0.5)] hover:shadow-[0_0_30px_rgba(59,130,246,0.7)] border border-blue-400/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed" 
-                size="lg"
-              >
-                {isSubmitting ? "Envoi en cours..." : "Envoyer ma demande"}
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
+                  <span className="relative z-10 flex items-center gap-2">
+                    {isSubmitting ? "Envoi en cours..." : "Envoyer ma demande"}
+                    {!isSubmitting && <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />}
+                  </span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
+        </motion.div>
       </div>
     </section>
   );

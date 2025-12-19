@@ -6,9 +6,10 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Phone, Clock, CalendarDays, User, Mail } from 'lucide-react';
+import { Phone, Clock, CalendarDays, User, Mail, ChevronRight, ChevronLeft, Check } from 'lucide-react';
 import { format, addDays, isWeekend, isBefore, startOfDay } from 'date-fns';
 import { fr } from 'date-fns/locale';
+import { motion, AnimatePresence } from 'framer-motion';
 
 // Available time slots (9h-18h with 30min intervals)
 const TIME_SLOTS = [
@@ -33,6 +34,7 @@ export function CallBooking() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [bookedSlots, setBookedSlots] = useState<string[]>([]);
   const [step, setStep] = useState(1);
+  const [direction, setDirection] = useState(0);
 
   // Fetch booked slots for selected date
   useEffect(() => {
@@ -43,12 +45,10 @@ export function CallBooking() {
 
   const fetchBookedSlots = async (date: Date) => {
     const dateStr = format(date, 'yyyy-MM-dd');
-    // Use secure RPC function that only returns time_slot and duration (no personal data)
     const { data } = await supabase
       .rpc('get_booked_slots', { p_booking_date: dateStr });
-    
+
     if (data) {
-      // Calculate all blocked slots based on booked appointments
       const blocked: string[] = [];
       data.forEach((booking: { time_slot: string; duration: number }) => {
         const startIndex = TIME_SLOTS.indexOf(booking.time_slot);
@@ -63,8 +63,7 @@ export function CallBooking() {
 
   const isSlotAvailable = (time: string) => {
     if (bookedSlots.includes(time)) return false;
-    
-    // Filter out past time slots for today
+
     if (selectedDate) {
       const now = new Date();
       const isToday = selectedDate.toDateString() === now.toDateString();
@@ -73,15 +72,14 @@ export function CallBooking() {
         const slotTime = new Date();
         slotTime.setHours(hours, minutes, 0, 0);
         if (slotTime <= now) {
-          return false; // Slot is in the past
+          return false;
         }
       }
     }
-    
-    // Check if there's enough consecutive slots for the selected duration
+
     const startIndex = TIME_SLOTS.indexOf(time);
     const slotsNeeded = Math.ceil(selectedDuration / 30);
-    
+
     for (let i = 0; i < slotsNeeded; i++) {
       if (startIndex + i >= TIME_SLOTS.length || bookedSlots.includes(TIME_SLOTS[startIndex + i])) {
         return false;
@@ -90,9 +88,19 @@ export function CallBooking() {
     return true;
   };
 
+  const nextStep = () => {
+    setDirection(1);
+    setStep((prev) => prev + 1);
+  };
+
+  const prevStep = () => {
+    setDirection(-1);
+    setStep((prev) => prev - 1);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!selectedDate || !selectedTime || !name || !email || !phone) {
       toast({
         title: "Erreur",
@@ -123,7 +131,6 @@ export function CallBooking() {
         description: `Votre appel est prévu le ${format(selectedDate, 'EEEE d MMMM', { locale: fr })} à ${selectedTime}`,
       });
 
-      // Optimistically add the booked slot(s) to prevent double-booking immediately
       const startIndex = TIME_SLOTS.indexOf(selectedTime);
       const slotsNeeded = Math.ceil(selectedDuration / 30);
       const newBlockedSlots: string[] = [];
@@ -132,7 +139,6 @@ export function CallBooking() {
       }
       setBookedSlots(prev => [...prev, ...newBlockedSlots]);
 
-      // Reset form
       setSelectedDate(undefined);
       setSelectedTime('');
       setName('');
@@ -155,291 +161,395 @@ export function CallBooking() {
     return isWeekend(date) || isBefore(date, startOfDay(new Date()));
   };
 
+  const stepVariants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? 50 : -50,
+      opacity: 0,
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+    },
+    exit: (direction: number) => ({
+      x: direction < 0 ? 50 : -50,
+      opacity: 0,
+    }),
+  };
+
   return (
-    <section id="reservation" className="py-20 relative">
-      
+    <section id="reservation" className="py-12 relative overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl -z-10" />
+      <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-cyan-600/20 rounded-full blur-3xl -z-10" />
+
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 pb-3 leading-relaxed">
-            <span className="bg-gradient-to-r from-blue-400 via-blue-200 to-blue-400 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(59,130,246,0.5)]">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-3xl md:text-5xl font-bold mb-4 pb-3 leading-relaxed"
+          >
+            <span className="bg-gradient-to-r from-blue-400 via-cyan-200 to-blue-400 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(59,130,246,0.6)]">
               Réservez un appel
             </span>
-          </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-blue-100/80 max-w-2xl mx-auto text-lg"
+          >
             Choisissez un créneau qui vous convient et discutons de votre projet
-          </p>
+          </motion.p>
         </div>
 
         <div className="max-w-4xl mx-auto">
-          <div className="bg-gradient-to-br from-blue-950/80 to-blue-900/60 rounded-2xl border border-blue-500/30 p-6 md:p-8 shadow-[0_0_30px_rgba(59,130,246,0.2)]">
-            
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="bg-slate-900/40 backdrop-blur-xl rounded-3xl border border-white/10 p-6 md:p-8 shadow-[0_0_50px_rgba(8,145,178,0.15)] relative overflow-hidden group"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+
             {/* Step indicators */}
-            <div className="flex justify-center mb-8" role="navigation" aria-label="Étapes du formulaire">
-              <div className="flex items-center gap-2">
+            <div className="flex justify-center mb-10 relative z-10" role="navigation" aria-label="Étapes du formulaire">
+              <div className="flex items-center gap-4">
                 {[1, 2, 3].map((s) => (
                   <div key={s} className="flex items-center">
-                    <div 
-                      className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all ${
-                        step >= s 
-                          ? 'bg-blue-500 text-white' 
-                          : 'bg-blue-900/50 text-blue-400 border border-blue-500/30'
-                      }`}
-                      aria-current={step === s ? "step" : undefined}
-                      aria-label={`Étape ${s}${step === s ? ' (actuelle)' : step > s ? ' (complétée)' : ''}`}
+                    <motion.div
+                      className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 ${step >= s
+                        ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-[0_0_15px_rgba(59,130,246,0.5)]'
+                        : 'bg-slate-800/80 text-slate-400 border border-white/5'
+                        }`}
+                      animate={{
+                        scale: step === s ? 1.1 : 1,
+                        opacity: step >= s ? 1 : 0.7
+                      }}
                     >
-                      {s}
-                    </div>
+                      {step > s ? <Check className="w-5 h-5" /> : s}
+                    </motion.div>
                     {s < 3 && (
-                      <div className={`w-12 h-0.5 mx-1 ${step > s ? 'bg-blue-500' : 'bg-blue-500/30'}`} aria-hidden="true" />
+                      <div className={`w-12 md:w-20 h-1 mx-2 rounded-full transition-all duration-500 ${step > s ? 'bg-gradient-to-r from-blue-500 to-cyan-500' : 'bg-slate-800'}`} />
                     )}
                   </div>
                 ))}
               </div>
             </div>
 
-            <form onSubmit={handleSubmit}>
-              {/* Step 1: Duration */}
-              {step === 1 && (
-                <div className="space-y-6 animate-in fade-in duration-300">
-                  <h3 className="text-xl font-semibold text-white flex items-center gap-2">
-                    <Clock className="w-5 h-5 text-blue-400" />
-                    Choisissez la durée de l'appel
-                  </h3>
-                  
-                  <RadioGroup
-                    value={selectedDuration.toString()}
-                    onValueChange={(v) => setSelectedDuration(parseInt(v))}
-                    className="grid gap-4 md:grid-cols-3"
+            <form onSubmit={handleSubmit} className="relative z-10 min-h-[400px]">
+              <AnimatePresence mode="wait" custom={direction}>
+
+                {/* Step 1: Duration */}
+                {step === 1 && (
+                  <motion.div
+                    key="step1"
+                    custom={direction}
+                    variants={stepVariants}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    className="space-y-8"
                   >
-                    {DURATIONS.map((duration) => (
-                      <Label
-                        key={duration.value}
-                        htmlFor={`duration-${duration.value}`}
-                        className={`flex flex-col items-center p-4 rounded-xl border cursor-pointer transition-all ${
-                          selectedDuration === duration.value
-                            ? 'bg-blue-500/20 border-blue-400'
-                            : 'bg-blue-900/30 border-blue-500/20 hover:border-blue-500/40'
-                        }`}
+                    <div className="text-center space-y-2">
+                      <h3 className="text-2xl font-semibold text-white">Quelle durée prévoir ?</h3>
+                      <p className="text-blue-200/60">Sélectionnez le temps nécessaire pour notre échange</p>
+                    </div>
+
+                    <RadioGroup
+                      value={selectedDuration.toString()}
+                      onValueChange={(v) => setSelectedDuration(parseInt(v))}
+                      className="grid gap-4 md:grid-cols-3"
+                    >
+                      {DURATIONS.map((duration) => (
+                        <Label
+                          key={duration.value}
+                          htmlFor={`duration-${duration.value}`}
+                          className={`group relative flex flex-col items-center p-6 rounded-2xl border cursor-pointer transition-all duration-300 ${selectedDuration === duration.value
+                            ? 'bg-blue-500/10 border-cyan-400/50 shadow-[0_0_20px_rgba(34,211,238,0.2)] scale-105'
+                            : 'bg-slate-800/20 border-white/5 hover:bg-slate-800/40 hover:border-white/10 hover:scale-[1.02]'
+                            }`}
+                        >
+                          <RadioGroupItem
+                            value={duration.value.toString()}
+                            id={`duration-${duration.value}`}
+                            className="sr-only"
+                          />
+                          <div className={`p-3 rounded-full mb-4 ${selectedDuration === duration.value ? 'bg-cyan-400/20 text-cyan-400' : 'bg-slate-700/30 text-slate-400'}`}>
+                            <Clock className="w-6 h-6" />
+                          </div>
+                          <span className="text-xl font-bold text-white mb-2">{duration.label}</span>
+                          <span className="text-sm text-blue-200/60 text-center">{duration.description}</span>
+                          {selectedDuration === duration.value && (
+                            <motion.div className="absolute inset-0 border-2 border-cyan-400/50 rounded-2xl" layoutId="duration-ring" />
+                          )}
+                        </Label>
+                      ))}
+                    </RadioGroup>
+
+                    <div className="flex justify-center pt-4">
+                      <Button
+                        type="button"
+                        onClick={nextStep}
+                        className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-full px-8 py-6 text-lg font-semibold hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] transition-all flex items-center gap-2 group"
                       >
-                        <RadioGroupItem
-                          value={duration.value.toString()}
-                          id={`duration-${duration.value}`}
-                          className="sr-only"
+                        Continuer <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                      </Button>
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* Step 2: Date & Time */}
+                {step === 2 && (
+                  <motion.div
+                    key="step2"
+                    custom={direction}
+                    variants={stepVariants}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    className="space-y-6"
+                  >
+                    <div className="text-center space-y-2 mb-6">
+                      <h3 className="text-2xl font-semibold text-white">Vos disponibilités</h3>
+                      <p className="text-blue-200/60">Sélectionnez une date et une heure de rendez-vous</p>
+                    </div>
+
+                    <div className="grid lg:grid-cols-2 gap-8 items-start">
+                      {/* Calendar */}
+                      <div className="flex justify-center bg-slate-900/50 p-4 rounded-2xl border border-white/5">
+                        <Calendar
+                          mode="single"
+                          selected={selectedDate}
+                          onSelect={(date) => {
+                            setSelectedDate(date);
+                            setSelectedTime('');
+                          }}
+                          disabled={disabledDays}
+                          locale={fr}
+                          fromDate={new Date()}
+                          toDate={addDays(new Date(), 60)}
+                          className="pointer-events-auto"
+                          classNames={{
+                            months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
+                            month: "space-y-4",
+                            caption: "flex justify-center pt-1 relative items-center text-cyan-200 font-semibold text-lg",
+                            caption_label: "text-base font-semibold text-cyan-100",
+                            nav: "space-x-1 flex items-center",
+                            nav_button: "h-8 w-8 bg-blue-800/30 hover:bg-blue-700 text-cyan-200 hover:text-white rounded-lg border border-blue-500/20 transition-colors",
+                            nav_button_previous: "absolute left-1",
+                            nav_button_next: "absolute right-1",
+                            table: "w-full border-collapse space-y-1",
+                            head_row: "flex",
+                            head_cell: "text-blue-300/60 rounded-md w-9 font-medium text-[0.8rem]",
+                            row: "flex w-full mt-2 gap-1",
+                            cell: "h-9 w-9 text-center text-sm p-0 relative",
+                            day: "h-9 w-9 p-0 font-medium rounded-lg transition-all text-blue-100 hover:bg-white/10 hover:text-white",
+                            day_selected: "bg-gradient-to-tr from-blue-500 to-cyan-500 text-white shadow-lg",
+                            day_today: "ring-1 ring-cyan-400 text-cyan-200 bg-cyan-400/10",
+                            day_outside: "text-slate-700 opacity-50",
+                            day_disabled: "text-slate-700 opacity-30 hover:bg-transparent cursor-not-allowed",
+                            day_hidden: "invisible",
+                          }}
                         />
-                        <span className="text-2xl font-bold text-white">{duration.label}</span>
-                        <span className="text-sm text-blue-200/70 mt-1">{duration.description}</span>
-                      </Label>
-                    ))}
-                  </RadioGroup>
+                      </div>
 
-                  <div className="flex justify-end">
-                    <Button
-                      type="button"
-                      onClick={() => setStep(2)}
-                      className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700"
-                    >
-                      Continuer
-                    </Button>
-                  </div>
-                </div>
-              )}
+                      {/* Time slots */}
+                      <div className="space-y-4">
+                        <p className="text-sm font-medium text-blue-200/80 flex items-center gap-2">
+                          <CalendarDays className="w-4 h-4 text-cyan-400" />
+                          {selectedDate
+                            ? `Créneaux du ${format(selectedDate, 'd MMMM', { locale: fr })}`
+                            : 'Veuillez choisir une date'
+                          }
+                        </p>
 
-              {/* Step 2: Date & Time */}
-              {step === 2 && (
-                <div className="space-y-6 animate-in fade-in duration-300">
-                  <h3 className="text-xl font-semibold flex items-center gap-2">
-                    <CalendarDays className="w-5 h-5 text-cyan-400" />
-                    <span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-400 bg-clip-text text-transparent drop-shadow-[0_0_10px_rgba(59,130,246,0.5)]">
-                      Choisissez la date et l'heure
-                    </span>
-                  </h3>
-
-                  <div className="grid md:grid-cols-2 gap-6">
-                    {/* Calendar */}
-                    <div className="flex justify-center">
-                      <Calendar
-                        mode="single"
-                        selected={selectedDate}
-                        onSelect={(date) => {
-                          setSelectedDate(date);
-                          setSelectedTime('');
-                        }}
-                        disabled={disabledDays}
-                        locale={fr}
-                        fromDate={new Date()}
-                        toDate={addDays(new Date(), 60)}
-                        className="rounded-xl border border-blue-400/50 bg-blue-900/70 p-3 pointer-events-auto"
-                        classNames={{
-                          months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
-                          month: "space-y-4",
-                          caption: "flex justify-center pt-1 relative items-center text-cyan-200 font-semibold",
-                          caption_label: "text-base font-semibold text-cyan-100",
-                          nav: "space-x-1 flex items-center",
-                          nav_button: "h-7 w-7 bg-blue-800/80 hover:bg-blue-700 text-cyan-200 hover:text-white rounded-md border border-blue-500/40 transition-colors",
-                          nav_button_previous: "absolute left-1",
-                          nav_button_next: "absolute right-1",
-                          table: "w-full border-collapse space-y-1",
-                          head_row: "flex",
-                          head_cell: "text-cyan-300 rounded-md w-9 font-medium text-[0.8rem]",
-                          row: "flex w-full mt-2",
-                          cell: "h-9 w-9 text-center text-sm p-0 relative",
-                          day: "h-9 w-9 p-0 font-medium rounded-md transition-all text-blue-100 hover:bg-blue-600/60 hover:text-white",
-                          day_selected: "bg-cyan-500 text-white hover:bg-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.6)]",
-                          day_today: "ring-2 ring-cyan-400 text-cyan-200",
-                          day_outside: "text-blue-700/40",
-                          day_disabled: "text-blue-800/40 opacity-40 hover:bg-transparent cursor-not-allowed",
-                          day_hidden: "invisible",
-                        }}
-                      />
-                    </div>
-
-                    {/* Time slots */}
-                    <div>
-                      <p className="text-sm text-blue-200/70 mb-3">
-                        {selectedDate 
-                          ? `Créneaux disponibles le ${format(selectedDate, 'EEEE d MMMM', { locale: fr })}`
-                          : 'Sélectionnez une date pour voir les créneaux'
-                        }
-                      </p>
-                      
-                      {selectedDate && (
-                        <div className="grid grid-cols-3 gap-2 max-h-[280px] overflow-y-auto pr-2" role="group" aria-label="Créneaux horaires disponibles">
-                          {TIME_SLOTS.map((time) => {
-                            const available = isSlotAvailable(time);
-                            return (
-                              <button
-                                key={time}
-                                type="button"
-                                disabled={!available}
-                                onClick={() => setSelectedTime(time)}
-                                aria-label={`${available ? 'Sélectionner' : 'Indisponible :'} ${time}`}
-                                aria-pressed={selectedTime === time}
-                                className={`py-2 px-3 rounded-lg text-sm font-medium transition-all ${
-                                  selectedTime === time
-                                    ? 'bg-blue-500 text-white'
+                        {selectedDate ? (
+                          <div className="grid grid-cols-3 gap-3 max-h-[320px] overflow-y-auto pr-2 custom-scrollbar">
+                            {TIME_SLOTS.map((time) => {
+                              const available = isSlotAvailable(time);
+                              return (
+                                <motion.button
+                                  whileHover={{ scale: available ? 1.05 : 1 }}
+                                  whileTap={{ scale: available ? 0.95 : 1 }}
+                                  key={time}
+                                  type="button"
+                                  disabled={!available}
+                                  onClick={() => setSelectedTime(time)}
+                                  className={`py-3 px-2 rounded-xl text-sm font-medium transition-all relative overflow-hidden ${selectedTime === time
+                                    ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg'
                                     : available
-                                    ? 'bg-blue-900/50 text-white hover:bg-blue-800/50 border border-blue-500/20'
-                                    : 'bg-blue-950/30 text-blue-500/30 cursor-not-allowed line-through'
-                                }`}
-                              >
-                                {time}
-                              </button>
-                            );
-                          })}
+                                      ? 'bg-slate-800/50 text-blue-100 hover:bg-slate-700 border border-white/5'
+                                      : 'bg-slate-900/30 text-slate-700 cursor-not-allowed'
+                                    }`}
+                                >
+                                  {time}
+                                  {selectedTime === time && (
+                                    <motion.div
+                                      className="absolute inset-0 bg-white/20"
+                                      initial={{ opacity: 0 }}
+                                      animate={{ opacity: 1 }}
+                                      transition={{ duration: 0.2 }}
+                                    />
+                                  )}
+                                </motion.button>
+                              );
+                            })}
+                          </div>
+                        ) : (
+                          <div className="h-[300px] flex flex-col items-center justify-center text-blue-200/40 border-2 border-dashed border-white/5 rounded-2xl bg-slate-900/20">
+                            <CalendarDays className="w-12 h-12 mb-2 opacity-50" />
+                            <p>Sélectionnez une date</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="flex justify-between pt-6">
+                      <Button
+                        type="button"
+                        onClick={prevStep}
+                        variant="ghost"
+                        className="text-blue-200 hover:text-white hover:bg-white/5"
+                      >
+                        <ChevronLeft className="w-4 h-4 mr-2" /> Retour
+                      </Button>
+                      <Button
+                        type="button"
+                        onClick={nextStep}
+                        disabled={!selectedDate || !selectedTime}
+                        className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-full px-8 hover:shadow-[0_0_20px_rgba(59,130,246,0.6)] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        Suivant <ChevronRight className="w-4 h-4 ml-2" />
+                      </Button>
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* Step 3: Contact info */}
+                {step === 3 && (
+                  <motion.div
+                    key="step3"
+                    custom={direction}
+                    variants={stepVariants}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    className="space-y-8"
+                  >
+                    <div className="text-center space-y-2 mb-6">
+                      <h3 className="text-2xl font-semibold text-white">Vos coordonnées</h3>
+                      <p className="text-blue-200/60">Dernière étape pour valider votre réservation</p>
+                    </div>
+
+                    {/* Summary Card */}
+                    <div className="bg-gradient-to-r from-blue-900/40 to-cyan-900/40 rounded-2xl p-6 border border-blue-500/20 flex flex-col md:flex-row items-center justify-between gap-4">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400">
+                          <CalendarDays className="w-6 h-6" />
                         </div>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between">
-                    <Button
-                      type="button"
-                      onClick={() => setStep(1)}
-                      className="bg-blue-800/80 text-white border border-blue-400/50 hover:bg-blue-700/80"
-                    >
-                      Retour
-                    </Button>
-                    <Button
-                      type="button"
-                      onClick={() => setStep(3)}
-                      disabled={!selectedDate || !selectedTime}
-                      className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 disabled:opacity-50"
-                    >
-                      Continuer
-                    </Button>
-                  </div>
-                </div>
-              )}
-
-              {/* Step 3: Contact info */}
-              {step === 3 && (
-                <div className="space-y-6 animate-in fade-in duration-300">
-                  <h3 className="text-xl font-semibold text-white flex items-center gap-2">
-                    <User className="w-5 h-5 text-blue-400" />
-                    Vos coordonnées
-                  </h3>
-
-                  {/* Summary */}
-                  <div className="bg-blue-900/30 rounded-xl p-4 border border-blue-500/20">
-                    <p className="text-blue-200">
-                      <span className="font-medium">Récapitulatif :</span>{' '}
-                      Appel de {selectedDuration} min le{' '}
-                      <span className="text-white font-medium">
-                        {selectedDate && format(selectedDate, 'EEEE d MMMM', { locale: fr })}
-                      </span>{' '}
-                      à <span className="text-white font-medium">{selectedTime}</span>
-                    </p>
-                  </div>
-
-                    <div className="grid gap-4">
-                    <div>
-                      <Label htmlFor="name" className="text-blue-200 flex items-center gap-2 mb-2">
-                        <User className="w-4 h-4" /> Nom complet <span className="text-red-400">*</span>
-                      </Label>
-                      <Input
-                        id="name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        placeholder="Jean Dupont"
-                        required
-                        aria-required="true"
-                        className="bg-blue-900/30 border-blue-500/30 text-white placeholder:text-blue-300/40"
-                      />
+                        <div>
+                          <p className="text-sm text-blue-200/60">Date et heure</p>
+                          <p className="text-white font-medium text-lg">
+                            {selectedDate && format(selectedDate, 'd MMMM', { locale: fr })} à {selectedTime}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="h-10 w-px bg-white/10 hidden md:block" />
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400">
+                          <Clock className="w-6 h-6" />
+                        </div>
+                        <div>
+                          <p className="text-sm text-blue-200/60">Durée</p>
+                          <p className="text-white font-medium text-lg">{selectedDuration} minutes</p>
+                        </div>
+                      </div>
                     </div>
 
-                    <div>
-                      <Label htmlFor="email" className="text-blue-200 flex items-center gap-2 mb-2">
-                        <Mail className="w-4 h-4" /> Email <span className="text-red-400">*</span>
-                      </Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="jean@example.com"
-                        required
-                        aria-required="true"
-                        className="bg-blue-900/30 border-blue-500/30 text-white placeholder:text-blue-300/40"
-                      />
+                    <div className="grid gap-6">
+                      <div className="space-y-2">
+                        <Label htmlFor="name" className="text-blue-200">Nom complet</Label>
+                        <div className="relative">
+                          <User className="absolute left-3 top-3 w-5 h-5 text-blue-400/50" />
+                          <Input
+                            id="name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            placeholder="Votre nom"
+                            required
+                            className="pl-10 bg-slate-900/50 border-white/10 text-white focus:border-cyan-400/50 focus:ring-cyan-400/20 h-12 rounded-xl transition-all"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid md:grid-cols-2 gap-6">
+                        <div className="space-y-2">
+                          <Label htmlFor="email" className="text-blue-200">Email professionnel</Label>
+                          <div className="relative">
+                            <Mail className="absolute left-3 top-3 w-5 h-5 text-blue-400/50" />
+                            <Input
+                              id="email"
+                              type="email"
+                              value={email}
+                              onChange={(e) => setEmail(e.target.value)}
+                              placeholder="vous@entreprise.com"
+                              required
+                              className="pl-10 bg-slate-900/50 border-white/10 text-white focus:border-cyan-400/50 focus:ring-cyan-400/20 h-12 rounded-xl transition-all"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="phone" className="text-blue-200">Téléphone</Label>
+                          <div className="relative">
+                            <Phone className="absolute left-3 top-3 w-5 h-5 text-blue-400/50" />
+                            <Input
+                              id="phone"
+                              type="tel"
+                              value={phone}
+                              onChange={(e) => setPhone(e.target.value)}
+                              placeholder="06 12 34 56 78"
+                              required
+                              className="pl-10 bg-slate-900/50 border-white/10 text-white focus:border-cyan-400/50 focus:ring-cyan-400/20 h-12 rounded-xl transition-all"
+                            />
+                          </div>
+                        </div>
+                      </div>
                     </div>
 
-                    <div>
-                      <Label htmlFor="phone" className="text-blue-200 flex items-center gap-2 mb-2">
-                        <Phone className="w-4 h-4" /> Téléphone <span className="text-red-400">*</span>
-                      </Label>
-                      <Input
-                        id="phone"
-                        type="tel"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        placeholder="06 12 34 56 78"
-                        required
-                        aria-required="true"
-                        className="bg-blue-900/30 border-blue-500/30 text-white placeholder:text-blue-300/40"
-                      />
+                    <div className="flex justify-between pt-6">
+                      <Button
+                        type="button"
+                        onClick={prevStep}
+                        variant="ghost"
+                        className="text-blue-200 hover:text-white hover:bg-white/5"
+                      >
+                        <ChevronLeft className="w-4 h-4 mr-2" /> Retour
+                      </Button>
+                      <Button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-full px-8 py-6 text-lg font-semibold hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] transition-all shadow-lg shadow-blue-500/20 min-w-[200px]"
+                      >
+                        {isSubmitting ? (
+                          <div className="flex items-center gap-2">
+                            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                            Validation...
+                          </div>
+                        ) : 'Confirmer le rendez-vous'}
+                      </Button>
                     </div>
-                  </div>
-
-                    <div className="flex justify-between">
-                    <Button
-                      type="button"
-                      onClick={() => setStep(2)}
-                      className="bg-blue-800/80 text-white border border-blue-400/50 hover:bg-blue-700/80"
-                    >
-                      Retour
-                    </Button>
-                    <Button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 shadow-[0_0_20px_rgba(59,130,246,0.4)]"
-                    >
-                      {isSubmitting ? 'Réservation...' : 'Confirmer la réservation'}
-                    </Button>
-                  </div>
-                </div>
-              )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </form>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

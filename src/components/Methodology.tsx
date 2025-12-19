@@ -46,7 +46,7 @@ const commitments = [
 
 const Methodology = () => {
   return (
-    <section id="methodology" className="py-24 relative overflow-hidden">
+    <section id="methodology" className="py-12 relative overflow-hidden">
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

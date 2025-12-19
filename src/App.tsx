@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { Suspense, lazy } from "react";
 import CookieConsent from "./components/CookieConsent";
+import ScrollToTop from "./components/ScrollToTop";
 
 // Lazy loading pages for performance
 const Index = lazy(() => import("./pages/Index"));
@@ -18,6 +19,7 @@ const Automation = lazy(() => import("./pages/Automation"));
 const WebApps = lazy(() => import("./pages/WebApps"));
 const MobileApps = lazy(() => import("./pages/MobileApps"));
 const VisualIdentity = lazy(() => import("./pages/VisualIdentity"));
+const SalonCoiffure = lazy(() => import("./pages/SalonCoiffure")); // Added SalonCoiffure
 
 const queryClient = new QueryClient();
 
@@ -43,6 +45,7 @@ const App = () => (
               <Route path="/applications-web" element={<WebApps />} />
               <Route path="/applications-mobiles" element={<MobileApps />} />
               <Route path="/identite-visuelle" element={<VisualIdentity />} />
+              <Route path="/salon-coiffure" element={<SalonCoiffure />} /> {/* Added Route */}
               <Route path="/mentions-legales" element={<LegalNotice />} />
               <Route path="/nx-panel-8f4a" element={<AdminLogin />} />
               <Route path="/nx-panel-8f4a/dashboard" element={<AdminDashboard />} />
@@ -50,6 +53,7 @@ const App = () => (
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
+          <ScrollToTop />
           <CookieConsent />
         </BrowserRouter>
       </TooltipProvider>

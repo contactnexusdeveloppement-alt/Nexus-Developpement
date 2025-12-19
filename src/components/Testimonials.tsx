@@ -84,7 +84,7 @@ const Testimonials = () => {
   };
 
   return (
-    <section id="testimonials" className="relative py-20 overflow-hidden">
+    <section id="testimonials" className="relative py-12 overflow-hidden">
       <div className="container mx-auto relative z-10 px-4">
 
         {/* Section Title */}

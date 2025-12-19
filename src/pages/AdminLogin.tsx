@@ -40,7 +40,7 @@ const AdminLogin = () => {
           .eq('user_id', session.user.id)
           .eq('role', 'admin')
           .single();
-        
+
         if (roles) {
           navigate('/nx-panel-8f4a/dashboard');
         }
@@ -77,8 +77,8 @@ const AdminLogin = () => {
 
       toast.success("Connexion réussie");
       navigate('/nx-panel-8f4a/dashboard');
-    } catch (error: any) {
-      toast.error(error.message || "Erreur de connexion");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Erreur de connexion");
     } finally {
       setIsLoading(false);
     }
@@ -92,7 +92,7 @@ const AdminLogin = () => {
   return (
     <div className="min-h-screen relative flex items-center justify-center p-4">
       <AnimatedBackground />
-      
+
       <Card className="relative z-10 w-full max-w-md bg-slate-900/90 backdrop-blur-md border-blue-500/30">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl text-center text-white">Administration</CardTitle>
