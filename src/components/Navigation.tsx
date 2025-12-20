@@ -87,7 +87,7 @@ const Navigation = () => {
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className="bg-transparent text-white hover:bg-white/5 hover:text-blue-300 focus:bg-white/5 focus:text-blue-300 transition-all duration-300 text-base font-medium">
+                  <NavigationMenuTrigger className="bg-transparent text-white hover:bg-white/5 hover:text-blue-300 focus:bg-white/5 focus:text-blue-300 px-4 py-2 rounded-md transition-all duration-300 text-sm md:text-base font-medium data-[state=open]:bg-white/5">
                     Services
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
@@ -113,13 +113,13 @@ const Navigation = () => {
               </NavigationMenuList>
             </NavigationMenu>
 
-            <button onClick={() => scrollToSection("tarifs")} className="text-white hover:text-blue-300 font-medium transition-colors hover:drop-shadow-[0_0_8px_rgba(147,197,253,0.5)]">
+            <button onClick={() => scrollToSection("tarifs")} className="bg-transparent text-white hover:bg-white/5 hover:text-blue-300 focus:bg-white/5 focus:text-blue-300 px-4 py-2 rounded-md transition-all duration-300 text-sm md:text-base font-medium">
               Tarifs
             </button>
-            <button onClick={() => scrollToSection("reservation")} className="text-white hover:text-blue-300 font-medium transition-colors hover:drop-shadow-[0_0_8px_rgba(147,197,253,0.5)]">
+            <button onClick={() => scrollToSection("reservation")} className="bg-transparent text-white hover:bg-white/5 hover:text-blue-300 focus:bg-white/5 focus:text-blue-300 px-4 py-2 rounded-md transition-all duration-300 text-sm md:text-base font-medium">
               Réserver
             </button>
-            <button onClick={() => scrollToSection("contact")} className="text-white hover:text-blue-300 font-medium transition-colors hover:drop-shadow-[0_0_8px_rgba(147,197,253,0.5)]">
+            <button onClick={() => scrollToSection("contact")} className="bg-transparent text-white hover:bg-white/5 hover:text-blue-300 focus:bg-white/5 focus:text-blue-300 px-4 py-2 rounded-md transition-all duration-300 text-sm md:text-base font-medium">
               Contact
             </button>
 
