@@ -46,8 +46,8 @@ const projects: Project[] = [
   {
     title: "Saveurs & Traditions",
     description: "Site vitrine élégant pour un restaurant gastronomique. Menu digital interactif, galerie photos immersive et module de réservation de table en temps réel.",
-    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2070&auto=format&fit=crop",
-    url: "#",
+    image: "/restaurant/screenshot.png",
+    url: "/restaurant",
     technologies: ["React", "Framer Motion", "Reservation API"],
     category: "Site Vitrine",
     altText: "Ambiance restaurant gastronomique"

@@ -1,0 +1,98 @@
+.reservation {
+    padding: 100px 0;
+    background-color: var(--color-bg-alt);
+    position: relative;
+}
+
+.container {
+    max-width: var(--spacing-container);
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 60px;
+    align-items: center;
+}
+
+.info {
+    flex: 1;
+    min-width: 300px;
+}
+
+.title {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.desc {
+    margin-bottom: 30px;
+    color: var(--color-text-muted);
+    font-size: 1.1rem;
+}
+
+.contactDetails {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    color: var(--color-accent);
+}
+
+.form {
+    flex: 1;
+    min-width: 300px;
+    background: var(--color-bg);
+    padding: 40px;
+    border-radius: 4px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.row {
+    display: flex;
+    gap: 20px;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 12px;
+    background-color: rgba(255, 255, 255, 0.95);
+    border: 1px solid #444;
+    color: #1a1a1a;
+    /* Force dark text */
+    font-family: var(--font-body);
+    font-size: 1rem;
+    margin-bottom: 15px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+/* Specifically for select options */
+select option {
+    background-color: white;
+    color: #1a1a1a;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: var(--color-accent);
+}
+
+button {
+    width: 100%;
+}
+
+.success {
+    text-align: center;
+    color: #4bb543;
+}
+
+@media (max-width: 768px) {
+    .content {
+        flex-direction: column;
+        gap: 40px;
+    }
+}

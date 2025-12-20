@@ -24,6 +24,7 @@ const AgenceImmoHome = lazy(() => import("./pages/agence-immo/Home"));
 const AgenceImmoProperties = lazy(() => import("./pages/agence-immo/PropertiesPage"));
 const AgenceImmoDetails = lazy(() => import("./pages/agence-immo/PropertyDetails"));
 const AgenceImmoLogin = lazy(() => import("./pages/agence-immo/LoginPage"));
+const Restaurant = lazy(() => import("./pages/Restaurant"));
 
 const queryClient = new QueryClient();
 
@@ -56,6 +57,8 @@ const App = () => (
               <Route path="/agence-immo/properties" element={<AgenceImmoProperties />} />
               <Route path="/agence-immo/property/:id" element={<AgenceImmoDetails />} />
               <Route path="/agence-immo/login" element={<AgenceImmoLogin />} />
+
+              <Route path="/restaurant" element={<Restaurant />} />
 
               <Route path="/mentions-legales" element={<LegalNotice />} />
               <Route path="/nx-panel-8f4a" element={<AdminLogin />} />

@@ -1,0 +1,371 @@
+.menuSection {
+    padding: 80px 0;
+    background-color: var(--color-bg);
+    min-height: 900px;
+    overflow: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.instruction {
+    color: var(--color-text-muted);
+    font-style: italic;
+    margin-top: 10px;
+}
+
+.perspectiveWrapper {
+    width: 100%;
+    max-width: 1000px;
+    height: 600px;
+    perspective: 2000px;
+    /* Strong perspective for 3D feel */
+    position: relative;
+    display: flex;
+    justify-content: center;
+    /* Center the closed book */
+}
+
+/* BOOK CONTAINER */
+.book {
+    transition: all 0.8s ease-in-out;
+    transform-style: preserve-3d;
+    position: relative;
+}
+
+/* CLOSED STATE - Centered Single Cover */
+.bookClosed {
+    width: 450px;
+    /* Approx half width of open book */
+    height: 100%;
+    cursor: pointer;
+    box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.6);
+    transform: rotateY(0deg);
+}
+
+.bookClosed:hover {
+    transform: rotateY(-5deg) scale(1.02);
+}
+
+/* OPEN STATE - Wide full spread */
+.bookOpen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    background: #1a1a1a;
+    border-radius: 4px;
+}
+
+/* COVER DESIGN */
+.cover {
+    width: 100%;
+    height: 100%;
+    background: #1e1e1e;
+    /* Leather-ish dark */
+    border: 2px solid #3e3e3e;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-accent);
+    box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.8);
+    /* Texture depth */
+    position: relative;
+    border-left: 10px solid #111;
+    /* Spine hint */
+}
+
+.coverContent {
+    border: 2px solid var(--color-accent);
+    padding: 40px;
+    text-align: center;
+}
+
+.logo {
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    letter-spacing: 4px;
+    margin-bottom: 10px;
+}
+
+.est {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    letter-spacing: 2px;
+    opacity: 0.8;
+}
+
+.sub {
+    margin-top: 20px;
+    font-size: 1.5rem;
+    font-family: var(--font-heading);
+}
+
+.clickHint {
+    position: absolute;
+    bottom: 30px;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.4;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+
+    100% {
+        opacity: 0.4;
+    }
+}
+
+
+/* PAGES */
+.page {
+    flex: 1;
+    background: #fdfbf7;
+    color: #1a1a1a;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #e0e0e0;
+}
+
+.leftPage {
+    border-radius: 4px 0 0 4px;
+    background: linear-gradient(to right, #fdfbf7 95%, #e8e6e1 100%);
+}
+
+.rightPage {
+    border-radius: 0 4px 4px 0;
+    background: linear-gradient(to left, #fdfbf7 95%, #e8e6e1 100%);
+}
+
+.spine {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: rgba(0, 0, 0, 0.2);
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+.pageContent {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.categoryTitle {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    color: var(--color-primary);
+    text-align: center;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    border-bottom: 2px double var(--color-primary);
+    padding-bottom: 5px;
+    align-self: center;
+}
+
+.itemsList {
+    flex: 1;
+    overflow-y: auto;
+}
+
+/* Hide scrollbar for cleaner look */
+.itemsList::-webkit-scrollbar {
+    width: 4px;
+}
+
+.itemsList::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+}
+
+.item {
+    margin-bottom: 15px;
+}
+
+.itemHeader {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px dotted #ccc;
+    margin-bottom: 2px;
+}
+
+.name {
+    font-weight: 700;
+    font-family: var(--font-heading);
+    font-size: 1rem;
+}
+
+.price {
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.desc {
+    font-style: italic;
+    font-size: 0.85rem;
+    color: #555;
+    margin-top: 2px;
+}
+
+.pageImage {
+    width: 100%;
+    height: 140px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 2px;
+    margin-top: 15px;
+    border: 1px solid #ccc;
+    filter: sepia(0.3);
+}
+
+.paginationRow {
+    /* No longer needed as container for buttons, buttons are absolute now */
+    display: none;
+}
+
+.pageNumber {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+    font-family: var(--font-heading);
+    opacity: 0.5;
+    font-size: 0.9rem;
+    left: 0;
+    pointer-events: none;
+}
+
+/* CONTROLS */
+.prevBtn,
+.nextBtn {
+    position: absolute;
+    bottom: 15px;
+    /* Inside the book, aligned with page numbers level but at corners */
+    background: transparent;
+    border: none;
+    font-family: var(--font-heading);
+    color: var(--color-primary);
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.9rem;
+    z-index: 100;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    width: auto;
+    /* Prevent stretching */
+    min-width: 0;
+    white-space: nowrap;
+    align-self: flex-start;
+    /* Prevent flex stretch */
+    border-radius: 4px;
+}
+
+.prevBtn {
+    left: 15px;
+}
+
+.nextBtn {
+    right: 15px;
+}
+
+.prevBtn:hover,
+.nextBtn:hover {
+    background: var(--color-primary);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.endPage {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.endPage h3 {
+    font-family: var(--font-heading);
+    color: var(--color-primary);
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.logoSmall {
+    font-size: 3rem;
+    font-weight: bold;
+    opacity: 0.1;
+    margin-top: 30px;
+}
+
+
+.emptyPage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: #888;
+    font-family: var(--font-heading);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 850px) {
+    .bookClosed {
+        width: 100%;
+        height: 500px;
+    }
+
+    .bookOpen {
+        flex-direction: column;
+        box-shadow: none;
+        background: transparent;
+        height: auto;
+    }
+
+    .perspectiveWrapper {
+        height: auto;
+    }
+
+    .page {
+        width: 100%;
+        margin-bottom: 20px;
+        border-radius: 4px;
+        height: auto;
+        min-height: 500px;
+    }
+
+    .spine {
+        display: none;
+    }
+
+}
