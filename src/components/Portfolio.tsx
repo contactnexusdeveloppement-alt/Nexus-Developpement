@@ -112,9 +112,8 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
     if (project.url.startsWith('#')) {
       const element = document.querySelector(project.url);
       element?.scrollIntoView({ behavior: 'smooth' });
-    } else if (project.url.startsWith('/')) {
-      navigate(project.url);
     } else {
+      // Open all links (internal demos and external sites) in a new tab
       window.open(project.url, '_blank');
     }
   };
