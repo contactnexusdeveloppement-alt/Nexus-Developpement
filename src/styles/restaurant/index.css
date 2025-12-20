@@ -16,43 +16,39 @@
   --header-height: 80px;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
+.restaurant-page {
   background-color: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-body);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  width: 100%;
+  min-height: 100vh;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+.restaurant-page h1,
+.restaurant-page h2,
+.restaurant-page h3,
+.restaurant-page h4,
+.restaurant-page h5,
+.restaurant-page h6 {
   font-family: var(--font-heading);
   text-transform: uppercase;
   letter-spacing: 1px;
   font-weight: 500;
 }
 
-a {
+.restaurant-page a {
   text-decoration: none;
   color: inherit;
   transition: color 0.3s ease;
 }
 
-ul {
+.restaurant-page ul {
   list-style: none;
 }
 
-button {
+.restaurant-page button {
   cursor: pointer;
   border: none;
   font-family: var(--font-heading);

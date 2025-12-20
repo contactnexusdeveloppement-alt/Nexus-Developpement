@@ -12,7 +12,7 @@ import '../styles/restaurant/index.css';
 
 function Restaurant() {
   return (
-    <div className="app">
+    <div className="restaurant-page app">
       <Navbar />
       <main>
         <Hero />
