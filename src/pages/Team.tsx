@@ -24,7 +24,7 @@ const Team = () => {
             name: "Théo Jacobée",
             role: "Co-fondateur & Stratégie",
             bio: "Mon but est de transformer vos idées complexes en plans d'action concrets. J'analyse votre marché pour maximiser votre ROI et assurer une croissance durable de votre activité.",
-            image: "/src/assets/theo_jacobee_matching_adam_v2_1766242263351.png",
+            image: "/images/theo_jacobee.png",
             details: "Visionnaire Business"
         },
         {
