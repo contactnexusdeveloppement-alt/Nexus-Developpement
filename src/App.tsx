@@ -28,6 +28,8 @@ const AgenceImmoProperties = lazy(() => import("./pages/agence-immo/PropertiesPa
 const AgenceImmoDetails = lazy(() => import("./pages/agence-immo/PropertyDetails"));
 const AgenceImmoLogin = lazy(() => import("./pages/agence-immo/LoginPage"));
 const Restaurant = lazy(() => import("./pages/Restaurant"));
+const Concession = lazy(() => import("./pages/Concession"));
+const ProjectsCatalog = lazy(() => import("./pages/ProjectsCatalog"));
 
 const queryClient = new QueryClient();
 
@@ -69,6 +71,10 @@ const App = () => (
               <Route path="/equipe" element={<Team />} />
               <Route path="/nx-panel-8f4a" element={<AdminLogin />} />
               <Route path="/nx-panel-8f4a/dashboard" element={<AdminDashboard />} />
+
+              <Route path="/concession-automobile" element={<Concession />} />
+              <Route path="/catalogue" element={<ProjectsCatalog />} />
+
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

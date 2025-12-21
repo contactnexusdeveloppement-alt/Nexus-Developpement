@@ -2,75 +2,8 @@ import { ExternalLink, ArrowUpRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useEffect, useRef, useState } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import bodystartImage from "@/assets/bodystart-project.png";
 import { useNavigate } from "react-router-dom";
-
-type Project = {
-  title: string;
-  description: string;
-  image: string;
-  url: string;
-  technologies: string[];
-  category: string;
-  altText: string;
-};
-
-const projects: Project[] = [
-  {
-    title: "BodyStart",
-    description: "Site de vente de programmes sportifs, alimentaires et de coaching avec plus de 100 transformations réussies",
-    image: bodystartImage,
-    url: "https://bodystart.com",
-    technologies: ["React", "Node.js", "Stripe", "Supabase"],
-    category: "Site Web",
-    altText: "Capture d'écran du site BodyStart - plateforme de programmes sportifs et coaching en ligne"
-  },
-  {
-    title: "Élégance Coiffure",
-    description: "Site vitrine complet pour un salon de coiffure avec présentation des services, réalisations et histoire.",
-    image: "/salon/screenshot.png",
-    url: "/salon-coiffure",
-    technologies: ["React", "Tailwind", "Framer Motion"],
-    category: "Site Vitrine",
-    altText: "Interface du site Élégance Coiffure"
-  },
-  {
-    title: "Entre Terre et Mer",
-    description: "Site vitrine d'agence immobilière de prestige dans les Vosges. Design élégant et mise en valeur des biens d'exception.",
-    image: "/agence-immo/screenshot.png",
-    url: "/agence-immo",
-    technologies: ["React", "Tailwind", "Framer Motion"],
-    category: "Site Vitrine",
-    altText: "Aperçu du site Entre Terre et Mer"
-  },
-  {
-    title: "Saveurs & Traditions",
-    description: "Site vitrine élégant pour un restaurant gastronomique. Menu digital interactif, galerie photos immersive et module de réservation de table en temps réel.",
-    image: "/restaurant/screenshot.png",
-    url: "/restaurant",
-    technologies: ["React", "Framer Motion", "Reservation API"],
-    category: "Site Vitrine",
-    altText: "Ambiance restaurant gastronomique"
-  },
-  {
-    title: "AutoTech Expert",
-    description: "Plateforme de gestion pour garage automobile moderne. Prise de rendez-vous en ligne, suivi des réparations en direct et historique d'entretien digitalisé.",
-    image: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?q=80&w=2072&auto=format&fit=crop",
-    url: "#",
-    technologies: ["React", "Node.js", "PostgreSQL"],
-    category: "Application Web",
-    altText: "Atelier mécanique moderne"
-  },
-  {
-    title: "Votre Futur Projet ?",
-    description: "Vous avez une vision ambitieuse ? Transformons-la en réalité digitale. Cliquez ici pour démarrer votre projet avec nous.",
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop",
-    url: "#contact",
-    technologies: ["Innovation", "Performance", "Design"],
-    category: "Prochain Succès",
-    altText: "Concept abstrait technologique"
-  }
-];
+import { projects, Project } from "@/data/projects";
 
 const ProjectCard = ({ project, index }: { project: Project; index: number }) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -198,6 +131,8 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
 };
 
 const Portfolio = () => {
+  const navigate = useNavigate();
+
   return (
     <section id="portfolio" className="py-20 relative overflow-hidden">
       {/* Background Decor */}
@@ -227,7 +162,7 @@ const Portfolio = () => {
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto"
           style={{ perspective: "1000px" }}
         >
-          {projects.map((project, index) => (
+          {projects.slice(0, 6).map((project, index) => (
             <ProjectCard key={index} project={project} index={index} />
           ))}
         </div>
@@ -240,7 +175,13 @@ const Portfolio = () => {
           className="text-center mt-20"
         >
           <p className="text-gray-500 font-medium">
-            Et bien plus encore... <button className="text-cyan-400 hover:text-cyan-300 underline underline-offset-4 transition-colors">Voir tout le catalogue</button>
+            Et bien plus encore...
+            <button
+              onClick={() => navigate('/catalogue')}
+              className="text-cyan-400 hover:text-cyan-300 underline underline-offset-4 transition-colors ml-2"
+            >
+              Voir tout le catalogue
+            </button>
           </p>
         </motion.div>
       </div>

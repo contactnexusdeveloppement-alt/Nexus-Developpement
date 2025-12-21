@@ -1,0 +1,59 @@
+import bodystartImage from "@/assets/bodystart-project.png";
+
+export type Project = {
+    title: string;
+    description: string;
+    image: string;
+    url: string;
+    technologies: string[];
+    category: string;
+    altText: string;
+};
+
+export const projects: Project[] = [
+    {
+        title: "Élégance Coiffure",
+        description: "Site vitrine complet pour un salon de coiffure avec présentation des services, réalisations et histoire.",
+        image: "/salon/screenshot.png",
+        url: "/salon-coiffure",
+        technologies: ["React", "Tailwind", "Framer Motion"],
+        category: "Site Vitrine",
+        altText: "Interface du site Élégance Coiffure"
+    },
+    {
+        title: "Entre Terre et Mer",
+        description: "Site vitrine d'agence immobilière de prestige dans les Vosges. Design élégant et mise en valeur des biens d'exception.",
+        image: "/agence-immo/screenshot.png",
+        url: "/agence-immo",
+        technologies: ["React", "Tailwind", "Framer Motion"],
+        category: "Site Vitrine",
+        altText: "Aperçu du site Entre Terre et Mer"
+    },
+    {
+        title: "Saveurs & Traditions",
+        description: "Site vitrine élégant pour un restaurant gastronomique. Menu digital interactif, galerie photos immersive et module de réservation de table en temps réel.",
+        image: "/restaurant/screenshot.png",
+        url: "/restaurant",
+        technologies: ["React", "Framer Motion", "Reservation API"],
+        category: "Site Vitrine",
+        altText: "Ambiance restaurant gastronomique"
+    },
+    {
+        title: "Héritage Auto",
+        description: "Concession automobile de prestige. Vitrine immersive avec filtres dynamiques, galerie de véhicules et services d'atelier haut de gamme.",
+        image: "/projects/concession-home.png",
+        url: "/concession-automobile",
+        technologies: ["React", "CSS Modules", "Responsive Design"],
+        category: "Site Vitrine",
+        altText: "Garage Héritage Auto"
+    },
+    {
+        title: "Votre Futur Projet ?",
+        description: "Vous avez une vision ambitieuse ? Transformons-la en réalité digitale. Cliquez ici pour démarrer votre projet avec nous.",
+        image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop",
+        url: "#contact",
+        technologies: ["Innovation", "Performance", "Design"],
+        category: "Prochain Succès",
+        altText: "Concept abstrait technologique"
+    }
+];
