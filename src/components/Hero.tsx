@@ -11,7 +11,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-x-hidden pt-20">
+    <section className="relative min-h-screen flex items-center justify-center pt-20">
 
       {/* Background elements with overflow hidden to prevent scrollbar */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none min-h-screen">
