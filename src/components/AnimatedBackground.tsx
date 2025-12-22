@@ -37,7 +37,9 @@ const AnimatedBackground = () => {
     window.addEventListener('scroll', handleScroll);
 
     // Create particles
-    const particleCount = 100;
+    // Detect mobile to reduce particle count
+    const isMobile = window.innerWidth < 768;
+    const particleCount = isMobile ? 25 : 50;
     const particles: Particle[] = [];
 
     for (let i = 0; i < particleCount; i++) {

@@ -36,7 +36,7 @@ const Contact = () => {
                 <h3 className="text-2xl font-bold text-white mb-2">Email</h3>
                 <a
                   href="mailto:contact.nexus.developpement@gmail.com"
-                  className="text-blue-200 hover:text-white transition-colors font-medium text-lg block hover:scale-105 transform duration-300"
+                  className="text-blue-200 hover:text-white transition-colors font-medium text-base sm:text-lg block hover:scale-105 transform duration-300 break-all"
                 >
                   contact.nexus.developpement@gmail.com
                 </a>
@@ -59,7 +59,7 @@ const Contact = () => {
                 <h3 className="text-2xl font-bold text-white mb-2">Téléphone</h3>
                 <a
                   href="tel:+33761847580"
-                  className="text-blue-200 hover:text-white transition-colors font-medium text-lg block hover:scale-105 transform duration-300"
+                  className="text-blue-200 hover:text-white transition-colors font-medium text-base sm:text-lg block hover:scale-105 transform duration-300"
                 >
                   +33 7 61 84 75 80
                 </a>
