@@ -1,4 +1,4 @@
-import { Glob, Globe, Zap, Palette, Smartphone, Layout } from "lucide-react";
+import { Globe, Zap, Palette, Smartphone, Layout } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { motion, Variants } from "framer-motion";
@@ -76,7 +76,7 @@ const itemVariants: Variants = {
 
 const Services = () => {
   return (
-    <section id="services" className="py-12 relative overflow-hidden">
+    <section id="services" className="py-12 relative">
       {/* Glow effects background */}
       <div className="absolute top-1/4 left-0 w-96 h-96 bg-primary/20 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-accent/10 rounded-full blur-[100px] pointer-events-none" />
