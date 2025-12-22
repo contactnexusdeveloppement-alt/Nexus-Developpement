@@ -15,8 +15,8 @@ const Pricing = () => {
   return (
     <section id="tarifs" className="py-12 relative overflow-hidden">
       {/* Background Decor */}
-      <div className="absolute top-[30%] right-[-10%] w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[20%] left-[-10%] w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-[30%] right-[-10%] w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[40px] md:blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[20%] left-[-10%] w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[40px] md:blur-[120px] pointer-events-none" />
 
       <div className="container mx-auto px-4 relative z-10">
         <motion.div

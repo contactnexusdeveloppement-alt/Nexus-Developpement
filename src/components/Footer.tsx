@@ -26,12 +26,14 @@ const Footer = () => {
             </p>
             <div className="flex gap-4">
               {[
-                { icon: Instagram, href: "#", label: "Instagram" },
-                { icon: Facebook, href: "#", label: "Facebook" }
+                { icon: Instagram, href: "https://www.instagram.com/nexus_developpement/", label: "Instagram" },
+                { icon: Facebook, href: "https://www.facebook.com/profile.php?id=61584419880166&sk=about", label: "Facebook" }
               ].map((social, index) => (
                 <a
                   key={index}
                   href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 rounded-full bg-slate-900 border border-blue-500/20 flex items-center justify-center text-slate-400 hover:bg-blue-600 hover:text-white hover:border-blue-500 transition-all duration-300"
                   aria-label={social.label}
                 >
@@ -68,12 +70,6 @@ const Footer = () => {
             <h3 className="font-bold text-white mb-6 text-lg">Entreprise</h3>
             <ul className="space-y-4">
               <li>
-                <a href="#about" className="text-slate-400 hover:text-blue-400 text-sm flex items-center gap-2 group transition-colors">
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500/0 group-hover:bg-blue-400 transition-colors" />
-                  À propos
-                </a>
-              </li>
-              <li>
                 <Link to="/equipe" className="text-slate-400 hover:text-blue-400 text-sm flex items-center gap-2 group transition-colors">
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-500/0 group-hover:bg-blue-400 transition-colors" />
                   Notre Équipe
@@ -83,12 +79,6 @@ const Footer = () => {
                 <a href="#portfolio" className="text-slate-400 hover:text-blue-400 text-sm flex items-center gap-2 group transition-colors">
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-500/0 group-hover:bg-blue-400 transition-colors" />
                   Nos réalisations
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-slate-400 hover:text-blue-400 text-sm flex items-center gap-2 group transition-colors">
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500/0 group-hover:bg-blue-400 transition-colors" />
-                  Carrières
                 </a>
               </li>
               <li>

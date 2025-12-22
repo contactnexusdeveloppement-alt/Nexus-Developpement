@@ -46,6 +46,18 @@ const Navigation = () => {
     }
   }, []);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
+
   return (
     <nav
       className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
@@ -143,7 +155,7 @@ const Navigation = () => {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden pb-6 bg-[#0A0F1E]/98 backdrop-blur-xl border-b border-blue-500/20 absolute top-20 left-0 right-0 shadow-2xl animate-in slide-in-from-top-5 duration-300">
+          <div className="md:hidden fixed inset-0 top-20 bg-slate-950 border-t border-blue-500/20 z-40 overflow-y-auto animate-in slide-in-from-top-5 duration-300">
             <div className="flex flex-col gap-2 p-4">
               <div className="font-bold text-blue-400 px-4 py-3 text-sm tracking-wider uppercase opacity-80">Nos Services</div>
               <Link to="/creation-site-web" className="px-4 py-3 text-white hover:bg-blue-500/10 hover:text-blue-300 rounded-lg transition-colors flex items-center justify-between group" onClick={() => setIsMobileMenuOpen(false)}>

@@ -179,8 +179,8 @@ export function CallBooking() {
   return (
     <section id="reservation" className="py-12 relative overflow-hidden">
       {/* Background Elements */}
-      <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl -z-10" />
-      <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-cyan-600/20 rounded-full blur-3xl -z-10" />
+      <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-xl md:blur-3xl -z-10" />
+      <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-cyan-600/20 rounded-full blur-xl md:blur-3xl -z-10" />
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-12">
