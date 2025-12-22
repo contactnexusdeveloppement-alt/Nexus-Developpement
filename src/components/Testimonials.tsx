@@ -106,12 +106,19 @@ const Testimonials = () => {
         </motion.div>
 
         {/* Carousel Container */}
-        <motion.div ref={carousel} className="relative overflow-hidden cursor-grab active:cursor-grabbing">
+        <motion.div
+          ref={carousel}
+          className="relative overflow-hidden cursor-grab active:cursor-grabbing"
+          style={{
+            maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)'
+          }}
+        >
           <motion.div
             drag="x"
             dragConstraints={{ right: 0, left: -width }}
             style={{ x }}
-            className="flex gap-6 sm:gap-8 pb-12"
+            className="flex gap-6 sm:gap-8 pb-12 px-4 md:px-12"
           >
             {testimonials.map((testimonial, index) => (
               <motion.div
@@ -122,7 +129,7 @@ const Testimonials = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="flex-shrink-0 w-[85vw] md:w-[450px] snap-center select-none"
               >
-                <div className="relative h-full glass-card p-8 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:bg-white/10 border border-white/5 hover:border-cyan-500/30 group">
+                <div className="relative h-full glass-card p-8 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:bg-white/10 group">
 
                   {/* Glow Effect Top Right */}
                   <div className="absolute -top-10 -right-10 w-32 h-32 bg-cyan-500/10 rounded-full blur-[50px] group-hover:bg-cyan-500/20 transition-all duration-500" />
