@@ -139,14 +139,14 @@ const PrivacyPolicy = () => {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: index * 0.1 }}
-                                className="bg-slate-900/50 backdrop-blur-xl border border-white/5 rounded-3xl p-8 hover:border-blue-500/20 transition-all duration-300"
+                                className="bg-slate-900/50 backdrop-blur-xl border border-white/5 rounded-3xl p-6 md:p-8 hover:border-blue-500/20 transition-all duration-300"
                             >
-                                <div className="flex flex-col md:flex-row items-start gap-6">
-                                    <div className="p-3 rounded-xl bg-blue-500/10 border border-blue-500/20 shrink-0 mx-auto md:mx-0">
+                                <div className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6 text-center md:text-left">
+                                    <div className="p-3 rounded-xl bg-blue-500/10 border border-blue-500/20 shrink-0">
                                         <section.icon className="w-6 h-6 text-blue-400" />
                                     </div>
-                                    <div className="flex-1 text-center md:text-left">
-                                        <h2 className="text-xl font-bold text-white mb-4 flex items-center justify-center md:justify-start gap-3">
+                                    <div className="flex-1 w-full">
+                                        <h2 className="text-xl font-bold text-white mb-4 flex flex-col md:flex-row items-center justify-center md:justify-start gap-2 md:gap-3">
                                             {section.title}
                                         </h2>
                                         {section.content}
@@ -164,10 +164,10 @@ const PrivacyPolicy = () => {
                             <p className="text-slate-400 mb-4">Une question sur vos données ?</p>
                             <a
                                 href="mailto:contact.nexus.developpement@gmail.com"
-                                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-600/10 hover:bg-blue-600/20 border border-blue-500/20 text-blue-300 hover:text-blue-200 transition-all duration-300"
+                                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-600/10 hover:bg-blue-600/20 border border-blue-500/20 text-blue-300 hover:text-blue-200 transition-all duration-300 break-all"
                             >
-                                <Mail className="w-4 h-4" />
-                                contact.nexus.developpement@gmail.com
+                                <Mail className="w-4 h-4 shrink-0" />
+                                <span className="break-all text-sm sm:text-base">contact.nexus.developpement@gmail.com</span>
                             </a>
                         </motion.div>
                     </div>
