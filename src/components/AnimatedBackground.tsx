@@ -55,12 +55,14 @@ const AnimatedBackground = () => {
       });
     }
 
+    // Create gradient once
+    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    gradient.addColorStop(0, '#0a0f1e');
+    gradient.addColorStop(1, '#1a2744');
+
     // Animation loop
     const animate = () => {
-      // Redraw the gradient to maintain original colors
-      const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-      gradient.addColorStop(0, '#0a0f1e');
-      gradient.addColorStop(1, '#1a2744');
+      // Clear canvas with gradient
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 

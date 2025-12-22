@@ -107,12 +107,14 @@ const PrivacyPolicy = () => {
 
             <div className="relative z-10 py-20 px-4 md:px-8">
                 <div className="container mx-auto max-w-4xl">
-                    <Link to="/">
-                        <Button variant="ghost" className="mb-12 text-slate-400 hover:text-white hover:bg-white/5 transition-all group">
-                            <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-                            Retour à l'accueil
-                        </Button>
-                    </Link>
+                    <div className="flex justify-center md:justify-start">
+                        <Link to="/">
+                            <Button variant="ghost" className="mb-12 text-slate-400 hover:text-white hover:bg-white/5 transition-all group">
+                                <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
+                                Retour à l'accueil
+                            </Button>
+                        </Link>
+                    </div>
 
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
