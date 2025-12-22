@@ -140,7 +140,7 @@ const ProjectsCatalog = () => {
 
             <div className="container mx-auto px-4 relative z-10">
 
-                <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div className="mb-12 md:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
                     <div className="space-y-6">
                         <Button
                             variant="ghost"

@@ -116,12 +116,12 @@ const LegalNotice = () => {
                 transition={{ delay: index * 0.1 }}
                 className="bg-slate-900/50 backdrop-blur-xl border border-white/5 rounded-3xl p-8 hover:border-blue-500/20 transition-all duration-300"
               >
-                <div className="flex items-start gap-6">
-                  <div className="p-3 rounded-xl bg-blue-500/10 border border-blue-500/20 shrink-0">
+                <div className="flex flex-col md:flex-row items-start gap-6">
+                  <div className="p-3 rounded-xl bg-blue-500/10 border border-blue-500/20 shrink-0 mx-auto md:mx-0">
                     <section.icon className="w-6 h-6 text-blue-400" />
                   </div>
-                  <div className="flex-1">
-                    <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-3">
+                  <div className="flex-1 text-center md:text-left">
+                    <h2 className="text-xl font-bold text-white mb-4 flex items-center justify-center md:justify-start gap-3">
                       {section.title}
                     </h2>
                     {section.content}
