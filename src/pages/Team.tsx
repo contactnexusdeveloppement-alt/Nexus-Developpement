@@ -10,6 +10,18 @@ import { ChatBotWidget } from "@/components/chatbot/ChatBotWidget";
 import { useEffect } from "react";
 import SEO from "@/components/SEO";
 
+// Import team images
+import adamImage from "@/assets/adam_lecharles.jpg";
+import theoJImage from "@/assets/theo_jacobee.jpg";
+import theoGImage from "@/assets/theo_gautier.png";
+import sarahImage from "@/assets/sarah_chen.png";
+import lucasImage from "@/assets/lucas_martin.png";
+import emmaImage from "@/assets/emma_dubois.png";
+import thomasImage from "@/assets/thomas_petit.png";
+import julieImage from "@/assets/julie_morel.png";
+import maximeImage from "@/assets/maxime_leroy.png";
+import chloeImage from "@/assets/chloe_durand.png";
+
 const Team = () => {
     // Scroll to top on mount
     useEffect(() => {
@@ -21,70 +33,70 @@ const Team = () => {
             name: "Adam Le Charlès",
             role: "Co-fondateur & Tech Lead",
             bio: "Je suis passionné par l'architecture logicielle. Je supervise toute la vision technique de l'agence pour garantir à nos partenaires des solutions robustes, pérennes et à la pointe de l'innovation.",
-            image: "/assets/adam_lecharles.jpg",
+            image: adamImage,
             details: "Expert React & Node.js"
         },
         {
             name: "Théo Jacobée",
             role: "Co-fondateur & Stratégie",
             bio: "Mon but est de transformer vos idées complexes en plans d'action concrets. J'analyse votre marché pour maximiser votre ROI et assurer une croissance durable de votre activité.",
-            image: "/assets/theo_jacobee.jpg",
+            image: theoJImage,
             details: "Visionnaire Business"
         },
         {
             name: "Théo Gautier",
             role: "Directeur Créatif",
             bio: "Diplômé des Gobelins et ami d'enfance d'Adam, j'ai affûté mon œil dans des studios parisiens. J'apporte cette touche artistique unique qui rendra votre projet inoubliable.",
-            image: "/assets/theo_gautier.png",
+            image: theoGImage,
             details: "Master Web Design - Gobelins"
         },
         {
             name: "Sarah Chen",
             role: "Lead Developer Fullstack",
             bio: "Ancienne de chez Criteo et diplômée d'EPITECH, je suis obsédée par la performance. Je conçois l'architecture de vos applications pour qu'elles soient rapides et scalables.",
-            image: "/assets/sarah_chen.png",
+            image: sarahImage,
             details: "Ex-Criteo • EPITECH"
         },
         {
             name: "Lucas Martin",
             role: "Senior Backend Developer",
             bio: "Issu de l'École 42, je suis un puriste du code. Je bâtis pour vous des API sécurisées et ultra-rapides, capables d'encaisser n'importe quelle charge de trafic.",
-            image: "/assets/lucas_martin.png",
+            image: lucasImage,
             details: "Alumni École 42"
         },
         {
             name: "Emma Dubois",
             role: "Senior UI/UX Designer",
             bio: "Formée à Strate, j'allie la psychologie cognitive au design. Je crée des parcours utilisateurs si fluides que vos clients navigueront sur votre site sans même y penser.",
-            image: "/assets/emma_dubois.png",
+            image: emmaImage,
             details: "Master UX - Strate"
         },
         {
             name: "Thomas Petit",
             role: "Frontend Developer",
             bio: "Sorti de l'IIM, je suis le magicien qui donne vie aux maquettes. Je code des animations immersives en WebGL et Three.js pour créer l'effet 'Wow' que vous recherchez.",
-            image: "/assets/thomas_petit.png",
+            image: thomasImage,
             details: "Expert Creative Coding"
         },
         {
             name: "Julie Morel",
             role: "Chef de Projet Digital",
             bio: "Avec mon Master d'HEC Paris, j'orchestre les sprints techniques. Je suis votre point de contact privilégié pour m'assurer que votre projet avance vite et bien.",
-            image: "/assets/julie_morel.png",
+            image: julieImage,
             details: "Master HEC Paris"
         },
         {
             name: "Maxime Leroy",
             role: "DevOps Engineer",
             bio: "Ingénieur INSA Lyon, je suis le gardien de votre infrastructure. J'automatise tout pour que votre site soit en ligne 24h/24 et 7j/7, quoi qu'il arrive.",
-            image: "/assets/maxime_leroy.png",
+            image: maximeImage,
             details: "Ingénieur INSA"
         },
         {
             name: "Chloé Durand",
             role: "SEO & Content Manager",
             bio: "Diplômée du CELSA, je manie les mots pour plaire à Google. Je déploie des stratégies de contenu chirurgicales pour vous propulser en tête des résultats de recherche.",
-            image: "/assets/chloe_durand.png",
+            image: chloeImage,
             details: "Master CELSA"
         }
     ];
@@ -178,4 +190,3 @@ const Team = () => {
 };
 
 export default Team;
-
