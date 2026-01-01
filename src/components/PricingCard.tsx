@@ -66,7 +66,7 @@ const PricingCard = ({ plan, categoryId, isVisible = true, index = 0 }: PricingC
             <CardContent className="p-6 relative z-10 flex flex-col min-h-[600px] h-full">
                 {/* Header */}
                 <div className="mb-6">
-                    <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
+                    <h3 className="text-2xl font-bold text-white mb-2 truncate">{plan.name}</h3>
                     <p className="text-gray-400 text-sm h-12 line-clamp-2">{plan.description}</p>
                 </div>
 
@@ -89,7 +89,7 @@ const PricingCard = ({ plan, categoryId, isVisible = true, index = 0 }: PricingC
                         }
                         // Fallback for simple prices
                         return (
-                            <span className={`text-4xl md:text-5xl font-black bg-gradient-to-r ${plan.priceColor} bg-clip-text text-transparent drop-shadow-lg`}>
+                            <span className={`text-4xl md:text-5xl font-black bg-gradient-to-r ${plan.priceColor} bg-clip-text text-transparent drop-shadow-lg whitespace-nowrap`}>
                                 {plan.price}
                             </span>
                         );
