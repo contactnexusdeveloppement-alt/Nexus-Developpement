@@ -132,7 +132,7 @@ const QuoteForm = () => {
     try {
       // Insert quote into database
       const { data: quoteData, error: dbError } = await supabase
-        .from('quotes')
+        .from('quote_requests')
         .insert({
           name: formData.name,
           email: formData.email,
