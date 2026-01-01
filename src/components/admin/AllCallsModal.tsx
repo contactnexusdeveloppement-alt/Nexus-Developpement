@@ -14,9 +14,10 @@ interface AllCallsModalProps {
     onClose: () => void;
     calls: any[];
     onCallClick: (call: any) => void;
+    onRefresh?: () => void;
 }
 
-export const AllCallsModal = ({ isOpen, onClose, calls, onCallClick }: AllCallsModalProps) => {
+export const AllCallsModal = ({ isOpen, onClose, calls, onCallClick, onRefresh }: AllCallsModalProps) => {
     const [searchQuery, setSearchQuery] = useState('');
     const [dateFilter, setDateFilter] = useState<string>('all');
 
@@ -80,6 +81,10 @@ export const AllCallsModal = ({ isOpen, onClose, calls, onCallClick }: AllCallsM
             if (error) throw error;
 
             toast.success("Appel supprimé avec succès");
+
+            // Refresh data after successful deletion
+            if (onRefresh) onRefresh();
+
             onClose(); // Close modal after delete to refresh data
         } catch (error) {
             console.error('Error deleting call:', error);

@@ -81,6 +81,7 @@ interface ClientsTabProps {
   callBookings: CallBooking[];
   onQuoteClick: (quote: QuoteRequest) => void;
   onCallClick: (call: CallBooking) => void;
+  onRefresh?: () => void;
   initialEmail?: string | null;
   initialCallId?: string | null;
   initialQuoteId?: string | null;
@@ -93,7 +94,7 @@ const STATUS_CONFIG = {
   lost: { label: "Perdu", color: "bg-red-500/10 text-red-300 border-red-500/30", icon: Archive },
 };
 
-const ClientsTab = ({ quotes, callBookings, onQuoteClick, onCallClick, initialEmail, initialCallId, initialQuoteId }: ClientsTabProps) => {
+const ClientsTab = ({ quotes, callBookings, onQuoteClick, onCallClick, onRefresh, initialEmail, initialCallId, initialQuoteId }: ClientsTabProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
@@ -351,6 +352,9 @@ const ClientsTab = ({ quotes, callBookings, onQuoteClick, onCallClick, initialEm
           if (error) throw error;
 
           toast.success("Devis supprimé avec succès");
+
+          // Refresh data after successful deletion
+          if (onRefresh) onRefresh();
         } catch (error) {
           console.error('Error deleting quote:', error);
           toast.error("Erreur lors de la suppression du devis");
@@ -376,6 +380,9 @@ const ClientsTab = ({ quotes, callBookings, onQuoteClick, onCallClick, initialEm
           if (error) throw error;
 
           toast.success("Appel supprimé avec succès");
+
+          // Refresh data after successful deletion
+          if (onRefresh) onRefresh();
         } catch (error) {
           console.error('Error deleting call:', error);
           toast.error("Erreur lors de la suppression de l'appel");
