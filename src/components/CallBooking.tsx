@@ -121,7 +121,7 @@ export function CallBooking() {
           name,
           email,
           phone,
-          booking_date: format(selected, Date, 'yyyy-MM-dd'),
+          booking_date: format(selectedDate, 'yyyy-MM-dd'),
           time_slot: selectedTime,
           duration: selectedDuration,
           call_type: selectedDuration === 15 ? 'discovery' : 'quote'
