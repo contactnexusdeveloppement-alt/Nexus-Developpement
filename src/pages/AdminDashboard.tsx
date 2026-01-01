@@ -8,6 +8,7 @@ import AnimatedBackground from "@/components/AnimatedBackground";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import NotificationCenter from "@/components/admin/NotificationCenter";
 import { TabLoadingFallback } from "@/components/admin/widgets/TabLoadingFallback";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 // Lazy load all tabs for better performance
 const ClientsTab = lazy(() => import("@/components/admin/ClientsTab"));
@@ -340,64 +341,80 @@ const AdminDashboard = () => {
 
 
           <TabsContent value="clients" className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <Suspense fallback={<TabLoadingFallback />}>
-              <ClientsTab
-                quotes={quotes}
-                callBookings={callBookings}
-                onQuoteClick={(q) => console.log("Quote clicked", q)}
-                onCallClick={(c) => console.log("Call clicked", c)}
-                onRefresh={fetchData}
-                initialEmail={emailParam}
-                initialCallId={callIdParam}
-                initialQuoteId={quoteIdParam}
-              />
-            </Suspense>
+            <ErrorBoundary>
+              <Suspense fallback={<TabLoadingFallback />}>
+                <ClientsTab
+                  quotes={quotes}
+                  callBookings={callBookings}
+                  onQuoteClick={(q) => console.log("Quote clicked", q)}
+                  onCallClick={(c) => console.log("Call clicked", c)}
+                  onRefresh={fetchData}
+                  initialEmail={emailParam}
+                  initialCallId={callIdParam}
+                  initialQuoteId={quoteIdParam}
+                />
+              </Suspense>
+            </ErrorBoundary>
           </TabsContent>
 
           <TabsContent value="projects" className="space-y-6 animate-in fade-in duration-500">
-            <Suspense fallback={<TabLoadingFallback />}>
-              <ProjectsTab />
-            </Suspense>
+            <ErrorBoundary>
+              <Suspense fallback={<TabLoadingFallback />}>
+                <ProjectsTab />
+              </Suspense>
+            </ErrorBoundary>
           </TabsContent>
 
           <TabsContent value="invoices" className="space-y-6 animate-in fade-in duration-500">
-            <Suspense fallback={<TabLoadingFallback />}>
-              <InvoicesTab />
-            </Suspense>
+            <ErrorBoundary>
+              <Suspense fallback={<TabLoadingFallback />}>
+                <InvoicesTab />
+              </Suspense>
+            </ErrorBoundary>
           </TabsContent>
 
           <TabsContent value="opportunities" className="space-y-6 animate-in fade-in duration-500">
-            <Suspense fallback={<TabLoadingFallback />}>
-              <OpportunitiesTab />
-            </Suspense>
+            <ErrorBoundary>
+              <Suspense fallback={<TabLoadingFallback />}>
+                <OpportunitiesTab />
+              </Suspense>
+            </ErrorBoundary>
           </TabsContent>
 
           <TabsContent value="tasks" className="space-y-6 animate-in fade-in duration-500 h-[650px]">
-            <Suspense fallback={<TabLoadingFallback />}>
-              <TasksBoard />
-            </Suspense>
+            <ErrorBoundary>
+              <Suspense fallback={<TabLoadingFallback />}>
+                <TasksBoard />
+              </Suspense>
+            </ErrorBoundary>
           </TabsContent>
 
           <TabsContent value="ai" className="space-y-6 animate-in fade-in duration-500">
-            <Suspense fallback={<TabLoadingFallback />}>
-              <AIAssistantPanel
-                quotes={quotes}
-                callBookings={callBookings}
-                clientStatuses={clientStatuses}
-              />
-            </Suspense>
+            <ErrorBoundary>
+              <Suspense fallback={<TabLoadingFallback />}>
+                <AIAssistantPanel
+                  quotes={quotes}
+                  callBookings={callBookings}
+                  clientStatuses={clientStatuses}
+                />
+              </Suspense>
+            </ErrorBoundary>
           </TabsContent>
 
           <TabsContent value="analytics" className="space-y-6 animate-in fade-in duration-500">
-            <Suspense fallback={<TabLoadingFallback />}>
-              <QuoteAnalyticsDashboard />
-            </Suspense>
+            <ErrorBoundary>
+              <Suspense fallback={<TabLoadingFallback />}>
+                <QuoteAnalyticsDashboard />
+              </Suspense>
+            </ErrorBoundary>
           </TabsContent>
 
           <TabsContent value="templates" className="space-y-6 animate-in fade-in duration-500">
-            <Suspense fallback={<TabLoadingFallback />}>
-              <EmailTemplatesManager />
-            </Suspense>
+            <ErrorBoundary>
+              <Suspense fallback={<TabLoadingFallback />}>
+                <EmailTemplatesManager />
+              </Suspense>
+            </ErrorBoundary>
           </TabsContent>
         </Tabs>
 
