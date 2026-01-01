@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Bell, X, Check, ExternalLink } from "lucide-react";
+import { Bell, X, Check, ExternalLink, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -97,6 +97,38 @@ const NotificationCenter = () => {
         }
     };
 
+    const deleteNotification = async (id: string, e: React.MouseEvent) => {
+        e.stopPropagation(); // Prevent notification click handler
+
+        const { error } = await supabase
+            .from("notifications")
+            .delete()
+            .eq("id", id);
+
+        if (!error) {
+            setNotifications((prev) => prev.filter((n) => n.id !== id));
+            setUnreadCount((prev) => {
+                const notification = notifications.find((n) => n.id === id);
+                return notification && !notification.read ? Math.max(0, prev - 1) : prev;
+            });
+        }
+    };
+
+    const clearAllNotifications = async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
+
+        const { error } = await supabase
+            .from("notifications")
+            .delete()
+            .or(`user_id.eq.${user.id},user_id.is.null`);
+
+        if (!error) {
+            setNotifications([]);
+            setUnreadCount(0);
+        }
+    };
+
     const handleNotificationClick = (notification: Notification) => {
         markAsRead(notification.id);
         if (notification.link) {
@@ -144,17 +176,30 @@ const NotificationCenter = () => {
             >
                 <div className="flex items-center justify-between p-4 border-b border-white/10">
                     <h3 className="font-semibold text-white">Notifications</h3>
-                    {unreadCount > 0 && (
-                        <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={markAllAsRead}
-                            className="text-xs text-blue-400 hover:text-blue-300 hover:bg-blue-500/10"
-                        >
-                            <Check className="w-3 h-3 mr-1" />
-                            Tout marquer comme lu
-                        </Button>
-                    )}
+                    <div className="flex gap-2">
+                        {unreadCount > 0 && (
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={markAllAsRead}
+                                className="text-xs text-blue-400 hover:text-blue-300 hover:bg-blue-500/10"
+                            >
+                                <Check className="w-3 h-3 mr-1" />
+                                Marquer tout lu
+                            </Button>
+                        )}
+                        {notifications.length > 0 && (
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={clearAllNotifications}
+                                className="text-xs text-red-400 hover:text-red-300 hover:bg-red-500/10"
+                            >
+                                <Trash2 className="w-3 h-3 mr-1" />
+                                Tout effacer
+                            </Button>
+                        )}
+                    </div>
                 </div>
 
                 <ScrollArea className="h-[400px]">
@@ -171,7 +216,7 @@ const NotificationCenter = () => {
                             {notifications.map((notification) => (
                                 <div
                                     key={notification.id}
-                                    className={`p-4 hover:bg-white/5 transition-colors cursor-pointer ${!notification.read ? "bg-blue-500/5" : ""
+                                    className={`group relative p-4 hover:bg-white/5 transition-colors cursor-pointer ${!notification.read ? "bg-blue-500/5" : ""
                                         }`}
                                     onClick={() => handleNotificationClick(notification)}
                                 >
@@ -205,6 +250,14 @@ const NotificationCenter = () => {
                                                 )}
                                             </div>
                                         </div>
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            onClick={(e) => deleteNotification(notification.id, e)}
+                                            className="opacity-0 group-hover:opacity-100 transition-opacity h-6 w-6 p-0 text-red-400 hover:text-red-300 hover:bg-red-500/10"
+                                        >
+                                            <X className="w-4 h-4" />
+                                        </Button>
                                     </div>
                                 </div>
                             ))}
