@@ -63,7 +63,7 @@ const PricingCard = ({ plan, categoryId, isVisible = true, index = 0 }: PricingC
                 </div>
             )}
 
-            <CardContent className="p-6 relative z-10 h-full flex flex-col">
+            <CardContent className="p-6 relative z-10 flex flex-col min-h-[600px] h-full">
                 {/* Header */}
                 <div className="mb-6">
                     <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
@@ -104,9 +104,9 @@ const PricingCard = ({ plan, categoryId, isVisible = true, index = 0 }: PricingC
                 {/* Séparateur */}
                 <div className="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent mb-6" />
 
-                {/* Features */}
-                <ul className="space-y-3 mb-6 flex-1">
-                    {plan.features.map((feature, idx) => (
+                {/* Features - Limited to maintain card height consistency */}
+                <ul className="space-y-3 mb-6 flex-1 max-h-[240px] overflow-y-auto scrollbar-thin">
+                    {plan.features.slice(0, 7).map((feature, idx) => (
                         <li key={idx} className="flex items-start gap-3">
                             <div className={`flex-shrink-0 w-6 h-6 rounded-full bg-gradient-to-br ${plan.priceColor} p-[1px] bg-opacity-10`}>
                                 <div className="w-full h-full rounded-full bg-gray-900 flex items-center justify-center">
