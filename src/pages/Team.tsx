@@ -4,7 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import AnimatedBackground from "@/components/AnimatedBackground";
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
+import { ChatBotWidget } from "@/components/chatbot/ChatBotWidget";
 import { useEffect } from "react";
+import SEO from "@/components/SEO";
 
 const Team = () => {
     // Scroll to top on mount
@@ -17,88 +21,90 @@ const Team = () => {
             name: "Adam Le Charlès",
             role: "Co-fondateur & Tech Lead",
             bio: "Je suis passionné par l'architecture logicielle. Je supervise toute la vision technique de l'agence pour garantir à nos partenaires des solutions robustes, pérennes et à la pointe de l'innovation.",
-            image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=400&h=400",
+            image: "/src/assets/adam_lecharles.jpg",
             details: "Expert React & Node.js"
         },
         {
             name: "Théo Jacobée",
             role: "Co-fondateur & Stratégie",
             bio: "Mon but est de transformer vos idées complexes en plans d'action concrets. J'analyse votre marché pour maximiser votre ROI et assurer une croissance durable de votre activité.",
-            image: "/images/theo_jacobee.png",
+            image: "/src/assets/theo_jacobee.jpg",
             details: "Visionnaire Business"
         },
         {
             name: "Théo Gautier",
             role: "Directeur Créatif",
             bio: "Diplômé des Gobelins et ami d'enfance d'Adam, j'ai affûté mon œil dans des studios parisiens. J'apporte cette touche artistique unique qui rendra votre projet inoubliable.",
-            image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400&h=400",
+            image: "/src/assets/theo_gautier.png",
             details: "Master Web Design - Gobelins"
         },
         {
             name: "Sarah Chen",
             role: "Lead Developer Fullstack",
             bio: "Ancienne de chez Criteo et diplômée d'EPITECH, je suis obsédée par la performance. Je conçois l'architecture de vos applications pour qu'elles soient rapides et scalables.",
-            image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=400&h=400",
+            image: "/src/assets/sarah_chen.png",
             details: "Ex-Criteo • EPITECH"
         },
         {
             name: "Lucas Martin",
             role: "Senior Backend Developer",
             bio: "Issu de l'École 42, je suis un puriste du code. Je bâtis pour vous des API sécurisées et ultra-rapides, capables d'encaisser n'importe quelle charge de trafic.",
-            image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400&h=400",
+            image: "/src/assets/lucas_martin.png",
             details: "Alumni École 42"
         },
         {
             name: "Emma Dubois",
             role: "Senior UI/UX Designer",
             bio: "Formée à Strate, j'allie la psychologie cognitive au design. Je crée des parcours utilisateurs si fluides que vos clients navigueront sur votre site sans même y penser.",
-            image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=400&h=400",
+            image: "/src/assets/emma_dubois.png",
             details: "Master UX - Strate"
         },
         {
             name: "Thomas Petit",
             role: "Frontend Developer",
             bio: "Sorti de l'IIM, je suis le magicien qui donne vie aux maquettes. Je code des animations immersives en WebGL et Three.js pour créer l'effet 'Wow' que vous recherchez.",
-            image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=400&h=400",
+            image: "/src/assets/thomas_petit.png",
             details: "Expert Creative Coding"
         },
         {
             name: "Julie Morel",
             role: "Chef de Projet Digital",
             bio: "Avec mon Master d'HEC Paris, j'orchestre les sprints techniques. Je suis votre point de contact privilégié pour m'assurer que votre projet avance vite et bien.",
-            image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400&h=400",
+            image: "/src/assets/julie_morel.png",
             details: "Master HEC Paris"
         },
         {
             name: "Maxime Leroy",
             role: "DevOps Engineer",
             bio: "Ingénieur INSA Lyon, je suis le gardien de votre infrastructure. J'automatise tout pour que votre site soit en ligne 24h/24 et 7j/7, quoi qu'il arrive.",
-            image: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?auto=format&fit=crop&q=80&w=400&h=400",
+            image: "/src/assets/maxime_leroy.png",
             details: "Ingénieur INSA"
         },
         {
             name: "Chloé Durand",
             role: "SEO & Content Manager",
             bio: "Diplômée du CELSA, je manie les mots pour plaire à Google. Je déploie des stratégies de contenu chirurgicales pour vous propulser en tête des résultats de recherche.",
-            image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=400&h=400",
+            image: "/src/assets/chloe_durand.png",
             details: "Master CELSA"
         }
     ];
 
     return (
         <div className="min-h-screen relative font-sans text-slate-200">
+            <SEO
+                title="Notre Équipe | Nexus Développement Élancourt"
+                description="Rencontrez l'équipe Nexus Développement : experts en développement web, automatisation et design. Basés à Élancourt (78), Île-de-France."
+                type="website"
+            />
+
             <div className="fixed inset-0 z-0">
                 <AnimatedBackground />
             </div>
 
-            <div className="relative z-10 py-20 px-4 md:px-8">
-                <div className="container mx-auto max-w-6xl">
-                    <Link to="/">
-                        <Button variant="ghost" className="mb-12 text-slate-400 hover:text-white hover:bg-white/5 transition-all group">
-                            <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-                            Retour à l'accueil
-                        </Button>
-                    </Link>
+            <div className="relative z-10">
+                <Navigation />
+
+                <div className="container mx-auto max-w-6xl px-4 pt-32 pb-20">
 
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -124,12 +130,13 @@ const Team = () => {
                                 transition={{ delay: index * 0.05 }}
                             >
                                 <Card className="bg-slate-900/40 backdrop-blur-md border border-white/10 overflow-hidden hover:border-blue-500/40 hover:shadow-[0_0_30px_rgba(59,130,246,0.1)] transition-all duration-300 group h-full flex flex-col hover:-translate-y-1">
-                                    <div className="relative h-64 overflow-hidden">
+                                    <div className="relative h-80 overflow-hidden">
                                         <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent z-10 opacity-60" />
                                         <img
                                             src={member.image}
                                             alt={member.name}
                                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                            style={member.name === "Adam Le Charlès" ? { objectPosition: 'center 30%' } : {}}
                                         />
                                     </div>
                                     <CardContent className="p-5 flex-1 flex flex-col relative z-20 -mt-12">
@@ -154,15 +161,18 @@ const Team = () => {
                     </div>
 
                     <div className="mt-20 text-center">
-                        <p className="text-slate-400 mb-6">Vous souhaitez rejoindre l'aventure ?</p>
-                        <Link to="/contact">
+                        <p className="text-slate-400 mb-6">Prêt à démarrer votre projet avec notre équipe ?</p>
+                        <Link to="/#tarifs">
                             <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-0 hover:from-blue-500 hover:to-indigo-500 shadow-lg shadow-blue-900/20 active:scale-95 transition-all rounded-full px-8 py-6 text-lg font-medium">
                                 Voir nos offres
                             </Button>
                         </Link>
                     </div>
                 </div>
+
+                <Footer />
             </div>
+            <ChatBotWidget />
         </div>
     );
 };

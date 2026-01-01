@@ -144,10 +144,10 @@ serve(async (req: Request) => {
     }
 
     const { type, query, data } = await req.json();
-    const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
+    const OPENAI_API_KEY = Deno.env.get('OPENAI_API_KEY');
 
-    if (!LOVABLE_API_KEY) {
-      throw new Error('LOVABLE_API_KEY is not configured');
+    if (!OPENAI_API_KEY) {
+      throw new Error('OPENAI_API_KEY is not configured');
     }
 
     let userMessage = '';
@@ -275,6 +275,7 @@ Format de réponse :
 3. **Services Demandés** - Liste détaillée avec spécifications
 4. **Opportunités Commerciales** - Potentiel d'upsell, services complémentaires
 5. **Prochaines Actions** - Recommandations concrètes pour le prochain contact
+6. **Score Lead (0-100)** - Estimation de la pertinence avec courte justification en une phrase
 
 Règles :
 - Sois concis mais complet
@@ -312,22 +313,51 @@ ${callsInfo || 'Aucun appel'}
 ${client.statusNotes ? `## NOTES CLIENT\n${client.statusNotes}` : ''}
 
 Génère un résumé structuré et actionnable.`;
+    } else if (type === 'draft_reply') {
+      systemContent = `Tu es une assistante commerciale experte pour Nexus Développement.
+Tu rédiges des emails de réponse professionnels, chaleureux et persuasifs.
+
+Ton style :
+- Professionnel mais moderne (pas de "Veuillez agréer...")
+- Concis et direct
+- Orienté solution/action
+- Utilise un ton empathique
+
+Structure de l'email :
+1. Objet (clair et accrocheur)
+2. Salutation (Bonjour [Prénom])
+3. Contexte (Suite à notre appel / votre demande)
+4. Proposition de valeur / Réponse aux points clés
+5. Call to Action (Prochain pas clair : lien réservation, question ouverte)
+6. Signature`;
+
+      const { client, context, intent } = data;
+
+      userMessage = `Rédige un email pour :
+- Client : ${client.name} (${client.email})
+- Contexte : ${context || 'Suite à un échange'}
+- Intention : ${intent || 'Relance commerciale'}
+
+Génère l'objet et le corps de l'email.`;
+
     } else {
       userMessage = query || 'Analyse les données et donne-moi un résumé.';
     }
 
-    const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${LOVABLE_API_KEY}`,
+        'Authorization': `Bearer ${OPENAI_API_KEY}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'google/gemini-2.5-flash',
+        model: 'gpt-4o-mini',
         messages: [
           { role: 'system', content: systemContent },
           { role: 'user', content: userMessage }
         ],
+        temperature: 0.7,
+        max_tokens: 1500,
         stream: true,
       }),
     });

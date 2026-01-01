@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { pricingData } from "@/data/pricingData";
 import PricingCard from "@/components/PricingCard";
 import { motion } from "framer-motion";
+import SEO from "@/components/SEO";
 
 const Automation = () => {
     const navigate = useNavigate();
@@ -40,6 +41,12 @@ const Automation = () => {
 
     return (
         <div className="min-h-screen relative overflow-x-hidden">
+            <SEO
+                title="Automatisation de Processus Métier | Nexus Développement"
+                description="Automatisez vos tâches répétitives et gagnez en productivité. Solutions d'automatisation sur-mesure pour TPE/PME. Zapier, Make, n8n. Devis gratuit."
+                type="website"
+            />
+
             <div className="fixed inset-0 z-0" aria-hidden="true">
                 <AnimatedBackground />
             </div>
@@ -186,7 +193,81 @@ const Automation = () => {
                         </div>
                     </div>
 
-                    {/* FAQ / CTA Bottom */}
+                    {/* Section "Pourquoi Nexus ?" - SEO Content */}
+                    <div className="mb-32 max-w-4xl mx-auto prose prose-invert prose-lg">
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">
+                            Pourquoi choisir Nexus Développement pour votre automatisation ?
+                        </h2>
+                        <p className="text-lg text-amber-100/80 leading-relaxed mb-6">
+                            Basée à <strong>Élancourt dans les Yvelines (78)</strong>, notre agence Nexus Développement
+                            est spécialisée dans l'automatisation de processus métier pour TPE et PME. Nous transformons
+                            vos tâches répétitives en workflows automatiques qui vous font gagner des heures chaque semaine.
+                        </p>
+
+                        <h3 className="text-2xl font-bold text-white mb-4 mt-8">Notre expertise automatisation</h3>
+                        <ul className="space-y-3 text-amber-100/80 leading-relaxed">
+                            <li className="flex items-start gap-2">
+                                <CheckCircle className="w-5 h-5 text-amber-400 mt-1 flex-shrink-0" />
+                                <span><strong>Connectivité totale</strong> : Zapier, Make.com, n8n pour relier tous vos outils</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <CheckCircle className="w-5 h-5 text-amber-400 mt-1 flex-shrink-0" />
+                                <span><strong>Solutions sur-mesure</strong> : Code personnalisé quand les no-code montrent leurs limites</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <CheckCircle className="w-5 h-5 text-amber-400 mt-1 flex-shrink-0" />
+                                <span><strong>ROI rapide</strong> : Récupérez votre in vestissement en moins de 3 mois</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <CheckCircle className="w-5 h-5 text-amber-400 mt-1 flex-shrink-0" />
+                                <span><strong>Support et évolutivité</strong> : Nous faisons évoluer vos automatisations avec vous</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    {/* FAQ Section */}
+                    <div className="mb-20 max-w-4xl mx-auto">
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-12 text-center">
+                            Questions Fréquentes - Automatisation
+                        </h2>
+
+                        <div className="space-y-6">
+                            <div className="bg-slate-800/40 p-6 rounded-lg border border-white/10 hover:border-amber-500/30 transition-colors">
+                                <h3 className="text-xl font-bold text-white mb-3">
+                                    💰 Combien coûte l'automatisation de processus ?
+                                </h3>
+                                <p className="text-amber-100/80 leading-relaxed">
+                                    Le <strong>pack Audit démarre à 490€</strong> pour identifier vos opportunités d'automatisation.
+                                    Le pack Automatisation complète démarre à 1490€. L'investissement se récupère en moyenne en 2-3 mois
+                                    grâce au temps gagné.
+                                </p>
+                            </div>
+
+                            <div className="bg-slate-800/40 p-6 rounded-lg border border-white/10 hover:border-amber-500/30 transition-colors">
+                                <h3 className="text-xl font-bold text-white mb-3">
+                                    🔧 Quels outils utilisez-vous pour automatiser ?
+                                </h3>
+                                <p className="text-amber-100/80 leading-relaxed">
+                                    Nous maîtrisons <strong>Zapier, Make.com (ex-Integromat), n8n</strong> pour le no-code, ainsi que
+                                    des solutions custom en <strong>Python, Node.js et API</strong> pour les besoins avancés nécessitant
+                                    du code sur-mesure.
+                                </p>
+                            </div>
+
+                            <div className="bg-slate-800/40 p-6 rounded-lg border border-white/10 hover:border-amber-500/30 transition-colors">
+                                <h3 className="text-xl font-bold text-white mb-3">
+                                    ⏱️ Combien de temps faut-il pour automatiser un processus ?
+                                </h3>
+                                <p className="text-amber-100/80 leading-relaxed">
+                                    Un workflow simple peut être mis en place en <strong>2-5 jours</strong>. Pour des automatisations
+                                    complexes impliquant plusieurs outils, comptez 2-4 semaines. Nous commençons toujours par un audit
+                                    pour identifier les gains rapides.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* CTA Bottom */}
                     <div className="max-w-4xl mx-auto text-center bg-gradient-to-br from-amber-900/20 to-slate-900/40 rounded-3xl p-12 border border-amber-500/20 backdrop-blur-sm">
                         <h2 className="text-3xl font-bold text-white mb-6">Quel processus optimiser ?</h2>
                         <p className="text-amber-200/70 mb-8 text-lg">

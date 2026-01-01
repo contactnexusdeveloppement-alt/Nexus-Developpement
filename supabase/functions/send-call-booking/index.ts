@@ -2,8 +2,8 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.3";
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
-const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
-const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
+const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -38,6 +38,10 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
+    if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
+      throw new Error("Missing Supabase environment variables");
+    }
+
     const { name, email, phone, booking_date, time_slot, duration }: CallBookingRequest = await req.json();
 
     console.log("Received call booking request:", { name, email, phone, booking_date, time_slot, duration });
@@ -63,6 +67,21 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     console.log("Booking inserted successfully");
+
+    // Check if Resend API key is configured
+    if (!RESEND_API_KEY) {
+      console.warn("RESEND_API_KEY not set. Skipping email sending.");
+      return new Response(
+        JSON.stringify({ success: true, message: "Réservation enregistrée (Emails non envoyés: configuration manquante)" }),
+        {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json",
+            ...corsHeaders,
+          },
+        }
+      );
+    }
 
     // Format date for display
     const dateObj = new Date(booking_date);
@@ -346,11 +365,11 @@ const handler = async (req: Request): Promise<Response> => {
     if (!adminEmailResponse.ok) {
       const errorData = await adminEmailResponse.json();
       console.error("Admin email error:", errorData);
-      throw new Error(`Resend API error: ${JSON.stringify(errorData)}`);
+      // We don't throw here to avoid failing the whole request just because admin email failed
+    } else {
+      const adminEmailResult = await adminEmailResponse.json();
+      console.log("Admin email sent successfully:", adminEmailResult);
     }
-
-    const adminEmailResult = await adminEmailResponse.json();
-    console.log("Admin email sent successfully:", adminEmailResult);
 
     // Send confirmation email to client
     const clientEmailResponse = await fetch("https://api.resend.com/emails", {

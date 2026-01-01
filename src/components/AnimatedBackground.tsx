@@ -57,8 +57,8 @@ const AnimatedBackground = () => {
 
     // Create gradient once
     const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-    gradient.addColorStop(0, '#0a0f1e');
-    gradient.addColorStop(1, '#1a2744');
+    gradient.addColorStop(0, '#000000'); // Pure Black
+    gradient.addColorStop(1, '#020617'); // Slate 950 (Deepest Blue)
 
     // Animation loop
     const animate = () => {
@@ -144,7 +144,7 @@ const AnimatedBackground = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full"
+      className="fixed inset-0 w-full h-full"
     />
   );
 };

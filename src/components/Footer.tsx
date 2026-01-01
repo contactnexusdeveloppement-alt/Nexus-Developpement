@@ -17,7 +17,7 @@ const Footer = () => {
               <img
                 src={logo}
                 alt="Logo Nexus Développement"
-                className="w-12 h-12 transition-transform duration-500 group-hover:rotate-180"
+                className="w-12 h-12 transition-transform duration-500 group-hover:scale-110"
               />
               <span className="text-xl font-bold text-white tracking-wide">Nexus</span>
             </Link>

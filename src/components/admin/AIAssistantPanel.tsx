@@ -3,67 +3,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Bot, Send, Sparkles, RefreshCw, Loader2, AlertTriangle, TrendingUp, Lightbulb, BarChart3 } from "lucide-react";
+import { Bot, Send, BrainCircuit, Activity, Loader2, AlertTriangle, TrendingUp, Lightbulb, BarChart3, Microscope, ArrowUp, Terminal } from "lucide-react";
 import { toast } from "sonner";
-import ReactMarkdown from "react-markdown";
 import { supabase } from "@/integrations/supabase/client";
 
-// Custom markdown components for better styling
+// Custom markdown components not used currently to avoid 504 errors
 const MarkdownContent = ({ content }: { content: string }) => (
-  <ReactMarkdown
-    components={{
-      h1: ({ children }) => (
-        <h1 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-          {children}
-        </h1>
-      ),
-      h2: ({ children }) => (
-        <h2 className="text-lg font-semibold text-blue-300 mb-3 mt-4 flex items-center gap-2">
-          {children}
-        </h2>
-      ),
-      h3: ({ children }) => (
-        <h3 className="text-base font-semibold text-cyan-300 mb-2 mt-3 flex items-center gap-2">
-          {children}
-        </h3>
-      ),
-      p: ({ children }) => (
-        <p className="text-gray-200 mb-2 leading-relaxed">{children}</p>
-      ),
-      ul: ({ children }) => (
-        <ul className="space-y-2 mb-4 ml-2">{children}</ul>
-      ),
-      ol: ({ children }) => (
-        <ol className="space-y-2 mb-4 ml-4 list-decimal">{children}</ol>
-      ),
-      li: ({ children }) => (
-        <li className="text-gray-200 flex items-start gap-2">
-          <span className="text-blue-400 mt-1">•</span>
-          <span className="flex-1">{children}</span>
-        </li>
-      ),
-      strong: ({ children }) => (
-        <strong className="font-semibold text-white">{children}</strong>
-      ),
-      em: ({ children }) => (
-        <em className="text-cyan-300 not-italic font-medium">{children}</em>
-      ),
-      hr: () => (
-        <hr className="border-blue-500/30 my-4" />
-      ),
-      code: ({ children }) => (
-        <code className="bg-slate-800 px-1.5 py-0.5 rounded text-cyan-300 text-sm">{children}</code>
-      ),
-      blockquote: ({ children }) => (
-        <blockquote className="border-l-4 border-blue-500 pl-4 py-2 my-3 bg-slate-800/50 rounded-r-lg">
-          {children}
-        </blockquote>
-      ),
-    }}
-  >
+  <div className="whitespace-pre-wrap text-gray-200 leading-relaxed">
     {content}
-  </ReactMarkdown>
+  </div>
 );
+
 
 interface QuoteRequest {
   id: string;
@@ -307,57 +257,64 @@ const AIAssistantPanel = ({ quotes, callBookings, clientStatuses }: AIAssistantP
     streamResponse('custom_query', question);
   };
 
+
+
   return (
     <div className="space-y-6">
       {/* Insights automatiques */}
-      <Card className="bg-slate-900/80 border-blue-500/30">
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-white flex items-center gap-2">
-            <Sparkles className="h-5 w-5 text-yellow-400" />
-            Insights Automatiques
+      <Card className="bg-slate-950/40 border-blue-500/20 backdrop-blur-md shadow-2xl">
+        <CardHeader className="flex flex-row items-center justify-between border-b border-white/5 pb-4">
+          <CardTitle className="text-white flex items-center gap-2 font-mono text-sm uppercase tracking-wider">
+            <BrainCircuit className="h-5 w-5 text-blue-400" />
+            Intelligence Stratégique
           </CardTitle>
           <Button
             onClick={() => streamResponse('insights')}
             disabled={isLoading}
             size="sm"
-            className="bg-blue-600 hover:bg-blue-700"
+            className="bg-blue-600/80 hover:bg-blue-600 text-white shadow-lg shadow-blue-900/20 font-mono text-xs uppercase tracking-wide"
           >
             {isLoading ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
+              <Loader2 className="h-3 w-3 animate-spin" />
             ) : (
-              <RefreshCw className="h-4 w-4" />
+              <Activity className="h-3 w-3" />
             )}
-            <span className="ml-2">Analyser</span>
+            <span className="ml-2">Diagnostiquer</span>
           </Button>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-6">
           {insights ? (
             <ScrollArea className="h-[400px]">
               <div className="pr-4">
-                <MarkdownContent content={insights} />
+                <div className="bg-slate-950/50 rounded-sm p-6 border border-white/5 shadow-inner">
+                  <MarkdownContent content={insights} />
+                </div>
               </div>
             </ScrollArea>
           ) : (
-            <div className="text-center py-8 text-gray-400">
-              <Bot className="h-12 w-12 mx-auto mb-4 opacity-50" />
-              <p>Cliquez sur "Analyser" pour générer des insights sur vos données clients.</p>
+            <div className="text-center py-12 text-gray-500 flex flex-col items-center">
+              <div className="h-16 w-16 bg-slate-900/50 rounded-full flex items-center justify-center mb-4 border border-white/5">
+                <BrainCircuit className="h-8 w-8 text-blue-500/30" />
+              </div>
+              <p className="font-mono text-xs uppercase tracking-widest opacity-60">En attente d'analyse</p>
             </div>
           )}
         </CardContent>
       </Card>
 
+
       {/* Questions personnalisées */}
-      <Card className="bg-slate-900/80 border-blue-500/30">
-        <CardHeader>
-          <CardTitle className="text-white flex items-center gap-2">
-            <Bot className="h-5 w-5 text-blue-400" />
-            Analyse Approfondie
+      <Card className="bg-slate-950/40 border-blue-500/20 backdrop-blur-md shadow-2xl">
+        <CardHeader className="border-b border-white/5 pb-4">
+          <CardTitle className="text-white flex items-center gap-2 font-mono text-sm uppercase tracking-wider">
+            <Terminal className="h-5 w-5 text-blue-400" />
+            Console d'Analyse
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-6 pt-6">
           {/* Questions suggérées */}
           <div>
-            <p className="text-sm text-gray-400 mb-2">Questions suggérées :</p>
+            <p className="text-xs text-gray-500 mb-3 font-mono uppercase tracking-widest">Commandes Suggérées</p>
             <div className="flex flex-wrap gap-2">
               {suggestedQuestions.map((q, i) => (
                 <Button
@@ -366,9 +323,9 @@ const AIAssistantPanel = ({ quotes, callBookings, clientStatuses }: AIAssistantP
                   size="sm"
                   onClick={() => handleSuggestedQuestion(q)}
                   disabled={isLoading}
-                  className="text-xs bg-slate-800/50 border-blue-500/30 text-gray-300 hover:bg-blue-600/20 hover:text-white"
+                  className="text-xs bg-slate-900/40 border-blue-500/10 text-slate-400 hover:bg-blue-900/20 hover:text-blue-200 hover:border-blue-500/30 transition-all duration-300 font-mono"
                 >
-                  {q}
+                  <span className="mr-2 text-blue-500/50">$</span>{q}
                 </Button>
               ))}
             </div>
@@ -380,13 +337,13 @@ const AIAssistantPanel = ({ quotes, callBookings, clientStatuses }: AIAssistantP
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Posez une question sur vos données..."
-              className="bg-slate-800/50 border-blue-500/30 text-white placeholder:text-gray-500 resize-none"
+              className="bg-slate-950/50 border-white/10 text-white placeholder:text-gray-600 resize-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50"
               rows={2}
             />
             <Button
               type="submit"
               disabled={isLoading || !query.trim()}
-              className="bg-blue-600 hover:bg-blue-700 px-4"
+              className="bg-blue-600 hover:bg-blue-700 px-4 shadow-lg shadow-blue-900/20 h-auto"
             >
               {isLoading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
@@ -398,10 +355,10 @@ const AIAssistantPanel = ({ quotes, callBookings, clientStatuses }: AIAssistantP
 
           {/* Réponse */}
           {response && (
-            <div className="mt-4">
-              <p className="text-sm text-gray-400 mb-2">Réponse :</p>
+            <div className="mt-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
+              <p className="text-sm text-gray-400 mb-2 font-medium">Réponse :</p>
               <ScrollArea className="h-[250px]">
-                <div className="bg-slate-800/50 rounded-lg p-4 border border-blue-500/20">
+                <div className="bg-slate-950/50 rounded-xl p-6 border border-blue-500/20 shadow-inner">
                   <MarkdownContent content={response} />
                 </div>
               </ScrollArea>
@@ -410,32 +367,33 @@ const AIAssistantPanel = ({ quotes, callBookings, clientStatuses }: AIAssistantP
         </CardContent>
       </Card>
 
+
       {/* Stats rapides */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Card className="bg-slate-900/80 border-blue-500/30">
-          <CardContent className="pt-4">
-            <div className="text-2xl font-bold text-white">{quotes.length}</div>
-            <p className="text-xs text-gray-400">Total devis</p>
+        <Card className="bg-slate-950/40 border-blue-500/20 backdrop-blur-md hover:bg-slate-900/40 transition-colors shadow-lg">
+          <CardContent className="pt-6">
+            <div className="text-3xl font-bold text-white mb-1">{quotes.length}</div>
+            <p className="text-xs text-gray-400 font-medium uppercase tracking-wider">Total devis</p>
           </CardContent>
         </Card>
-        <Card className="bg-slate-900/80 border-blue-500/30">
-          <CardContent className="pt-4">
-            <div className="text-2xl font-bold text-yellow-400">{quotes.filter(q => q.status === 'pending').length}</div>
-            <p className="text-xs text-gray-400">En attente</p>
+        <Card className="bg-slate-950/40 border-blue-500/20 backdrop-blur-md hover:bg-slate-900/40 transition-colors shadow-lg">
+          <CardContent className="pt-6">
+            <div className="text-3xl font-bold text-yellow-400 mb-1">{quotes.filter(q => q.status === 'pending').length}</div>
+            <p className="text-xs text-gray-400 font-medium uppercase tracking-wider">En attente</p>
           </CardContent>
         </Card>
-        <Card className="bg-slate-900/80 border-blue-500/30">
-          <CardContent className="pt-4">
-            <div className="text-2xl font-bold text-blue-400">{callBookings.length}</div>
-            <p className="text-xs text-gray-400">Appels réservés</p>
+        <Card className="bg-slate-950/40 border-blue-500/20 backdrop-blur-md hover:bg-slate-900/40 transition-colors shadow-lg">
+          <CardContent className="pt-6">
+            <div className="text-3xl font-bold text-blue-400 mb-1">{callBookings.length}</div>
+            <p className="text-xs text-gray-400 font-medium uppercase tracking-wider">Appels réservés</p>
           </CardContent>
         </Card>
-        <Card className="bg-slate-900/80 border-blue-500/30">
-          <CardContent className="pt-4">
-            <div className="text-2xl font-bold text-green-400">
+        <Card className="bg-slate-950/40 border-blue-500/20 backdrop-blur-md hover:bg-slate-900/40 transition-colors shadow-lg">
+          <CardContent className="pt-6">
+            <div className="text-3xl font-bold text-green-400 mb-1">
               {clientStatuses.filter(c => c.status === 'client').length}
             </div>
-            <p className="text-xs text-gray-400">Clients convertis</p>
+            <p className="text-xs text-gray-400 font-medium uppercase tracking-wider">Clients convertis</p>
           </CardContent>
         </Card>
       </div>

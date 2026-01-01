@@ -16,12 +16,11 @@ const LegalNotice = () => {
       title: "1. Éditeur du site",
       content: (
         <div className="space-y-2 text-slate-300">
-          <p><strong className="text-white">Raison sociale :</strong> Nexus Développement</p>
-          <p><strong className="text-white">Forme juridique :</strong> SARL en cours d'immatriculation</p>
+          <p><strong className="text-white">Raison sociale :</strong> NEXUS DEVELOPPEMENT (NED)</p>
+          <p><strong className="text-white">Forme juridique :</strong> Société à responsabilité limitée (SARL)</p>
           <p><strong className="text-white">Capital social :</strong> 500 €</p>
           <p><strong className="text-white">Siège social :</strong> 4 rue de la Ferme, 78990 Élancourt, France</p>
-          <p><strong className="text-white">SIRET :</strong> En cours d'obtention</p>
-          <p><strong className="text-white">TVA Intracommunautaire :</strong> En cours d'obtention</p>
+          <p><strong className="text-white">SIRET :</strong> 995 394 095 00013</p>
           <p><strong className="text-white">Directeur de la publication :</strong> Adam Le Charlès & Théo Jacobée</p>
         </div>
       )
@@ -100,7 +99,7 @@ const LegalNotice = () => {
             <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-blue-500/10 border border-blue-500/20 mb-6">
               <FileText className="w-8 h-8 text-blue-400" />
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-blue-100 to-blue-200 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(59,130,246,0.5)] mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-blue-100 to-blue-200 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(59,130,246,0.5)] mb-4 leading-[1.4] py-2">
               Mentions Légales
             </h1>
             <p className="text-slate-400 text-lg max-w-2xl mx-auto">

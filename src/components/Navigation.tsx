@@ -82,7 +82,7 @@ const Navigation = () => {
               <img
                 src={logo}
                 alt="Logo Nexus Développement"
-                className="w-12 h-12 md:w-14 md:h-14 drop-shadow-[0_0_15px_rgba(100,150,255,0.6)] transition-all duration-500 ease-out group-hover:scale-110 group-hover:rotate-6 group-hover:drop-shadow-[0_0_25px_rgba(100,150,255,0.9)]"
+                className="w-12 h-12 md:w-14 md:h-14 drop-shadow-[0_0_15px_rgba(100,150,255,0.6)] transition-all duration-500 ease-out group-hover:scale-110 group-hover:drop-shadow-[0_0_25px_rgba(100,150,255,0.9)]"
               />
               <div className="flex flex-col">
                 <span className="font-bold text-xl md:text-2xl bg-gradient-to-r from-blue-400 via-blue-300 to-blue-500 bg-clip-text text-transparent drop-shadow-[0_2px_15px_rgba(100,150,255,0.8)]">
@@ -135,6 +135,9 @@ const Navigation = () => {
               <button onClick={() => scrollToSection("contact")} className="bg-transparent text-white hover:bg-white/5 hover:text-blue-300 focus:bg-white/5 focus:text-blue-300 px-4 py-2 rounded-md transition-all duration-300 text-sm md:text-base font-medium">
                 Contact
               </button>
+              <Link to="/equipe" className="bg-transparent text-white hover:bg-white/5 hover:text-blue-300 focus:bg-white/5 focus:text-blue-300 px-4 py-2 rounded-md transition-all duration-300 text-sm md:text-base font-medium">
+                Notre Équipe
+              </Link>
 
               <Button
                 onClick={() => scrollToSection('devis')}
@@ -182,6 +185,7 @@ const Navigation = () => {
             <button onClick={() => scrollToSection('tarifs')} className="px-4 py-3 text-white hover:bg-blue-500/10 hover:text-blue-300 rounded-lg text-left transition-colors">Tarifs</button>
             <button onClick={() => scrollToSection('reservation')} className="px-4 py-3 text-white hover:bg-blue-500/10 hover:text-blue-300 rounded-lg text-left transition-colors">Réserver</button>
             <button onClick={() => scrollToSection('contact')} className="px-4 py-3 text-white hover:bg-blue-500/10 hover:text-blue-300 rounded-lg text-left transition-colors">Contact</button>
+            <Link to="/equipe" className="px-4 py-3 text-white hover:bg-blue-500/10 hover:text-blue-300 rounded-lg text-left transition-colors" onClick={() => setIsMobileMenuOpen(false)}>Notre Équipe</Link>
 
             <Button
               onClick={() => scrollToSection('devis')}

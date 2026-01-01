@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { pricingData } from "@/data/pricingData";
 import PricingCard from "@/components/PricingCard";
 import { motion } from "framer-motion";
+import SEO from "@/components/SEO";
 
 const WebApps = () => {
     const navigate = useNavigate();
@@ -39,6 +40,12 @@ const WebApps = () => {
 
     return (
         <div className="min-h-screen relative overflow-x-hidden">
+            <SEO
+                title="Développement Applications Web | Nexus Développement Élancourt"
+                description="Développement d'applications web sur-mesure avec React, Node.js. Solutions SaaS, dashboards, plateformes métier. Élancourt (78). Devis gratuit."
+                type="website"
+            />
+
             <div className="fixed inset-0 z-0" aria-hidden="true">
                 <AnimatedBackground />
             </div>
@@ -178,7 +185,81 @@ const WebApps = () => {
                         </div>
                     </div>
 
-                    {/* FAQ / CTA Bottom */}
+                    {/* Section "Pourquoi Nexus ?" - SEO Content */}
+                    <div className="mb-32 max-w-4xl mx-auto prose prose-invert prose-lg">
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">
+                            Pourquoi choisir Nexus Développement pour votre application web ?
+                        </h2>
+                        <p className="text-lg text-blue-100/80 leading-relaxed mb-6">
+                            Basée à <strong>Élancourt dans les Yvelines (78)</strong>, notre agence Nexus Développement
+                            est spécialisée dans le développement d'applications web sur-mesure. Du simple CRM interne
+                            au SaaS multi-tenants, nous construisons des plateformes scalables et performantes.
+                        </p>
+
+                        <h3 className="text-2xl font-bold text-white mb-4 mt-8">Technologies modernes maîtrisées</h3>
+                        <ul className="space-y-3 text-blue-100/80 leading-relaxed">
+                            <li className="flex items-start gap-2">
+                                <CheckCircle className="w-5 h-5 text-cyan-400 mt-1 flex-shrink-0" />
+                                <span><strong>React, TypeScript, Node.js</strong> : Stack moderne pour applications performantes</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <CheckCircle className="w-5 h-5 text-cyan-400 mt-1 flex-shrink-0" />
+                                <span><strong>Supabase, PostgreSQL</strong> : Bases de données robustes et scalables</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <CheckCircle className="w-5 h-5 text-cyan-400 mt-1 flex-shrink-0" />
+                                <span><strong>Architecture cloud</strong> : Prête à grandir avec vos utilisateurs</span>
+                            </li>
+                            <li className="flex items-start gap-2">
+                                <CheckCircle className="w-5 h-5 text-cyan-400 mt-1 flex-shrink-0" />
+                                <span><strong>Sécurité renforcée</strong> : Authentification, rôles, protection données</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    {/* FAQ Section */}
+                    <div className="mb-20 max-w-4xl mx-auto">
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-12 text-center">
+                            Questions Fréquentes - Applications Web
+                        </h2>
+
+                        <div className="space-y-6">
+                            <div className="bg-slate-800/40 p-6 rounded-lg border border-white/10 hover:border-cyan-500/30 transition-colors">
+                                <h3 className="text-xl font-bold text-white mb-3">
+                                    💰 Quel est le coût d'une application web sur-mesure ?
+                                </h3>
+                                <p className="text-blue-100/80 leading-relaxed">
+                                    Les tarifs démarrent à <strong>2990€ pour une application simple</strong> et 5990€ pour
+                                    une solution SaaS complète. Le prix varie selon la complexité, le nombre de fonctionnalités
+                                    et l'intégration avec vos systèmes existants.
+                                </p>
+                            </div>
+
+                            <div className="bg-slate-800/40 p-6 rounded-lg border border-white/10 hover:border-cyan-500/30 transition-colors">
+                                <h3 className="text-xl font-bold text-white mb-3">
+                                    ⏱️ Combien de temps pour développer mon application ?
+                                </h3>
+                                <p className="text-blue-100/80 leading-relaxed">
+                                    Comptez <strong>4 à 8 semaines pour une application simple</strong>, 3 à 6 mois pour un
+                                    SaaS complet avec fonctionnalités avancées. Nous travaillons en sprints agiles avec des
+                                    démos régulières.
+                                </p>
+                            </div>
+
+                            <div className="bg-slate-800/40 p-6 rounded-lg border border-white/10 hover:border-cyan-500/30 transition-colors">
+                                <h3 className="text-xl font-bold text-white mb-3">
+                                    🔐 Mon application sera-t-elle sécurisée ?
+                                </h3>
+                                <p className="text-blue-100/80 leading-relaxed">
+                                    Absolument ! Nous implémentons <strong>l'authentification forte, le chiffrement des données,
+                                        la gestion des rôles</strong> et respectons les normes RGPD. Tests de sécurité systématiques
+                                    avant mise en production.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* CTA Bottom */}
                     <div className="max-w-4xl mx-auto text-center bg-gradient-to-br from-cyan-900/20 to-slate-900/40 rounded-3xl p-12 border border-cyan-500/20 backdrop-blur-sm">
                         <h2 className="text-3xl font-bold text-white mb-6">Prêt à lancer votre projet ?</h2>
                         <p className="text-blue-200/70 mb-8 text-lg">

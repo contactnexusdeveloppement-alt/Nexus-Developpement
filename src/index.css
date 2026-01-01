@@ -168,4 +168,10 @@ All colors MUST be HSL.
   .animate-fade-in {
     animation: fade-in 0.8s ease-out;
   }
+
+  /* Scroll offset for fixed navbar - prevents content from being hidden under navbar */
+  section[id],
+  div[id] {
+    scroll-margin-top: 100px;
+  }
 }
