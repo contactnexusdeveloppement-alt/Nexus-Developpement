@@ -30,6 +30,7 @@ const AgenceImmoLogin = lazy(() => import("./pages/agence-immo/LoginPage"));
 const Restaurant = lazy(() => import("./pages/Restaurant"));
 const Concession = lazy(() => import("./pages/Concession"));
 const ProjectsCatalog = lazy(() => import("./pages/ProjectsCatalog"));
+const PublicQuoteWizard = lazy(() => import("./pages/PublicQuoteWizard"));
 
 const queryClient = new QueryClient();
 
@@ -74,6 +75,7 @@ const App = () => (
 
               <Route path="/concession-automobile" element={<Concession />} />
               <Route path="/catalogue" element={<ProjectsCatalog />} />
+              <Route path="/devis-en-ligne" element={<PublicQuoteWizard />} />
 
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { pricingData } from "@/data/pricingData";
 import PricingCard from "@/components/PricingCard";
 import { motion } from "framer-motion";
+import SEO from "@/components/SEO";
 
 const MobileApps = () => {
     const navigate = useNavigate();
@@ -23,6 +24,12 @@ const MobileApps = () => {
 
     return (
         <div className="min-h-screen relative overflow-x-hidden">
+            <SEO
+                title="Développement Applications Mobiles iOS & Android | Nexus"
+                description="Création d'applications mobiles natives et cross-platform. React Native, iOS, Android. App store optimization. Élancourt (78). Devis gratuit."
+                type="website"
+            />
+
             <div className="fixed inset-0 z-0" aria-hidden="true">
                 <AnimatedBackground />
             </div>
@@ -125,7 +132,7 @@ const MobileApps = () => {
                         </div>
                     </div>
 
-                    {/* FAQ / CTA Bottom */}
+                    {/* CTA Bottom */}
                     <div className="max-w-4xl mx-auto text-center bg-gradient-to-br from-purple-900/20 to-slate-900/40 rounded-3xl p-12 border border-purple-500/20 backdrop-blur-sm">
                         <h2 className="text-3xl font-bold text-white mb-6">Un projet d'application ?</h2>
                         <p className="text-purple-200/70 mb-8 text-lg">

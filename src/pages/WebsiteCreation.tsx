@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { pricingData } from "@/data/pricingData";
 import PricingCard from "@/components/PricingCard";
 import { motion } from "framer-motion";
+import SEO from "@/components/SEO";
 
 const WebsiteCreation = () => {
   const navigate = useNavigate();
@@ -39,6 +40,12 @@ const WebsiteCreation = () => {
 
   return (
     <div className="min-h-screen relative overflow-x-hidden">
+      <SEO
+        title="Création de Sites Web Professionnels | Nexus Développement Élancourt"
+        description="Création de sites vitrine modernes et performants à Élancourt (78). Design sur-mesure, SEO optimisé, responsive. Devis gratuit pour votre site web professionnel."
+        type="website"
+      />
+
       <div className="fixed inset-0 z-0" aria-hidden="true">
         <AnimatedBackground />
       </div>
@@ -179,7 +186,103 @@ const WebsiteCreation = () => {
             </div>
           </div>
 
-          {/* FAQ / CTA Bottom */}
+          {/* Section "Pourquoi Nexus ?" - SEO Content */}
+          <div className="mb-32 max-w-4xl mx-auto prose prose-invert prose-lg">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">
+              Pourquoi choisir Nexus Développement pour votre site web ?
+            </h2>
+            <p className="text-lg text-blue-100/80 leading-relaxed mb-6">
+              Basée à <strong>Élancourt dans les Yvelines (78)</strong>, notre agence Nexus Développement
+              accompagne les entreprises locales et nationales dans leur transformation digitale. Avec notre
+              expertise en création de sites web, nous garantissons des résultats concrets et mesurables.
+            </p>
+
+            <h3 className="text-2xl font-bold text-white mb-4 mt-8">Notre engagement qualité</h3>
+            <ul className="space-y-3 text-blue-100/80 leading-relaxed">
+              <li className="flex items-start gap-2">
+                <CheckCircle className="w-5 h-5 text-cyan-400 mt-1 flex-shrink-0" />
+                <span><strong>Code propre et maintenable</strong> selon les standards de l'industrie (React, TypeScript)</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle className="w-5 h-5 text-cyan-400 mt-1 flex-shrink-0" />
+                <span><strong>Performance garantie</strong> : Score Google PageSpeed 95+ sur tous nos projets</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle className="w-5 h-5 text-cyan-400 mt-1 flex-shrink-0" />
+                <span><strong>Support technique réactif</strong> sous 24h, 7j/7</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle className="w-5 h-5 text-cyan-400 mt-1 flex-shrink-0" />
+                <span><strong>Formation complète incluse</strong> pour que vous soyez autonome</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle className="w-5 h-5 text-cyan-400 mt-1 flex-shrink-0" />
+                <span><strong>Garantie satisfaction</strong> ou remboursement intégral</span>
+              </li>
+            </ul>
+
+            <h3 className="text-2xl font-bold text-white mb-4 mt-8">Notre expertise création de sites web</h3>
+            <p className="text-blue-100/80 leading-relaxed">
+              Nous avons accompagné plus de <strong>50 entreprises</strong> dans le développement de leur
+              présence en ligne. De la TPE locale au grand compte, nous adaptons nos solutions à vos besoins
+              et votre budget. Notre processus éprouvé garantit une livraison rapide sans compromis sur la qualité.
+            </p>
+          </div>
+
+          {/* FAQ Section - SEO Featured Snippets */}
+          <div className="mb-20 max-w-4xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-12 text-center">
+              Questions Fréquentes - Création de Sites Web
+            </h2>
+
+            <div className="space-y-6">
+              <div className="bg-slate-800/40 p-6 rounded-lg border border-white/10 hover:border-cyan-500/30 transition-colors">
+                <h3 className="text-xl font-bold text-white mb-3">
+                  💰 Combien coûte la création d'un site web à Élancourt ?
+                </h3>
+                <p className="text-blue-100/80 leading-relaxed">
+                  Nos tarifs démarrent à <strong>890€ pour le pack Essential</strong> (site vitrine 5 pages),
+                  1290€ pour le pack Business (+ blog et SEO avancé) et 1990€ pour le pack Premium (e-commerce complet).
+                  Tous nos devis sont gratuits et sans engagement, réponse sous 24h.
+                </p>
+              </div>
+
+              <div className="bg-slate-800/40 p-6 rounded-lg border border-white/10 hover:border-cyan-500/30 transition-colors">
+                <h3 className="text-xl font-bold text-white mb-3">
+                  ⏱️ Combien de temps pour créer mon site web ?
+                </h3>
+                <p className="text-blue-100/80 leading-relaxed">
+                  Le délai moyen est de <strong>2 à 4 semaines</strong> pour un site vitrine, 4 à 8 semaines
+                  pour un site e-commerce complexe. Nous garantissons une livraison rapide avec un accompagnement
+                  personnalisé et des points réguliers pour valider chaque étape ensemble.
+                </p>
+              </div>
+
+              <div className="bg-slate-800/40 p-6 rounded-lg border border-white/10 hover:border-cyan-500/30 transition-colors">
+                <h3 className="text-xl font-bold text-white mb-3">
+                  📍 Nexus Développement est-il basé à Élancourt ?
+                </h3>
+                <p className="text-blue-100/80 leading-relaxed">
+                  Oui ! Nexus Développement est basé au <strong>4 rue de la Ferme, 78990 Élancourt</strong>,
+                  dans les Yvelines. Nous nous déplaçons dans tout le département 78 et l'Île-de-France
+                  (Trappes, Plaisir, Montigny-le-Bretonneux, Versailles...) pour rencontrer nos clients.
+                </p>
+              </div>
+
+              <div className="bg-slate-800/40 p-6 rounded-lg border border-white/10 hover:border-cyan-500/30 transition-colors">
+                <h3 className="text-xl font-bold text-white mb-3">
+                  📱 Mon site sera-t-il optimisé pour mobiles ?
+                </h3>
+                <p className="text-blue-100/80 leading-relaxed">
+                  Absolument ! Tous nos sites sont <strong>100% responsive</strong> et optimisés pour smartphones,
+                  tablettes et ordinateurs. Nous testons sur tous les appareils pour garantir une expérience
+                  parfaite quel que soit l'écran de vos visiteurs.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* CTA Bottom */}
           <div className="max-w-4xl mx-auto text-center bg-gradient-to-br from-blue-900/20 to-slate-900/40 rounded-3xl p-12 border border-blue-500/20 backdrop-blur-sm">
             <h2 className="text-3xl font-bold text-white mb-6">Vous avez un projet spécifique ?</h2>
             <p className="text-blue-200/70 mb-8 text-lg">

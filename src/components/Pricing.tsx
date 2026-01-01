@@ -2,14 +2,25 @@ import { useState, useRef } from "react";
 import { pricingData } from "@/data/pricingData";
 import PricingCard from "@/components/PricingCard";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const Pricing = () => {
   const [activeCategory, setActiveCategory] = useState("sites");
   const activePlans = pricingData.find(cat => cat.id === activeCategory)?.plans || [];
+  const navigate = useNavigate();
 
   const scrollToQuote = () => {
-    const element = document.getElementById('devis');
-    element?.scrollIntoView({ behavior: 'smooth' });
+    // Navigate with pre-fill parameters for custom service
+    navigate({
+      hash: '#devis',
+      search: '?category=custom&plan=Sur%20mesure'
+    });
+
+    // Smooth scroll to the form after a brief delay for state update
+    setTimeout(() => {
+      const element = document.getElementById('devis');
+      element?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
   };
 
   return (
@@ -85,6 +96,7 @@ const Pricing = () => {
                 <PricingCard
                   key={`${activeCategory}-${index}`}
                   plan={plan}
+                  categoryId={activeCategory}
                   index={index}
                 />
               ))}

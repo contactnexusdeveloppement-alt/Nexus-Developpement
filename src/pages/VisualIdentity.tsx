@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { pricingData } from "@/data/pricingData";
 import PricingCard from "@/components/PricingCard";
 import { motion } from "framer-motion";
+import SEO from "@/components/SEO";
 
 const VisualIdentity = () => {
     const navigate = useNavigate();
@@ -23,6 +24,12 @@ const VisualIdentity = () => {
 
     return (
         <div className="min-h-screen relative overflow-x-hidden">
+            <SEO
+                title="Création Logo & Identité Visuelle | Nexus Développement"
+                description="Conception de logos professionnels et identité visuelle complète. Charte graphique, branding, design moderne. Élancourt (78). Devis gratuit."
+                type="website"
+            />
+
             <div className="fixed inset-0 z-0" aria-hidden="true">
                 <AnimatedBackground />
             </div>
@@ -136,7 +143,7 @@ const VisualIdentity = () => {
                         </div>
                     </div>
 
-                    {/* FAQ / CTA Bottom */}
+                    {/* CTA Bottom */}
                     <div className="max-w-4xl mx-auto text-center bg-gradient-to-br from-pink-900/20 to-slate-900/40 rounded-3xl p-12 border border-pink-500/20 backdrop-blur-sm">
                         <h2 className="text-3xl font-bold text-white mb-6">Besoin d'un rebranding ?</h2>
                         <p className="text-pink-200/70 mb-8 text-lg">

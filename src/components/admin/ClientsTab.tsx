@@ -1,5 +1,7 @@
-import { useState, useEffect, useMemo } from "react";
+
+import { useState, useEffect, useMemo, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -11,10 +13,17 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
-import { Users, FileText, PhoneCall, Calendar, Search, Mail, Phone, UserCheck, UserX, UserPlus, Target } from "lucide-react";
+import { Users, FileText, PhoneCall, Calendar, Search, Mail, Phone, LayoutGrid, CircleDot, TrendingUp, Briefcase, Archive, CheckCircle2, XCircle, Trash2 } from "lucide-react";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
-import ClientDetailModal from "./ClientDetailModal";
+import { ClientOverviewModal } from "./ClientOverviewModal";
+import CallLiveModal from "./modals/CallLiveModal";
+import QuoteWizardModal from "./modals/QuoteWizardModal";
+import { AllQuotesModal } from "./AllQuotesModal";
+import { AllCallsModal } from "./AllCallsModal";
+import { toast } from "sonner";
+import EmptyState from "./widgets/EmptyState";
 
 interface QuoteRequest {
   id: string;
@@ -72,21 +81,44 @@ interface ClientsTabProps {
   callBookings: CallBooking[];
   onQuoteClick: (quote: QuoteRequest) => void;
   onCallClick: (call: CallBooking) => void;
+  initialEmail?: string | null;
+  initialCallId?: string | null;
+  initialQuoteId?: string | null;
 }
 
 const STATUS_CONFIG = {
-  lead: { label: "Lead", color: "bg-blue-500/20 text-blue-300 border-blue-500/50", icon: UserPlus },
-  prospect: { label: "Prospect", color: "bg-yellow-500/20 text-yellow-300 border-yellow-500/50", icon: Target },
-  client: { label: "Client", color: "bg-green-500/20 text-green-300 border-green-500/50", icon: UserCheck },
-  lost: { label: "Perdu", color: "bg-red-500/20 text-red-300 border-red-500/50", icon: UserX },
+  lead: { label: "Lead", color: "bg-blue-500/10 text-blue-300 border-blue-500/30", icon: CircleDot },
+  prospect: { label: "Prospect", color: "bg-yellow-500/10 text-yellow-300 border-yellow-500/30", icon: TrendingUp },
+  client: { label: "Client", color: "bg-green-500/10 text-green-300 border-green-500/30", icon: Briefcase },
+  lost: { label: "Perdu", color: "bg-red-500/10 text-red-300 border-red-500/30", icon: Archive },
 };
 
-const ClientsTab = ({ quotes, callBookings, onQuoteClick, onCallClick }: ClientsTabProps) => {
+const ClientsTab = ({ quotes, callBookings, onQuoteClick, onCallClick, initialEmail, initialCallId, initialQuoteId }: ClientsTabProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [initialViewMode, setInitialViewMode] = useState<'quote' | 'call' | 'db'>('db');
   const [callNotes, setCallNotes] = useState<Record<string, CallBookingNote>>({});
   const [clientStatuses, setClientStatuses] = useState<Record<string, ClientStatus>>({});
+
+  // Call Live Modal state
+  const [callLiveModalOpen, setCallLiveModalOpen] = useState(false);
+  const [selectedCall, setSelectedCall] = useState<CallBooking | null>(null);
+  const [relatedQuote, setRelatedQuote] = useState<QuoteRequest | undefined>(undefined);
+
+  // Quote Wizard Modal state
+  const [quoteWizardModalOpen, setQuoteWizardModalOpen] = useState(false);
+  const [selectedQuoteForWizard, setSelectedQuoteForWizard] = useState<QuoteRequest | null>(null);
+
+  // View All Modals state
+  const [showAllQuotesModal, setShowAllQuotesModal] = useState(false);
+  const [showAllCallsModal, setShowAllCallsModal] = useState(false);
+  const [confirmDialog, setConfirmDialog] = useState<{
+    isOpen: boolean;
+    title: string;
+    description: string;
+    onConfirm: () => void;
+  }>({ isOpen: false, title: "", description: "", onConfirm: () => { } });
 
   // Load call notes and client statuses
   useEffect(() => {
@@ -98,7 +130,7 @@ const ClientsTab = ({ quotes, callBookings, onQuoteClick, onCallClick }: Clients
     const { data } = await supabase
       .from('call_booking_notes')
       .select('call_booking_id, call_outcome, call_summary');
-    
+
     if (data) {
       const notesMap: Record<string, CallBookingNote> = {};
       data.forEach(note => {
@@ -109,16 +141,26 @@ const ClientsTab = ({ quotes, callBookings, onQuoteClick, onCallClick }: Clients
   };
 
   const loadClientStatuses = async () => {
-    const { data } = await supabase
-      .from('client_statuses')
-      .select('client_email, status, notes');
-    
-    if (data) {
-      const statusMap: Record<string, ClientStatus> = {};
-      data.forEach(status => {
-        statusMap[status.client_email.toLowerCase()] = status;
-      });
-      setClientStatuses(statusMap);
+    try {
+      const { data, error } = await supabase
+        .from('client_statuses')
+        .select('client_email, status, notes');
+
+      if (error) {
+        // Log error but don't break the UI - client_statuses table might not exist yet
+        console.warn('Could not load client statuses:', error.message);
+        return;
+      }
+
+      if (data) {
+        const statusMap: Record<string, ClientStatus> = {};
+        data.forEach(status => {
+          statusMap[status.client_email.toLowerCase()] = status;
+        });
+        setClientStatuses(statusMap);
+      }
+    } catch (err) {
+      console.warn('Error loading client statuses:', err);
     }
   };
 
@@ -142,7 +184,7 @@ const ClientsTab = ({ quotes, callBookings, onQuoteClick, onCallClick }: Clients
       }
       const client = clientMap.get(email)!;
       client.quotes.push(quote);
-      
+
       const quoteDate = new Date(quote.created_at);
       if (quoteDate < client.firstContact) client.firstContact = quoteDate;
       if (quoteDate > client.lastContact) client.lastContact = quoteDate;
@@ -164,12 +206,12 @@ const ClientsTab = ({ quotes, callBookings, onQuoteClick, onCallClick }: Clients
       }
       const client = clientMap.get(email)!;
       client.calls.push(call);
-      
+
       // Update phone if not set
       if (!client.phone && call.phone) {
         client.phone = call.phone;
       }
-      
+
       const callDate = new Date(call.created_at);
       if (callDate < client.firstContact) client.firstContact = callDate;
       if (callDate > client.lastContact) client.lastContact = callDate;
@@ -209,23 +251,137 @@ const ClientsTab = ({ quotes, callBookings, onQuoteClick, onCallClick }: Clients
     lost: clients.filter(c => c.status === 'lost').length,
   }), [clients]);
 
+  // Auto-open modal when deep linking from notification
+  const deepLinkProcessedRef = useRef(false);
+
+  useEffect(() => {
+    if (initialEmail && clients.length > 0 && !deepLinkProcessedRef.current) {
+      const client = clients.find(c => c.email.toLowerCase() === initialEmail.toLowerCase());
+
+      if (client) {
+        deepLinkProcessedRef.current = true;
+
+        // Close all potentially open modals first to prevent stacking
+        setQuoteWizardModalOpen(false);
+        setCallLiveModalOpen(false);
+        setIsSheetOpen(false);
+        setShowAllQuotesModal(false);
+        setShowAllCallsModal(false);
+
+        // Small delay to ensure modals are closed before opening new one
+        setTimeout(() => {
+          if (initialCallId) {
+            // Find the specific call
+            const call = client.calls.find(c => c.id === initialCallId);
+            if (call) {
+              handleCallRowClick(call);
+            }
+          } else if (initialQuoteId) {
+            // Find the specific quote
+            const quote = client.quotes.find(q => q.id === initialQuoteId);
+            if (quote) {
+              handleQuoteRowClick(quote);
+            }
+          } else {
+            // Just open the client overview if no specific ID
+            handleClientClick(client);
+          }
+        }, 100);
+      }
+    }
+  }, [initialEmail, initialCallId, initialQuoteId, clients]);
+
+
   const handleClientClick = (client: Client) => {
+    setInitialViewMode('db');
     setSelectedClient(client);
-    setIsModalOpen(true);
+    setIsSheetOpen(true);
   };
 
-  const handleQuoteFromModal = (quote: QuoteRequest) => {
-    setIsModalOpen(false);
+  const handleQuoteFromSheet = (quote: QuoteRequest) => {
+    setIsSheetOpen(false);
     onQuoteClick(quote);
   };
 
-  const handleCallFromModal = (call: CallBooking) => {
-    setIsModalOpen(false);
+  const handleCallFromSheet = (call: CallBooking) => {
+    setIsSheetOpen(false);
     onCallClick(call);
   };
 
   const handleStatusUpdate = () => {
     loadClientStatuses();
+  };
+
+  const handleQuoteRowClick = (quote: QuoteRequest) => {
+    const client = clients.find(c => c.email.toLowerCase() === quote.email.toLowerCase());
+    if (client) {
+      setSelectedQuoteForWizard(quote);
+      setSelectedClient(client);
+      setQuoteWizardModalOpen(true);
+    }
+  };
+
+  const handleCallRowClick = (call: CallBooking) => {
+    const client = clients.find(c => c.email.toLowerCase() === call.email.toLowerCase());
+    if (client) {
+      // Find related quote for context
+      const quote = quotes.find(q => q.email.toLowerCase() === call.email.toLowerCase());
+
+      setSelectedClient(client);
+      setSelectedCall(call);
+      setRelatedQuote(quote);
+      setCallLiveModalOpen(true);
+    }
+  };
+
+  const handleDeleteQuote = async (quoteId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+
+    setConfirmDialog({
+      isOpen: true,
+      title: "Supprimer le devis",
+      description: "Êtes-vous sûr de vouloir supprimer ce devis ? Cette action est irréversible.",
+      onConfirm: async () => {
+        try {
+          const { error } = await supabase
+            .from('quote_requests')
+            .delete()
+            .eq('id', quoteId);
+
+          if (error) throw error;
+
+          toast.success("Devis supprimé avec succès");
+        } catch (error) {
+          console.error('Error deleting quote:', error);
+          toast.error("Erreur lors de la suppression du devis");
+        }
+      },
+    });
+  };
+
+  const handleDeleteCall = async (callId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+
+    setConfirmDialog({
+      isOpen: true,
+      title: "Supprimer l'appel",
+      description: "Êtes-vous sûr de vouloir supprimer cet appel ? Cette action est irréversible.",
+      onConfirm: async () => {
+        try {
+          const { error } = await supabase
+            .from('call_bookings')
+            .delete()
+            .eq('id', callId);
+
+          if (error) throw error;
+
+          toast.success("Appel supprimé avec succès");
+        } catch (error) {
+          console.error('Error deleting call:', error);
+          toast.error("Erreur lors de la suppression de l'appel");
+        }
+      },
+    });
   };
 
   const getStatusBadge = (status: string) => {
@@ -240,165 +396,346 @@ const ClientsTab = ({ quotes, callBookings, onQuoteClick, onCallClick }: Clients
   };
 
   return (
-    <div className="space-y-6">
-      {/* Statistics Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-        <Card className="bg-slate-900/80 border-blue-500/30">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm text-gray-300">Total</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-white flex items-center gap-2">
-              <Users className="h-6 w-6 text-blue-400" />
-              {stats.totalClients}
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="bg-slate-900/80 border-blue-500/30">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm text-gray-300 flex items-center gap-1">
-              <UserPlus className="h-4 w-4 text-blue-400" /> Leads
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-blue-400">{stats.leads}</div>
-          </CardContent>
-        </Card>
-        <Card className="bg-slate-900/80 border-blue-500/30">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm text-gray-300 flex items-center gap-1">
-              <Target className="h-4 w-4 text-yellow-400" /> Prospects
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-yellow-400">{stats.prospects}</div>
-          </CardContent>
-        </Card>
-        <Card className="bg-slate-900/80 border-blue-500/30">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm text-gray-300 flex items-center gap-1">
-              <UserCheck className="h-4 w-4 text-green-400" /> Clients
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-green-400">{stats.clientsWon}</div>
-          </CardContent>
-        </Card>
-        <Card className="bg-slate-900/80 border-blue-500/30">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm text-gray-300 flex items-center gap-1">
-              <UserX className="h-4 w-4 text-red-400" /> Perdus
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-red-400">{stats.lost}</div>
-          </CardContent>
-        </Card>
-      </div>
+    <div className="space-y-8 animate-in fade-in duration-700">
 
-      {/* Search */}
-      <Card className="bg-slate-900/80 border-blue-500/30">
-        <CardHeader>
-          <CardTitle className="text-white">Recherche</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-            <Input
-              placeholder="Rechercher par nom, email ou téléphone..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 bg-slate-800/50 border-blue-500/30 text-white placeholder:text-gray-500"
-            />
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Clients Table */}
-      <Card className="bg-slate-900/80 border-blue-500/30">
-        <CardHeader>
-          <CardTitle className="text-white">Clients ({filteredClients.length})</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow className="border-slate-700">
-                <TableHead className="text-gray-300">Client</TableHead>
-                <TableHead className="text-gray-300">Contact</TableHead>
-                <TableHead className="text-gray-300">Statut</TableHead>
-                <TableHead className="text-gray-300">Interactions</TableHead>
-                <TableHead className="text-gray-300">Dernier contact</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredClients.map((client) => (
-                <TableRow
-                  key={client.email}
-                  className="border-slate-700 cursor-pointer hover:bg-blue-500/5 transition-colors"
-                  onClick={() => handleClientClick(client)}
-                >
-                  <TableCell>
-                    <div className="font-medium text-white text-base">{client.name}</div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-1 text-sm text-gray-200">
-                        <Mail className="h-3 w-3" />
-                        {client.email}
-                      </div>
-                      {client.phone && (
-                        <div className="flex items-center gap-1 text-sm text-gray-200">
-                          <Phone className="h-3 w-3" />
-                          {client.phone}
-                        </div>
-                      )}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    {getStatusBadge(client.status || 'lead')}
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex gap-2">
-                      {client.quotes.length > 0 && (
-                        <Badge variant="outline" className="border-blue-400 text-blue-200 bg-blue-950/50">
-                          <FileText className="h-3 w-3 mr-1" />
-                          {client.quotes.length} devis
-                        </Badge>
-                      )}
-                      {client.calls.length > 0 && (
-                        <Badge variant="outline" className="border-cyan-400 text-cyan-200 bg-cyan-950/50">
-                          <PhoneCall className="h-3 w-3 mr-1" />
-                          {client.calls.length} appels
-                        </Badge>
-                      )}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2 text-white">
-                      <Calendar className="h-4 w-4 text-blue-400" />
-                      {format(client.lastContact, "d MMM yyyy", { locale: fr })}
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
-
-      {/* Client Detail Modal */}
       {selectedClient && (
-        <ClientDetailModal
-          open={isModalOpen}
-          onOpenChange={setIsModalOpen}
+        <ClientOverviewModal
+          isOpen={isSheetOpen}
+          onClose={() => setIsSheetOpen(false)}
           client={selectedClient}
-          callNotes={callNotes}
-          onQuoteClick={handleQuoteFromModal}
-          onCallClick={handleCallFromModal}
+          quotes={quotes}
+          bookings={callBookings}
           onStatusUpdate={handleStatusUpdate}
         />
       )}
-    </div>
+
+      {selectedClient && selectedCall && (
+        <CallLiveModal
+          open={callLiveModalOpen}
+          onOpenChange={setCallLiveModalOpen}
+          call={selectedCall}
+          client={selectedClient}
+          relatedQuote={relatedQuote}
+          onSuccess={() => {
+            loadCallNotes();
+          }}
+        />
+      )}
+
+      {selectedClient && selectedQuoteForWizard && (
+        <QuoteWizardModal
+          open={quoteWizardModalOpen}
+          onOpenChange={setQuoteWizardModalOpen}
+          quote={selectedQuoteForWizard}
+          client={selectedClient}
+          onSuccess={() => {
+            // Refresh quotes/clients if needed
+          }}
+        />
+      )}
+
+      {/* KPI Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Devis en Attente */}
+        <Card className="bg-slate-950/40 border-yellow-500/20 backdrop-blur-md shadow-2xl relative overflow-hidden group">
+          <div className="absolute top-0 left-0 w-1 h-full bg-yellow-500/50" />
+          <CardHeader className="pb-3 border-b border-white/5">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-xs text-yellow-500 font-mono uppercase tracking-wider flex items-center gap-2">
+                <div className="relative">
+                  <div className="absolute -inset-1 bg-yellow-500/20 blur-sm rounded-full animate-pulse"></div>
+                  <FileText className="h-4 w-4 relative z-10" />
+                </div>
+                Devis en Attente ({quotes.filter(q => (q.status || 'pending').toLowerCase() === 'pending').length})
+              </CardTitle>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowAllQuotesModal(true)}
+                className="h-7 px-3 text-[10px] font-mono uppercase text-yellow-400 hover:text-yellow-300 hover:bg-yellow-500/10 border border-yellow-500/20"
+              >
+                Voir tout →
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent className="p-0">
+            <div className="max-h-[300px] overflow-auto">
+              <Table>
+                <TableHeader className="bg-slate-950/50 sticky top-0 z-10">
+                  <TableRow className="border-white/5 hover:bg-transparent">
+                    <TableHead className="text-gray-400 font-mono text-[10px] uppercase h-8">Client</TableHead>
+                    <TableHead className="text-gray-400 font-mono text-[10px] uppercase h-8">Projet</TableHead>
+                    <TableHead className="text-gray-400 font-mono text-[10px] uppercase h-8 text-right">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {quotes.filter(q => (q.status || 'pending').toLowerCase() === 'pending').slice(0, 5).length === 0 ? (
+                    <TableRow className="hover:bg-transparent border-white/5">
+                      <TableCell colSpan={3} className="py-12">
+                        <EmptyState
+                          icon="📋"
+                          message="Aucun devis en attente"
+                          description="Les nouvelles demandes de devis apparaîtront ici"
+                        />
+                      </TableCell>
+                    </TableRow>
+                  ) : (
+                    quotes.filter(q => (q.status || 'pending').toLowerCase() === 'pending').slice(0, 5).map((quote) => (
+                      <TableRow
+                        key={quote.id}
+                        className="border-white/5 hover:bg-yellow-500/5 transition-colors group"
+                      >
+                        <TableCell className="py-2">
+                          <div className="font-medium text-white text-sm">{quote.name}</div>
+                          <div className="text-xs text-gray-500">{format(new Date(quote.created_at), "d MMM HH:mm", { locale: fr })}</div>
+                        </TableCell>
+                        <TableCell className="py-2">
+                          <div className="flex flex-wrap gap-1">
+                            {quote.services.slice(0, 1).map((s: string) => (
+                              <Badge key={s} variant="outline" className="text-[10px] px-1 py-0 h-4 border-yellow-500/30 text-yellow-200 bg-yellow-950/30">
+                                {s}
+                              </Badge>
+                            ))}
+                            {quote.services.length > 1 && (
+                              <Badge variant="outline" className="text-[10px] px-1 py-0 h-4 border-white/10 text-gray-400">
+                                +{quote.services.length - 1}
+                              </Badge>
+                            )}
+                          </div>
+                        </TableCell>
+                        <TableCell className="py-2 text-right">
+                          <div className="flex gap-1 justify-end">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleQuoteRowClick(quote);
+                              }}
+                              className="h-6 px-2 text-[10px] font-mono uppercase bg-yellow-500/10 text-yellow-400 hover:bg-yellow-500/20 hover:text-yellow-300 border border-yellow-500/20"
+                            >
+                              Traiter
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={(e) => handleDeleteQuote(quote.id, e)}
+                              className="h-6 px-2 text-[10px] bg-red-500/10 text-red-400 hover:bg-red-500/20 hover:text-red-300 border border-red-500/20"
+                            >
+                              <Trash2 className="h-3 w-3" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  )}
+                </TableBody>
+              </Table>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Appels à Venir */}
+        <Card className="bg-slate-950/40 border-blue-500/20 backdrop-blur-md shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-1 h-full bg-blue-500/50" />
+          <CardHeader className="pb-3 border-b border-white/5">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-xs text-blue-500 font-mono uppercase tracking-wider flex items-center gap-2">
+                <div className="relative">
+                  <div className="absolute -inset-1 bg-blue-500/20 blur-sm rounded-full animate-pulse"></div>
+                  <PhoneCall className="h-4 w-4 relative z-10" />
+                </div>
+                Appels en Attente ({callBookings.length})
+              </CardTitle>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowAllCallsModal(true)}
+                className="h-7 px-3 text-[10px] font-mono uppercase text-blue-400 hover:text-blue-300 hover:bg-blue-500/10 border border-blue-500/20"
+              >
+                Voir tout →
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent className="p-0">
+            <div className="max-h-[300px] overflow-auto">
+              <Table>
+                <TableHeader className="bg-slate-950/50 sticky top-0 z-10">
+                  <TableRow className="border-white/5 hover:bg-transparent">
+                    <TableHead className="text-gray-400 font-mono text-[10px] uppercase h-8">Contact</TableHead>
+                    <TableHead className="text-gray-400 font-mono text-[10px] uppercase h-8">Horaire</TableHead>
+                    <TableHead className="text-gray-400 font-mono text-[10px] uppercase h-8 text-right">Action</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {callBookings.slice(0, 5).length === 0 ? (
+                    <TableRow className="hover:bg-transparent border-white/5">
+                      <TableCell colSpan={3} className="py-12">
+                        <EmptyState
+                          icon="📞"
+                          message="Aucun appel prévu"
+                          description="Les appels à venir seront affichés ici"
+                        />
+                      </TableCell>
+                    </TableRow>
+                  ) : (
+                    callBookings
+                      .slice(0, 5)
+                      .sort((a, b) => new Date(a.booking_date).getTime() - new Date(b.booking_date).getTime())
+                      .map((call) => (
+                        <TableRow
+                          key={call.id}
+                          className="border-white/5 hover:bg-blue-500/5 transition-colors cursor-pointer group"
+                          onClick={() => handleCallRowClick(call)}
+                        >
+                          <TableCell className="py-2">
+                            <div className="font-medium text-white text-sm">{call.name}</div>
+                            <div className="text-xs text-blue-400 flex items-center gap-1">
+                              <Phone className="h-3 w-3" /> {call.phone}
+                            </div>
+                          </TableCell>
+                          <TableCell className="py-2">
+                            <div className="text-xs text-white bg-slate-800/50 px-2 py-1 rounded border border-white/5 inline-block">
+                              {format(new Date(call.booking_date), "d MMM", { locale: fr })} • {call.time_slot}
+                            </div>
+                          </TableCell>
+                          <TableCell className="py-2 text-right">
+                            <div className="flex items-center justify-end gap-1">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="h-6 px-2 text-[10px] font-mono uppercase bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 hover:text-blue-300 border border-blue-500/20"
+                              >
+                                Voir
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleDeleteCall(call.id, e);
+                                }}
+                                className="h-6 px-2 bg-red-500/10 text-red-400 hover:bg-red-500/20 hover:text-red-300 border border-red-500/20"
+                              >
+                                <Trash2 className="h-3 w-3" />
+                              </Button>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                  )}
+                </TableBody>
+              </Table>
+            </div>
+          </CardContent>
+        </Card>
+      </div >
+
+
+
+
+      {/* DATABASE SECTION */}
+      < div className="space-y-4 pt-4 border-t border-white/5" >
+        <div className="flex items-center justify-between">
+          <h3 className="text-sm font-mono uppercase tracking-wider text-gray-500 flex items-center gap-2">
+            <Archive className="h-4 w-4" /> Base de Données Clients
+          </h3>
+          <div className="relative w-64">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-3 w-3 text-gray-500" />
+            <Input
+              placeholder="Rechercher..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-9 h-8 text-xs bg-slate-950/30 border-white/10 text-gray-300 placeholder:text-gray-700 focus:border-blue-500/30"
+            />
+          </div>
+        </div>
+
+        <Card className="bg-slate-950/20 border-white/5 backdrop-blur-sm">
+          <CardContent className="p-0">
+            {/* Original Table Content reused but simplified style */}
+            <Table>
+              <TableHeader className="bg-slate-950/30">
+                <TableRow className="border-white/5 hover:bg-transparent">
+                  <TableHead className="text-gray-500 font-mono text-[10px] uppercase h-8">Client</TableHead>
+                  <TableHead className="text-gray-500 font-mono text-[10px] uppercase h-8">Contact</TableHead>
+                  <TableHead className="text-gray-500 font-mono text-[10px] uppercase h-8">Statut</TableHead>
+                  <TableHead className="text-gray-500 font-mono text-[10px] uppercase h-8">Dossiers</TableHead>
+                  <TableHead className="text-gray-500 font-mono text-[10px] uppercase h-8 text-right">Dernière maj</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredClients.map((client) => (
+                  <TableRow
+                    key={client.email}
+                    className="border-white/5 cursor-pointer hover:bg-white/5 transition-all duration-200 group"
+                    onClick={() => handleClientClick(client)}
+                  >
+                    <TableCell className="py-2">
+                      <div className="font-medium text-gray-300 text-sm group-hover:text-white transition-colors">
+                        {client.name}
+                      </div>
+                    </TableCell>
+                    <TableCell className="py-2">
+                      <div className="text-xs text-gray-500 group-hover:text-gray-400">{client.email}</div>
+                    </TableCell>
+                    <TableCell className="py-2">
+                      {getStatusBadge(client.status || 'lead')}
+                    </TableCell>
+                    <TableCell className="py-2">
+                      <div className="flex gap-2">
+                        {(client.quotes.length > 0 || client.calls.length > 0) ? (
+                          <Badge variant="outline" className="text-[10px] border-white/10 text-gray-400 bg-slate-900/50">
+                            {client.quotes.length + client.calls.length} items
+                          </Badge>
+                        ) : (
+                          <span className="text-[10px] text-gray-700">-</span>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell className="py-2 text-right">
+                      <div className="text-[10px] text-gray-600 font-mono">
+                        {format(client.lastContact, "d MMM", { locale: fr })}
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      </div >
+
+      {/* View All Modals */}
+      < AllQuotesModal
+        isOpen={showAllQuotesModal}
+        onClose={() => setShowAllQuotesModal(false)}
+        quotes={quotes.filter(q => (q.status || 'pending').toLowerCase() === 'pending')}
+        onQuoteClick={(quote) => {
+          setShowAllQuotesModal(false);
+          handleQuoteRowClick(quote);
+        }}
+      />
+
+      < AllCallsModal
+        isOpen={showAllCallsModal}
+        onClose={() => setShowAllCallsModal(false)}
+        calls={callBookings}
+        onCallClick={(call) => {
+          setShowAllCallsModal(false);
+          handleCallRowClick(call);
+        }}
+      />
+
+      {/* Custom Confirmation Dialog */}
+      <ConfirmDialog
+        isOpen={confirmDialog.isOpen}
+        onClose={() => setConfirmDialog(prev => ({ ...prev, isOpen: false }))}
+        onConfirm={confirmDialog.onConfirm}
+        title={confirmDialog.title}
+        description={confirmDialog.description}
+      />
+    </div >
   );
 };
 

@@ -2,8 +2,8 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
-const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
-const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
+const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -50,6 +50,10 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
+    if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
+      throw new Error("Missing Supabase environment variables");
+    }
+
     const quoteData: QuoteRequest = await req.json();
 
     console.log("Received quote request:", quoteData);
@@ -81,6 +85,21 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     console.log("Quote stored in database:", dbData);
+
+    // Check if Resend API key is configured
+    if (!RESEND_API_KEY) {
+      console.warn("RESEND_API_KEY not set. Skipping email sending.");
+      return new Response(
+        JSON.stringify({ success: true, message: "Demande de devis enregistrée (Emails non envoyés: configuration manquante)" }),
+        {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json",
+            ...corsHeaders,
+          },
+        }
+      );
+    }
 
     // Échapper toutes les données utilisateur avant de les utiliser dans le HTML
     const safeName = escapeHtml(quoteData.name);
@@ -256,12 +275,13 @@ const handler = async (req: Request): Promise<Response> => {
     });
 
     if (!emailResponse.ok) {
+      // Log the error but don't fail the request completely
       const errorData = await emailResponse.json();
-      throw new Error(`Resend API error: ${JSON.stringify(errorData)}`);
+      console.error("Resend API error:", errorData);
+    } else {
+      const emailResult = await emailResponse.json();
+      console.log("Email sent successfully to admin:", emailResult);
     }
-
-    const emailResult = await emailResponse.json();
-    console.log("Email sent successfully to admin:", emailResult);
 
     // Email Client - Structure unifiée avec couleurs solides
     const clientEmailHtml = `

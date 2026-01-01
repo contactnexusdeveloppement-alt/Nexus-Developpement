@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,6 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { sendQuoteConfirmation, sendQuoteNotification } from "@/lib/emailTemplates";
 import { motion } from "framer-motion";
 import { Check, Send, Sparkles, Building2, Globe, Smartphone, Zap, Palette, PenTool, LayoutTemplate } from "lucide-react";
 
@@ -33,8 +34,36 @@ const serviceTypes = [
   { id: "custom", label: "Sur mesure", icon: Sparkles, description: "Projet spécifique" }
 ];
 
+// Helper function to generate pre-filled message based on category and plan
+const generatePrefilledMessage = (category: string, planName: string): string => {
+  const messages: Record<string, string> = {
+    sites: `Bonjour,\n\nJe suis intéressé(e) par votre offre ${planName} pour la création d'un site vitrine. J'aimerais discuter de mon projet avec vous.\n\nPouvons-nous en discuter ?`,
+    automatisation: `Bonjour,\n\nJe souhaiterais automatiser certains processus dans mon entreprise. Votre offre ${planName} semble correspondre à mes besoins.\n\nPouvons-nous en discuter ?`,
+    webapp: `Bonjour,\n\nJ'ai un projet d'application web et votre offre ${planName} m'intéresse particulièrement.\n\nPouvons-nous en discuter ?`,
+    ecommerce: `Bonjour,\n\nJe souhaite créer une boutique en ligne avec votre offre ${planName}.\n\nPouvons-nous en discuter ?`,
+    mobile: `Bonjour,\n\nJ'ai besoin d'une application mobile et votre formule ${planName} correspond à mes attentes.\n\nPouvons-nous en discuter ?`,
+    identite: `Bonjour,\n\nJ'ai besoin de développer l'identité visuelle de ma marque avec votre pack ${planName}.\n\nPouvons-nous en discuter ?`,
+    custom: `Bonjour,\n\nJ'ai un besoin spécifique qui ne rentre pas exactement dans vos offres standard. J'aimerais discuter d'une solution sur-mesure adaptée à mon projet.\n\nPouvons-nous en discuter ?`
+  };
+  return messages[category] || `Bonjour,\n\nJe suis intéressé(e) par votre offre ${planName}.\n\nPouvons-nous en discuter ?`;
+};
+
+// Helper function to map category to service ID
+const getCategoryServiceId = (category: string, planName: string): string => {
+  const mapping: Record<string, string> = {
+    sites: "website",
+    automatisation: "automation",
+    webapp: "webapp",
+    ecommerce: "website",
+    mobile: "mobile",
+    identite: planName.toLowerCase().includes("branding") ? "branding" : "logo"
+  };
+  return mapping[category] || "custom";
+};
+
 const QuoteForm = () => {
   const { toast } = useToast();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -47,6 +76,26 @@ const QuoteForm = () => {
     timeline: "",
     consentGiven: false
   });
+
+  // Pre-fill form from URL parameters
+  useEffect(() => {
+    const category = searchParams.get("category");
+    const plan = searchParams.get("plan");
+
+    if (category && plan) {
+      const serviceId = getCategoryServiceId(category, plan);
+      const message = generatePrefilledMessage(category, plan);
+
+      setFormData(prev => ({
+        ...prev,
+        services: [serviceId],
+        projectDetails: message
+      }));
+
+      // Clear URL params after pre-filling to avoid re-triggering
+      setSearchParams({});
+    }
+  }, [searchParams, setSearchParams]);
 
   const handleServiceToggle = (serviceId: string) => {
     setFormData(prev => ({
@@ -81,17 +130,46 @@ const QuoteForm = () => {
     setIsSubmitting(true);
 
     try {
-      const { data, error } = await supabase.functions.invoke('send-quote', {
-        body: formData
-      });
+      // Insert quote into database
+      const { data: quoteData, error: dbError } = await supabase
+        .from('quotes')
+        .insert({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone || null,
+          business_type: formData.businessType || null,
+          services: formData.services,
+          project_details: formData.projectDetails || null,
+          budget: formData.budget || null,
+          timeline: formData.timeline || null,
+          status: 'pending'
+        })
+        .select()
+        .single();
 
-      if (error) throw error;
+      if (dbError) throw dbError;
+
+      // Send emails in parallel
+      const [confirmationResult, notificationResult] = await Promise.allSettled([
+        sendQuoteConfirmation(quoteData),
+        sendQuoteNotification(quoteData),
+      ]);
+
+      // Check email results
+      const emailsFailed = [confirmationResult, notificationResult].some(
+        result => result.status === 'fulfilled' && !result.value.success
+      );
+
+      if (emailsFailed) {
+        console.warn('Some emails failed to send, but quote was saved');
+      }
 
       toast({
         title: "✅ Demande envoyée !",
-        description: "Nous reviendrons vers vous dans les plus brefs délais.",
+        description: "Vous allez recevoir un email de confirmation. Nous reviendrons vers vous dans les 24-48h.",
       });
 
+      // Reset form
       setFormData({
         name: "",
         email: "",
@@ -104,7 +182,7 @@ const QuoteForm = () => {
         consentGiven: false
       });
     } catch (error) {
-      console.error("Error sending quote:", error);
+      console.error("Error submitting quote:", error);
       toast({
         title: "Erreur",
         description: "Une erreur est survenue lors de l'envoi. Veuillez réessayer.",

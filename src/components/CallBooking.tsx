@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { supabase } from '@/integrations/supabase/client';
+import { sendCallConfirmation, sendCallNotification } from '@/lib/emailTemplates';
 import { useToast } from '@/hooks/use-toast';
 import { Phone, Clock, CalendarDays, User, Mail, ChevronRight, ChevronLeft, Check } from 'lucide-react';
 import { format, addDays, isWeekend, isBefore, startOfDay } from 'date-fns';
@@ -113,24 +114,44 @@ export function CallBooking() {
     setIsSubmitting(true);
 
     try {
-      const { error } = await supabase.functions.invoke('send-call-booking', {
-        body: {
+      // Insert call booking into database
+      const { data: callData, error: dbError } = await supabase
+        .from('call_bookings')
+        .insert({
           name,
           email,
           phone,
-          booking_date: format(selectedDate, 'yyyy-MM-dd'),
+          booking_date: format(selected, Date, 'yyyy-MM-dd'),
           time_slot: selectedTime,
           duration: selectedDuration,
-        },
-      });
+          call_type: selectedDuration === 15 ? 'discovery' : 'quote'
+        })
+        .select()
+        .single();
 
-      if (error) throw error;
+      if (dbError) throw dbError;
+
+      // Send emails in parallel
+      const [confirmationResult, notificationResult] = await Promise.allSettled([
+        sendCallConfirmation(callData),
+        sendCallNotification(callData),
+      ]);
+
+      // Check email results
+      const emailsFailed = [confirmationResult, notificationResult].some(
+        result => result.status === 'fulfilled' && !result.value.success
+      );
+
+      if (emailsFailed) {
+        console.warn('Some emails failed to send, but call booking was saved');
+      }
 
       toast({
         title: "Réservation confirmée ! 📞",
-        description: `Votre appel est prévu le ${format(selectedDate, 'EEEE d MMMM', { locale: fr })} à ${selectedTime}`,
+        description: `Votre appel est prévu le ${format(selectedDate, 'EEEE d MMMM', { locale: fr })} à ${selectedTime}. Vous recevrez un email de confirmation.`,
       });
 
+      // Update booked slots
       const startIndex = TIME_SLOTS.indexOf(selectedTime);
       const slotsNeeded = Math.ceil(selectedDuration / 30);
       const newBlockedSlots: string[] = [];
@@ -139,6 +160,7 @@ export function CallBooking() {
       }
       setBookedSlots(prev => [...prev, ...newBlockedSlots]);
 
+      // Reset form
       setSelectedDate(undefined);
       setSelectedTime('');
       setName('');
