@@ -178,7 +178,7 @@ const Concession = () => {
 
             <main>
                 <section className="hero">
-                    <video autoPlay muted loop playsInline className="hero-video" poster="https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=2070">
+                    <video autoPlay muted loop playsInline className="hero-video">
                         <source src="/concession/background-video.mp4" type="video/mp4" />
                         Your browser does not support the video tag.
                     </video>

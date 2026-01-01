@@ -21,70 +21,70 @@ const Team = () => {
             name: "Adam Le Charlès",
             role: "Co-fondateur & Tech Lead",
             bio: "Je suis passionné par l'architecture logicielle. Je supervise toute la vision technique de l'agence pour garantir à nos partenaires des solutions robustes, pérennes et à la pointe de l'innovation.",
-            image: "/src/assets/adam_lecharles.jpg",
+            image: "/assets/adam_lecharles.jpg",
             details: "Expert React & Node.js"
         },
         {
             name: "Théo Jacobée",
             role: "Co-fondateur & Stratégie",
             bio: "Mon but est de transformer vos idées complexes en plans d'action concrets. J'analyse votre marché pour maximiser votre ROI et assurer une croissance durable de votre activité.",
-            image: "/src/assets/theo_jacobee.jpg",
+            image: "/assets/theo_jacobee.jpg",
             details: "Visionnaire Business"
         },
         {
             name: "Théo Gautier",
             role: "Directeur Créatif",
             bio: "Diplômé des Gobelins et ami d'enfance d'Adam, j'ai affûté mon œil dans des studios parisiens. J'apporte cette touche artistique unique qui rendra votre projet inoubliable.",
-            image: "/src/assets/theo_gautier.png",
+            image: "/assets/theo_gautier.png",
             details: "Master Web Design - Gobelins"
         },
         {
             name: "Sarah Chen",
             role: "Lead Developer Fullstack",
             bio: "Ancienne de chez Criteo et diplômée d'EPITECH, je suis obsédée par la performance. Je conçois l'architecture de vos applications pour qu'elles soient rapides et scalables.",
-            image: "/src/assets/sarah_chen.png",
+            image: "/assets/sarah_chen.png",
             details: "Ex-Criteo • EPITECH"
         },
         {
             name: "Lucas Martin",
             role: "Senior Backend Developer",
             bio: "Issu de l'École 42, je suis un puriste du code. Je bâtis pour vous des API sécurisées et ultra-rapides, capables d'encaisser n'importe quelle charge de trafic.",
-            image: "/src/assets/lucas_martin.png",
+            image: "/assets/lucas_martin.png",
             details: "Alumni École 42"
         },
         {
             name: "Emma Dubois",
             role: "Senior UI/UX Designer",
             bio: "Formée à Strate, j'allie la psychologie cognitive au design. Je crée des parcours utilisateurs si fluides que vos clients navigueront sur votre site sans même y penser.",
-            image: "/src/assets/emma_dubois.png",
+            image: "/assets/emma_dubois.png",
             details: "Master UX - Strate"
         },
         {
             name: "Thomas Petit",
             role: "Frontend Developer",
             bio: "Sorti de l'IIM, je suis le magicien qui donne vie aux maquettes. Je code des animations immersives en WebGL et Three.js pour créer l'effet 'Wow' que vous recherchez.",
-            image: "/src/assets/thomas_petit.png",
+            image: "/assets/thomas_petit.png",
             details: "Expert Creative Coding"
         },
         {
             name: "Julie Morel",
             role: "Chef de Projet Digital",
             bio: "Avec mon Master d'HEC Paris, j'orchestre les sprints techniques. Je suis votre point de contact privilégié pour m'assurer que votre projet avance vite et bien.",
-            image: "/src/assets/julie_morel.png",
+            image: "/assets/julie_morel.png",
             details: "Master HEC Paris"
         },
         {
             name: "Maxime Leroy",
             role: "DevOps Engineer",
             bio: "Ingénieur INSA Lyon, je suis le gardien de votre infrastructure. J'automatise tout pour que votre site soit en ligne 24h/24 et 7j/7, quoi qu'il arrive.",
-            image: "/src/assets/maxime_leroy.png",
+            image: "/assets/maxime_leroy.png",
             details: "Ingénieur INSA"
         },
         {
             name: "Chloé Durand",
             role: "SEO & Content Manager",
             bio: "Diplômée du CELSA, je manie les mots pour plaire à Google. Je déploie des stratégies de contenu chirurgicales pour vous propulser en tête des résultats de recherche.",
-            image: "/src/assets/chloe_durand.png",
+            image: "/assets/chloe_durand.png",
             details: "Master CELSA"
         }
     ];
@@ -178,3 +178,4 @@ const Team = () => {
 };
 
 export default Team;
+
