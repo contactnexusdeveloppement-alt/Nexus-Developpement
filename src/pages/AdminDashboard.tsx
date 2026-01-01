@@ -346,6 +346,7 @@ const AdminDashboard = () => {
                 callBookings={callBookings}
                 onQuoteClick={(q) => console.log("Quote clicked", q)}
                 onCallClick={(c) => console.log("Call clicked", c)}
+                onRefresh={fetchData}
                 initialEmail={emailParam}
                 initialCallId={callIdParam}
                 initialQuoteId={quoteIdParam}
