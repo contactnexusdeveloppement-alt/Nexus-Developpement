@@ -20,5 +20,10 @@ export default defineConfig(({ mode }) => ({
     outDir: "dist",
     assetsDir: "assets",
     copyPublicDir: true,
+    minify: 'esbuild',
+    // Ultra-secure: Remove ALL console.* and debugger statements in production
+    esbuild: {
+      drop: mode === 'production' ? ['console', 'debugger'] : [],
+    },
   },
 }));
