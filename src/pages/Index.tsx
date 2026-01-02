@@ -12,6 +12,7 @@ import Footer from "@/components/Footer";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import { ChatBotWidget } from "@/components/chatbot/ChatBotWidget";
 import SEO from "@/components/SEO";
+import FAQ from "@/components/FAQ";
 
 const Index = () => {
   return (
@@ -43,6 +44,7 @@ const Index = () => {
         <CallBooking />
         <QuoteForm />
         <Contact />
+        <FAQ />
         <Footer />
       </div>
 
