@@ -141,7 +141,6 @@ const AdminDashboard = () => {
     const quotesSubscription = supabase
       .channel('public:quote_requests')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'quote_requests' }, (payload) => {
-        console.log('Realtime quote update:', payload);
         fetchData(); // Simplest strategy: re-fetch to ensure consistency. Could be optimized later.
         if (payload.eventType === 'INSERT') {
           toast.info("Nouvelle demande de devis reçue !");
@@ -152,7 +151,6 @@ const AdminDashboard = () => {
     const bookingsSubscription = supabase
       .channel('public:call_bookings')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'call_bookings' }, (payload) => {
-        console.log('Realtime booking update:', payload);
         fetchData();
         if (payload.eventType === 'INSERT') {
           toast.info("Nouvel appel réservé !");
@@ -346,8 +344,8 @@ const AdminDashboard = () => {
                 <ClientsTab
                   quotes={quotes}
                   callBookings={callBookings}
-                  onQuoteClick={(q) => console.log("Quote clicked", q)}
-                  onCallClick={(c) => console.log("Call clicked", c)}
+                  onQuoteClick={() => { }}
+                  onCallClick={() => { }}
                   onRefresh={fetchData}
                   initialEmail={emailParam}
                   initialCallId={callIdParam}

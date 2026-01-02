@@ -123,10 +123,7 @@ export const sendEmail = async (
     variables: Record<string, string>
 ): Promise<{ success: boolean; message: string }> => {
     // Phase 2: Real implementation with Resend/SendGrid
-    console.log('Email to send:', {
-        to,
-        template: fillTemplate(template, variables)
-    });
+    // Email will be sent via emailService.ts
 
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 500));

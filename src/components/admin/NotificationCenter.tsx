@@ -33,8 +33,7 @@ const NotificationCenter = () => {
                     schema: "public",
                     table: "notifications",
                 },
-                (payload) => {
-                    console.log("Notification update:", payload);
+                () => {
                     fetchNotifications();
                 }
             )
