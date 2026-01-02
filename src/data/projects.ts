@@ -14,7 +14,7 @@ export const projects: Project[] = [
     {
         title: "Élégance Coiffure",
         description: "Site vitrine complet pour un salon de coiffure avec présentation des services, réalisations et histoire.",
-        image: "/salon/screenshot.png",
+        image: "/salon/screenshot.webp",
         url: "/salon-coiffure",
         technologies: ["React", "Tailwind", "Framer Motion"],
         category: "Site Vitrine",
@@ -23,7 +23,7 @@ export const projects: Project[] = [
     {
         title: "Saveurs & Traditions",
         description: "Site vitrine élégant pour un restaurant gastronomique. Menu digital interactif, galerie photos immersive et module de réservation de table en temps réel.",
-        image: "/restaurant/screenshot.png",
+        image: "/restaurant/screenshot.webp",
         url: "/restaurant",
         technologies: ["React", "Framer Motion", "Reservation API"],
         category: "Site Vitrine",
@@ -32,7 +32,7 @@ export const projects: Project[] = [
     {
         title: "Héritage Auto",
         description: "Concession automobile de prestige. Vitrine immersive avec filtres dynamiques, galerie de véhicules et services d'atelier haut de gamme.",
-        image: "/projects/concession-home.png",
+        image: "/projects/concession-home.webp",
         url: "/concession-automobile",
         technologies: ["React", "CSS Modules", "Responsive Design"],
         category: "Site Vitrine",
