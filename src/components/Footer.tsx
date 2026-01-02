@@ -115,6 +115,14 @@ const Footer = () => {
           </div>
         </div>
 
+        {/* Location Info - SEO Local */}
+        <div className="pt-6 pb-4 text-center">
+          <p className="text-slate-400 text-sm">
+            Agence Web basée à <span className="text-blue-400 font-medium">Élancourt (78)</span>, au cœur de Saint-Quentin-en-Yvelines.
+            <span className="block mt-1">Nous intervenons partout en France pour accompagner votre transformation digitale.</span>
+          </p>
+        </div>
+
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500">
           <p>&copy; {new Date().getFullYear()} Nexus Développement. Tous droits réservés.</p>

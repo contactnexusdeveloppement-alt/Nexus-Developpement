@@ -3,7 +3,7 @@ import { useTypewriter } from "@/hooks/useTypewriter";
 import { motion } from "framer-motion";
 
 const Hero = () => {
-  const typedText = useTypewriter("Accélérez votre développement digital", 80);
+  const typedText = useTypewriter("Agence Web & Mobile : Création de sites et applications sur-mesure", 80);
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
