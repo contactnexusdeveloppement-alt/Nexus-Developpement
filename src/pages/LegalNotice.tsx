@@ -30,9 +30,9 @@ const LegalNotice = () => {
       title: "2. Hébergement",
       content: (
         <div className="space-y-2 text-slate-300">
-          <p><strong className="text-white">Hébergeur :</strong> Netlify, Inc.</p>
-          <p><strong className="text-white">Adresse :</strong> 2325 3rd Street, Suite 215, San Francisco, California 94107</p>
-          <p><strong className="text-white">Site web :</strong> <a href="https://netlify.com" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline transition-colors">https://netlify.com</a></p>
+          <p><strong className="text-white">Hébergeur :</strong> Vercel Inc.</p>
+          <p><strong className="text-white">Adresse :</strong> 340 S Lemon Ave #4133, Walnut, CA 91789, USA</p>
+          <p><strong className="text-white">Site web :</strong> <a href="https://vercel.com" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline transition-colors">https://vercel.com</a></p>
         </div>
       )
     },
