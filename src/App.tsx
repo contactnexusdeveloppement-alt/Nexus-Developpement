@@ -23,10 +23,6 @@ const WebApps = lazy(() => import("./pages/WebApps"));
 const MobileApps = lazy(() => import("./pages/MobileApps"));
 const VisualIdentity = lazy(() => import("./pages/VisualIdentity"));
 const SalonCoiffure = lazy(() => import("./pages/SalonCoiffure"));
-const AgenceImmoHome = lazy(() => import("./pages/agence-immo/Home"));
-const AgenceImmoProperties = lazy(() => import("./pages/agence-immo/PropertiesPage"));
-const AgenceImmoDetails = lazy(() => import("./pages/agence-immo/PropertyDetails"));
-const AgenceImmoLogin = lazy(() => import("./pages/agence-immo/LoginPage"));
 const Restaurant = lazy(() => import("./pages/Restaurant"));
 const Concession = lazy(() => import("./pages/Concession"));
 const ProjectsCatalog = lazy(() => import("./pages/ProjectsCatalog"));
@@ -57,13 +53,6 @@ const App = () => (
               <Route path="/applications-mobiles" element={<MobileApps />} />
               <Route path="/identite-visuelle" element={<VisualIdentity />} />
               <Route path="/salon-coiffure" element={<SalonCoiffure />} />
-
-              {/* Real Estate App Routes */}
-              <Route path="/agence-immo" element={<AgenceImmoHome />} />
-              <Route path="/agence-immo/properties" element={<AgenceImmoProperties />} />
-              <Route path="/agence-immo/property/:id" element={<AgenceImmoDetails />} />
-              <Route path="/agence-immo/login" element={<AgenceImmoLogin />} />
-
               <Route path="/restaurant" element={<Restaurant />} />
 
               <Route path="/mentions-legales" element={<LegalNotice />} />
