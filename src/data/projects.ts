@@ -21,15 +21,6 @@ export const projects: Project[] = [
         altText: "Interface du site Élégance Coiffure"
     },
     {
-        title: "Entre Terre et Mer",
-        description: "Site vitrine d'agence immobilière de prestige dans les Vosges. Design élégant et mise en valeur des biens d'exception.",
-        image: "/agence-immo/screenshot.png",
-        url: "/agence-immo",
-        technologies: ["React", "Tailwind", "Framer Motion"],
-        category: "Site Vitrine",
-        altText: "Aperçu du site Entre Terre et Mer"
-    },
-    {
         title: "Saveurs & Traditions",
         description: "Site vitrine élégant pour un restaurant gastronomique. Menu digital interactif, galerie photos immersive et module de réservation de table en temps réel.",
         image: "/restaurant/screenshot.png",
