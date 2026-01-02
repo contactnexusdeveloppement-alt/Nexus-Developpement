@@ -1,9 +1,21 @@
 import MagneticButton from "@/components/MagneticButton";
 import { useTypewriter } from "@/hooks/useTypewriter";
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 const Hero = () => {
-  const typedText = useTypewriter("Agence Web & Mobile : Création de sites et applications sur-mesure", 80);
+  const fullText = "Agence Web & Mobile : Création de sites et applications sur-mesure";
+  const typedText = useTypewriter(fullText, 80);
+
+  // Mobile detection for LCP optimization (instant text render)
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -29,7 +41,7 @@ const Hero = () => {
 
           <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black mb-8 leading-tight tracking-tight min-h-[120px] sm:min-h-[160px] md:min-h-[220px]">
             <span className="bg-gradient-to-r from-white via-blue-100 to-gray-400 bg-clip-text text-transparent drop-shadow-lg">
-              {typedText}
+              {isMobile ? fullText : typedText}
             </span>
           </h1>
 
