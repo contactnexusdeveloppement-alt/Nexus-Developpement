@@ -39,6 +39,15 @@ export const projects: Project[] = [
         altText: "Garage Héritage Auto"
     },
     {
+        title: "Prestige Immobilier Vosges",
+        description: "Agence immobilière de luxe. Site vitrine élégant avec catalogue de biens, recherche avancée et présentation des services haut de gamme.",
+        image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=2073&auto=format&fit=crop",
+        url: "/agence-immobiliere",
+        technologies: ["React", "Tailwind", "Responsive Design"],
+        category: "Site Vitrine",
+        altText: "Agence immobilière de prestige"
+    },
+    {
         title: "Votre Futur Projet ?",
         description: "Vous avez une vision ambitieuse ? Transformons-la en réalité digitale. Cliquez ici pour démarrer votre projet avec nous.",
         image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop",
