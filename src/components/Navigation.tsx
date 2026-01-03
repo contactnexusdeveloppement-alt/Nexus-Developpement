@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import logo from "@/assets/nexus-logo.png";
+import logo from "@/assets/nexus-logo.webp";
 import { Link, useNavigate } from "react-router-dom";
 import {
   NavigationMenu,

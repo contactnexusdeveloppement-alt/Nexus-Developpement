@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import logo from "@/assets/nexus-logo.png";
+import logo from "@/assets/nexus-logo.webp";
 import { Facebook, Twitter, Instagram, Linkedin, Send, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 

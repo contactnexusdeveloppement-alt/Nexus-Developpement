@@ -1,10 +1,17 @@
 import { useState, useEffect } from 'react';
 
-export const useTypewriter = (text: string, speed: number = 100) => {
-  const [displayedText, setDisplayedText] = useState('');
+export const useTypewriter = (text: string, speed: number = 100, enabled: boolean = true) => {
+  // If disabled, return full text immediately without any animation
+  const [displayedText, setDisplayedText] = useState(enabled ? '' : text);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
+    // Skip animation entirely if disabled
+    if (!enabled) {
+      setDisplayedText(text);
+      return;
+    }
+
     if (currentIndex < text.length) {
       const timeout = setTimeout(() => {
         setDisplayedText(prev => prev + text[currentIndex]);
@@ -13,7 +20,7 @@ export const useTypewriter = (text: string, speed: number = 100) => {
 
       return () => clearTimeout(timeout);
     }
-  }, [currentIndex, text, speed]);
+  }, [currentIndex, text, speed, enabled]);
 
   return displayedText;
 };
