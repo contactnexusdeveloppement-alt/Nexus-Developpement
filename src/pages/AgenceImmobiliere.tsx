@@ -13,8 +13,8 @@ const AgenceImmobiliere = () => {
             <Header />
             <main>
                 <Hero />
-                <AboutSection />
                 <FeaturedProperties />
+                <AboutSection />
                 <ContactSection />
             </main>
             <Footer />
