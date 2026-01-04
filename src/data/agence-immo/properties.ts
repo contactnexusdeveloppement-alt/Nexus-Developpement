@@ -19,7 +19,7 @@ export const properties: Property[] = [
         location: 'Gérardmer',
         bedrooms: 5,
         surface: 240,
-        image: '/agence-immo/images/chalet-luxe.jpg',
+        image: 'https://images.unsplash.com/photo-1518780664697-55e3ad937233?q=80&w=800&fm=webp&fit=crop',
         tags: ['Exclusivité', 'Vue Lac']
     },
     {
@@ -30,7 +30,7 @@ export const properties: Property[] = [
         location: 'Gérardmer',
         bedrooms: 2,
         surface: 85,
-        image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=2080&auto=format&fit=crop',
+        image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=800&fm=webp&fit=crop',
         tags: ['Nouveauté']
     },
     {
@@ -41,7 +41,7 @@ export const properties: Property[] = [
         location: 'Xonrupt-Longemer',
         bedrooms: 4,
         surface: 300,
-        image: '/agence-immo/images/ferme-vosgienne.jpg',
+        image: 'https://images.unsplash.com/photo-1464146072230-91cabc968266?q=80&w=800&fm=webp&fit=crop',
         tags: ['Coup de Cœur']
     },
     {
@@ -52,7 +52,7 @@ export const properties: Property[] = [
         location: 'Gérardmer',
         bedrooms: 0,
         surface: 1200,
-        image: '/agence-immo/images/terrain-constructible.jpg',
+        image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=800&fm=webp&fit=crop',
         tags: []
     },
 ];
