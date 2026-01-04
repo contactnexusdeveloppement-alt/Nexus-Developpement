@@ -41,7 +41,7 @@ export const projects: Project[] = [
     {
         title: "Prestige Immobilier Vosges",
         description: "Agence immobilière de luxe. Site vitrine élégant avec catalogue de biens, recherche avancée et présentation des services haut de gamme.",
-        image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=800&fm=webp&fit=crop",
+        image: "/agence-immo/screenshot.png",
         url: "/agence-immobiliere",
         technologies: ["React", "Tailwind", "Responsive Design"],
         category: "Site Vitrine",
