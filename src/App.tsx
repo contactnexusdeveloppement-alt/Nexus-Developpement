@@ -26,6 +26,7 @@ const SalonCoiffure = lazy(() => import("./pages/SalonCoiffure"));
 const Restaurant = lazy(() => import("./pages/Restaurant"));
 const Concession = lazy(() => import("./pages/Concession"));
 const AgenceImmobiliere = lazy(() => import("./pages/AgenceImmobiliere"));
+const PropertyDetail = lazy(() => import("./pages/PropertyDetail"));
 const ProjectsCatalog = lazy(() => import("./pages/ProjectsCatalog"));
 const PublicQuoteWizard = lazy(() => import("./pages/PublicQuoteWizard"));
 
@@ -56,6 +57,7 @@ const App = () => (
               <Route path="/salon-coiffure" element={<SalonCoiffure />} />
               <Route path="/restaurant" element={<Restaurant />} />
               <Route path="/agence-immobiliere" element={<AgenceImmobiliere />} />
+              <Route path="/agence-immo/property/:id" element={<PropertyDetail />} />
 
               <Route path="/mentions-legales" element={<LegalNotice />} />
               <Route path="/confidentialite" element={<PrivacyPolicy />} />
