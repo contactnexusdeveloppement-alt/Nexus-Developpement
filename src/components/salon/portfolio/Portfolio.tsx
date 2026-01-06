@@ -4,12 +4,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 const categories = ["Tous", "Femmes", "Hommes", "Colorations", "Coiffures"];
 
 const portfolioItems = [
-    { id: 1, category: "Femmes", image: "/salon/assets/portfolio-bob.png", title: "Carré Plongeant" },
-    { id: 2, category: "Hommes", image: "/salon/assets/portfolio-fade.png", title: "Coupe Fade" },
+    { id: 1, category: "Femmes", image: "/salon/assets/portfolio-bob.webp", title: "Carré Plongeant" },
+    { id: 2, category: "Hommes", image: "/salon/assets/portfolio-fade.webp", title: "Coupe Fade" },
     { id: 3, category: "Colorations", image: "/salon/assets/portfolio-balayage.jpg", title: "Balayage Miel" },
     { id: 4, category: "Coiffures", image: "/salon/assets/portfolio-bun.jpg", title: "Chignon Mariage" },
     { id: 5, category: "Femmes", image: "/salon/assets/portfolio-wavy.jpg", title: "Wavy Naturel" },
-    { id: 6, category: "Colorations", image: "/salon/assets/portfolio-ombre.png", title: "Ombré Hair" },
+    { id: 6, category: "Colorations", image: "/salon/assets/portfolio-ombre.webp", title: "Ombré Hair" },
     { id: 7, category: "Hommes", image: "/salon/assets/portfolio-beard.jpg", title: "Barbe & Coupe" },
     { id: 8, category: "Coiffures", image: "/salon/assets/portfolio-braid.jpg", title: "Tresse Bohème" },
 ];

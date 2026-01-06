@@ -13,14 +13,14 @@ import SEO from "@/components/SEO";
 // Import team images
 import adamImage from "@/assets/adam_lecharles.jpg";
 import theoJImage from "@/assets/theo_jacobee.jpg";
-import theoGImage from "@/assets/theo_gautier.png";
-import sarahImage from "@/assets/sarah_chen.png";
-import lucasImage from "@/assets/lucas_martin.png";
-import emmaImage from "@/assets/emma_dubois.png";
-import thomasImage from "@/assets/thomas_petit.png";
-import julieImage from "@/assets/julie_morel.png";
-import maximeImage from "@/assets/maxime_leroy.png";
-import chloeImage from "@/assets/chloe_durand.png";
+import theoGImage from "@/assets/theo_gautier.webp";
+import sarahImage from "@/assets/sarah_chen.webp";
+import lucasImage from "@/assets/lucas_martin.webp";
+import emmaImage from "@/assets/emma_dubois.webp";
+import thomasImage from "@/assets/thomas_petit.webp";
+import julieImage from "@/assets/julie_morel.webp";
+import maximeImage from "@/assets/maxime_leroy.webp";
+import chloeImage from "@/assets/chloe_durand.webp";
 
 const Team = () => {
     // Scroll to top on mount

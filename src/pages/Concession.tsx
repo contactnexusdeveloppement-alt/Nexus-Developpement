@@ -14,7 +14,7 @@ const cars = [
         km: '45,000 km',
         price: '24,900 €',
         type: 'SUV',
-        image: '/concession/car-peugeot-3008.png'
+        image: '/concession/car-peugeot-3008.webp'
     },
     {
         id: 2,
@@ -24,7 +24,7 @@ const cars = [
         km: '28,000 km',
         price: '21,500 €',
         type: 'Berline',
-        image: '/concession/car-vw-golf-8.png'
+        image: '/concession/car-vw-golf-8.webp'
     },
     {
         id: 3,
@@ -34,7 +34,7 @@ const cars = [
         km: '55,000 km',
         price: '14,200 €',
         type: 'Citadine',
-        image: '/concession/car-renault-clio-4.png'
+        image: '/concession/car-renault-clio-4.webp'
     },
     {
         id: 4,
@@ -44,7 +44,7 @@ const cars = [
         km: '32,000 km',
         price: '29,500 €',
         type: 'Berline',
-        image: '/concession/car-mercedes-a.png'
+        image: '/concession/car-mercedes-a.webp'
     },
     {
         id: 5,
@@ -54,7 +54,7 @@ const cars = [
         km: '68,000 km',
         price: '36,900 €',
         type: 'SUV',
-        image: '/concession/car-audi-q5.png'
+        image: '/concession/car-audi-q5.webp'
     },
     {
         id: 6,
@@ -64,7 +64,7 @@ const cars = [
         km: '15,000 km',
         price: '89,900 €',
         type: 'Berline',
-        image: '/concession/bmw-m3-competition.png'
+        image: '/concession/bmw-m3-competition.webp'
     },
     {
         id: 7,
@@ -84,7 +84,7 @@ const cars = [
         km: '5,000 km',
         price: '54,900 €',
         type: 'Berline',
-        image: '/concession/tesla-model-3.png'
+        image: '/concession/tesla-model-3.webp'
     },
     {
         id: 9,
@@ -265,7 +265,7 @@ const Concession = () => {
                                     <p>Entretien constructeur et préparation moteur.</p>
                                 </div>
                                 <div className="service-image-container">
-                                    <img src="/concession/service-mechanic-new.png" alt="Mécanique" className="service-inline-image" />
+                                    <img src="/concession/service-mechanic-new.webp" alt="Mécanique" className="service-inline-image" />
                                 </div>
                             </div>
                             <div className="service-row-main reverse">
@@ -283,7 +283,7 @@ const Concession = () => {
                                     <p>Recherche personnalisée de votre véhicule de rêve.</p>
                                 </div>
                                 <div className="service-image-container">
-                                    <img src="/concession/service-sourcing.png" alt="Sourcing de prestige" className="service-inline-image" />
+                                    <img src="/concession/service-sourcing.webp" alt="Sourcing de prestige" className="service-inline-image" />
                                 </div>
                             </div>
                         </div>

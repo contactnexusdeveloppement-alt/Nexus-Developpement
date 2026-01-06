@@ -17,7 +17,7 @@ const About = () => {
                     >
                         <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl">
                             <img
-                                src="/salon/assets/salon-interior.png"
+                                src="/salon/assets/salon-interior.webp"
                                 alt="Salon Interior"
                                 className="w-full h-auto object-cover"
                             />

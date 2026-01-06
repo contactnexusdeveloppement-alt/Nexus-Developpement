@@ -1,4 +1,4 @@
-import bodystartImage from "@/assets/bodystart-project.png";
+import bodystartImage from "@/assets/bodystart-project.webp";
 
 export type Project = {
     title: string;
@@ -41,7 +41,7 @@ export const projects: Project[] = [
     {
         title: "Prestige Immobilier Vosges",
         description: "Agence immobilière de luxe. Site vitrine élégant avec catalogue de biens, recherche avancée et présentation des services haut de gamme.",
-        image: "/agence-immo/screenshot.png",
+        image: "/agence-immo/screenshot.webp",
         url: "/agence-immobiliere",
         technologies: ["React", "Tailwind", "Responsive Design"],
         category: "Site Vitrine",

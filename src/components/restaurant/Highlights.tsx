@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
 import styles from '../../styles/restaurant/Highlights.module.css';
-import burgerImg from '../../assets/restaurant/images/burger.png';
-import ribsImg from '../../assets/restaurant/images/ribs.png';
-import steakImg from '../../assets/restaurant/images/steak.png';
+import burgerImg from '../../assets/restaurant/images/burger.webp';
+import ribsImg from '../../assets/restaurant/images/ribs.webp';
+import steakImg from '../../assets/restaurant/images/steak.webp';
 
 const dishes = [
     {

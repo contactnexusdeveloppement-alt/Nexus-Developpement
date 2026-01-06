@@ -1,6 +1,6 @@
 import { Facebook, Instagram, Twitter } from 'lucide-react';
 import styles from '../../styles/restaurant/Footer.module.css';
-import mapImg from '../../assets/restaurant/images/map.png';
+import mapImg from '../../assets/restaurant/images/map.webp';
 
 export default function Footer() {
     return (
