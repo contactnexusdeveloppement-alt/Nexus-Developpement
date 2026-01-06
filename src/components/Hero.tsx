@@ -15,7 +15,7 @@ const Hero = () => {
   });
 
   // Only run typewriter animation on desktop (!isMobile)
-  const typedText = useTypewriter(fullText, 80, !isMobile);
+  const typedText = useTypewriter(fullText, 50, !isMobile);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
