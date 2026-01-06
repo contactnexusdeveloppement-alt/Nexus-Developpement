@@ -61,25 +61,27 @@ const AdminLogin = () => {
 
       if (authError) throw authError;
 
-      // Relaxed check: Accept any valid login for now
-      /*
-      // Check if user has admin role
-      const { data: roles, error: roleError } = await supabase
+      // Check user role and redirect accordingly
+      const { data: roleData } = await supabase
         .from('user_roles')
         .select('role')
         .eq('user_id', authData.user.id)
-        .eq('role', 'admin')
         .single();
 
-      if (roleError || !roles) {
+      const userRole = roleData?.role;
+
+      if (userRole === 'admin') {
+        toast.success("Connexion réussie - Admin");
+        navigate('/nx-panel-8f4a/dashboard');
+      } else if (userRole === 'sales') {
+        toast.success("Connexion réussie - Commercial");
+        navigate('/sales/dashboard');
+      } else {
+        // No valid role, sign out
         await supabase.auth.signOut();
-        toast.error("Accès non autorisé");
+        toast.error("Accès non autorisé. Aucun rôle valide trouvé.");
         return;
       }
-      */
-
-      toast.success("Connexion réussie");
-      navigate('/nx-panel-8f4a/dashboard');
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Erreur de connexion");
     } finally {

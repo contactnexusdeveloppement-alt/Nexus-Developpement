@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo, lazy, Suspense } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Users, Briefcase, FileText, Target, ClipboardList, Bot, TrendingUp, Mail, Download, LogOut, } from "lucide-react";
@@ -20,6 +20,7 @@ const InvoicesTab = lazy(() => import("@/components/admin/InvoicesTab"));
 const OpportunitiesTab = lazy(() => import("@/components/admin/crm/OpportunitiesTab"));
 const QuoteAnalyticsDashboard = lazy(() => import("@/components/admin/QuoteAnalyticsDashboard").then(m => ({ default: m.QuoteAnalyticsDashboard })));
 const EmailTemplatesManager = lazy(() => import("@/components/admin/EmailTemplatesManager"));
+const TeamManagement = lazy(() => import("@/pages/admin/TeamManagement"));
 
 
 // Types
@@ -333,6 +334,11 @@ const AdminDashboard = () => {
                 <span className="hidden xl:inline">Templates</span>
                 <span className="xl:hidden">Tpl</span>
               </TabsTrigger>
+              <TabsTrigger value="team" className="data-[state=active]:bg-indigo-600 data-[state=active]:text-white whitespace-nowrap">
+                <Users className="w-4 h-4 mr-2" />
+                <span className="hidden xl:inline">Équipe</span>
+                <span className="xl:hidden">Team</span>
+              </TabsTrigger>
             </TabsList>
           </div>
 
@@ -411,6 +417,14 @@ const AdminDashboard = () => {
             <ErrorBoundary>
               <Suspense fallback={<TabLoadingFallback />}>
                 <EmailTemplatesManager />
+              </Suspense>
+            </ErrorBoundary>
+          </TabsContent>
+
+          <TabsContent value="team" className="space-y-6 animate-in fade-in duration-500">
+            <ErrorBoundary>
+              <Suspense fallback={<TabLoadingFallback />}>
+                <TeamManagement />
               </Suspense>
             </ErrorBoundary>
           </TabsContent>

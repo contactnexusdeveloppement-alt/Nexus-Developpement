@@ -7,6 +7,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { Suspense, lazy } from "react";
 import CookieConsent from "./components/CookieConsent";
 import ScrollToTop from "./components/ScrollToTop";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 // Lazy loading pages for performance
 const Index = lazy(() => import("./pages/Index"));
@@ -28,7 +29,16 @@ const Concession = lazy(() => import("./pages/Concession"));
 const AgenceImmobiliere = lazy(() => import("./pages/AgenceImmobiliere"));
 const PropertyDetail = lazy(() => import("./pages/PropertyDetail"));
 const ProjectsCatalog = lazy(() => import("./pages/ProjectsCatalog"));
-const PublicQuoteWizard = lazy(() => import("./pages/PublicQuoteWizard"));
+const AuthCallback = lazy(() => import("./pages/auth/AuthCallback"));
+
+// Admin pages
+const TeamManagement = lazy(() => import("./pages/admin/TeamManagement"));
+
+// Sales Portal pages
+const SalesDashboard = lazy(() => import("./pages/sales/SalesDashboard"));
+const ProspectsList = lazy(() => import("./pages/sales/ProspectsList"));
+const QuoteGenerator = lazy(() => import("./pages/sales/QuoteGenerator"));
+const TrainingResources = lazy(() => import("./pages/sales/TrainingResources"));
 
 const queryClient = new QueryClient();
 
@@ -45,7 +55,7 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
+        <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <Suspense fallback={<PageLoader />}>
             <Routes>
               <Route path="/" element={<Index />} />
@@ -64,11 +74,60 @@ const App = () => (
               <Route path="/cgu" element={<TermsOfService />} />
               <Route path="/equipe" element={<Team />} />
               <Route path="/nx-panel-8f4a" element={<AdminLogin />} />
-              <Route path="/nx-panel-8f4a/dashboard" element={<AdminDashboard />} />
+              <Route
+                path="/nx-panel-8f4a/dashboard"
+                element={
+                  <ProtectedRoute allowedRoles={['admin']}>
+                    <AdminDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="/auth/callback" element={<AuthCallback />} />
+              <Route
+                path="/nx-panel-8f4a/team"
+                element={
+                  <ProtectedRoute allowedRoles={['admin']}>
+                    <TeamManagement />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Sales Portal Routes */}
+              <Route
+                path="/sales/dashboard"
+                element={
+                  <ProtectedRoute allowedRoles={['sales']}>
+                    <SalesDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/sales/prospects"
+                element={
+                  <ProtectedRoute allowedRoles={['sales']}>
+                    <ProspectsList />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/sales/quote-generator"
+                element={
+                  <ProtectedRoute allowedRoles={['sales']}>
+                    <QuoteGenerator />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/sales/training"
+                element={
+                  <ProtectedRoute allowedRoles={['sales']}>
+                    <TrainingResources />
+                  </ProtectedRoute>
+                }
+              />
 
               <Route path="/concession-automobile" element={<Concession />} />
               <Route path="/catalogue" element={<ProjectsCatalog />} />
-              <Route path="/devis-en-ligne" element={<PublicQuoteWizard />} />
 
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

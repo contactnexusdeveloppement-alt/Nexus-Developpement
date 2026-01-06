@@ -105,21 +105,30 @@ const VisualIdentity = () => {
                         </motion.div>
                     </div>
 
-                    {/* Preview Grid (Abstract) */}
+                    {/* Preview Grid - Client Logos */}
                     <div className="mb-32">
                         <div className="text-center mb-16">
                             <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white">Une cohérence totale</h2>
                             <p className="text-pink-200/60 max-w-2xl mx-auto">Votre identité se décline partout.</p>
                         </div>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-6xl mx-auto opacity-80">
-                            {[1, 2, 3, 4].map((i) => (
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                            {[
+                                { src: "/Aura creative.webp", alt: "Aura Creative" },
+                                { src: "/AETHELRED.webp", alt: "AETHELRED" },
+                                { src: "/LUMINA.webp", alt: "LUMINA" },
+                                { src: "/Océan & Terre.webp", alt: "Océan & Terre" },
+                            ].map((logo, i) => (
                                 <motion.div
                                     key={i}
-                                    whileHover={{ scale: 1.05 }}
-                                    className="aspect-square rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 border border-white/5 flex items-center justify-center relative overflow-hidden group"
+                                    whileHover={{ scale: 1.05, y: -5 }}
+                                    className="aspect-square rounded-2xl overflow-hidden border border-white/10 relative group hover:border-pink-500/30 transition-all duration-300"
                                 >
-                                    <div className="absolute inset-0 bg-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                                    <span className="text-slate-700 font-bold text-6xl select-none group-hover:text-pink-500/20 transition-colors">Aa</span>
+                                    <img
+                                        src={logo.src}
+                                        alt={logo.alt}
+                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                                 </motion.div>
                             ))}
                         </div>

@@ -74,6 +74,7 @@ interface Client {
   lastContact: Date;
   status?: string;
   statusNotes?: string | null;
+  salesPartnerName?: string | null;
 }
 
 interface ClientsTabProps {
@@ -101,6 +102,7 @@ const ClientsTab = ({ quotes, callBookings, onQuoteClick, onCallClick, onRefresh
   const [initialViewMode, setInitialViewMode] = useState<'quote' | 'call' | 'db'>('db');
   const [callNotes, setCallNotes] = useState<Record<string, CallBookingNote>>({});
   const [clientStatuses, setClientStatuses] = useState<Record<string, ClientStatus>>({});
+  const [salesPartners, setSalesPartners] = useState<Record<string, { first_name: string; last_name: string }>>({});
 
   // Call Live Modal state
   const [callLiveModalOpen, setCallLiveModalOpen] = useState(false);
@@ -125,6 +127,7 @@ const ClientsTab = ({ quotes, callBookings, onQuoteClick, onCallClick, onRefresh
   useEffect(() => {
     loadCallNotes();
     loadClientStatuses();
+    loadSalesPartners();
   }, []);
 
   const loadCallNotes = async () => {
@@ -162,6 +165,37 @@ const ClientsTab = ({ quotes, callBookings, onQuoteClick, onCallClick, onRefresh
       }
     } catch (err) {
       console.warn('Error loading client statuses:', err);
+    }
+  };
+
+  const loadSalesPartners = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('sales_partners')
+        .select(`
+          id,
+          profiles:profiles!sales_partners_profiles_fkey(full_name)
+        `);
+
+      if (error) {
+        console.warn('Could not load sales partners:', error.message);
+        return;
+      }
+
+      if (data) {
+        const partnersMap: Record<string, { first_name: string; last_name: string }> = {};
+        data.forEach((partner: any) => {
+          const fullName = partner.profiles?.full_name || '';
+          const nameParts = fullName.split(' ');
+          partnersMap[partner.id] = {
+            first_name: nameParts[0] || '',
+            last_name: nameParts.slice(1).join(' ') || ''
+          };
+        });
+        setSalesPartners(partnersMap);
+      }
+    } catch (err) {
+      console.warn('Error loading sales partners:', err);
     }
   };
 
@@ -218,18 +252,28 @@ const ClientsTab = ({ quotes, callBookings, onQuoteClick, onCallClick, onRefresh
       if (callDate > client.lastContact) client.lastContact = callDate;
     });
 
-    // Add statuses to clients
+    // Add statuses and sales partner info to clients
     const clientsArray = Array.from(clientMap.values());
     clientsArray.forEach(client => {
       const statusData = clientStatuses[client.email.toLowerCase()];
       client.status = statusData?.status || 'lead';
       client.statusNotes = statusData?.notes || null;
+
+      // Find sales partner from quote_requests
+      const quoteWithSalesPartner = client.quotes.find(q => (q as any).sales_partner_id);
+      if (quoteWithSalesPartner) {
+        const salesPartnerId = (quoteWithSalesPartner as any).sales_partner_id;
+        const partner = salesPartners[salesPartnerId];
+        if (partner) {
+          client.salesPartnerName = `${partner.first_name} ${partner.last_name}`.trim();
+        }
+      }
     });
 
     return clientsArray.sort(
       (a, b) => b.lastContact.getTime() - a.lastContact.getTime()
     );
-  }, [quotes, callBookings, clientStatuses]);
+  }, [quotes, callBookings, clientStatuses, salesPartners]);
 
   // Filter clients
   const filteredClients = useMemo(() => {
@@ -666,6 +710,7 @@ const ClientsTab = ({ quotes, callBookings, onQuoteClick, onCallClick, onRefresh
                 <TableRow className="border-white/5 hover:bg-transparent">
                   <TableHead className="text-gray-500 font-mono text-[10px] uppercase h-8">Client</TableHead>
                   <TableHead className="text-gray-500 font-mono text-[10px] uppercase h-8">Contact</TableHead>
+                  <TableHead className="text-gray-500 font-mono text-[10px] uppercase h-8">Apporteur</TableHead>
                   <TableHead className="text-gray-500 font-mono text-[10px] uppercase h-8">Statut</TableHead>
                   <TableHead className="text-gray-500 font-mono text-[10px] uppercase h-8">Dossiers</TableHead>
                   <TableHead className="text-gray-500 font-mono text-[10px] uppercase h-8 text-right">Dernière maj</TableHead>
@@ -685,6 +730,17 @@ const ClientsTab = ({ quotes, callBookings, onQuoteClick, onCallClick, onRefresh
                     </TableCell>
                     <TableCell className="py-2">
                       <div className="text-xs text-gray-500 group-hover:text-gray-400">{client.email}</div>
+                    </TableCell>
+                    <TableCell className="py-2">
+                      {client.salesPartnerName ? (
+                        <Badge variant="outline" className="text-[10px] border-blue-500/30 text-blue-300 bg-blue-950/30">
+                          👤 {client.salesPartnerName}
+                        </Badge>
+                      ) : (
+                        <Badge variant="outline" className="text-[10px] border-gray-500/30 text-gray-400 bg-gray-950/30">
+                          Direct
+                        </Badge>
+                      )}
                     </TableCell>
                     <TableCell className="py-2">
                       {getStatusBadge(client.status || 'lead')}
