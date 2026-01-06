@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import styles from '../../styles/restaurant/Menu.module.css';
-import burgerImg from '../../assets/restaurant/images/burger.png';
-import steakImg from '../../assets/restaurant/images/steak.png';
-import startersImg from '../../assets/restaurant/images/starters.png';
-import drinksImg from '../../assets/restaurant/images/drinks.png';
+import burgerImg from '../../assets/restaurant/images/burger.webp';
+import steakImg from '../../assets/restaurant/images/steak.webp';
+import startersImg from '../../assets/restaurant/images/starters.webp';
+import drinksImg from '../../assets/restaurant/images/drinks.webp';
 
 const menuData = [
     {

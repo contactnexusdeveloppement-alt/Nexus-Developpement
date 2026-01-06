@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import styles from '../../styles/restaurant/Hero.module.css';
-import heroImage from '../../assets/restaurant/images/hero.png';
+import heroImage from '../../assets/restaurant/images/hero.webp';
 
 export default function Hero() {
     return (

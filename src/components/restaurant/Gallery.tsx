@@ -1,11 +1,11 @@
 import { motion } from 'framer-motion';
 import styles from '../../styles/restaurant/Gallery.module.css';
-import burgerImg from '../../assets/restaurant/images/burger.png';
-import steakImg from '../../assets/restaurant/images/steak.png';
-import ribsImg from '../../assets/restaurant/images/ribs.png';
-import barImg from '../../assets/restaurant/images/bar.png';
-import kitchenImg from '../../assets/restaurant/images/kitchen.png';
-import heroImg from '../../assets/restaurant/images/hero.png';
+import burgerImg from '../../assets/restaurant/images/burger.webp';
+import steakImg from '../../assets/restaurant/images/steak.webp';
+import ribsImg from '../../assets/restaurant/images/ribs.webp';
+import barImg from '../../assets/restaurant/images/bar.webp';
+import kitchenImg from '../../assets/restaurant/images/kitchen.webp';
+import heroImg from '../../assets/restaurant/images/hero.webp';
 
 const images = [
     { src: steakImg, alt: 'Steak Premium' },
