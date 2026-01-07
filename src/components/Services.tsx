@@ -2,11 +2,11 @@ import { Globe, Zap, Palette, Smartphone, Layout } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { motion, Variants } from "framer-motion";
-import websiteImg from "@/assets/service-website.jpg";
-import automationImg from "@/assets/service-automation.jpg";
-import mobileImg from "@/assets/service-mobile.jpg";
-import brandingImg from "@/assets/service-branding.jpg";
-import customImg from "@/assets/service-custom.jpg";
+import websiteImg from "@/assets/service-website.webp";
+import automationImg from "@/assets/service-automation.webp";
+import mobileImg from "@/assets/service-mobile.webp";
+import brandingImg from "@/assets/service-branding.webp";
+import customImg from "@/assets/service-custom.webp";
 
 const services = [
   {

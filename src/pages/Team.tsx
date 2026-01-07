@@ -11,8 +11,8 @@ import { useEffect } from "react";
 import SEO from "@/components/SEO";
 
 // Import team images
-import adamImage from "@/assets/adam_lecharles.jpg";
-import theoJImage from "@/assets/theo_jacobee.jpg";
+import adamImage from "@/assets/adam_lecharles.webp";
+import theoJImage from "@/assets/theo_jacobee.webp";
 import theoGImage from "@/assets/theo_gautier.webp";
 import sarahImage from "@/assets/sarah_chen.webp";
 import lucasImage from "@/assets/lucas_martin.webp";
