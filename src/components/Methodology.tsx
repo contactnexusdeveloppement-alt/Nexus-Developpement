@@ -1,10 +1,10 @@
 import { Clock, Zap, Heart, DollarSign, Wrench } from "lucide-react";
 import { motion } from "framer-motion";
-import processImg from "@/assets/engagement-process.jpg";
-import deliveryImg from "@/assets/engagement-delivery.jpg";
-import supportImg from "@/assets/engagement-support.jpg";
-import pricingImg from "@/assets/engagement-pricing.jpg";
-import maintenanceImg from "@/assets/engagement-maintenance.jpg";
+import processImg from "@/assets/engagement-process.webp";
+import deliveryImg from "@/assets/engagement-delivery.webp";
+import supportImg from "@/assets/engagement-support.webp";
+import pricingImg from "@/assets/engagement-pricing.webp";
+import maintenanceImg from "@/assets/engagement-maintenance.webp";
 
 const commitments = [
   {

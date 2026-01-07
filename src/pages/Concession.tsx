@@ -274,7 +274,7 @@ const Concession = () => {
                                     <p>Protection céramique et rénovation esthétique.</p>
                                 </div>
                                 <div className="service-image-container">
-                                    <img src="/concession/service-detailing-new.jpg" alt="Detailing" className="service-inline-image" />
+                                    <img src="/concession/service-detailing-new.webp" alt="Detailing" className="service-inline-image" />
                                 </div>
                             </div>
                             <div className="service-row-main">
