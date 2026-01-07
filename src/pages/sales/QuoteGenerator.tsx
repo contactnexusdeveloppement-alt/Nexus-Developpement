@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
-import { Loader2, Check, FileText, Download } from 'lucide-react';
+import { Loader2, Check, FileText } from 'lucide-react';
 import { toast } from 'sonner';
 import { packs, addons, PackOption, AddonOption } from '@/data/quotePricing';
 import { Badge } from '@/components/ui/badge';
@@ -511,72 +511,13 @@ const QuoteGenerator = () => {
                     ) : (
                         <div className="flex gap-3">
                             <Button
-                                onClick={async () => {
-                                    try {
-                                        const selectedProspect = prospects.find(p => p.id === selectedProspectId);
-                                        if (!selectedProspect || !selectedPack) return;
-
-                                        const total = calculateTotal();
-                                        const tva = total * 0.20;
-                                        const totalTTC = total + tva;
-
-                                        const selectedAddonsData = addons
-                                            .filter(addon => selectedAddons.includes(addon.id))
-                                            .map(addon => ({
-                                                name: addon.name,
-                                                price: addon.price,
-                                                description: addon.description,
-                                            }));
-
-                                        // Dynamic imports for PDF generation (reduces bundle by ~1.5MB)
-                                        const [{ pdf }, { QuotePDF }] = await Promise.all([
-                                            import('@react-pdf/renderer'),
-                                            import('@/components/sales/QuotePDF')
-                                        ]);
-
-                                        // @ts-ignore - Dynamic import typing issue
-                                        const pdfDoc = QuotePDF({
-                                            quoteNumber: createdQuote.quote_number,
-                                            quoteDate: new Date(createdQuote.created_at).toLocaleDateString('fr-FR'),
-                                            validUntil: new Date(createdQuote.valid_until).toLocaleDateString('fr-FR'),
-                                            client: {
-                                                name: selectedProspect.full_name,
-                                                company: selectedProspect.company_name || undefined,
-                                                email: selectedProspect.email,
-                                            },
-                                            pack: {
-                                                name: selectedPack.name,
-                                                price: selectedPack.price,
-                                                description: selectedPack.description,
-                                            },
-                                            options: selectedAddonsData,
-                                            packAmount: selectedPack.price,
-                                            optionsAmount: total - selectedPack.price,
-                                            totalHT: total,
-                                            tva: tva,
-                                            totalTTC: totalTTC,
-                                            salesPartnerName: salesPartnerName,
-                                            clientNotes: clientNotes,
-                                        });
-
-                                        const blob = await pdf(pdfDoc).toBlob();
-                                        const url = URL.createObjectURL(blob);
-                                        const link = document.createElement('a');
-                                        link.href = url;
-                                        link.download = `Devis_${createdQuote.quote_number}.pdf`;
-                                        link.click();
-                                        URL.revokeObjectURL(url);
-
-                                        toast.success('PDF téléchargé avec succès !');
-                                    } catch (error) {
-                                        console.error('Error generating PDF:', error);
-                                        toast.error('Erreur lors de la génération du PDF');
-                                    }
+                                onClick={() => {
+                                    toast.success('Devis créé ! Référence: ' + createdQuote.quote_number);
                                 }}
                                 className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700"
                             >
-                                <Download className="mr-2 h-4 w-4" />
-                                Télécharger le PDF
+                                <FileText className="mr-2 h-4 w-4" />
+                                Voir le Devis
                             </Button>
                             <Button
                                 onClick={() => {
