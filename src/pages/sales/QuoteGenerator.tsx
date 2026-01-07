@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -534,6 +534,7 @@ const QuoteGenerator = () => {
                                             import('@/components/sales/QuotePDF')
                                         ]);
 
+                                        // @ts-ignore - Dynamic import typing issue
                                         const pdfDoc = QuotePDF({
                                             quoteNumber: createdQuote.quote_number,
                                             quoteDate: new Date(createdQuote.created_at).toLocaleDateString('fr-FR'),
