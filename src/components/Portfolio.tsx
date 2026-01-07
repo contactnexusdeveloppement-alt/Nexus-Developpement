@@ -137,9 +137,9 @@ const Portfolio = () => {
 
   return (
     <section id="portfolio" className="py-20 relative overflow-hidden">
-      {/* Background Decor */}
-      <div className="absolute top-[20%] left-[-10%] w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[20%] right-[-10%] w-[500px] h-[500px] bg-cyan-600/10 rounded-full blur-[120px] pointer-events-none" />
+      {/* Background Decor - reduced blur on mobile */}
+      <div className="absolute top-[20%] left-[-10%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-blue-600/10 rounded-full blur-[40px] md:blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[20%] right-[-10%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-cyan-600/10 rounded-full blur-[40px] md:blur-[120px] pointer-events-none" />
 
       <div className="container mx-auto px-4 relative z-10">
         <motion.div

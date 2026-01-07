@@ -77,9 +77,9 @@ const itemVariants: Variants = {
 const Services = () => {
   return (
     <section id="services" className="py-12 relative">
-      {/* Glow effects background */}
-      <div className="absolute top-1/4 left-0 w-96 h-96 bg-primary/20 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-accent/10 rounded-full blur-[100px] pointer-events-none" />
+      {/* Glow effects background - reduced blur on mobile */}
+      <div className="absolute top-1/4 left-0 w-64 md:w-96 h-64 md:h-96 bg-primary/20 rounded-full blur-[40px] md:blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-0 w-64 md:w-96 h-64 md:h-96 bg-accent/10 rounded-full blur-[40px] md:blur-[100px] pointer-events-none" />
 
       <div className="container mx-auto px-4 relative z-10">
         <motion.div

@@ -32,17 +32,17 @@ const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-20">
 
-      {/* Background elements with overflow hidden to prevent scrollbar */}
+      {/* Background elements - reduced blur on mobile for performance */}
       <div className="absolute inset-x-0 top-0 -bottom-40 pointer-events-none min-h-screen">
-        <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px]" />
-        <div className="absolute bottom-[0%] right-[-5%] w-[500px] h-[500px] bg-cyan-600/20 rounded-full blur-[120px]" />
+        <div className="absolute top-[-10%] left-[-10%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-blue-600/20 rounded-full blur-[60px] md:blur-[120px]" />
+        <div className="absolute bottom-[0%] right-[-5%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-cyan-600/20 rounded-full blur-[60px] md:blur-[120px]" />
       </div>
 
       <div className="relative z-10 container mx-auto px-4 text-center">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: isMobile ? 15 : 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: isMobile ? 0.4 : 0.8 }}
         >
           <div className="mb-8"></div>
 
