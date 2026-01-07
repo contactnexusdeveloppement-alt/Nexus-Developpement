@@ -5,6 +5,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <!-- DNS Prefetch & Preconnect for faster external connections -->
+  <link rel="dns-prefetch" href="https://rdrvjhhfmwtzbhljljxl.supabase.co" />
+  <link rel="preconnect" href="https://rdrvjhhfmwtzbhljljxl.supabase.co" crossorigin />
+
   <!-- SEO Primary Tags -->
   <title>Nexus Développement - Agence Digitale | Création Sites Web & Apps</title>
   <meta name="description"
@@ -44,8 +48,8 @@
   <!-- Preload critical fonts to eliminate render-blocking -->
   <link rel="preload" href="/fonts/inter-v20-latin-regular.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/fonts/inter-v20-latin-700.woff2" as="font" type="font/woff2" crossorigin />
-  <!-- Self-hosted fonts -->
-  <link rel="stylesheet" href="/fonts/fonts.css" />
+  <!-- Non-blocking font stylesheet (loads in background) -->
+  <link rel="stylesheet" href="/fonts/fonts.css" media="print" onload="this.media='all'" />
 
   <!-- Favicon - Multiple sizes for browser tabs AND Google Search -->
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon.png" />
