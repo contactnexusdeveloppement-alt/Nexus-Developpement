@@ -1,10 +1,5 @@
 import { Resend } from 'resend';
 
-// Check for Resend API key
-if (!import.meta.env.VITE_RESEND_API_KEY) {
-    console.warn('⚠️ RESEND_API_KEY not set - emails will not be sent');
-}
-
 // Initialize Resend client
 export const resend = new Resend(import.meta.env.VITE_RESEND_API_KEY);
 
@@ -14,13 +9,3 @@ export const RESEND_CONFIG = {
     adminEmail: import.meta.env.VITE_RESEND_ADMIN_EMAIL || 'admin@nexus-dev.com',
     enabled: !!import.meta.env.VITE_RESEND_API_KEY,
 };
-
-// Test the configuration
-if (RESEND_CONFIG.enabled) {
-    console.log('✅ Resend configured:', {
-        from: RESEND_CONFIG.from,
-        adminEmail: RESEND_CONFIG.adminEmail,
-    });
-} else {
-    console.warn('⚠️ Resend disabled - set VITE_RESEND_API_KEY to enable email sending');
-}
