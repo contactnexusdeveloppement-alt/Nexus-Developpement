@@ -41,7 +41,10 @@
   <meta name="geo.placename" content="Élancourt" />
 
   <!-- Performance Optimizations -->
-  <!-- Self-hosted fonts to eliminate render-blocking -->
+  <!-- Preload critical fonts to eliminate render-blocking -->
+  <link rel="preload" href="/fonts/inter-v20-latin-regular.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/inter-v20-latin-700.woff2" as="font" type="font/woff2" crossorigin />
+  <!-- Self-hosted fonts -->
   <link rel="stylesheet" href="/fonts/fonts.css" />
 
   <!-- Favicon - Multiple sizes for browser tabs AND Google Search -->
@@ -262,6 +265,55 @@
       ]
     }
     </script>
+
+  <!-- Critical CSS for immediate render (above-the-fold) -->
+  <style>
+    /* Prevent flash of unstyled content */
+    :root {
+      --background: 222.2 84% 4.9%;
+      --foreground: 210 40% 98%;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: hsl(222.2 84% 4.9%);
+      color: hsl(210 40% 98%);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    #root {
+      min-height: 100vh;
+    }
+
+    /* Prevent layout shift */
+    img,
+    video {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Navigation placeholder */
+    nav {
+      height: 64px;
+    }
+
+    /* Hero section minimum height */
+    section:first-of-type {
+      min-height: 100vh;
+    }
+  </style>
 </head>
 
 <body>
