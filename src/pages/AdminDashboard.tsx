@@ -1,14 +1,17 @@
 import { useEffect, useState, useMemo, lazy, Suspense } from "react";
-import { useNavigate, useSearchParams, Link } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Users, Briefcase, FileText, Target, ClipboardList, Bot, TrendingUp, Mail, Download, LogOut, } from "lucide-react";
+import { Loader2, Menu, Bell, Search, Plus, Download } from "lucide-react";
 import { exportToCSV } from "@/lib/exportCsv";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import NotificationCenter from "@/components/admin/NotificationCenter";
 import { TabLoadingFallback } from "@/components/admin/widgets/TabLoadingFallback";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import AdminSidebar from "@/components/admin/AdminSidebar";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 
 // Lazy load all tabs for better performance
 const ClientsTab = lazy(() => import("@/components/admin/ClientsTab"));
@@ -75,6 +78,7 @@ const AdminDashboard = () => {
 
   // Control active tab
   const [activeTab, setActiveTab] = useState(activeTabFromUrl || 'clients');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const checkAuth = async () => {
     const { data: { session } } = await supabase.auth.getSession();
@@ -91,7 +95,7 @@ const AdminDashboard = () => {
         .from("quote_requests")
         .select("id, name, email, phone, business_type, services, project_details, budget, timeline, status, created_at")
         .order("created_at", { ascending: false })
-        .limit(100); // Load first 100 quotes for better performance
+        .limit(100);
 
       if (quotesError) {
         console.error("Quotes Error:", quotesError);
@@ -102,7 +106,7 @@ const AdminDashboard = () => {
         .from("call_bookings")
         .select("id, name, email, phone, booking_date, time_slot, duration, notes, status, created_at")
         .order("created_at", { ascending: false })
-        .limit(100); // Load first 100 bookings for better performance
+        .limit(100);
 
       if (bookingsError) {
         console.error("Bookings Error:", bookingsError);
@@ -111,7 +115,7 @@ const AdminDashboard = () => {
       const { data: statusData } = await supabase
         .from("client_statuses")
         .select("client_email, status, notes, updated_at")
-        .limit(200); // Status data is smaller, allow more entries
+        .limit(200);
 
       const { data: notesData } = await supabase
         .from('call_booking_notes')
@@ -142,7 +146,7 @@ const AdminDashboard = () => {
     const quotesSubscription = supabase
       .channel('public:quote_requests')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'quote_requests' }, (payload) => {
-        fetchData(); // Simplest strategy: re-fetch to ensure consistency. Could be optimized later.
+        fetchData();
         if (payload.eventType === 'INSERT') {
           toast.info("Nouvelle demande de devis reçue !");
         }
@@ -251,186 +255,176 @@ const AdminDashboard = () => {
     });
   }, []);
 
-  return (
-    <div className="min-h-screen relative bg-black text-white font-sans selection:bg-blue-500/30 overflow-hidden">
+  if (isLoading) {
+    return (
+      <div className="min-h-screen relative flex items-center justify-center bg-slate-950">
+        <AnimatedBackground />
+        <Loader2 className="h-8 w-8 animate-spin text-blue-500 relative z-10" />
+      </div>
+    );
+  }
 
-      {/* Animated Background */}
-      <div className="absolute inset-0 z-0">
+  return (
+    <div className="flex min-h-screen w-full bg-slate-950 font-sans text-slate-100 overflow-hidden relative">
+      <div className="fixed inset-0 z-0 opacity-40 pointer-events-none">
         <AnimatedBackground />
       </div>
 
-      {/* Navbar */}
-      <div className="sticky top-0 z-50 border-b border-white/10 bg-slate-950/50 backdrop-blur-xl">
-        <div className="container mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <h1 className="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 filter drop-shadow-sm">
-              Nexus Developpement
-            </h1>
+      {/* Desktop Sidebar */}
+      <aside className="hidden md:flex w-72 flex-col fixed inset-y-0 z-50">
+        <AdminSidebar
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          userId={userId}
+          onLogout={handleLogout}
+        />
+      </aside>
+
+      {/* Mobile Header */}
+      <div className="md:hidden fixed top-0 w-full z-50 bg-slate-950/80 backdrop-blur-md border-b border-white/10 px-4 h-16 flex items-center justify-between">
+        <span className="font-bold text-lg bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">Nexus Admin</span>
+        <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+          <SheetTrigger asChild>
+            <Button variant="ghost" size="icon" className="text-white">
+              <Menu className="w-6 h-6" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="p-0 bg-slate-950 border-r-slate-800 w-72">
+            <AdminSidebar
+              activeTab={activeTab}
+              setActiveTab={(tab) => {
+                setActiveTab(tab);
+                setIsMobileMenuOpen(false);
+              }}
+              userId={userId}
+              onLogout={handleLogout}
+              className="border-none"
+            />
+          </SheetContent>
+        </Sheet>
+      </div>
+
+      {/* Main Content */}
+      <main className="flex-1 md:pl-72 relative z-10 h-screen overflow-y-auto pt-16 md:pt-0">
+        {/* Top Bar */}
+        <header className="sticky top-0 z-40 px-8 py-6 flex items-center justify-between bg-slate-950/50 backdrop-blur-sm border-b border-white/5">
+          <div>
+            <h2 className="text-2xl font-bold text-white tracking-tight">
+              {activeTab === 'clients' && 'Gestion Clients'}
+              {activeTab === 'projects' && 'Suivi de Projets'}
+              {activeTab === 'invoices' && 'Facturation'}
+              {activeTab === 'opportunities' && 'Opportunités (CRM)'}
+              {activeTab === 'tasks' && 'Tâches & Organisation'}
+              {activeTab === 'ai' && 'Assistant IA Nexus'}
+              {activeTab === 'analytics' && 'Analytics & Rapports'}
+              {activeTab === 'templates' && 'Templates Emails'}
+              {activeTab === 'team' && 'Gestion d\'Équipe'}
+            </h2>
+            <p className="text-sm text-slate-400 mt-1">
+              Panneau d'administration principal.
+            </p>
           </div>
-          <div className="flex gap-2 md:gap-4 items-center">
+          <div className="flex items-center gap-3">
             <NotificationCenter />
-            <button
-              onClick={handleExport}
-              className="hidden md:flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-300 hover:bg-white/5 rounded-full transition-colors border border-white/10 hover:border-white/20"
-              aria-label="Exporter les données"
-            >
+            <Button variant="outline" size="sm" className="hidden md:flex items-center gap-2 rounded-xl border-slate-800 bg-slate-900 text-slate-300 hover:bg-slate-800 hover:text-white transition-all" onClick={handleExport} title="Exporter les données">
               <Download className="w-4 h-4" />
-              <span className="hidden lg:inline">Export</span>
-            </button>
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-2 px-3 md:px-4 py-2 text-sm font-medium text-red-400 hover:bg-red-500/10 rounded-full transition-colors border border-transparent hover:border-red-500/50"
-              aria-label="Se déconnecter"
-            >
-              <LogOut className="w-4 h-4" />
-              <span className="hidden md:inline">Déconnexion</span>
-            </button>
+              <span className="ml-2 font-medium">Exporter</span>
+            </Button>
+            {/* Redundant Bell button removed */}
           </div>
+        </header>
+
+        <div className="p-8 max-w-[1600px] mx-auto space-y-8 pb-20">
+          <Tabs value={activeTab} className="space-y-6">
+            {/* TabsList is removed, controlled by Sidebar */}
+
+            <TabsContent value="clients" className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 outline-none">
+              <ErrorBoundary>
+                <Suspense fallback={<TabLoadingFallback />}>
+                  <ClientsTab
+                    quotes={quotes}
+                    callBookings={callBookings}
+                    onQuoteClick={() => { }}
+                    onCallClick={() => { }}
+                    onRefresh={fetchData}
+                    initialEmail={emailParam}
+                    initialCallId={callIdParam}
+                    initialQuoteId={quoteIdParam}
+                  />
+                </Suspense>
+              </ErrorBoundary>
+            </TabsContent>
+
+            <TabsContent value="projects" className="space-y-6 animate-in fade-in duration-500 outline-none">
+              <ErrorBoundary>
+                <Suspense fallback={<TabLoadingFallback />}>
+                  <ProjectsTab />
+                </Suspense>
+              </ErrorBoundary>
+            </TabsContent>
+
+            <TabsContent value="invoices" className="space-y-6 animate-in fade-in duration-500 outline-none">
+              <ErrorBoundary>
+                <Suspense fallback={<TabLoadingFallback />}>
+                  <InvoicesTab />
+                </Suspense>
+              </ErrorBoundary>
+            </TabsContent>
+
+            <TabsContent value="opportunities" className="space-y-6 animate-in fade-in duration-500 outline-none">
+              <ErrorBoundary>
+                <Suspense fallback={<TabLoadingFallback />}>
+                  <OpportunitiesTab />
+                </Suspense>
+              </ErrorBoundary>
+            </TabsContent>
+
+            <TabsContent value="tasks" className="space-y-6 animate-in fade-in duration-500 h-[650px] outline-none">
+              <ErrorBoundary>
+                <Suspense fallback={<TabLoadingFallback />}>
+                  <TasksBoard />
+                </Suspense>
+              </ErrorBoundary>
+            </TabsContent>
+
+            <TabsContent value="ai" className="space-y-6 animate-in fade-in duration-500 outline-none">
+              <ErrorBoundary>
+                <Suspense fallback={<TabLoadingFallback />}>
+                  <AIAssistantPanel
+                    quotes={quotes}
+                    callBookings={callBookings}
+                    clientStatuses={clientStatuses}
+                  />
+                </Suspense>
+              </ErrorBoundary>
+            </TabsContent>
+
+            <TabsContent value="analytics" className="space-y-6 animate-in fade-in duration-500 outline-none">
+              <ErrorBoundary>
+                <Suspense fallback={<TabLoadingFallback />}>
+                  <QuoteAnalyticsDashboard />
+                </Suspense>
+              </ErrorBoundary>
+            </TabsContent>
+
+            <TabsContent value="templates" className="space-y-6 animate-in fade-in duration-500 outline-none">
+              <ErrorBoundary>
+                <Suspense fallback={<TabLoadingFallback />}>
+                  <EmailTemplatesManager />
+                </Suspense>
+              </ErrorBoundary>
+            </TabsContent>
+
+            <TabsContent value="team" className="space-y-6 animate-in fade-in duration-500 outline-none">
+              <ErrorBoundary>
+                <Suspense fallback={<TabLoadingFallback />}>
+                  <TeamManagement />
+                </Suspense>
+              </ErrorBoundary>
+            </TabsContent>
+          </Tabs>
         </div>
-      </div>
-
-      <div className="relative z-10 container mx-auto p-4 md:p-6 space-y-6 md:space-y-8 max-w-7xl">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-            <h2 className="text-xl md:text-2xl font-bold text-white tracking-tight">Tableau de bord</h2>
-            <TabsList className="bg-slate-900/50 border border-white/10 w-full md:w-auto flex-wrap">
-
-              <TabsTrigger value="clients" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white whitespace-nowrap">
-                <Users className="w-4 h-4 mr-2" />
-                Clients
-              </TabsTrigger>
-              <TabsTrigger value="projects" className="data-[state=active]:bg-green-600 data-[state=active]:text-white whitespace-nowrap">
-                <Briefcase className="w-4 h-4 mr-2" />
-                <span className="hidden sm:inline">Projets</span>
-                <span className="sm:hidden">Proj</span>
-              </TabsTrigger>
-              <TabsTrigger value="invoices" className="data-[state=active]:bg-emerald-600 data-[state=active]:text-white whitespace-nowrap">
-                <FileText className="w-4 h-4 mr-2" />
-                <span className="hidden sm:inline">Factures</span>
-                <span className="sm:hidden">Fact</span>
-              </TabsTrigger>
-              <TabsTrigger value="opportunities" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white whitespace-nowrap">
-                <Target className="w-4 h-4 mr-2" />
-                <span className="hidden lg:inline">Opportunités</span>
-                <span className="lg:hidden">Opp</span>
-              </TabsTrigger>
-              <TabsTrigger value="tasks" className="data-[state=active]:bg-teal-600 data-[state=active]:text-white whitespace-nowrap">
-                <ClipboardList className="w-4 h-4 mr-2" />
-                <span className="hidden lg:inline">Tâches</span>
-                <span className="lg:hidden">Tâch</span>
-              </TabsTrigger>
-              <TabsTrigger value="ai" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white whitespace-nowrap">
-                <Bot className="w-4 h-4 mr-2" />
-                <span className="hidden xl:inline">Assistant IA</span>
-                <span className="xl:hidden">IA</span>
-              </TabsTrigger>
-              <TabsTrigger value="analytics" className="data-[state=active]:bg-pink-600 data-[state=active]:text-white whitespace-nowrap">
-                <TrendingUp className="w-4 h-4 mr-2" />
-                <span className="hidden xl:inline">Analytics</span>
-                <span className="xl:hidden">Ana</span>
-              </TabsTrigger>
-              <TabsTrigger value="templates" className="data-[state=active]:bg-orange-600 data-[state=active]:text-white whitespace-nowrap">
-                <Mail className="w-4 h-4 mr-2" />
-                <span className="hidden xl:inline">Templates</span>
-                <span className="xl:hidden">Tpl</span>
-              </TabsTrigger>
-              <TabsTrigger value="team" className="data-[state=active]:bg-indigo-600 data-[state=active]:text-white whitespace-nowrap">
-                <Users className="w-4 h-4 mr-2" />
-                <span className="hidden xl:inline">Équipe</span>
-                <span className="xl:hidden">Team</span>
-              </TabsTrigger>
-            </TabsList>
-          </div>
-
-
-
-          <TabsContent value="clients" className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <ErrorBoundary>
-              <Suspense fallback={<TabLoadingFallback />}>
-                <ClientsTab
-                  quotes={quotes}
-                  callBookings={callBookings}
-                  onQuoteClick={() => { }}
-                  onCallClick={() => { }}
-                  onRefresh={fetchData}
-                  initialEmail={emailParam}
-                  initialCallId={callIdParam}
-                  initialQuoteId={quoteIdParam}
-                />
-              </Suspense>
-            </ErrorBoundary>
-          </TabsContent>
-
-          <TabsContent value="projects" className="space-y-6 animate-in fade-in duration-500">
-            <ErrorBoundary>
-              <Suspense fallback={<TabLoadingFallback />}>
-                <ProjectsTab />
-              </Suspense>
-            </ErrorBoundary>
-          </TabsContent>
-
-          <TabsContent value="invoices" className="space-y-6 animate-in fade-in duration-500">
-            <ErrorBoundary>
-              <Suspense fallback={<TabLoadingFallback />}>
-                <InvoicesTab />
-              </Suspense>
-            </ErrorBoundary>
-          </TabsContent>
-
-          <TabsContent value="opportunities" className="space-y-6 animate-in fade-in duration-500">
-            <ErrorBoundary>
-              <Suspense fallback={<TabLoadingFallback />}>
-                <OpportunitiesTab />
-              </Suspense>
-            </ErrorBoundary>
-          </TabsContent>
-
-          <TabsContent value="tasks" className="space-y-6 animate-in fade-in duration-500 h-[650px]">
-            <ErrorBoundary>
-              <Suspense fallback={<TabLoadingFallback />}>
-                <TasksBoard />
-              </Suspense>
-            </ErrorBoundary>
-          </TabsContent>
-
-          <TabsContent value="ai" className="space-y-6 animate-in fade-in duration-500">
-            <ErrorBoundary>
-              <Suspense fallback={<TabLoadingFallback />}>
-                <AIAssistantPanel
-                  quotes={quotes}
-                  callBookings={callBookings}
-                  clientStatuses={clientStatuses}
-                />
-              </Suspense>
-            </ErrorBoundary>
-          </TabsContent>
-
-          <TabsContent value="analytics" className="space-y-6 animate-in fade-in duration-500">
-            <ErrorBoundary>
-              <Suspense fallback={<TabLoadingFallback />}>
-                <QuoteAnalyticsDashboard />
-              </Suspense>
-            </ErrorBoundary>
-          </TabsContent>
-
-          <TabsContent value="templates" className="space-y-6 animate-in fade-in duration-500">
-            <ErrorBoundary>
-              <Suspense fallback={<TabLoadingFallback />}>
-                <EmailTemplatesManager />
-              </Suspense>
-            </ErrorBoundary>
-          </TabsContent>
-
-          <TabsContent value="team" className="space-y-6 animate-in fade-in duration-500">
-            <ErrorBoundary>
-              <Suspense fallback={<TabLoadingFallback />}>
-                <TeamManagement />
-              </Suspense>
-            </ErrorBoundary>
-          </TabsContent>
-        </Tabs>
-
-      </div>
+      </main>
     </div>
   );
 };

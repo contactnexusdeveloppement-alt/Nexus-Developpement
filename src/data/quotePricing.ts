@@ -12,9 +12,9 @@ export interface PackOption {
 export interface AddonOption {
     id: string;
     name: string;
-    price: number;
     description: string;
-    category: 'technical' | 'content' | 'legal' | 'seo';
+    price: number;
+    categories?: string[]; // Array of category IDs (e.g. 'sites', 'automatisation')
 }
 
 export const packs: PackOption[] = [
@@ -66,95 +66,164 @@ export const packs: PackOption[] = [
 ];
 
 export const addons: AddonOption[] = [
-    // Technical addons
+    // --- SITES VITRINE ---
+    {
+        id: 'seo-master',
+        name: 'Rédaction & SEO Advanced',
+        description: 'Optimisation complète du contenu pour les moteurs de recherche.',
+        price: 450,
+        categories: ['sites']
+    },
+    {
+        id: 'training-admin',
+        name: 'Formation Administration',
+        description: '1h de formation pour apprendre à gérer votre site.',
+        price: 150,
+        categories: ['sites']
+    },
+    {
+        id: 'maintenance-yearly',
+        name: 'Maintenance Annuelle',
+        description: 'Mises à jour, sauvegardes et sécurité pendant 1 an.',
+        price: 400,
+        categories: ['sites']
+    },
+
+    // --- AUTOMATISATION ---
+    {
+        id: 'auto-invoice',
+        name: 'Générateur de devis et facture',
+        description: 'Création automatique de vos documents comptables.',
+        price: 500,
+        categories: ['automatisation']
+    },
+    {
+        id: 'auto-reminder',
+        name: 'Relance client automatique',
+        description: 'Séquence emailing pour relancer les impayés/devis.',
+        price: 350,
+        categories: ['automatisation']
+    },
+    {
+        id: 'auto-crm',
+        name: 'Connexion CRM',
+        description: 'Synchronisation bidirectionnelle avec votre CRM.',
+        price: 400,
+        categories: ['automatisation']
+    },
+
+    // --- APPLICATION WEB ---
+    {
+        id: 'webapp-payment',
+        name: 'Module de Paiement',
+        description: 'Intégration Stripe/Paypal sécurisée.',
+        price: 800,
+        categories: ['webapp']
+    },
+    {
+        id: 'webapp-admin',
+        name: 'Panel Admin Avancé',
+        description: 'Gestion complète des données et utilisateurs.',
+        price: 1200,
+        categories: ['webapp']
+    },
+    {
+        id: 'webapp-auth',
+        name: 'Système Comptes Utilisateurs',
+        description: 'Inscription, Connexion, Profils, Sécurité.',
+        price: 600,
+        categories: ['webapp']
+    },
+
+    // --- E-COMMERCE ---
+    {
+        id: 'ecom-import',
+        name: 'Import Catalogue CSV',
+        description: 'Importation en masse de vos produits.',
+        price: 400,
+        categories: ['ecommerce']
+    },
+    {
+        id: 'ecom-blog',
+        name: 'Blog Intégré',
+        description: 'Pour votre content marketing et SEO.',
+        price: 300,
+        categories: ['ecommerce']
+    },
+    {
+        id: 'ecom-loyalty',
+        name: 'Programme de Fidélité',
+        description: 'Points récompenses et codes promo automatiques.',
+        price: 500,
+        categories: ['ecommerce']
+    },
+
+    // --- MOBILE ---
+    {
+        id: 'mobile-publish',
+        name: 'Publication Stores',
+        description: 'Gestion des comptes et validation Apple/Google.',
+        price: 600,
+        categories: ['mobile']
+    },
+    {
+        id: 'mobile-push',
+        name: 'Notifications Push',
+        description: 'Envoi de notifications ciblées aux utilisateurs.',
+        price: 450,
+        categories: ['mobile']
+    },
+    {
+        id: 'mobile-offline',
+        name: 'Mode Hors-ligne',
+        description: 'Fonctionnement de l\'app sans connexion internet.',
+        price: 800,
+        categories: ['mobile']
+    },
+
+    // --- IDENTITE ---
+    {
+        id: 'brand-guide',
+        name: 'Brand Guide PDF',
+        description: 'Document complet des normes graphiques.',
+        price: 400,
+        categories: ['identite']
+    },
+    {
+        id: 'social-kit',
+        name: 'Pack Réseaux Sociaux',
+        description: 'Bannières et templates de posts (Insta/LinkedIn).',
+        price: 300,
+        categories: ['identite']
+    },
+    {
+        id: 'print-assets',
+        name: 'Supports Imprimés',
+        description: 'Design de cartes de visite, flyers, papier à en-tête.',
+        price: 250,
+        categories: ['identite']
+    },
+
+    // --- OPTIONS GENERALES / OLD FALLBACK ---
+    {
+        id: 'content',
+        name: 'Création de Contenu',
+        description: 'Rédaction optimisée des textes de votre site.',
+        price: 450,
+        categories: ['sites', 'ecommerce', 'webapp']
+    },
+    {
+        id: 'legal',
+        name: 'Pack Légal (RGPD)',
+        description: 'Mise en conformité, mentions légales, cookie bar.',
+        price: 250,
+        categories: ['sites', 'ecommerce', 'webapp', 'mobile']
+    },
     {
         id: 'booking',
         name: 'Module de Réservation',
+        description: 'Système de prise de rendez-vous en ligne (Calendly/Cal.com).',
         price: 300,
-        description: 'Système de prise de rendez-vous en ligne',
-        category: 'technical',
-    },
-    {
-        id: 'payment',
-        name: 'Paiement en Ligne',
-        price: 400,
-        description: 'Intégration Stripe/PayPal pour paiements sécurisés',
-        category: 'technical',
-    },
-    {
-        id: 'ecommerce',
-        name: 'E-commerce Avancé',
-        price: 800,
-        description: 'Boutique en ligne complète avec gestion de stock',
-        category: 'technical',
-    },
-    {
-        id: 'multilingual',
-        name: 'Site Multilingue',
-        price: 250,
-        description: 'Version en 2 langues (ex: FR + EN)',
-        category: 'technical',
-    },
-    {
-        id: 'chat',
-        name: 'Chat en Direct',
-        price: 200,
-        description: 'Widget de chat pour support client instantané',
-        category: 'technical',
-    },
-
-    // Content addons
-    {
-        id: 'copywriting',
-        name: 'Rédaction de Contenu',
-        price: 350,
-        description: 'Rédaction professionnelle de vos textes (jusqu\'à 10 pages)',
-        category: 'content',
-    },
-    {
-        id: 'photography',
-        name: 'Photographie Professionnelle',
-        price: 500,
-        description: 'Séance photo pour illustrer votre site (demi-journée)',
-        category: 'content',
-    },
-    {
-        id: 'video',
-        name: 'Vidéo de Présentation',
-        price: 600,
-        description: 'Vidéo promotionnelle de 1-2 minutes',
-        category: 'content',
-    },
-
-    // Legal addons
-    {
-        id: 'legal',
-        name: 'Rédaction Légale',
-        price: 150,
-        description: 'Mentions légales, politique de confidentialité, CGV',
-        category: 'legal',
-    },
-    {
-        id: 'rgpd',
-        name: 'Conformité RGPD',
-        price: 200,
-        description: 'Audit et mise en conformité RGPD complète',
-        category: 'legal',
-    },
-
-    // SEO addons
-    {
-        id: 'seo_audit',
-        name: 'Audit SEO Complet',
-        price: 250,
-        description: 'Analyse approfondie et recommandations SEO',
-        category: 'seo',
-    },
-    {
-        id: 'seo_optimization',
-        name: 'Optimisation SEO Avancée',
-        price: 400,
-        description: 'Optimisation technique et contenu pour référencement',
-        category: 'seo',
-    },
+        categories: ['sites', 'webapp']
+    }
 ];

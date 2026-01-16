@@ -20,6 +20,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import {
     Table,
     TableBody,
@@ -41,6 +42,9 @@ import {
     DollarSign,
     TrendingUp,
     AlertTriangle,
+    Edit3,
+    Save,
+    X,
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -80,6 +84,7 @@ interface TeamMemberDetailDialogProps {
     onOpenChange: (open: boolean) => void;
     member: TeamMember | null;
     onMemberDeleted: () => void;
+    onMemberUpdated?: () => void;
 }
 
 export function TeamMemberDetailDialog({
@@ -87,6 +92,7 @@ export function TeamMemberDetailDialog({
     onOpenChange,
     member,
     onMemberDeleted,
+    onMemberUpdated,
 }: TeamMemberDetailDialogProps) {
     const [loading, setLoading] = useState(true);
     const [deleting, setDeleting] = useState(false);
@@ -100,11 +106,50 @@ export function TeamMemberDetailDialog({
         signedQuotes: 0,
     });
 
+    // Commission editing state
+    const [isEditingCommission, setIsEditingCommission] = useState(false);
+    const [editedCommissionRate, setEditedCommissionRate] = useState(10);
+    const [savingCommission, setSavingCommission] = useState(false);
+    const [currentCommissionRate, setCurrentCommissionRate] = useState(10);
+
     useEffect(() => {
         if (open && member) {
             fetchMemberData();
+            // Initialize commission rate from member data
+            const rate = member.commission_rate || 10;
+            setCurrentCommissionRate(rate);
+            setEditedCommissionRate(rate);
+            setIsEditingCommission(false);
         }
     }, [open, member]);
+
+    const saveCommissionRate = async () => {
+        if (!member) return;
+
+        setSavingCommission(true);
+        try {
+            const { error } = await supabase
+                .from('sales_partners')
+                .update({ commission_rate: editedCommissionRate })
+                .eq('id', member.id);
+
+            if (error) throw error;
+
+            setCurrentCommissionRate(editedCommissionRate);
+            setIsEditingCommission(false);
+            toast.success(`Taux de commission modifié à ${editedCommissionRate}%`);
+
+            // Notify parent to refetch team members
+            if (onMemberUpdated) {
+                onMemberUpdated();
+            }
+        } catch (error) {
+            console.error('Error updating commission rate:', error);
+            toast.error('Erreur lors de la modification du taux');
+        } finally {
+            setSavingCommission(false);
+        }
+    };
 
     const fetchMemberData = async () => {
         if (!member) return;
@@ -285,7 +330,51 @@ export function TeamMemberDetailDialog({
                                             <Percent className="h-4 w-4 text-slate-500" />
                                             <div>
                                                 <p className="text-[10px] text-slate-500 uppercase">Commission</p>
-                                                <p className="text-sm text-white">{member.commission_rate || 10}%</p>
+                                                {isEditingCommission ? (
+                                                    <div className="flex items-center gap-1">
+                                                        <Input
+                                                            type="number"
+                                                            min="0"
+                                                            max="100"
+                                                            value={editedCommissionRate}
+                                                            onChange={(e) => setEditedCommissionRate(Number(e.target.value))}
+                                                            className="w-16 h-7 text-sm bg-slate-800 border-slate-600 text-white"
+                                                        />
+                                                        <span className="text-white">%</span>
+                                                        <Button
+                                                            size="sm"
+                                                            variant="ghost"
+                                                            onClick={saveCommissionRate}
+                                                            disabled={savingCommission}
+                                                            className="h-7 w-7 p-0 text-green-400 hover:text-green-300 hover:bg-green-500/20"
+                                                        >
+                                                            {savingCommission ? <Loader2 className="h-3 w-3 animate-spin" /> : <Save className="h-3 w-3" />}
+                                                        </Button>
+                                                        <Button
+                                                            size="sm"
+                                                            variant="ghost"
+                                                            onClick={() => {
+                                                                setIsEditingCommission(false);
+                                                                setEditedCommissionRate(currentCommissionRate);
+                                                            }}
+                                                            className="h-7 w-7 p-0 text-slate-400 hover:text-white hover:bg-slate-700"
+                                                        >
+                                                            <X className="h-3 w-3" />
+                                                        </Button>
+                                                    </div>
+                                                ) : (
+                                                    <div className="flex items-center gap-1">
+                                                        <p className="text-sm text-white">{currentCommissionRate}%</p>
+                                                        <Button
+                                                            size="sm"
+                                                            variant="ghost"
+                                                            onClick={() => setIsEditingCommission(true)}
+                                                            className="h-6 w-6 p-0 text-slate-500 hover:text-blue-400 hover:bg-blue-500/20"
+                                                        >
+                                                            <Edit3 className="h-3 w-3" />
+                                                        </Button>
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-2">
