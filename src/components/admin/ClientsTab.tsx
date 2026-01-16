@@ -488,22 +488,19 @@ const ClientsTab = ({ quotes, callBookings, onQuoteClick, onCallClick, onRefresh
       {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Devis en Attente */}
-        <Card className="bg-slate-950/40 border-yellow-500/20 backdrop-blur-md shadow-2xl relative overflow-hidden group">
-          <div className="absolute top-0 left-0 w-1 h-full bg-yellow-500/50" />
-          <CardHeader className="pb-3 border-b border-white/5">
+        {/* Devis en Attente */}
+        <Card className="bg-slate-900 border-slate-800 shadow-sm">
+          <CardHeader className="pb-3 border-b border-slate-800">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-xs text-yellow-500 font-mono uppercase tracking-wider flex items-center gap-2">
-                <div className="relative">
-                  <div className="absolute -inset-1 bg-yellow-500/20 blur-sm rounded-full animate-pulse"></div>
-                  <FileText className="h-4 w-4 relative z-10" />
-                </div>
+              <CardTitle className="text-sm font-semibold text-slate-100 flex items-center gap-2">
+                <FileText className="h-4 w-4 text-yellow-500" />
                 Devis en Attente ({quotes.filter(q => (q.status || 'pending').toLowerCase() === 'pending').length})
               </CardTitle>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => setShowAllQuotesModal(true)}
-                className="h-7 px-3 text-[10px] font-mono uppercase text-yellow-400 hover:text-yellow-300 hover:bg-yellow-500/10 border border-yellow-500/20"
+                className="h-7 px-3 text-xs text-slate-400 hover:text-white"
               >
                 Voir tout →
               </Button>
@@ -587,22 +584,19 @@ const ClientsTab = ({ quotes, callBookings, onQuoteClick, onCallClick, onRefresh
         </Card>
 
         {/* Appels à Venir */}
-        <Card className="bg-slate-950/40 border-blue-500/20 backdrop-blur-md shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-1 h-full bg-blue-500/50" />
-          <CardHeader className="pb-3 border-b border-white/5">
+        {/* Appels à Venir */}
+        <Card className="bg-slate-900 border-slate-800 shadow-sm">
+          <CardHeader className="pb-3 border-b border-slate-800">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-xs text-blue-500 font-mono uppercase tracking-wider flex items-center gap-2">
-                <div className="relative">
-                  <div className="absolute -inset-1 bg-blue-500/20 blur-sm rounded-full animate-pulse"></div>
-                  <PhoneCall className="h-4 w-4 relative z-10" />
-                </div>
+              <CardTitle className="text-sm font-semibold text-slate-100 flex items-center gap-2">
+                <PhoneCall className="h-4 w-4 text-blue-500" />
                 Appels en Attente ({callBookings.length})
               </CardTitle>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => setShowAllCallsModal(true)}
-                className="h-7 px-3 text-[10px] font-mono uppercase text-blue-400 hover:text-blue-300 hover:bg-blue-500/10 border border-blue-500/20"
+                className="h-7 px-3 text-xs text-slate-400 hover:text-white"
               >
                 Voir tout →
               </Button>
@@ -702,7 +696,7 @@ const ClientsTab = ({ quotes, callBookings, onQuoteClick, onCallClick, onRefresh
           </div>
         </div>
 
-        <Card className="bg-slate-950/20 border-white/5 backdrop-blur-sm">
+        <Card className="bg-slate-900 border-slate-800 shadow-sm">
           <CardContent className="p-0">
             {/* Original Table Content reused but simplified style */}
             <Table>

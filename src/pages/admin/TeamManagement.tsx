@@ -47,30 +47,34 @@ const TeamManagement = () => {
         try {
             setLoading(true);
 
-            // Fetch all sales partners with their profile information  
+            // Fetch all sales partners with their information directly
             const { data: salesData, error: salesError } = await supabase
                 .from('sales_partners')
                 .select(`
                     id,
+                    user_id,
+                    email,
+                    first_name,
+                    last_name,
+                    phone,
                     commission_rate,
                     is_active,
-                    created_at,
-                    profiles:profiles!sales_partners_profiles_fkey(id, email, full_name, role)
+                    created_at
                 `);
 
             if (salesError) throw salesError;
 
             // Transform the data
             const members: TeamMember[] = (salesData || []).map((sp: any) => ({
-                id: sp.id,
-                email: sp.profiles?.email || 'N/A',
+                id: sp.user_id, // Use user_id as the primary identifier for TeamMember
+                email: sp.email || 'N/A',
                 role: 'sales',
                 created_at: sp.created_at,
-                commission_rate: sp.commission_rate || 10,
+                commission_rate: sp.commission_rate || 20,
                 sales_partner: {
-                    first_name: sp.profiles?.full_name?.split(' ')[0] || '',
-                    last_name: sp.profiles?.full_name?.split(' ').slice(1).join(' ') || '',
-                    phone: null, // Phone not in current schema
+                    first_name: sp.first_name || '',
+                    last_name: sp.last_name || '',
+                    phone: sp.phone || null,
                     is_active: sp.is_active,
                 },
             }));
@@ -172,6 +176,7 @@ const TeamManagement = () => {
                         <Table>
                             <TableHeader className="bg-slate-950/50 sticky top-0 z-10">
                                 <TableRow className="border-white/5 hover:bg-transparent">
+                                    <TableHead className="text-gray-400 font-mono text-[10px] uppercase h-8">Prénom</TableHead>
                                     <TableHead className="text-gray-400 font-mono text-[10px] uppercase h-8">Nom</TableHead>
                                     <TableHead className="text-gray-400 font-mono text-[10px] uppercase h-8">Email</TableHead>
                                     <TableHead className="text-gray-400 font-mono text-[10px] uppercase h-8">Téléphone</TableHead>
@@ -184,7 +189,7 @@ const TeamManagement = () => {
                             <TableBody>
                                 {teamMembers.length === 0 ? (
                                     <TableRow className="hover:bg-transparent border-white/5">
-                                        <TableCell colSpan={7} className="py-12">
+                                        <TableCell colSpan={8} className="py-12">
                                             <div className="text-center">
                                                 <Users className="h-12 w-12 text-slate-700 mx-auto mb-3" />
                                                 <p className="text-slate-400 font-medium">Aucun membre dans l'équipe</p>
@@ -206,9 +211,12 @@ const TeamManagement = () => {
                                         >
                                             <TableCell className="py-3">
                                                 <div className="font-medium text-white text-sm">
-                                                    {member.sales_partner
-                                                        ? `${member.sales_partner.first_name} ${member.sales_partner.last_name}`
-                                                        : 'Admin User'}
+                                                    {member.sales_partner?.first_name || '—'}
+                                                </div>
+                                            </TableCell>
+                                            <TableCell className="py-3">
+                                                <div className="font-medium text-white text-sm">
+                                                    {member.sales_partner?.last_name || '—'}
                                                 </div>
                                             </TableCell>
                                             <TableCell className="py-3">
@@ -290,6 +298,7 @@ const TeamManagement = () => {
                 onOpenChange={setDetailDialogOpen}
                 member={selectedMember}
                 onMemberDeleted={fetchTeamMembers}
+                onMemberUpdated={fetchTeamMembers}
             />
         </div>
     );

@@ -1,219 +1,171 @@
-import { useState, useEffect } from 'react';
-import { supabase } from '@/integrations/supabase/client';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Loader2, Book, Search } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { trainingGuide, Chapter } from '@/data/trainingData';
+import { Card } from '@/components/ui/card';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { BookOpen, ChevronRight, GraduationCap, Search, Menu } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { toast } from 'sonner';
 import ReactMarkdown from 'react-markdown';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-
-interface TrainingResource {
-    id: string;
-    title: string;
-    category: string;
-    content: string;
-    excerpt: string | null;
-    display_order: number;
-}
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
 const TrainingResources = () => {
-    const [resources, setResources] = useState<TrainingResource[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [selectedChapterId, setSelectedChapterId] = useState<string>(trainingGuide[0].id);
     const [searchQuery, setSearchQuery] = useState('');
-    const [selectedCategory, setSelectedCategory] = useState<string>('all');
-    const [selectedResource, setSelectedResource] = useState<TrainingResource | null>(null);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const contentTopRef = useRef<HTMLDivElement>(null);
+
+    const selectedChapter = trainingGuide.find(c => c.id === selectedChapterId) || trainingGuide[0];
 
     useEffect(() => {
-        const fetchResources = async () => {
-            try {
-                setLoading(true);
+        if (contentTopRef.current) {
+            contentTopRef.current.scrollIntoView({ behavior: 'instant', block: 'start' });
+        }
+    }, [selectedChapterId]);
 
-                const { data, error } = await supabase
-                    .from('training_resources')
-                    .select('*')
-                    .eq('is_published', true)
-                    .order('display_order');
+    const filteredChapters = trainingGuide.filter(chapter =>
+        chapter.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        chapter.description.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
-                if (error) throw error;
-
-                setResources(data || []);
-            } catch (error) {
-                console.error('Error fetching training resources:', error);
-                toast.error('Erreur lors du chargement des ressources');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchResources();
-    }, []);
-
-    const categories = [
-        { value: 'all', label: 'Toutes' },
-        { value: 'sales_arguments', label: 'Arguments de Vente' },
-        { value: 'product_info', label: 'Infos Produits' },
-        { value: 'best_practices', label: 'Bonnes Pratiques' },
-        { value: 'process', label: 'Processus' },
-        { value: 'tools', label: 'Outils' },
-    ];
-
-    const filteredResources = resources.filter((resource) => {
-        const matchesCategory = selectedCategory === 'all' || resource.category === selectedCategory;
-        const matchesSearch = searchQuery === '' ||
-            resource.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            resource.content.toLowerCase().includes(searchQuery.toLowerCase());
-
-        return matchesCategory && matchesSearch;
-    });
-
-    const getCategoryBadge = (category: string) => {
-        const categoryConfig: Record<string, { label: string; className: string }> = {
-            sales_arguments: { label: 'Arguments', className: 'bg-blue-500' },
-            product_info: { label: 'Produits', className: 'bg-purple-500' },
-            best_practices: { label: 'Pratiques', className: 'bg-green-500' },
-            process: { label: 'Processus', className: 'bg-orange-500' },
-            tools: { label: 'Outils', className: 'bg-pink-500' },
-        };
-
-        const config = categoryConfig[category] || { label: category, className: 'bg-gray-500' };
-        return <Badge className={`${config.className} text-xs`}>{config.label}</Badge>;
-    };
-
-    if (loading) {
-        return (
-            <div className="flex items-center justify-center min-h-screen bg-slate-950">
-                <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
-            </div>
-        );
-    }
-
-    return (
-        <div className="min-h-screen bg-slate-950 p-6">
-            <div className="max-w-7xl mx-auto space-y-6">
-                {/* Header */}
-                <div>
-                    <h1 className="text-3xl font-bold text-white flex items-center gap-2">
-                        <Book className="h-8 w-8 text-blue-500" />
-                        Formation & Ressources
-                    </h1>
-                    <p className="text-slate-400 mt-1">
-                        Guides, bonnes pratiques et outils pour maximiser vos ventes
-                    </p>
-                </div>
-
-                {/* Search and Filters */}
-                <div className="flex gap-4">
-                    <div className="flex-1 relative">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
-                        <Input
-                            placeholder="Rechercher dans les ressources..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="pl-10 bg-slate-900 border-slate-700 text-white"
-                        />
+    const SidebarContent = () => (
+        <div className="flex flex-col h-full bg-slate-950 border-r border-white/5">
+            <div className="p-6 border-b border-white/5 bg-slate-900/50">
+                <div className="flex items-center gap-3 mb-6">
+                    <div className="p-2.5 rounded-xl bg-blue-600/20 border border-blue-500/30 text-blue-400">
+                        <GraduationCap className="h-6 w-6" />
+                    </div>
+                    <div>
+                        <h2 className="text-lg font-bold text-white leading-tight">Nexus Academy</h2>
+                        <span className="text-xs text-slate-400 uppercase tracking-wider font-medium">Guide Stratégique</span>
                     </div>
                 </div>
+                <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-500" />
+                    <Input
+                        placeholder="Rechercher..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="pl-9 h-10 bg-slate-900 border-white/10 text-white focus:ring-blue-500/20 focus:border-blue-500/50 text-sm"
+                    />
+                </div>
+            </div>
 
-                <Tabs value={selectedCategory} onValueChange={setSelectedCategory}>
-                    <TabsList className="bg-slate-900 border-slate-700">
-                        {categories.map((cat) => (
-                            <TabsTrigger
-                                key={cat.value}
-                                value={cat.value}
-                                className="data-[state=active]:bg-blue-600 text-slate-300 data-[state=active]:text-white"
-                            >
-                                {cat.label}
-                            </TabsTrigger>
-                        ))}
-                    </TabsList>
-
-                    {categories.map((cat) => (
-                        <TabsContent key={cat.value} value={cat.value} className="mt-6">
-                            {selectedResource ? (
-                                /* Full Resource View */
-                                <Card className="bg-slate-900 border-slate-700">
-                                    <CardHeader>
-                                        <div className="flex items-center justify-between">
-                                            <div className="space-y-1">
-                                                <div className="flex items-center gap-2">
-                                                    <CardTitle className="text-white text-2xl">{selectedResource.title}</CardTitle>
-                                                    {getCategoryBadge(selectedResource.category)}
-                                                </div>
-                                                {selectedResource.excerpt && (
-                                                    <CardDescription className="text-slate-400">
-                                                        {selectedResource.excerpt}
-                                                    </CardDescription>
-                                                )}
-                                            </div>
-                                            <button
-                                                onClick={() => setSelectedResource(null)}
-                                                className="text-slate-400 hover:text-white text-sm underline"
-                                            >
-                                                ← Retour à la liste
-                                            </button>
-                                        </div>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <div className="prose prose-invert max-w-none">
-                                            <ReactMarkdown
-                                                components={{
-                                                    h1: ({ ...props }) => <h1 className="text-3xl font-bold text-white mt-6 mb-4" {...props} />,
-                                                    h2: ({ ...props }) => <h2 className="text-2xl font-bold text-white mt-5 mb-3" {...props} />,
-                                                    h3: ({ ...props }) => <h3 className="text-xl font-bold text-white mt-4 mb-2" {...props} />,
-                                                    p: ({ ...props }) => <p className="text-slate-300 mb-4 leading-relaxed" {...props} />,
-                                                    ul: ({ ...props }) => <ul className="list-disc list-inside text-slate-300 mb-4 space-y-1" {...props} />,
-                                                    ol: ({ ...props }) => <ol className="list-decimal list-inside text-slate-300 mb-4 space-y-1" {...props} />,
-                                                    strong: ({ ...props }) => <strong className="text-white font-semibold" {...props} />,
-                                                    blockquote: ({ ...props }) => (
-                                                        <blockquote className="border-l-4 border-blue-500 pl-4 italic text-slate-400 my-4" {...props} />
-                                                    ),
-                                                    hr: () => <hr className="border-slate-700 my-6" />,
-                                                }}
-                                            >
-                                                {selectedResource.content}
-                                            </ReactMarkdown>
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            ) : (
-                                /* Resources List */
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                    {filteredResources.length > 0 ? (
-                                        filteredResources.map((resource) => (
-                                            <Card
-                                                key={resource.id}
-                                                className="bg-slate-900 border-slate-700 hover:border-blue-500 transition-colors cursor-pointer"
-                                                onClick={() => setSelectedResource(resource)}
-                                            >
-                                                <CardHeader>
-                                                    <div className="flex items-start justify-between gap-2">
-                                                        <CardTitle className="text-white text-lg">{resource.title}</CardTitle>
-                                                        {getCategoryBadge(resource.category)}
-                                                    </div>
-                                                    {resource.excerpt && (
-                                                        <CardDescription className="text-slate-400 line-clamp-3">
-                                                            {resource.excerpt}
-                                                        </CardDescription>
-                                                    )}
-                                                </CardHeader>
-                                                <CardContent>
-                                                    <p className="text-sm text-blue-400 hover:text-blue-300">
-                                                        Lire la suite →
-                                                    </p>
-                                                </CardContent>
-                                            </Card>
-                                        ))
-                                    ) : (
-                                        <div className="col-span-full text-center py-12 text-slate-400">
-                                            Aucune ressource trouvée pour cette catégorie.
-                                        </div>
-                                    )}
+            <ScrollArea className="flex-1 px-4 py-4">
+                <div className="space-y-1">
+                    {filteredChapters.map((chapter) => (
+                        <button
+                            key={chapter.id}
+                            onClick={() => {
+                                setSelectedChapterId(chapter.id);
+                                setIsMobileMenuOpen(false);
+                            }}
+                            className={`w-full text-left p-3 rounded-lg transition-all group relative overflow-hidden ${selectedChapterId === chapter.id
+                                ? 'bg-blue-600/10 border border-blue-500/30 shadow-lg shadow-blue-900/20'
+                                : 'hover:bg-white/5 border border-transparent hover:border-white/5'
+                                }`}
+                        >
+                            <div className="flex items-start gap-4 relatie z-10">
+                                <span className={`text-sm font-mono font-bold mt-0.5 ${selectedChapterId === chapter.id ? 'text-blue-400' : 'text-slate-600'}`}>
+                                    {chapter.number}
+                                </span>
+                                <div className="flex-1 min-w-0">
+                                    <h3 className={`text-sm font-semibold truncate ${selectedChapterId === chapter.id ? 'text-white' : 'text-slate-300 group-hover:text-white'}`}>
+                                        {chapter.title}
+                                    </h3>
+                                    <p className={`text-xs mt-1 line-clamp-2 ${selectedChapterId === chapter.id ? 'text-blue-200/70' : 'text-slate-500'}`}>
+                                        {chapter.description}
+                                    </p>
                                 </div>
-                            )}
-                        </TabsContent>
+                                {selectedChapterId === chapter.id && (
+                                    <ChevronRight className="h-4 w-4 text-blue-400 mt-1" />
+                                )}
+                            </div>
+                        </button>
                     ))}
-                </Tabs>
+                    {filteredChapters.length === 0 && (
+                        <div className="text-center py-8 text-slate-500 text-sm px-4">
+                            Aucun chapitre ne correspond à votre recherche.
+                        </div>
+                    )}
+                </div>
+            </ScrollArea>
+
+            <div className="p-4 border-t border-white/5 bg-slate-900/30">
+                <div className="text-xs text-slate-500 text-center">
+                    Guide Commercial v2.0 • 2024
+                </div>
+            </div>
+        </div>
+    );
+
+    return (
+        <div className="flex h-[calc(100vh-6rem)] md:h-[800px] bg-slate-950 rounded-2xl border border-white/10 overflow-hidden shadow-2xl">
+            {/* Desktop Sidebar */}
+            <div className="hidden md:block w-80 lg:w-96 flex-shrink-0">
+                <SidebarContent />
+            </div>
+
+            {/* Mobile Sidebar & Header */}
+            <div className="flex-1 flex flex-col min-w-0 bg-slate-900/50">
+                <div className="md:hidden flex items-center p-4 border-b border-white/5 bg-slate-950">
+                    <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+                        <SheetTrigger asChild>
+                            <Button variant="ghost" size="icon" className="mr-3 text-slate-400">
+                                <Menu className="h-6 w-6" />
+                            </Button>
+                        </SheetTrigger>
+                        <SheetContent side="left" className="p-0 border-r border-white/10 bg-slate-950 w-80">
+                            <SidebarContent />
+                        </SheetContent>
+                    </Sheet>
+                    <span className="font-semibold text-white truncate">{selectedChapter.title}</span>
+                </div>
+
+                {/* Main Content Area */}
+                <ScrollArea className="flex-1">
+                    <div ref={contentTopRef} />
+                    <div className="max-w-4xl mx-auto p-6 md:p-12 lg:p-16">
+                        <div className="mb-10 pb-6 border-b border-white/10">
+                            <div className="flex items-center gap-3 text-sm text-blue-400 font-mono mb-4">
+                                <span>CHAPITRE {selectedChapter.number}</span>
+                                <div className="h-px bg-blue-500/30 w-12" />
+                            </div>
+                            <h1 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">
+                                {selectedChapter.title}
+                            </h1>
+                            <p className="text-xl text-slate-400 font-light leading-relaxed">
+                                {selectedChapter.description}
+                            </p>
+                        </div>
+
+                        <div className="prose prose-invert prose-lg max-w-none 
+                            prose-p:text-slate-300 prose-p:leading-8 prose-p:mb-6
+                            prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-500/10 prose-blockquote:px-6 prose-blockquote:py-6 prose-blockquote:rounded-r-xl prose-blockquote:not-italic prose-blockquote:text-blue-100
+                            prose-ul:list-disc prose-ul:pl-6 prose-ul:space-y-3 prose-ul:text-slate-300
+                            prose-li:marker:text-blue-500
+                            prose-strong:text-white prose-strong:font-bold
+                            prose-a:text-blue-400 hover:prose-a:text-blue-300 prose-a:no-underline
+                        ">
+                            <ReactMarkdown
+                                components={{
+                                    h1: ({ children, ...props }) => <h1 className="text-4xl font-bold text-white mb-8 pb-4 border-b border-white/10" {...props}>{children}</h1>,
+                                    h2: ({ children, ...props }) => <h2 className="text-3xl font-bold text-center text-blue-200 mt-24 mb-12 pb-6 border-b border-white/10 leading-relaxed block" {...props}>{children}</h2>,
+                                    h3: ({ children, ...props }) => <h3 className="text-xl font-bold text-blue-100 mt-12 mb-6" {...props}>{children}</h3>,
+                                }}
+                            >
+                                {selectedChapter.content}
+                            </ReactMarkdown>
+                        </div>
+
+                        {/* Navigation Footer */}
+                        <div className="mt-20 pt-10 border-t border-white/10 flex justify-between items-center">
+                            {/* Logic to find prev/next chapter could go here */}
+                            <div className="text-sm text-slate-500 italic">
+                                Nexus Développement - Document Interne
+                            </div>
+                        </div>
+                    </div>
+                </ScrollArea>
             </div>
         </div>
     );
