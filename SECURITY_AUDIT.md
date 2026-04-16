@@ -111,9 +111,9 @@ Aucune protection anti-bot / anti-spam sur le formulaire de contact ou de devis 
 ### ⚠️ Obligations légales encore à traiter par toi-même
 
 1. **Déclaration CNIL simplifiée / registre RGPD** — obligatoire dès qu'on traite des données personnelles. Tenir un registre interne des traitements (article 30 RGPD).
-2. **Mention TVA intracommunautaire** — à compléter dans les mentions légales dès assujettissement (ou mention "TVA non applicable, art. 293 B du CGI" si régime franchise).
-3. **Médiateur de la consommation** — dès que tu as des clients particuliers, tu dois adhérer à un médiateur agréé (ex : Médiation de la consommation — AME, CNPM, etc.) et mentionner ses coordonnées dans CGV/mentions.
-4. **Assurance RC Pro** — obligatoire pour certaines prestations, très fortement recommandée pour les autres (couvre erreurs, fuites de données, défauts de livrable).
+2. ~~Mention TVA intracommunautaire~~ ✅ Intégrée : FR49995394095.
+3. **Médiateur de la consommation** — dès que tu as des clients particuliers, tu dois adhérer à un médiateur agréé (ex : AME Conso, CNPM, Médiateur du e-commerce de la FEVAD…) et mentionner ses coordonnées dans CGV/mentions. Coût : ~50-150 €/an.
+4. **Assurance RC Pro** — obligatoire pour certaines prestations, très fortement recommandée pour les autres (couvre erreurs, fuites de données, défauts de livrable). Coût : ~300-800 €/an pour une SARL comme la tienne.
 5. **Clause de propriété intellectuelle dans le devis signé** — le devis DOIT référencer les CGV et les faire accepter. À ajouter à ton process commercial.
 6. **DPA (Data Processing Agreement)** — à signer avec chaque client pour qui tu traites des données (art. 28 RGPD).
 7. **Registre des sous-traitants** — lister formellement Vercel, Supabase, Resend (+ CCT UE-USA) dans un document interne.

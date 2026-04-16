@@ -39,8 +39,9 @@ const CGV = () => {
           </p>
           <ul className="list-disc list-inside space-y-1 ml-2">
             <li>
-              La société <strong className="text-white">NEXUS DEVELOPPEMENT</strong> (SARL au capital de 500 €),
-              immatriculée au RCS sous le numéro SIRET 995 394 095 00013, dont le siège social est situé
+              La société <strong className="text-white">NEXUS DEVELOPPEMENT</strong> (SARL au capital de 500,00 €),
+              SIREN 995 394 095, SIRET 995 394 095 00013, immatriculée au R.C.S. de Versailles
+              sous le numéro 995 394 095, TVA intracommunautaire FR49995394095, dont le siège social est situé
               4 rue de la Ferme, 78990 Élancourt, France, ci-après dénommée « le Prestataire »,
             </li>
             <li>
@@ -108,9 +109,10 @@ const CGV = () => {
       content: (
         <div className="space-y-3 text-slate-300 text-sm leading-relaxed">
           <p>
-            Les prix sont exprimés en euros. Le Prestataire n'étant pas assujetti à la TVA (le cas échéant),
-            la mention « TVA non applicable – article 293 B du CGI » peut figurer sur les factures.
-            À défaut, la TVA au taux en vigueur est ajoutée aux prix HT indiqués.
+            Les prix sont exprimés en euros, hors taxes (HT). Le Prestataire étant assujetti à la TVA
+            (N° TVA intracommunautaire : <strong className="text-white">FR49995394095</strong>), la TVA
+            au taux légal en vigueur (20 % à la date des présentes) est ajoutée aux prix HT indiqués
+            sur le devis et la facture.
           </p>
           <p><strong className="text-white">Modalités de paiement :</strong></p>
           <ul className="list-disc list-inside space-y-1 ml-2">

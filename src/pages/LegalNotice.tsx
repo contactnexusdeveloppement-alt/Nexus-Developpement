@@ -15,13 +15,18 @@ const LegalNotice = () => {
       icon: Building,
       title: "1. Éditeur du site",
       content: (
-        <div className="space-y-2 text-slate-300">
+        <div className="space-y-2 text-slate-300 text-sm leading-relaxed">
           <p><strong className="text-white">Raison sociale :</strong> NEXUS DEVELOPPEMENT (NED)</p>
           <p><strong className="text-white">Forme juridique :</strong> Société à responsabilité limitée (SARL)</p>
-          <p><strong className="text-white">Capital social :</strong> 500 €</p>
+          <p><strong className="text-white">Capital social :</strong> 500,00 €</p>
           <p><strong className="text-white">Siège social :</strong> 4 rue de la Ferme, 78990 Élancourt, France</p>
-          <p><strong className="text-white">SIRET :</strong> 995 394 095 00013</p>
+          <p><strong className="text-white">SIREN :</strong> 995 394 095</p>
+          <p><strong className="text-white">SIRET (siège) :</strong> 995 394 095 00013</p>
+          <p><strong className="text-white">RCS :</strong> 995 394 095 R.C.S. Versailles (inscrit le 22/12/2025)</p>
+          <p><strong className="text-white">RNE :</strong> Inscrit</p>
+          <p><strong className="text-white">N° TVA intracommunautaire :</strong> FR49995394095</p>
           <p><strong className="text-white">Directeur de la publication :</strong> Adam Le Charlès & Théo Jacobée</p>
+          <p><strong className="text-white">Contact :</strong> <a href="mailto:contact.nexus.developpement@gmail.com" className="text-blue-400 hover:text-blue-300 underline">contact.nexus.developpement@gmail.com</a></p>
         </div>
       )
     },
@@ -29,10 +34,11 @@ const LegalNotice = () => {
       icon: Globe,
       title: "2. Hébergement",
       content: (
-        <div className="space-y-2 text-slate-300">
+        <div className="space-y-2 text-slate-300 text-sm leading-relaxed">
           <p><strong className="text-white">Hébergeur :</strong> Vercel Inc.</p>
           <p><strong className="text-white">Adresse :</strong> 340 S Lemon Ave #4133, Walnut, CA 91789, USA</p>
           <p><strong className="text-white">Site web :</strong> <a href="https://vercel.com" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline transition-colors">https://vercel.com</a></p>
+          <p className="pt-2"><strong className="text-white">Base de données & Auth :</strong> Supabase (hébergement UE)</p>
         </div>
       )
     },
@@ -42,11 +48,17 @@ const LegalNotice = () => {
       content: (
         <div className="space-y-3 text-slate-300 text-sm leading-relaxed">
           <p>
-            L'ensemble de ce site relève de la législation française et internationale sur le droit d'auteur et la propriété intellectuelle.
-            Tous les droits de reproduction sont réservés, y compris pour les documents téléchargeables et les représentations iconographiques et photographiques.
+            L'ensemble des éléments du site (textes, photographies, images, vidéos, logos, marques,
+            icônes, graphismes, mise en page, code source) est la propriété exclusive de Nexus Développement
+            ou de ses partenaires, et est protégé par la législation française et internationale sur le
+            droit d'auteur et la propriété intellectuelle.
           </p>
           <p>
-            La reproduction de tout ou partie de ce site sur un support électronique quel qu'il soit est formellement interdite sauf autorisation expresse du directeur de la publication.
+            Toute reproduction, représentation, modification, publication, adaptation ou exploitation,
+            totale ou partielle, par quelque procédé et sur quelque support que ce soit, est interdite
+            sans autorisation écrite préalable. Toute utilisation non autorisée constituerait une
+            contrefaçon sanctionnée par les articles L.335-2 et suivants du Code de la propriété
+            intellectuelle.
           </p>
         </div>
       )
@@ -57,17 +69,44 @@ const LegalNotice = () => {
       content: (
         <div className="space-y-3 text-slate-300 text-sm leading-relaxed">
           <p>
-            Les informations communiquées sur le site sont fournies à titre indicatif, elles sont non contractuelles et ne sauraient engager la responsabilité de Nexus Développement.
-            Elles peuvent être modifiées ou mises à jour sans préavis.
+            Les informations publiées sur le site sont fournies à titre indicatif, non contractuelles,
+            et susceptibles d'évoluer sans préavis. Nexus Développement met tout en œuvre pour en garantir
+            l'exactitude mais ne saurait en garantir l'exhaustivité.
+          </p>
+          <p>La responsabilité de Nexus Développement ne saurait être engagée pour :</p>
+          <ul className="list-disc list-inside space-y-1 ml-2">
+            <li>Les dommages directs ou indirects résultant de l'utilisation du site ;</li>
+            <li>L'indisponibilité temporaire du site pour maintenance, mise à jour ou cause indépendante ;</li>
+            <li>Les omissions, erreurs ou inexactitudes que pourrait contenir le site ;</li>
+            <li>Les contenus externes accessibles via des liens hypertextes.</li>
+          </ul>
+        </div>
+      )
+    },
+    {
+      icon: Scale,
+      title: "5. Droit applicable & Médiation",
+      content: (
+        <div className="space-y-3 text-slate-300 text-sm leading-relaxed">
+          <p>
+            Les présentes mentions sont régies par le droit français. Tout litige relève de la compétence
+            du Tribunal de Commerce de Versailles, sous réserve des règles impératives protégeant le consommateur.
           </p>
           <p>
-            La responsabilité de Nexus Développement ne saurait être engagée pour :
+            <strong className="text-white">Médiation de la consommation :</strong> conformément aux articles
+            L.612-1 et suivants du Code de la consommation, en cas de litige persistant, le consommateur
+            peut recourir à un médiateur de la consommation. La plateforme européenne de règlement en ligne
+            des litiges est disponible :{" "}
+            <a
+              href="https://ec.europa.eu/consumers/odr/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-400 hover:text-blue-300 underline"
+            >
+              https://ec.europa.eu/consumers/odr/
+            </a>
+            .
           </p>
-          <ul className="list-disc list-inside space-y-1 ml-2">
-            <li>Les dommages de toute nature, directs ou indirects, résultant de l'utilisation du site.</li>
-            <li>L'impossibilité d'accéder au site.</li>
-            <li>Les omissions et/ou erreurs que pourrait contenir le site.</li>
-          </ul>
         </div>
       )
     }
