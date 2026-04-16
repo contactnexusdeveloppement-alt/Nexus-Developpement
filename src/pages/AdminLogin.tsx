@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,45 +9,32 @@ import { toast } from "sonner";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import { Loader2 } from "lucide-react";
 
-// Token d'accès secret pour la page admin
-const ADMIN_ACCESS_TOKEN = "Nx8f4a-Sec2024-xK9mP";
-
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isAuthorized, setIsAuthorized] = useState(false);
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    // Vérifier le token d'accès
-    const accessToken = searchParams.get("access");
-    if (accessToken !== ADMIN_ACCESS_TOKEN) {
-      // Token invalide ou absent → redirection vers l'accueil
-      navigate("/");
-      return;
-    }
-    setIsAuthorized(true);
-
-    // Check if user is already logged in and is admin
+    // Check if user is already logged in and redirect based on role
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
-        const { data: roles } = await supabase
+        const { data: roleData } = await supabase
           .from('user_roles')
           .select('role')
           .eq('user_id', session.user.id)
-          .eq('role', 'admin')
           .single();
 
-        if (roles) {
+        if (roleData?.role === 'admin') {
           navigate('/nx-panel-8f4a/dashboard');
+        } else if (roleData?.role === 'sales') {
+          navigate('/sales/dashboard');
         }
       }
     };
     checkAuth();
-  }, [navigate, searchParams]);
+  }, [navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -89,37 +76,6 @@ const AdminLogin = () => {
     }
   };
 
-  const handleSignup = async () => {
-    setIsLoading(true);
-    try {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-      });
-
-      if (error) throw error;
-
-      if (data.user) {
-        toast.success("Compte créé ! Vous êtes connecté.");
-        // Auto navigate if session is established (Supabase auto-signs in on signup usually)
-        if (data.session) {
-          navigate('/nx-panel-8f4a/dashboard');
-        } else {
-          toast.info("Veuillez vérifier votre email si requis, ou connectez-vous.");
-        }
-      }
-    } catch (error: any) {
-      toast.error("Erreur d'inscription: " + (error.message || error));
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // Ne rien afficher si non autorisé (pendant la redirection)
-  if (!isAuthorized) {
-    return null;
-  }
-
   return (
     <div className="min-h-screen relative flex items-center justify-center p-4">
       <AnimatedBackground />
@@ -132,60 +88,47 @@ const AdminLogin = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            <form onSubmit={handleLogin} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="email" className="text-gray-200">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="admin@nexus-dev.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  disabled={isLoading}
-                  className="bg-slate-800/50 border-blue-500/30 text-white placeholder:text-gray-400"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="password" className="text-gray-200">Mot de passe</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  disabled={isLoading}
-                  className="bg-slate-800/50 border-blue-500/30 text-white"
-                />
-              </div>
-              <div className="flex flex-col gap-3">
-                <Button
-                  type="submit"
-                  className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700"
-                  disabled={isLoading}
-                >
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Connexion...
-                    </>
-                  ) : (
-                    "Se connecter"
-                  )}
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={handleSignup}
-                  disabled={isLoading}
-                  className="w-full bg-slate-800/50 border-blue-500/30 text-blue-400 hover:bg-blue-500/10 hover:text-blue-300"
-                >
-                  Créer un compte (1ère utilisation)
-                </Button>
-              </div>
-            </form>
-          </div>
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="email" className="text-gray-200">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="admin@nexus-dev.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                disabled={isLoading}
+                className="bg-slate-800/50 border-blue-500/30 text-white placeholder:text-gray-400"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password" className="text-gray-200">Mot de passe</Label>
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                disabled={isLoading}
+                className="bg-slate-800/50 border-blue-500/30 text-white"
+              />
+            </div>
+            <Button
+              type="submit"
+              className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Connexion...
+                </>
+              ) : (
+                "Se connecter"
+              )}
+            </Button>
+          </form>
         </CardContent>
       </Card>
     </div>

@@ -126,10 +126,12 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500">
           <p>&copy; {new Date().getFullYear()} Nexus Développement. Tous droits réservés.</p>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap justify-center gap-4 md:gap-6">
             <Link to="/mentions-legales" className="hover:text-blue-400 transition-colors">Mentions légales</Link>
-            <Link to="/confidentialite" className="hover:text-blue-400 transition-colors">Politique de confidentialité</Link>
+            <Link to="/confidentialite" className="hover:text-blue-400 transition-colors">Confidentialité</Link>
             <Link to="/cgu" className="hover:text-blue-400 transition-colors">CGU</Link>
+            <Link to="/cgv" className="hover:text-blue-400 transition-colors">CGV</Link>
+            <Link to="/cookies" className="hover:text-blue-400 transition-colors">Cookies</Link>
           </div>
         </div>
       </div>

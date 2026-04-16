@@ -14,6 +14,8 @@ const Index = lazy(() => import("./pages/Index"));
 const LegalNotice = lazy(() => import("./pages/LegalNotice"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("./pages/TermsOfService"));
+const CGV = lazy(() => import("./pages/CGV"));
+const CookiePolicy = lazy(() => import("./pages/CookiePolicy"));
 const Team = lazy(() => import("./pages/Team"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
@@ -72,6 +74,8 @@ const App = () => (
               <Route path="/mentions-legales" element={<LegalNotice />} />
               <Route path="/confidentialite" element={<PrivacyPolicy />} />
               <Route path="/cgu" element={<TermsOfService />} />
+              <Route path="/cgv" element={<CGV />} />
+              <Route path="/cookies" element={<CookiePolicy />} />
               <Route path="/equipe" element={<Team />} />
               <Route path="/nx-panel-8f4a" element={<AdminLogin />} />
               <Route
