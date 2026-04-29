@@ -5,9 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- DNS Prefetch & Preconnect for faster external connections -->
-  <link rel="dns-prefetch" href="https://rdrvjhhfmwtzbhljljxl.supabase.co" />
-  <link rel="preconnect" href="https://rdrvjhhfmwtzbhljljxl.supabase.co" crossorigin />
+  <!-- (Pas de preconnect : les Vercel Functions sont sur le même domaine) -->
 
   <!-- SEO Primary Tags -->
   <title>Nexus Développement - Agence Digitale | Création Sites Web & Apps</title>
@@ -60,18 +58,21 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon.png" />
   <link rel="shortcut icon" href="/favicon.ico" />
 
-  <!-- Google Analytics 4 -->
-  <!-- Replace G-XXXXXXXXXX with your actual GA4 Measurement ID after deployment -->
+  <!-- Google Analytics 4 — désactivé tant que VITE_GA_MEASUREMENT_ID n'est pas défini.
+       Pour activer : remplacer G-XXXXXXXXXX par votre vrai ID GA4 (commence par G-...) ET
+       dé-commenter le bloc ci-dessous. Pensez à mettre à jour CookieConsent en conséquence. -->
+  <!--
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
     gtag('config', 'G-XXXXXXXXXX', {
-      'anonymize_ip': true,
-      'cookie_flags': 'SameSite=None;Secure'
+      anonymize_ip: true,
+      cookie_flags: 'SameSite=None;Secure'
     });
   </script>
+  -->
 
   <!-- Structured Data JSON-LD -->
   <script type="application/ld+json">

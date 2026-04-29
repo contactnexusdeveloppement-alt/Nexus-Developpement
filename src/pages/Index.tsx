@@ -15,7 +15,6 @@ const CallBooking = lazy(() => import("@/components/CallBooking").then(m => ({ d
 const QuoteForm = lazy(() => import("@/components/QuoteForm"));
 const Contact = lazy(() => import("@/components/Contact"));
 const FAQ = lazy(() => import("@/components/FAQ"));
-const ChatBotWidget = lazy(() => import("@/components/chatbot/ChatBotWidget").then(m => ({ default: m.ChatBotWidget })));
 
 // Minimal loading fallback (invisible, no layout shift)
 const SectionLoader = () => <div className="min-h-[200px]" />;
@@ -71,11 +70,6 @@ const Index = () => {
         </Suspense>
         <Footer />
       </div>
-
-      {/* Chatbot Widget */}
-      <Suspense fallback={null}>
-        <ChatBotWidget />
-      </Suspense>
     </div>
   );
 };

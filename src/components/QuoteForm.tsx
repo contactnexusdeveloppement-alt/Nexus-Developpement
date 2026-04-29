@@ -8,8 +8,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
-import { sendQuoteConfirmation, sendQuoteNotification } from "@/lib/emailTemplates";
 import { motion } from "framer-motion";
 import { Check, Send, Sparkles, Building2, Globe, Smartphone, Zap, Palette, PenTool, LayoutTemplate } from "lucide-react";
 
@@ -130,38 +128,27 @@ const QuoteForm = () => {
     setIsSubmitting(true);
 
     try {
-      // Insert quote into database
-      const { data: quoteData, error: dbError } = await supabase
-        .from('quote_requests')
-        .insert({
+      // Appel à la Vercel Function /api/send-quote :
+      // - validation côté serveur
+      // - envoi de l'email de notification + confirmation via Resend (clé serveur)
+      const res = await fetch("/api/send-quote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
           name: formData.name,
           email: formData.email,
           phone: formData.phone || null,
-          business_type: formData.businessType || null,
+          businessType: formData.businessType || null,
           services: formData.services,
-          project_details: formData.projectDetails || null,
+          projectDetails: formData.projectDetails || null,
           budget: formData.budget || null,
           timeline: formData.timeline || null,
-          status: 'pending'
-        })
-        .select()
-        .single();
+          consentGiven: formData.consentGiven,
+        }),
+      });
 
-      if (dbError) throw dbError;
-
-      // Send emails in parallel
-      const [confirmationResult, notificationResult] = await Promise.allSettled([
-        sendQuoteConfirmation(quoteData),
-        sendQuoteNotification(quoteData),
-      ]);
-
-      // Check email results
-      const emailsFailed = [confirmationResult, notificationResult].some(
-        result => result.status === 'fulfilled' && !result.value.success
-      );
-
-      if (emailsFailed) {
-        console.warn('Some emails failed to send, but quote was saved');
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`);
       }
 
       toast({
@@ -179,14 +166,13 @@ const QuoteForm = () => {
         projectDetails: "",
         budget: "",
         timeline: "",
-        consentGiven: false
+        consentGiven: false,
       });
     } catch (error) {
-      console.error("Error submitting quote:", error);
       toast({
         title: "Erreur",
         description: "Une erreur est survenue lors de l'envoi. Veuillez réessayer.",
-        variant: "destructive"
+        variant: "destructive",
       });
     } finally {
       setIsSubmitting(false);

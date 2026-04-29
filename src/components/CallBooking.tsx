@@ -1,11 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Calendar } from '@/components/ui/calendar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { supabase } from '@/integrations/supabase/client';
-import { sendCallConfirmation, sendCallNotification } from '@/lib/emailTemplates';
 import { useToast } from '@/hooks/use-toast';
 import { Phone, Clock, CalendarDays, User, Mail, ChevronRight, ChevronLeft, Check } from 'lucide-react';
 import { format, addDays, isWeekend, isBefore, startOfDay } from 'date-fns';
@@ -33,38 +31,13 @@ export function CallBooking() {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [bookedSlots, setBookedSlots] = useState<string[]>([]);
   const [step, setStep] = useState(1);
   const [direction, setDirection] = useState(0);
 
-  // Fetch booked slots for selected date
-  useEffect(() => {
-    if (selectedDate) {
-      fetchBookedSlots(selectedDate);
-    }
-  }, [selectedDate]);
-
-  const fetchBookedSlots = async (date: Date) => {
-    const dateStr = format(date, 'yyyy-MM-dd');
-    const { data } = await supabase
-      .rpc('get_booked_slots', { p_booking_date: dateStr });
-
-    if (data) {
-      const blocked: string[] = [];
-      data.forEach((booking: { time_slot: string; duration: number }) => {
-        const startIndex = TIME_SLOTS.indexOf(booking.time_slot);
-        const slotsNeeded = Math.ceil(booking.duration / 30);
-        for (let i = 0; i < slotsNeeded && startIndex + i < TIME_SLOTS.length; i++) {
-          blocked.push(TIME_SLOTS[startIndex + i]);
-        }
-      });
-      setBookedSlots(blocked);
-    }
-  };
-
+  // Note : sans base de données, la disponibilité des créneaux n'est plus
+  // vérifiée côté serveur. Le risque de double-réservation est assumé
+  // (gestion manuelle par email de la part de l'admin si conflit).
   const isSlotAvailable = (time: string) => {
-    if (bookedSlots.includes(time)) return false;
-
     if (selectedDate) {
       const now = new Date();
       const isToday = selectedDate.toDateString() === now.toDateString();
@@ -82,7 +55,7 @@ export function CallBooking() {
     const slotsNeeded = Math.ceil(selectedDuration / 30);
 
     for (let i = 0; i < slotsNeeded; i++) {
-      if (startIndex + i >= TIME_SLOTS.length || bookedSlots.includes(TIME_SLOTS[startIndex + i])) {
+      if (startIndex + i >= TIME_SLOTS.length) {
         return false;
       }
     }
@@ -114,51 +87,30 @@ export function CallBooking() {
     setIsSubmitting(true);
 
     try {
-      // Insert call booking into database
-      const { data: callData, error: dbError } = await supabase
-        .from('call_bookings')
-        .insert({
+      // Appel à la Vercel Function /api/book-call :
+      // - validation côté serveur (date, créneau, durée)
+      // - envoi de l'email de notification + confirmation via Resend (clé serveur)
+      const res = await fetch("/api/book-call", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
           name,
           email,
           phone,
           booking_date: format(selectedDate, 'yyyy-MM-dd'),
           time_slot: selectedTime,
           duration: selectedDuration,
-          status: 'pending'
-        })
-        .select()
-        .single();
+        }),
+      });
 
-      if (dbError) throw dbError;
-
-      // Send emails in parallel
-      const [confirmationResult, notificationResult] = await Promise.allSettled([
-        sendCallConfirmation(callData),
-        sendCallNotification(callData),
-      ]);
-
-      // Check email results
-      const emailsFailed = [confirmationResult, notificationResult].some(
-        result => result.status === 'fulfilled' && !result.value.success
-      );
-
-      if (emailsFailed) {
-        console.warn('Some emails failed to send, but call booking was saved');
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`);
       }
 
       toast({
         title: "Réservation confirmée ! 📞",
         description: `Votre appel est prévu le ${format(selectedDate, 'EEEE d MMMM', { locale: fr })} à ${selectedTime}. Vous recevrez un email de confirmation.`,
       });
-
-      // Update booked slots
-      const startIndex = TIME_SLOTS.indexOf(selectedTime);
-      const slotsNeeded = Math.ceil(selectedDuration / 30);
-      const newBlockedSlots: string[] = [];
-      for (let i = 0; i < slotsNeeded && startIndex + i < TIME_SLOTS.length; i++) {
-        newBlockedSlots.push(TIME_SLOTS[startIndex + i]);
-      }
-      setBookedSlots(prev => [...prev, ...newBlockedSlots]);
 
       // Reset form
       setSelectedDate(undefined);
@@ -167,8 +119,7 @@ export function CallBooking() {
       setEmail('');
       setPhone('');
       setStep(1);
-    } catch (error) {
-      console.error('Booking error:', error);
+    } catch (_error) {
       toast({
         title: "Erreur",
         description: "Une erreur est survenue. Veuillez réessayer.",

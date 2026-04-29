@@ -6,7 +6,6 @@ import { motion } from "framer-motion";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { ChatBotWidget } from "@/components/chatbot/ChatBotWidget";
 import { useEffect } from "react";
 import SEO from "@/components/SEO";
 
@@ -184,7 +183,6 @@ const Team = () => {
 
                 <Footer />
             </div>
-            <ChatBotWidget />
         </div>
     );
 };

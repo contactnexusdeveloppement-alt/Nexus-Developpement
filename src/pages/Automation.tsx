@@ -1,7 +1,6 @@
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import AnimatedBackground from "@/components/AnimatedBackground";
-import { ChatBotWidget } from "@/components/chatbot/ChatBotWidget";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Zap, CheckCircle, Workflow, Database, Mail, Clock, ShieldCheck, PlayCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -285,7 +284,6 @@ const Automation = () => {
 
                 <Footer />
             </div>
-            <ChatBotWidget />
         </div>
     );
 };

@@ -1,7 +1,6 @@
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import AnimatedBackground from "@/components/AnimatedBackground";
-import { ChatBotWidget } from "@/components/chatbot/ChatBotWidget";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Globe, CheckCircle, Monitor, Smartphone, Zap, Search, Rocket, Code, Layout } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -300,7 +299,6 @@ const WebsiteCreation = () => {
 
         <Footer />
       </div>
-      <ChatBotWidget />
     </div>
   );
 };

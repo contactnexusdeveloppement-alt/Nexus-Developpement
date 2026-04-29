@@ -1,23 +1,25 @@
-import { useLocation, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { Home } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 import { Button } from "@/components/ui/button";
 import AnimatedBackground from "@/components/AnimatedBackground";
 
 const NotFound = () => {
-  const location = useLocation();
-
   useEffect(() => {
     document.title = "Page non trouvée | Nexus Développement";
-    console.error("404 Error: User attempted to access non-existent route:", location.pathname);
-    
     return () => {
       document.title = "Nexus Développement | Sites Web, Automatisation & Identité Visuelle";
     };
-  }, [location.pathname]);
+  }, []);
 
   return (
     <div className="min-h-screen relative">
+      <Helmet>
+        <meta name="robots" content="noindex, nofollow" />
+        <meta name="googlebot" content="noindex, nofollow" />
+      </Helmet>
+
       {/* Arrière-plan animé */}
       <div className="fixed inset-0 z-0">
         <AnimatedBackground />
