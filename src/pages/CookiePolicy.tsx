@@ -13,13 +13,10 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import AnimatedBackground from "@/components/AnimatedBackground";
-import { useEffect } from "react";
 import { motion } from "framer-motion";
+import SEO from "@/components/SEO";
 
 const CookiePolicy = () => {
-  useEffect(() => {
-    document.title = "Politique de Cookies | Nexus Développement";
-  }, []);
 
   const sections = [
     {
@@ -197,6 +194,11 @@ const CookiePolicy = () => {
 
   return (
     <div className="min-h-screen relative font-sans text-slate-200">
+      <SEO
+        title="Politique de Cookies | Nexus Développement"
+        description="Politique de gestion des cookies de Nexus Développement : types de cookies utilisés, finalités, durée, consentement, gestion des préférences. Conformité ePrivacy."
+        canonical="/cookies"
+      />
       <div className="fixed inset-0 z-0">
         <AnimatedBackground />
       </div>

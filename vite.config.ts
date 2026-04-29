@@ -80,7 +80,6 @@ export default defineConfig(async ({ mode }) => {
               "react",
               "react-dom",
               "react-router-dom",
-              "react-helmet-async",
               "@tanstack/react-query",
             ],
             "ui-vendor": ["framer-motion", "lucide-react"],

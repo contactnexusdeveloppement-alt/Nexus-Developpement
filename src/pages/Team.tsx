@@ -8,6 +8,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { useEffect } from "react";
 import SEO from "@/components/SEO";
+import { breadcrumbSchema } from "@/lib/schemas";
 
 // Import team images
 import adamImage from "@/assets/adam_lecharles.webp";
@@ -106,6 +107,34 @@ const Team = () => {
                 title="Notre Équipe | Nexus Développement Élancourt"
                 description="Rencontrez l'équipe Nexus Développement : experts en développement web, automatisation et design. Basés à Élancourt (78), Île-de-France."
                 type="website"
+                canonical="/equipe"
+                schemas={[
+                    {
+                        "@context": "https://schema.org",
+                        "@type": "AboutPage",
+                        name: "L'équipe Nexus Développement",
+                        description: "Présentation des co-fondateurs et collaborateurs de l'agence Nexus Développement à Élancourt.",
+                        url: "https://nexusdeveloppement.fr/equipe",
+                        about: {
+                            "@id": "https://nexusdeveloppement.fr/#organization",
+                            "@type": "Organization",
+                        },
+                        mainEntity: team.map((member) => ({
+                            "@type": "Person",
+                            name: member.name,
+                            jobTitle: member.role,
+                            description: member.bio,
+                            worksFor: {
+                                "@id": "https://nexusdeveloppement.fr/#organization",
+                                "@type": "Organization",
+                            },
+                        })),
+                    },
+                    breadcrumbSchema([
+                        { name: "Accueil", url: "/" },
+                        { name: "L'équipe", url: "/equipe" },
+                    ]),
+                ]}
             />
 
             <div className="fixed inset-0 z-0">

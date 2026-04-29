@@ -2,13 +2,10 @@ import { Link } from "react-router-dom";
 import { ArrowLeft, Shield, Lock, Eye, Database, Globe, UserCheck, Mail, Server } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import AnimatedBackground from "@/components/AnimatedBackground";
-import { useEffect } from "react";
 import { motion } from "framer-motion";
+import SEO from "@/components/SEO";
 
 const PrivacyPolicy = () => {
-    useEffect(() => {
-        document.title = "Politique de Confidentialité | Nexus Développement";
-    }, []);
 
     const sections = [
         {
@@ -101,6 +98,11 @@ const PrivacyPolicy = () => {
 
     return (
         <div className="min-h-screen relative font-sans text-slate-200">
+            <SEO
+                title="Politique de Confidentialité | Nexus Développement"
+                description="Politique de confidentialité de Nexus Développement : traitement des données personnelles, droits RGPD, cookies, durée de conservation, destinataires. Conformité GDPR."
+                canonical="/confidentialite"
+            />
             <div className="fixed inset-0 z-0">
                 <AnimatedBackground />
             </div>

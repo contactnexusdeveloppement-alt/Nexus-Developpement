@@ -20,13 +20,10 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import AnimatedBackground from "@/components/AnimatedBackground";
-import { useEffect } from "react";
 import { motion } from "framer-motion";
+import SEO from "@/components/SEO";
 
 const CGV = () => {
-  useEffect(() => {
-    document.title = "Conditions Générales de Vente | Nexus Développement";
-  }, []);
 
   const sections = [
     {
@@ -429,6 +426,11 @@ const CGV = () => {
 
   return (
     <div className="min-h-screen relative font-sans text-slate-200">
+      <SEO
+        title="Conditions Générales de Vente | Nexus Développement"
+        description="CGV de Nexus Développement : modalités de vente des prestations, devis, paiement, livraison, garanties, propriété intellectuelle, médiation. SARL au capital de 1 000 €."
+        canonical="/cgv"
+      />
       <div className="fixed inset-0 z-0">
         <AnimatedBackground />
       </div>

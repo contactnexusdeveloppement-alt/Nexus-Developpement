@@ -2,13 +2,10 @@ import { Link } from "react-router-dom";
 import { ArrowLeft, Scale, FileCheck, UserX, AlertTriangle, Gavel, RefreshCw, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import AnimatedBackground from "@/components/AnimatedBackground";
-import { useEffect } from "react";
 import { motion } from "framer-motion";
+import SEO from "@/components/SEO";
 
 const TermsOfService = () => {
-    useEffect(() => {
-        document.title = "Conditions Générales d'Utilisation | Nexus Développement";
-    }, []);
 
     const sections = [
         {
@@ -81,6 +78,11 @@ const TermsOfService = () => {
 
     return (
         <div className="min-h-screen relative font-sans text-slate-200">
+            <SEO
+                title="Conditions Générales d'Utilisation | Nexus Développement"
+                description="CGU de Nexus Développement : conditions d'utilisation du site, droits et obligations des utilisateurs, propriété intellectuelle, responsabilité, modifications."
+                canonical="/cgu"
+            />
             <div className="fixed inset-0 z-0">
                 <AnimatedBackground />
             </div>

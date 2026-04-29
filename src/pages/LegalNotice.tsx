@@ -2,13 +2,10 @@ import { Link } from "react-router-dom";
 import { ArrowLeft, Scale, Building, Shield, Globe, Users, FileText, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import AnimatedBackground from "@/components/AnimatedBackground";
-import { useEffect } from "react";
 import { motion } from "framer-motion";
+import SEO from "@/components/SEO";
 
 const LegalNotice = () => {
-  useEffect(() => {
-    document.title = "Mentions Légales | Nexus Développement";
-  }, []);
 
   const sections = [
     {
@@ -114,6 +111,11 @@ const LegalNotice = () => {
 
   return (
     <div className="min-h-screen relative font-sans text-slate-200">
+      <SEO
+        title="Mentions Légales | Nexus Développement"
+        description="Mentions légales de Nexus Développement (SARL) : éditeur du site, hébergement, propriété intellectuelle, données personnelles. SIREN 995 394 095, RCS Versailles."
+        canonical="/mentions-legales"
+      />
       <div className="fixed inset-0 z-0">
         <AnimatedBackground />
       </div>

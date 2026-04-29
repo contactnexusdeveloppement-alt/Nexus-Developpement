@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <url>
+    <loc>https://nexusdeveloppement.fr/</loc>
+    <image:image>
+      <image:loc>https://nexusdeveloppement.fr/nexus-logo.webp</image:loc>
+      <image:title>Logo Nexus Développement</image:title>
+      <image:caption>Logo officiel de l'agence digitale Nexus Développement basée à Élancourt (78).</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://nexusdeveloppement.fr/og-image.webp</image:loc>
+      <image:title>Nexus Développement — Agence digitale Élancourt</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://nexusdeveloppement.fr/equipe</loc>
+    <image:image>
+      <image:loc>https://nexusdeveloppement.fr/assets/adam_lecharles.webp</image:loc>
+      <image:title>Adam Le Charlès — Co-fondateur & Tech Lead</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://nexusdeveloppement.fr/assets/theo_jacobee.webp</image:loc>
+      <image:title>Théo Jacobée — Co-fondateur & Stratégie</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://nexusdeveloppement.fr/assets/theo_gautier.webp</image:loc>
+      <image:title>Théo Gautier — Directeur Créatif</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://nexusdeveloppement.fr/catalogue</loc>
+    <image:image>
+      <image:loc>https://nexusdeveloppement.fr/salon/screenshot.webp</image:loc>
+      <image:title>Démo site salon de coiffure</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://nexusdeveloppement.fr/restaurant/screenshot.webp</image:loc>
+      <image:title>Démo site restaurant</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://nexusdeveloppement.fr/agence-immo/screenshot.webp</image:loc>
+      <image:title>Démo site agence immobilière</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://nexusdeveloppement.fr/projects/concession-home-optimized.webp</image:loc>
+      <image:title>Démo site concession automobile</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://nexusdeveloppement.fr/creation-site-web</loc>
+    <image:image>
+      <image:loc>https://nexusdeveloppement.fr/assets/service-website.webp</image:loc>
+      <image:title>Création de sites web professionnels</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://nexusdeveloppement.fr/automatisation</loc>
+    <image:image>
+      <image:loc>https://nexusdeveloppement.fr/assets/service-automation.webp</image:loc>
+      <image:title>Automatisation de processus métier</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://nexusdeveloppement.fr/applications-mobiles</loc>
+    <image:image>
+      <image:loc>https://nexusdeveloppement.fr/assets/service-mobile.webp</image:loc>
+      <image:title>Applications mobiles iOS et Android</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://nexusdeveloppement.fr/identite-visuelle</loc>
+    <image:image>
+      <image:loc>https://nexusdeveloppement.fr/assets/service-branding.webp</image:loc>
+      <image:title>Création d'identité visuelle et branding</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://nexusdeveloppement.fr/assets/service-logo.webp</image:loc>
+      <image:title>Création de logo professionnel</image:title>
+    </image:image>
+  </url>
+</urlset>

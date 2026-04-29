@@ -22,7 +22,11 @@ const SectionLoader = () => <div className="min-h-[200px]" />;
 const Index = () => {
   return (
     <div className="min-h-screen relative overflow-x-hidden">
-      <SEO title="Nexus - Agence Digitale" description="La référence en développement web et automatisation." />
+      <SEO
+        title="Nexus Développement — Agence Digitale Élancourt (78) | Sites Web, Apps, Automatisation"
+        description="Agence digitale française à Élancourt (78). Création de sites web professionnels, applications mobiles, automatisation de processus et identité visuelle pour TPE et PME. Devis gratuit en 24h."
+        canonical="/"
+      />
 
       {/* Skip Link for accessibility */}
       <a

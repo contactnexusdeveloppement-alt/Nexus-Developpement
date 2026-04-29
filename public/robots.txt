@@ -63,3 +63,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://nexusdeveloppement.fr/sitemap.xml
+Sitemap: https://nexusdeveloppement.fr/sitemap-images.xml

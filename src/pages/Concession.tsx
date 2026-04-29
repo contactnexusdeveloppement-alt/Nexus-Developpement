@@ -1,8 +1,28 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import '../styles/concession/style.css';
-import { Helmet } from 'react-helmet-async';
 import useEmblaCarousel from 'embla-carousel-react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import SEO from '@/components/SEO';
+import { breadcrumbSchema, serviceSchema } from '@/lib/schemas';
+
+// Fonts Google specifiques au theme Concession (Montserrat + Outfit) injectees
+// dynamiquement uniquement sur cette page pour ne pas alourdir le reste du site.
+const useConcessionFonts = () => {
+    useEffect(() => {
+        const links = [
+            { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+            { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
+            { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Outfit:wght@300;400;600&display=swap' },
+        ];
+        const created = links.map((attrs) => {
+            const el = document.createElement('link');
+            Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v as string));
+            document.head.appendChild(el);
+            return el;
+        });
+        return () => created.forEach((el) => el.remove());
+    }, []);
+};
 
 // Mock Data for Cars
 const cars = [
@@ -129,6 +149,7 @@ const cars = [
 ];
 
 const Concession = () => {
+    useConcessionFonts();
     const [filter, setFilter] = useState('all');
 
     // Embla Carousel setup
@@ -154,13 +175,26 @@ const Concession = () => {
 
     return (
         <div className="concession-page">
-            <Helmet>
-                <title>HÉRITAGE AUTO | Garage Familial Sport & Prestige</title>
-                <meta name="description" content="L'excellence automobile nouvelle génération. Sport, Prestige & Youngtimers. Entretien, Vente et Sourcing personnalisé." />
-                <link rel="preconnect" href="https://fonts.googleapis.com" />
-                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-                <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet" />
-            </Helmet>
+            <SEO
+                title="Démo : Site Web pour Concession Automobile | Nexus Développement"
+                description="Découvrez une démo de site web professionnel pour concession automobile : stock véhicules avec filtres, fiches détaillées, formulaires de contact, vidéo immersive. Création sur-mesure par Nexus Développement Élancourt."
+                type="website"
+                canonical="/concession-automobile"
+                schemas={[
+                    serviceSchema({
+                        name: "Création de site web pour concession automobile",
+                        description: "Site vitrine sur-mesure pour concession automobile : catalogue véhicules avec filtres marque/modèle/budget, fiches détaillées, demandes d'essai, intégration vidéo. Design premium, responsive, SEO local optimisé.",
+                        url: "/concession-automobile",
+                        serviceType: "Web Development for Car Dealerships",
+                        areaServed: ["Yvelines", "Île-de-France", "France"],
+                    }),
+                    breadcrumbSchema([
+                        { name: "Accueil", url: "/" },
+                        { name: "Démos clients", url: "/catalogue" },
+                        { name: "Concession automobile", url: "/concession-automobile" },
+                    ]),
+                ]}
+            />
 
             <header className="header">
                 <div className="container header-content">

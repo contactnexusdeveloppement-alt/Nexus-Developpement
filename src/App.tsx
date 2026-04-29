@@ -3,7 +3,6 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { HelmetProvider } from "react-helmet-async";
 import { Suspense, lazy } from "react";
 import CookieConsent from "./components/CookieConsent";
 import ScrollToTop from "./components/ScrollToTop";
@@ -41,50 +40,48 @@ const PageLoader = () => (
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <HelmetProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-          <Suspense fallback={<PageLoader />}>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/creation-site-web" element={<WebsiteCreation />} />
-              <Route path="/automatisation" element={<Automation />} />
-              <Route path="/applications-web" element={<WebApps />} />
-              <Route path="/applications-mobiles" element={<MobileApps />} />
-              <Route path="/identite-visuelle" element={<VisualIdentity />} />
-              <Route path="/salon-coiffure" element={<SalonCoiffure />} />
-              <Route path="/restaurant" element={<Restaurant />} />
-              <Route path="/agence-immobiliere" element={<AgenceImmobiliere />} />
-              <Route path="/agence-immo/property/:id" element={<PropertyDetail />} />
-              <Route path="/concession-automobile" element={<Concession />} />
-              <Route path="/catalogue" element={<ProjectsCatalog />} />
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/creation-site-web" element={<WebsiteCreation />} />
+            <Route path="/automatisation" element={<Automation />} />
+            <Route path="/applications-web" element={<WebApps />} />
+            <Route path="/applications-mobiles" element={<MobileApps />} />
+            <Route path="/identite-visuelle" element={<VisualIdentity />} />
+            <Route path="/salon-coiffure" element={<SalonCoiffure />} />
+            <Route path="/restaurant" element={<Restaurant />} />
+            <Route path="/agence-immobiliere" element={<AgenceImmobiliere />} />
+            <Route path="/agence-immo/property/:id" element={<PropertyDetail />} />
+            <Route path="/concession-automobile" element={<Concession />} />
+            <Route path="/catalogue" element={<ProjectsCatalog />} />
 
-              <Route path="/mentions-legales" element={<LegalNotice />} />
-              <Route path="/confidentialite" element={<PrivacyPolicy />} />
-              <Route path="/cgu" element={<TermsOfService />} />
-              <Route path="/cgv" element={<CGV />} />
-              <Route path="/cookies" element={<CookiePolicy />} />
-              <Route path="/equipe" element={<Team />} />
+            <Route path="/mentions-legales" element={<LegalNotice />} />
+            <Route path="/confidentialite" element={<PrivacyPolicy />} />
+            <Route path="/cgu" element={<TermsOfService />} />
+            <Route path="/cgv" element={<CGV />} />
+            <Route path="/cookies" element={<CookiePolicy />} />
+            <Route path="/equipe" element={<Team />} />
 
-              {LOCAL_CITIES.map((city) => (
-                <Route
-                  key={city.slug}
-                  path={`/${city.slug}`}
-                  element={<LocalCity slug={city.slug} />}
-                />
-              ))}
+            {LOCAL_CITIES.map((city) => (
+              <Route
+                key={city.slug}
+                path={`/${city.slug}`}
+                element={<LocalCity slug={city.slug} />}
+              />
+            ))}
 
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
-          <ScrollToTop />
-          <CookieConsent />
-        </BrowserRouter>
-      </TooltipProvider>
-    </HelmetProvider>
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
+        <ScrollToTop />
+        <CookieConsent />
+      </BrowserRouter>
+    </TooltipProvider>
   </QueryClientProvider>
 );
 

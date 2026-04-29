@@ -5,6 +5,8 @@ import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { projects, Project } from "@/data/projects";
 import { Button } from "@/components/ui/button";
+import SEO from "@/components/SEO";
+import { breadcrumbSchema } from "@/lib/schemas";
 
 const CatalogProjectCard = ({ project, index }: { project: Project; index: number }) => {
     const ref = useRef<HTMLDivElement>(null);
@@ -132,8 +134,34 @@ const CatalogProjectCard = ({ project, index }: { project: Project; index: numbe
 const ProjectsCatalog = () => {
     const navigate = useNavigate();
 
+    const itemListSchema = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        name: "Réalisations Nexus Développement",
+        description: "Sélection de sites web, démos sectorielles et plateformes développées par Nexus Développement.",
+        itemListElement: projects.slice(0, 10).map((project, index) => ({
+            "@type": "ListItem",
+            position: index + 1,
+            name: project.title,
+            url: project.url.startsWith("http") ? project.url : `https://nexusdeveloppement.fr${project.url}`,
+        })),
+    };
+
     return (
         <div className="min-h-screen bg-black text-white relative overflow-hidden pt-20 pb-20">
+            <SEO
+                title="Nos Réalisations & Démos | Nexus Développement"
+                description="Découvrez le catalogue des réalisations Nexus Développement : sites vitrines, applications, démos sectorielles (salon, restaurant, immobilier, concession). React, TypeScript, design moderne."
+                type="website"
+                canonical="/catalogue"
+                schemas={[
+                    itemListSchema,
+                    breadcrumbSchema([
+                        { name: "Accueil", url: "/" },
+                        { name: "Réalisations", url: "/catalogue" },
+                    ]),
+                ]}
+            />
             {/* Background Decor */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
             <div className="absolute top-[20%] left-[-10%] w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] pointer-events-none" />
