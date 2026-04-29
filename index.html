@@ -75,6 +75,26 @@
   -->
 
   <!-- Structured Data JSON-LD -->
+
+  <!-- WebSite -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": "https://nexusdeveloppement.fr/#website",
+      "name": "Nexus Développement",
+      "alternateName": "Nexus Dev",
+      "url": "https://nexusdeveloppement.fr",
+      "description": "Agence digitale à Élancourt (78) — création de sites web, automatisation, applications mobiles et identité visuelle.",
+      "inLanguage": "fr-FR",
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://nexusdeveloppement.fr/#organization"
+      }
+    }
+  </script>
+
+  <!-- LocalBusiness -->
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -87,6 +107,9 @@
       "image": "https://nexusdeveloppement.fr/og-image.png",
       "telephone": "+33761847580",
       "email": "contact.nexus.developpement@gmail.com",
+      "priceRange": "€€",
+      "currenciesAccepted": "EUR",
+      "paymentAccepted": "Virement bancaire, Chèque",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "4 rue de la Ferme",
@@ -97,19 +120,10 @@
       },
       "geo": {
         "@type": "GeoCoordinates",
-        "latitude": 48.7833,
-        "longitude": 1.9500
+        "latitude": 48.78459,
+        "longitude": 1.95063
       },
-      "areaServed": {
-        "@type": "GeoCircle",
-        "geoMidpoint": {
-          "@type": "GeoCoordinates",
-          "latitude": 48.7833,
-          "longitude": 1.9500
-        },
-        "geoRadius": "50000"
-      },
-      "priceRange": "€€",
+      "hasMap": "https://maps.google.com/?q=4+rue+de+la+Ferme,+78990+%C3%89lancourt",
       "openingHoursSpecification": [
         {
           "@type": "OpeningHoursSpecification",
@@ -118,34 +132,104 @@
           "closes": "18:00"
         }
       ],
-      "sameAs": []
+      "areaServed": [
+        {
+          "@type": "GeoCircle",
+          "geoMidpoint": {
+            "@type": "GeoCoordinates",
+            "latitude": 48.78459,
+            "longitude": 1.95063
+          },
+          "geoRadius": "50000"
+        },
+        {"@type": "City", "name": "Versailles"},
+        {"@type": "City", "name": "Saint-Quentin-en-Yvelines"},
+        {"@type": "City", "name": "Paris"},
+        {"@type": "AdministrativeArea", "name": "Yvelines"},
+        {"@type": "AdministrativeArea", "name": "Île-de-France"}
+      ],
+      "knowsAbout": [
+        "Création de sites web",
+        "Développement web",
+        "Automatisation de processus",
+        "Identité visuelle",
+        "Applications mobiles",
+        "Branding"
+      ],
+      "parentOrganization": {
+        "@type": "Organization",
+        "@id": "https://nexusdeveloppement.fr/#organization"
+      }
     }
-    </script>
+  </script>
 
+  <!-- Organization -->
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Organization",
       "@id": "https://nexusdeveloppement.fr/#organization",
       "name": "Nexus Développement",
-      "legalName": "Nexus Développement SARL",
+      "legalName": "Nexus Développement",
       "url": "https://nexusdeveloppement.fr",
-      "logo": "https://nexusdeveloppement.fr/nexus-logo.webp",
-      "description": "Nexus Développement est une agence digitale professionnelle créant des sites web modernes, automatisant les processus métier et concevant des identités visuelles.",
-      "foundingDate": "2024",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://nexusdeveloppement.fr/nexus-logo.webp",
+        "width": 200,
+        "height": 60
+      },
+      "image": "https://nexusdeveloppement.fr/og-image.png",
+      "description": "Nexus Développement est une agence digitale professionnelle créant des sites web modernes, automatisant les processus métier et concevant des identités visuelles à Élancourt, Yvelines.",
+      "foundingDate": "2025-12-22",
+      "taxID": "FR49995394095",
+      "vatID": "FR49995394095",
+      "identifier": [
+        {"@type": "PropertyValue", "name": "SIREN", "value": "995394095"},
+        {"@type": "PropertyValue", "name": "RCS", "value": "RCS Versailles 995 394 095"}
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "4 rue de la Ferme",
+        "addressLocality": "Élancourt",
+        "postalCode": "78990",
+        "addressRegion": "Île-de-France",
+        "addressCountry": "FR"
+      },
+      "email": "contact.nexus.developpement@gmail.com",
+      "telephone": "+33761847580",
+      "numberOfEmployees": {
+        "@type": "QuantitativeValue",
+        "value": 2
+      },
       "founders": [
-        {"@type": "Person", "name": "Adam Lecharles"},
-        {"@type": "Person", "name": "Théo Jacobé"}
+        {
+          "@type": "Person",
+          "@id": "https://nexusdeveloppement.fr/#adam-lecharles",
+          "name": "Adam Lecharles",
+          "jobTitle": "Co-fondateur"
+        },
+        {
+          "@type": "Person",
+          "@id": "https://nexusdeveloppement.fr/#theo-jacobe",
+          "name": "Théo Jacobé",
+          "jobTitle": "Co-fondateur"
+        }
       ],
       "contactPoint": {
         "@type": "ContactPoint",
         "telephone": "+33761847580",
         "contactType": "customer service",
         "email": "contact.nexus.developpement@gmail.com",
-        "availableLanguage": ["French"]
+        "availableLanguage": ["French"],
+        "hoursAvailable": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "opens": "09:00",
+          "closes": "18:00"
+        }
       }
     }
-    </script>
+  </script>
 
   <script type="application/ld+json">
     {

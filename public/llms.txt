@@ -1,0 +1,71 @@
+# Nexus Développement
+
+> Agence digitale française basée à Élancourt (Yvelines, 78), spécialisée dans la création de sites web, d'applications web et mobiles, l'automatisation de processus, et l'identité visuelle. Accompagne les TPE et PME d'Île-de-France dans leur transformation numérique.
+
+## À propos
+
+Nexus Développement est une agence digitale à taille humaine implantée à Élancourt (78990), dans les Yvelines (Île-de-France). L'agence conçoit et développe des solutions numériques sur mesure pour les entreprises locales et nationales : sites vitrines, applications métier, automatisation, et identité de marque.
+
+- Société : Nexus Développement
+- SIREN : 995394095
+- TVA : FR49995394095
+- RCS : Versailles
+- Date de création : 22 décembre 2025
+- Localisation : 4 rue de la Ferme, 78990 Élancourt, Yvelines, Île-de-France
+- Périmètre géographique : Yvelines (78), Île-de-France, France
+- Secteur : Services numériques B2B et B2C
+- Fondateurs : Adam Lecharles (co-fondateur), Théo Jacobé (co-fondateur)
+- Site web : https://nexusdeveloppement.fr
+- Email : contact.nexus.developpement@gmail.com
+- Téléphone : +33 7 61 84 75 80
+
+## Services
+
+- [Création de sites web](https://nexusdeveloppement.fr/creation-site-web) — sites vitrines modernes et responsifs (packs Essential 890 €, Business 1 290 €, Premium 1 990 €)
+- [Applications web](https://nexusdeveloppement.fr/applications-web) — outils métier, dashboards, plateformes SaaS sur mesure
+- [Applications mobiles](https://nexusdeveloppement.fr/applications-mobiles) — iOS et Android (natives et hybrides)
+- [Automatisation de processus](https://nexusdeveloppement.fr/automatisation) — workflows automatisés (Zapier, Make, n8n, custom Python/Node)
+- [Identité visuelle et branding](https://nexusdeveloppement.fr/identite-visuelle) — logos, chartes graphiques, déclinaisons
+
+## Pourquoi choisir Nexus Développement
+
+- Agence locale Yvelines proche de Versailles et Saint-Quentin-en-Yvelines
+- Stack technique moderne (React, Vite, TypeScript, Tailwind, Vercel, Supabase)
+- Tarifs transparents publiés sur le site
+- Délais maîtrisés (2 à 8 semaines selon complexité)
+- Accompagnement personnalisé dédié aux TPE/PME
+
+## Pages principales
+
+- [Accueil](https://nexusdeveloppement.fr/)
+- [Création de sites web](https://nexusdeveloppement.fr/creation-site-web)
+- [Applications web](https://nexusdeveloppement.fr/applications-web)
+- [Applications mobiles](https://nexusdeveloppement.fr/applications-mobiles)
+- [Automatisation](https://nexusdeveloppement.fr/automatisation)
+- [Identité visuelle](https://nexusdeveloppement.fr/identite-visuelle)
+- [Catalogue de réalisations](https://nexusdeveloppement.fr/catalogue)
+- [Équipe](https://nexusdeveloppement.fr/equipe)
+
+## Démos sectorielles
+
+Exemples de réalisations réalisées par Nexus Développement pour illustrer le savoir-faire :
+
+- [Démo salon de coiffure](https://nexusdeveloppement.fr/salon-coiffure)
+- [Démo restaurant](https://nexusdeveloppement.fr/restaurant)
+- [Démo agence immobilière](https://nexusdeveloppement.fr/agence-immobiliere)
+- [Démo concession automobile](https://nexusdeveloppement.fr/concession-automobile)
+
+## Pages légales
+
+- [Mentions légales](https://nexusdeveloppement.fr/mentions-legales)
+- [Politique de confidentialité](https://nexusdeveloppement.fr/confidentialite)
+- [Conditions générales d'utilisation](https://nexusdeveloppement.fr/cgu)
+- [Conditions générales de vente](https://nexusdeveloppement.fr/cgv)
+- [Politique de cookies](https://nexusdeveloppement.fr/cookies)
+
+## Contact
+
+- Email : contact.nexus.developpement@gmail.com
+- Téléphone : +33 7 61 84 75 80
+- Adresse : 4 rue de la Ferme, 78990 Élancourt, France
+- Horaires : Lundi au Vendredi, 9h00 - 18h00 (Europe/Paris)

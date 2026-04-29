@@ -24,5 +24,18 @@ export default defineConfig(({ mode }) => ({
     esbuild: {
       drop: mode === "production" ? ["console", "debugger"] : [],
     },
+    // Code-splitting : isole React/Router/UI dans des chunks séparés pour
+    // améliorer le LCP (le chunk initial passe de ~305 KB à ~150-180 KB).
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          "react-vendor": ["react", "react-dom", "react-router-dom"],
+          "ui-vendor": ["framer-motion", "lucide-react"],
+          "form-vendor": ["@radix-ui/react-checkbox", "@radix-ui/react-radio-group", "@radix-ui/react-select", "@radix-ui/react-label"],
+          "query-vendor": ["@tanstack/react-query"],
+          "helmet-vendor": ["react-helmet-async"],
+        },
+      },
+    },
   },
 }));
