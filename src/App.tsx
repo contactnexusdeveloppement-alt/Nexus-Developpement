@@ -7,6 +7,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { Suspense, lazy } from "react";
 import CookieConsent from "./components/CookieConsent";
 import ScrollToTop from "./components/ScrollToTop";
+import { LOCAL_CITIES } from "./data/localCities";
 
 // Lazy loading pages for performance
 const Index = lazy(() => import("./pages/Index"));
@@ -28,6 +29,7 @@ const Concession = lazy(() => import("./pages/Concession"));
 const AgenceImmobiliere = lazy(() => import("./pages/AgenceImmobiliere"));
 const PropertyDetail = lazy(() => import("./pages/PropertyDetail"));
 const ProjectsCatalog = lazy(() => import("./pages/ProjectsCatalog"));
+const LocalCity = lazy(() => import("./pages/LocalCity"));
 
 const queryClient = new QueryClient();
 
@@ -65,6 +67,14 @@ const App = () => (
               <Route path="/cgv" element={<CGV />} />
               <Route path="/cookies" element={<CookiePolicy />} />
               <Route path="/equipe" element={<Team />} />
+
+              {LOCAL_CITIES.map((city) => (
+                <Route
+                  key={city.slug}
+                  path={`/${city.slug}`}
+                  element={<LocalCity slug={city.slug} />}
+                />
+              ))}
 
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

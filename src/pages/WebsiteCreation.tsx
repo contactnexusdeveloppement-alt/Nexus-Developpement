@@ -9,6 +9,30 @@ import { pricingData } from "@/data/pricingData";
 import PricingCard from "@/components/PricingCard";
 import { motion } from "framer-motion";
 import SEO from "@/components/SEO";
+import { breadcrumbSchema, faqSchema, serviceSchema } from "@/lib/schemas";
+
+const FAQ_WEBSITE = [
+  {
+    q: "Combien coûte la création d'un site web à Élancourt ?",
+    a: "Nos tarifs démarrent à 950€ pour le pack Essential (1 à 3 pages, design responsive, formulaire), 1 850€ pour le pack Business (4 à 10 pages, CMS, blog, SEO avancé) et 4 000€ pour le pack Premium (11 à 20 pages, design 100% sur-mesure, animations avancées). Tous les devis sont gratuits et sans engagement, réponse sous 24h.",
+  },
+  {
+    q: "Combien de temps pour créer mon site web ?",
+    a: "Le délai moyen est de 2 à 4 semaines pour un site vitrine, 4 à 8 semaines pour un site e-commerce complexe. Nous garantissons une livraison rapide avec un accompagnement personnalisé et des points réguliers pour valider chaque étape ensemble.",
+  },
+  {
+    q: "Nexus Développement est-il basé à Élancourt ?",
+    a: "Oui, Nexus Développement est basé au 4 rue de la Ferme, 78990 Élancourt, dans les Yvelines. Nous nous déplaçons dans tout le département 78 et l'Île-de-France (Trappes, Plaisir, Montigny-le-Bretonneux, Versailles, Maurepas) pour rencontrer nos clients.",
+  },
+  {
+    q: "Mon site sera-t-il optimisé pour mobiles ?",
+    a: "Oui. Tous nos sites sont 100% responsive et optimisés pour smartphones, tablettes et ordinateurs. Nous testons sur tous les appareils pour garantir une expérience parfaite quel que soit l'écran de vos visiteurs.",
+  },
+  {
+    q: "Le SEO est-il inclus dans la création du site ?",
+    a: "Le SEO technique de base (meta tags, sitemap, balisage sémantique, Open Graph, schemas JSON-LD, performance Lighthouse 90+, mobile-first) est inclus dans tous nos packs. Le pack Business ajoute du SEO avancé (recherche de mots-clés, optimisation on-page, intention de recherche). Le pack Premium intègre une stratégie SEO complète avec recommandations de contenu.",
+  },
+];
 
 const WebsiteCreation = () => {
   const navigate = useNavigate();
@@ -43,6 +67,26 @@ const WebsiteCreation = () => {
         title="Création de Sites Web Professionnels | Nexus Développement Élancourt"
         description="Création de sites vitrine modernes et performants à Élancourt (78). Design sur-mesure, SEO optimisé, responsive. Devis gratuit pour votre site web professionnel."
         type="website"
+        canonical="/creation-site-web"
+        schemas={[
+          serviceSchema({
+            name: "Création de site web TPE/PME",
+            description: "Sites vitrines responsive, performants et optimisés SEO. Design sur-mesure, intégration React/Tailwind, score PageSpeed 95+, livraison sous 2 à 4 semaines.",
+            url: "/creation-site-web",
+            serviceType: "Web Development",
+            areaServed: ["Yvelines", "Île-de-France", "France"],
+            offers: [
+              { name: "Pack Essential", price: 950, description: "Site vitrine 1 à 3 pages, responsive, formulaire de contact" },
+              { name: "Pack Business", price: 1850, description: "4 à 10 pages, CMS, blog, SEO avancé, formation incluse" },
+              { name: "Pack Premium", price: 4000, description: "11 à 20 pages sur-mesure, animations, SEO expert" },
+            ],
+          }),
+          faqSchema(FAQ_WEBSITE),
+          breadcrumbSchema([
+            { name: "Accueil", url: "/" },
+            { name: "Création de site web", url: "/creation-site-web" },
+          ]),
+        ]}
       />
 
       <div className="fixed inset-0 z-0" aria-hidden="true">

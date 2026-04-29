@@ -9,6 +9,26 @@ import { pricingData } from "@/data/pricingData";
 import PricingCard from "@/components/PricingCard";
 import { motion } from "framer-motion";
 import SEO from "@/components/SEO";
+import { breadcrumbSchema, faqSchema, serviceSchema } from "@/lib/schemas";
+
+const FAQ_AUTOMATION = [
+  {
+    q: "Combien coûte l'automatisation d'un processus métier ?",
+    a: "L'audit approfondi (analyse + plan d'action + estimation ROI) est facturé 390€ et déductible si vous validez le projet. Une automatisation simple démarre à 450€, un pack de 3 automatisations à 1 200€. Maintenance à partir de 25€/mois.",
+  },
+  {
+    q: "Quels outils utilisez-vous pour les automatisations ?",
+    a: "Nous concevons des workflows avec Make (anciennement Integromat), Zapier, n8n et des scripts custom Node.js / Python selon la complexité. Le choix de l'outil dépend du nombre d'opérations, de la sensibilité des données et du budget récurrent.",
+  },
+  {
+    q: "Quels processus peut-on automatiser dans une TPE ?",
+    a: "Les classiques à fort ROI : génération et envoi de factures depuis Stripe ou les paiements reçus, qualification des leads entrants depuis le site et enrichissement CRM, onboarding client (création espace projet, envoi des accès), relances automatiques de paiement, synchronisation CRM ⇄ comptabilité, rappels rendez-vous SMS/email, agrégation de reporting hebdomadaire.",
+  },
+  {
+    q: "Combien de temps prend la mise en place d'une automatisation ?",
+    a: "Une automatisation simple est livrée en 1 à 2 semaines (analyse, scénario, tests, documentation). Un pack de 3 automatisations en 3 à 4 semaines. Nous incluons toujours une phase de tests réels et une formation à votre équipe.",
+  },
+];
 
 const Automation = () => {
     const navigate = useNavigate();
@@ -44,6 +64,26 @@ const Automation = () => {
                 title="Automatisation de Processus Métier | Nexus Développement"
                 description="Automatisez vos tâches répétitives et gagnez en productivité. Solutions d'automatisation sur-mesure pour TPE/PME. Zapier, Make, n8n. Devis gratuit."
                 type="website"
+                canonical="/automatisation"
+                schemas={[
+                    serviceSchema({
+                        name: "Automatisation de processus métier",
+                        description: "Conception de workflows automatisés avec Make, Zapier, n8n et scripts custom. Gestion de leads, facturation auto, onboarding, relances, reporting.",
+                        url: "/automatisation",
+                        serviceType: "Business Process Automation",
+                        areaServed: ["Yvelines", "Île-de-France", "France"],
+                        offers: [
+                            { name: "Audit approfondi", price: 390, description: "Analyse processus + plan d'action + estimation ROI, déductible si projet validé" },
+                            { name: "1 automatisation", price: 450, description: "Une automatisation sur-mesure, scénario Make/Zapier, tests, documentation, formation" },
+                            { name: "3 automatisations", price: 1200, description: "Pack de 3 automatisations sur-mesure avec support et monitoring 1 mois" },
+                        ],
+                    }),
+                    faqSchema(FAQ_AUTOMATION),
+                    breadcrumbSchema([
+                        { name: "Accueil", url: "/" },
+                        { name: "Automatisation", url: "/automatisation" },
+                    ]),
+                ]}
             />
 
             <div className="fixed inset-0 z-0" aria-hidden="true">

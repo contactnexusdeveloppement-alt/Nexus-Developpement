@@ -9,6 +9,26 @@ import { pricingData } from "@/data/pricingData";
 import PricingCard from "@/components/PricingCard";
 import { motion } from "framer-motion";
 import SEO from "@/components/SEO";
+import { breadcrumbSchema, faqSchema, serviceSchema } from "@/lib/schemas";
+
+const FAQ_WEBAPPS = [
+  {
+    q: "Combien coûte une application web sur-mesure ?",
+    a: "Un MVP démarre à 5 000€ (fonctionnalités essentielles, auth, base de données, hébergement cloud). Un SaaS standard avec paiements Stripe et dashboard à partir de 7 500€. Un SaaS Premium avec rôles, permissions, monitoring et SLA à partir de 12 000€. Hébergement et maintenance à partir de 150€/mois selon la stack.",
+  },
+  {
+    q: "Quelles technologies utilisez-vous pour les applications web ?",
+    a: "Stack moderne typée : React + TypeScript côté front, Node.js / Vercel Functions côté back, PostgreSQL ou Supabase pour la donnée, Stripe pour les paiements, Resend pour les emails transactionnels. Hébergement Vercel ou Cloudflare pour la performance globale.",
+  },
+  {
+    q: "Combien de temps pour livrer un MVP ?",
+    a: "6 à 10 semaines pour un MVP fonctionnel (cadrage 1 semaine, design 1 à 2 semaines, dev 4 à 6 semaines, recette 1 à 2 semaines). Nous livrons en sprints toutes les 2 semaines avec démo systématique pour ajuster en continu.",
+  },
+  {
+    q: "Pouvez-vous reprendre une application existante ?",
+    a: "Oui, nous auditons votre code existant (qualité, dette, sécurité), proposons un plan de remise en état si nécessaire, et reprenons les évolutions. L'audit est facturé selon la taille du projet (à partir de 600€).",
+  },
+];
 
 const WebApps = () => {
     const navigate = useNavigate();
@@ -43,6 +63,26 @@ const WebApps = () => {
                 title="Développement Applications Web | Nexus Développement Élancourt"
                 description="Développement d'applications web sur-mesure avec React, Node.js. Solutions SaaS, dashboards, plateformes métier. Élancourt (78). Devis gratuit."
                 type="website"
+                canonical="/applications-web"
+                schemas={[
+                    serviceSchema({
+                        name: "Développement d'applications web sur-mesure",
+                        description: "Conception d'applications web SaaS, dashboards et plateformes métier. Stack React + TypeScript + Node.js, paiements Stripe, hébergement Vercel.",
+                        url: "/applications-web",
+                        serviceType: "Custom Software Development",
+                        areaServed: ["Yvelines", "Île-de-France", "France"],
+                        offers: [
+                            { name: "MVP Starter", price: 5000, description: "Version 1 fonctionnelle pour valider votre idée sur le marché" },
+                            { name: "SaaS Standard", price: 7500, description: "SaaS complet avec dashboard, paiements Stripe, emails transactionnels, API" },
+                            { name: "SaaS Premium", price: 12000, description: "Architecture avancée, rôles et permissions, monitoring, SLA" },
+                        ],
+                    }),
+                    faqSchema(FAQ_WEBAPPS),
+                    breadcrumbSchema([
+                        { name: "Accueil", url: "/" },
+                        { name: "Applications web", url: "/applications-web" },
+                    ]),
+                ]}
             />
 
             <div className="fixed inset-0 z-0" aria-hidden="true">

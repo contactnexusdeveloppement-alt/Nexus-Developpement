@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import logo from "@/assets/nexus-logo.webp";
 import { Facebook, Twitter, Instagram, Linkedin, Send, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { LOCAL_CITIES } from "@/data/localCities";
 
 const Footer = () => {
   return (
@@ -115,8 +116,26 @@ const Footer = () => {
           </div>
         </div>
 
+        {/* Maillage SEO local */}
+        <div className="pt-6 pb-4 border-t border-slate-800/50">
+          <p className="text-slate-400 text-xs uppercase tracking-wider mb-3 text-center">
+            Notre agence dans les Yvelines
+          </p>
+          <div className="flex flex-wrap justify-center gap-x-3 gap-y-2 text-xs">
+            {LOCAL_CITIES.map((city) => (
+              <Link
+                key={city.slug}
+                to={`/${city.slug}`}
+                className="text-slate-500 hover:text-blue-400 transition-colors"
+              >
+                Agence web {city.name}
+              </Link>
+            ))}
+          </div>
+        </div>
+
         {/* Location Info - SEO Local */}
-        <div className="pt-6 pb-4 text-center">
+        <div className="pt-4 pb-4 text-center">
           <p className="text-slate-400 text-sm">
             Agence Web basée à <span className="text-blue-400 font-medium">Élancourt (78)</span>, au cœur de Saint-Quentin-en-Yvelines.
             <span className="block mt-1">Nous intervenons partout en France pour accompagner votre transformation digitale.</span>

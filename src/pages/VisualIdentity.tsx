@@ -9,6 +9,26 @@ import { pricingData } from "@/data/pricingData";
 import PricingCard from "@/components/PricingCard";
 import { motion } from "framer-motion";
 import SEO from "@/components/SEO";
+import { breadcrumbSchema, faqSchema, serviceSchema } from "@/lib/schemas";
+
+const FAQ_BRANDING = [
+  {
+    q: "Combien coûte la création d'un logo professionnel ?",
+    a: "Le pack Logo Essential démarre à 250€ (3 propositions, déclinaisons noir/blanc, palette, typographies, fichiers sources AI/SVG/PNG, cession de droits). Le pack Logo + Supports à 600€ ajoute cartes de visite, signature email et en-tête de documents. Le pack Branding Complet à 1 200€ couvre la charte graphique complète, le brand book et les templates réseaux sociaux.",
+  },
+  {
+    q: "En combien de temps livrez-vous un logo ?",
+    a: "Logo Essential : 5 à 7 jours ouvrés (brief, 3 propositions, 2 tours d'aller-retour, fichiers finaux). Pack avec supports : 10 à 14 jours. Branding complet : 3 à 4 semaines.",
+  },
+  {
+    q: "Que comprend la charte graphique complète ?",
+    a: "Logo et déclinaisons, palette colorimétrique avec codes HEX/RGB/CMYK/Pantone, hiérarchie typographique, règles d'utilisation (espaces de protection, tailles minimums, fonds autorisés), iconographie ou illustrations clés, exemples d'application sur tous les supports (web, print, signalétique, réseaux sociaux). Le tout livré en PDF print + sources.",
+  },
+  {
+    q: "Cédez-vous les droits sur le logo ?",
+    a: "Oui. Tous nos packs incluent la cession totale et exclusive des droits patrimoniaux sur le logo final livré. Vous êtes libre de l'utiliser sans aucune restriction, en France comme à l'international, pour tout support et toute durée.",
+  },
+];
 
 const VisualIdentity = () => {
     const navigate = useNavigate();
@@ -27,6 +47,26 @@ const VisualIdentity = () => {
                 title="Création Logo & Identité Visuelle | Nexus Développement"
                 description="Conception de logos professionnels et identité visuelle complète. Charte graphique, branding, design moderne. Élancourt (78). Devis gratuit."
                 type="website"
+                canonical="/identite-visuelle"
+                schemas={[
+                    serviceSchema({
+                        name: "Création de logo et identité visuelle",
+                        description: "Conception de logos professionnels, charte graphique complète, supports print et digitaux, brand book. Cession totale des droits incluse.",
+                        url: "/identite-visuelle",
+                        serviceType: "Brand Identity Design",
+                        areaServed: ["Yvelines", "Île-de-France", "France"],
+                        offers: [
+                            { name: "Logo Essential", price: 250, description: "Logo + déclinaisons N&B + palette + typographies + sources" },
+                            { name: "Logo + Supports", price: 600, description: "Logo + cartes de visite + signature email + en-tête" },
+                            { name: "Branding Complet", price: 1200, description: "Charte graphique complète + brand book + templates réseaux sociaux" },
+                        ],
+                    }),
+                    faqSchema(FAQ_BRANDING),
+                    breadcrumbSchema([
+                        { name: "Accueil", url: "/" },
+                        { name: "Identité visuelle", url: "/identite-visuelle" },
+                    ]),
+                ]}
             />
 
             <div className="fixed inset-0 z-0" aria-hidden="true">

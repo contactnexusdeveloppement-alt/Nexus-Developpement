@@ -9,6 +9,26 @@ import { pricingData } from "@/data/pricingData";
 import PricingCard from "@/components/PricingCard";
 import { motion } from "framer-motion";
 import SEO from "@/components/SEO";
+import { breadcrumbSchema, faqSchema, serviceSchema } from "@/lib/schemas";
+
+const FAQ_MOBILE = [
+  {
+    q: "Combien coûte le développement d'une application mobile ?",
+    a: "Une app hybride (iOS ou Android au choix) démarre à 4 000€. Une app multi-plateformes (iOS + Android) à 6 000€. Une app complexe avec backend custom à partir de 9 000€. Hébergement et maintenance à partir de 100€/mois.",
+  },
+  {
+    q: "iOS et Android avec un seul code, c'est vraiment possible ?",
+    a: "Oui, avec React Native ou Expo nous écrivons un seul code base qui se déploie sur les deux stores. Vous gagnez environ 40 à 50% du coût comparé à du natif Swift / Kotlin double, sans compromis significatif sur les performances pour la plupart des cas d'usage (l'app native pure n'est nécessaire que pour des besoins très spécifiques : jeux 3D, traitement vidéo intensif).",
+  },
+  {
+    q: "Combien de temps pour publier une app sur l'App Store et Google Play ?",
+    a: "10 à 16 semaines en moyenne pour une app multi-plateformes : 2 semaines de cadrage et design, 6 à 10 semaines de développement, 1 à 2 semaines de recette interne, 1 à 2 semaines de validation Apple et Google (le plus imprévisible). Nous gérons toutes les démarches Stores (compte développeur, soumission, métadonnées, captures d'écran).",
+  },
+  {
+    q: "Quelles fonctionnalités natives intégrez-vous ?",
+    a: "Notifications push, FaceID/TouchID, géolocalisation GPS, caméra et photothèque, Bluetooth/NFC, mode hors-ligne avec synchronisation, deep linking, paiements In-App Apple/Google ou Stripe externe.",
+  },
+];
 
 const MobileApps = () => {
     const navigate = useNavigate();
@@ -27,6 +47,26 @@ const MobileApps = () => {
                 title="Développement Applications Mobiles iOS & Android | Nexus"
                 description="Création d'applications mobiles natives et cross-platform. React Native, iOS, Android. App store optimization. Élancourt (78). Devis gratuit."
                 type="website"
+                canonical="/applications-mobiles"
+                schemas={[
+                    serviceSchema({
+                        name: "Développement d'applications mobiles iOS et Android",
+                        description: "Création d'applications mobiles cross-platform en React Native / Expo. Notifications push, biométrie, mode hors-ligne, publication App Store et Google Play.",
+                        url: "/applications-mobiles",
+                        serviceType: "Mobile App Development",
+                        areaServed: ["Yvelines", "Île-de-France", "France"],
+                        offers: [
+                            { name: "App hybride 1 plateforme", price: 4000, description: "App React Native sur iOS ou Android au choix" },
+                            { name: "App multi-plateformes", price: 6000, description: "Une seule app pour iOS et Android avec design optimisé pour chaque OS" },
+                            { name: "App complexe + backend", price: 9000, description: "App native avec backend API custom, capteurs GPS/Caméra, mode hors-ligne avancé" },
+                        ],
+                    }),
+                    faqSchema(FAQ_MOBILE),
+                    breadcrumbSchema([
+                        { name: "Accueil", url: "/" },
+                        { name: "Applications mobiles", url: "/applications-mobiles" },
+                    ]),
+                ]}
             />
 
             <div className="fixed inset-0 z-0" aria-hidden="true">
