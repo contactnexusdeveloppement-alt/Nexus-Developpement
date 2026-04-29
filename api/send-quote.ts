@@ -219,16 +219,6 @@ ${safeProjectDetails ? `<table width="100%" style="border-top:1px solid #3b82f6;
   const adminOk = adminRes.status === "fulfilled" && adminRes.value.ok;
   const clientOk = clientRes.status === "fulfilled" && clientRes.value.ok;
 
-  // Log les détails Resend pour debug (visible dans Vercel Logs)
-  for (const [label, res] of [["admin", adminRes], ["client", clientRes]] as const) {
-    if (res.status === "rejected") {
-      console.error(`Resend ${label} fetch rejected:`, res.reason);
-    } else if (!res.value.ok) {
-      const errBody = await res.value.text().catch(() => "<no body>");
-      console.error(`Resend ${label} ${res.value.status}: ${errBody}`);
-    }
-  }
-
   if (!adminOk && !clientOk) {
     return new Response(JSON.stringify({ error: "Email service unavailable" }), {
       status: 502,
