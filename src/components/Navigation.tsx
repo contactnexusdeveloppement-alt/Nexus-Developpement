@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/nexus-logo.webp";
 import { Link, useNavigate } from "react-router-dom";
@@ -12,6 +12,7 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
+import { LOCAL_CITIES } from "@/data/localCities";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -123,6 +124,25 @@ const Navigation = () => {
                       </ul>
                     </NavigationMenuContent>
                   </NavigationMenuItem>
+
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger className="bg-transparent text-white hover:bg-white/5 hover:text-blue-300 focus:bg-white/5 focus:text-blue-300 px-4 py-2 rounded-md transition-all duration-300 text-sm md:text-base font-medium data-[state=open]:bg-white/5">
+                      Agences locales
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <ul className="grid w-[400px] gap-2 p-4 md:w-[500px] md:grid-cols-2 bg-[#0A0F1E]/95 backdrop-blur-xl border border-blue-500/30 rounded-xl shadow-[0_0_30px_rgba(0,0,0,0.5)]">
+                        {LOCAL_CITIES.map((city) => (
+                          <ListItem
+                            key={city.slug}
+                            title={`Agence web ${city.name}`}
+                            href={`/${city.slug}`}
+                          >
+                            {city.name} ({city.postalCode}) — {city.distanceFromElancourt} d'Élancourt.
+                          </ListItem>
+                        ))}
+                      </ul>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
                 </NavigationMenuList>
               </NavigationMenu>
 
@@ -179,6 +199,22 @@ const Navigation = () => {
             <Link to="/identite-visuelle" className="px-4 py-3 text-white hover:bg-blue-500/10 hover:text-blue-300 rounded-lg transition-colors flex items-center justify-between group" onClick={() => setIsMobileMenuOpen(false)}>
               Identité Visuelle <span className="text-blue-500/50 group-hover:translate-x-1 transition-transform">→</span>
             </Link>
+
+            <div className="h-px bg-gradient-to-r from-transparent via-blue-500/20 to-transparent my-4"></div>
+
+            <div className="font-bold text-blue-400 px-4 py-3 text-sm tracking-wider uppercase opacity-80">Agences locales</div>
+            {LOCAL_CITIES.map((city) => (
+              <Link
+                key={city.slug}
+                to={`/${city.slug}`}
+                className="px-4 py-3 text-white hover:bg-blue-500/10 hover:text-blue-300 rounded-lg transition-colors flex items-center gap-2 text-sm"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <MapPin className="w-4 h-4 text-cyan-400/60" />
+                <span>{city.name}</span>
+                <span className="ml-auto text-xs text-blue-300/60">{city.postalCode}</span>
+              </Link>
+            ))}
 
             <div className="h-px bg-gradient-to-r from-transparent via-blue-500/20 to-transparent my-4"></div>
 
