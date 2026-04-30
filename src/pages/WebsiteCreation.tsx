@@ -266,9 +266,11 @@ const WebsiteCreation = () => {
 
             <h3 className="text-2xl font-bold text-white mb-4 mt-8">Notre expertise création de sites web</h3>
             <p className="text-blue-100/80 leading-relaxed">
-              Nous avons accompagné plus de <strong>50 entreprises</strong> dans le développement de leur
-              présence en ligne. De la TPE locale au grand compte, nous adaptons nos solutions à vos besoins
-              et votre budget. Notre processus éprouvé garantit une livraison rapide sans compromis sur la qualité.
+              Nous concevons des sites pour les TPE, PME et indépendants qui veulent une présence digitale
+              à la hauteur de leur ambition. De la boulangerie de quartier au cabinet de conseil B2B, nous
+              adaptons nos solutions à vos besoins, votre budget et votre secteur. Notre stack moderne
+              (React, TypeScript, Tailwind, Vercel) garantit un site rapide, sécurisé et facile à faire
+              évoluer.
             </p>
           </div>
 
@@ -284,9 +286,11 @@ const WebsiteCreation = () => {
                   💰 Combien coûte la création d'un site web à Élancourt ?
                 </h3>
                 <p className="text-blue-100/80 leading-relaxed">
-                  Nos tarifs démarrent à <strong>890€ pour le pack Essential</strong> (site vitrine 5 pages),
-                  1290€ pour le pack Business (+ blog et SEO avancé) et 1990€ pour le pack Premium (e-commerce complet).
-                  Tous nos devis sont gratuits et sans engagement, réponse sous 24h.
+                  Nos tarifs démarrent à <strong>950€ pour le pack Essential</strong> (site vitrine 1 à 3 pages,
+                  responsive, formulaire de contact sécurisé), <strong>1 850€ pour le pack Business</strong>
+                  (4 à 10 pages, CMS, blog, SEO avancé, formation) et <strong>4 000€ pour le pack Premium</strong>
+                  (11 à 20 pages sur-mesure, animations, SEO expert). Tous nos devis sont gratuits et sans
+                  engagement, réponse sous 24h.
                 </p>
               </div>
 

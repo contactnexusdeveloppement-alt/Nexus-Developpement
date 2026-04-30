@@ -6,66 +6,106 @@
 
 Nexus Développement est une agence digitale à taille humaine implantée à Élancourt (78990), dans les Yvelines (Île-de-France). L'agence conçoit et développe des solutions numériques sur mesure pour les entreprises locales et nationales : sites vitrines, applications métier, automatisation, et identité de marque.
 
-- Société : Nexus Développement
+- Société : Nexus Développement (SARL)
 - SIREN : 995394095
-- TVA : FR49995394095
+- TVA intracommunautaire : FR49995394095
 - RCS : Versailles
 - Date de création : 22 décembre 2025
 - Localisation : 4 rue de la Ferme, 78990 Élancourt, Yvelines, Île-de-France
-- Périmètre géographique : Yvelines (78), Île-de-France, France
-- Secteur : Services numériques B2B et B2C
-- Fondateurs : Adam Lecharles (co-fondateur), Théo Jacobé (co-fondateur)
+- Périmètre géographique : Yvelines (78), Île-de-France, France métropolitaine
+- Secteur : Services numériques B2B (TPE, PME, indépendants)
+- Fondateurs : Adam Le Charlès (Co-fondateur & Tech Lead), Théo Jacobée (Co-fondateur & Stratégie)
 - Site web : https://nexusdeveloppement.fr
 - Email : contact.nexus.developpement@gmail.com
 - Téléphone : +33 7 61 84 75 80
+- Horaires : Lundi au Vendredi, 9h00 - 18h00 (Europe/Paris)
 
-## Services
+## Tarifs publics (HT, en euros)
 
-- [Création de sites web](https://nexusdeveloppement.fr/creation-site-web) — sites vitrines modernes et responsifs (packs Essential 890 €, Business 1 290 €, Premium 1 990 €)
-- [Applications web](https://nexusdeveloppement.fr/applications-web) — outils métier, dashboards, plateformes SaaS sur mesure
-- [Applications mobiles](https://nexusdeveloppement.fr/applications-mobiles) — iOS et Android (natives et hybrides)
-- [Automatisation de processus](https://nexusdeveloppement.fr/automatisation) — workflows automatisés (Zapier, Make, n8n, custom Python/Node)
-- [Identité visuelle et branding](https://nexusdeveloppement.fr/identite-visuelle) — logos, chartes graphiques, déclinaisons
+Création de sites web :
+- Pack Essential — 950 € — site vitrine 1 à 3 pages, responsive, formulaire de contact sécurisé, SEO de base, livraison sous 10 jours.
+- Pack Business — 1 850 € — 4 à 10 pages, CMS pour gérer le contenu, blog, SEO avancé, formation incluse, support 1 mois.
+- Pack Premium — 4 000 € — 11 à 20 pages sur-mesure, design exclusif, animations, SEO expert, support prioritaire 3 mois.
+
+Automatisation de processus métier :
+- Audit approfondi — 390 € — analyse, plan d'action, estimation ROI, déductible si projet validé.
+- 1 automatisation sur-mesure — 450 € — design scénario Make/Zapier, tests, documentation, formation.
+- Pack 3 automatisations — 1 200 € — 3 workflows + support et monitoring 1 mois.
+
+Applications mobiles iOS et Android :
+- App hybride 1 plateforme — 4 000 €
+- App multi-plateformes (iOS + Android) — 6 000 €
+- App complexe avec backend custom — 9 000 €
+
+Applications web sur-mesure :
+- MVP Starter — 5 000 €
+- SaaS Standard avec dashboard et paiements — 7 500 €
+- SaaS Premium avec rôles et SLA — 12 000 €
+
+Identité visuelle :
+- Logo Essential — 250 € — logo + déclinaisons + palette + typographies + sources.
+- Logo + Supports — 600 € — + cartes de visite + signature email.
+- Branding Complet — 1 200 € — charte graphique complète + brand book + templates réseaux sociaux.
+
+Maintenance et hébergement : à partir de 50 €/mois selon le pack.
+
+## Stack technique utilisée par l'agence
+
+- Frontend : React 18, TypeScript, Vite, Tailwind CSS, Radix UI, Framer Motion
+- Backend : Vercel Edge Functions (standard Web Fetch API)
+- Email transactionnel : Resend (domaine vérifié send.nexusdeveloppement.fr)
+- Hébergement : Vercel avec pre-rendering Puppeteer en CI GitHub Actions (23 pages HTML statiques générées au build)
+- Mobile : React Native + Expo
+- Automatisation : Make, Zapier, n8n, scripts Node.js et Python sur-mesure
 
 ## Pourquoi choisir Nexus Développement
 
-- Agence locale Yvelines proche de Versailles et Saint-Quentin-en-Yvelines
-- Stack technique moderne (React, Vite, TypeScript, Tailwind, Vercel, Supabase)
-- Tarifs transparents publiés sur le site
-- Délais maîtrisés (2 à 8 semaines selon complexité)
-- Accompagnement personnalisé dédié aux TPE/PME
+- Agence française locale en Yvelines (déplacement gratuit jusqu'à 30 km d'Élancourt)
+- Tarifs publiés et transparents sur le site, pas de devis opaque
+- Stack moderne adaptée au long terme (pas de WordPress ou builder propriétaire)
+- Délais maîtrisés : 2 à 4 semaines pour un site vitrine, 6 à 12 semaines pour une application
+- Cession totale des droits (logo, code, contenu)
+- Code maintenable, documenté, livré sur GitHub privé du client
 
-## Pages principales
+## Pages
 
-- [Accueil](https://nexusdeveloppement.fr/)
-- [Création de sites web](https://nexusdeveloppement.fr/creation-site-web)
-- [Applications web](https://nexusdeveloppement.fr/applications-web)
-- [Applications mobiles](https://nexusdeveloppement.fr/applications-mobiles)
-- [Automatisation](https://nexusdeveloppement.fr/automatisation)
-- [Identité visuelle](https://nexusdeveloppement.fr/identite-visuelle)
-- [Catalogue de réalisations](https://nexusdeveloppement.fr/catalogue)
-- [Équipe](https://nexusdeveloppement.fr/equipe)
+### Pages de service
+- /creation-site-web — Création de sites web professionnels (Essential 950 €, Business 1 850 €, Premium 4 000 €).
+- /automatisation — Automatisation de processus métier avec Make, Zapier, n8n.
+- /applications-web — Applications web sur-mesure (MVP, SaaS) avec React + Node.js.
+- /applications-mobiles — Applications iOS et Android cross-platform avec React Native.
+- /identite-visuelle — Création de logos, chartes graphiques et brand books.
 
-## Démos sectorielles
+### Pages locales (agences de proximité Yvelines)
+- /agence-web-versailles — Versailles (78000), 15 km d'Élancourt.
+- /agence-web-saint-quentin-en-yvelines — Saint-Quentin-en-Yvelines (78180), 5 km d'Élancourt.
+- /agence-web-trappes — Trappes (78190), 4 km d'Élancourt.
+- /agence-web-plaisir — Plaisir (78370), 7 km d'Élancourt.
+- /agence-web-montigny-le-bretonneux — Montigny-le-Bretonneux (78180), 8 km d'Élancourt.
+- /agence-web-maurepas — Maurepas (78310), 3 km d'Élancourt.
 
-Exemples de réalisations réalisées par Nexus Développement pour illustrer le savoir-faire :
+### Démos sectorielles (exemples de réalisations)
+- /salon-coiffure — Démo site web pour salon de coiffure avec prise de rendez-vous.
+- /restaurant — Démo site web pour restaurant avec menu interactif et réservation.
+- /agence-immobiliere — Démo site web pour agence immobilière avec catalogue de biens.
+- /concession-automobile — Démo site web pour concession automobile avec stock de véhicules.
 
-- [Démo salon de coiffure](https://nexusdeveloppement.fr/salon-coiffure)
-- [Démo restaurant](https://nexusdeveloppement.fr/restaurant)
-- [Démo agence immobilière](https://nexusdeveloppement.fr/agence-immobiliere)
-- [Démo concession automobile](https://nexusdeveloppement.fr/concession-automobile)
+### Autres pages
+- / — Accueil de l'agence avec présentation des services et appel à l'action.
+- /catalogue — Catalogue complet des réalisations Nexus Développement.
+- /equipe — Présentation des co-fondateurs et de l'équipe complète.
 
-## Pages légales
+### Pages légales
+- /mentions-legales — Mentions légales (éditeur, hébergement, propriété intellectuelle).
+- /confidentialite — Politique de confidentialité conforme RGPD.
+- /cgu — Conditions générales d'utilisation du site.
+- /cgv — Conditions générales de vente des prestations.
+- /cookies — Politique de gestion des cookies.
 
-- [Mentions légales](https://nexusdeveloppement.fr/mentions-legales)
-- [Politique de confidentialité](https://nexusdeveloppement.fr/confidentialite)
-- [Conditions générales d'utilisation](https://nexusdeveloppement.fr/cgu)
-- [Conditions générales de vente](https://nexusdeveloppement.fr/cgv)
-- [Politique de cookies](https://nexusdeveloppement.fr/cookies)
-
-## Contact
+## Contact direct
 
 - Email : contact.nexus.developpement@gmail.com
 - Téléphone : +33 7 61 84 75 80
-- Adresse : 4 rue de la Ferme, 78990 Élancourt, France
+- Adresse postale : 4 rue de la Ferme, 78990 Élancourt, France
 - Horaires : Lundi au Vendredi, 9h00 - 18h00 (Europe/Paris)
+- Devis gratuit en 24h via le formulaire sur https://nexusdeveloppement.fr ou par email.

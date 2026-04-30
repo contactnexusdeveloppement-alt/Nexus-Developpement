@@ -10,6 +10,11 @@
       "has": [{ "type": "host", "value": "www.nexusdeveloppement.fr" }],
       "destination": "https://nexusdeveloppement.fr/$1",
       "permanent": true
+    },
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "permanent": true
     }
   ],
   "rewrites": [

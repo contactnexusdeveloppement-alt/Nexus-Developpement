@@ -60,6 +60,7 @@ export function serviceSchema(opts: {
   return {
     "@context": "https://schema.org",
     "@type": "Service",
+    "@id": `${url}#service`,
     name: opts.name,
     description: opts.description,
     serviceType: opts.serviceType,
@@ -109,6 +110,7 @@ export function localServiceSchema(opts: {
   return {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
+    "@id": `${url}#service`,
     name: `Nexus Développement — Agence web ${opts.city}`,
     description: opts.description,
     url,

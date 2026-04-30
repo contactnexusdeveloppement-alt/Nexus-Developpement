@@ -112,6 +112,7 @@ const Team = () => {
                     {
                         "@context": "https://schema.org",
                         "@type": "AboutPage",
+                        "@id": "https://nexusdeveloppement.fr/equipe#aboutpage",
                         name: "L'équipe Nexus Développement",
                         description: "Présentation des co-fondateurs et collaborateurs de l'agence Nexus Développement à Élancourt.",
                         url: "https://nexusdeveloppement.fr/equipe",
@@ -119,16 +120,25 @@ const Team = () => {
                             "@id": "https://nexusdeveloppement.fr/#organization",
                             "@type": "Organization",
                         },
-                        mainEntity: team.map((member) => ({
-                            "@type": "Person",
-                            name: member.name,
-                            jobTitle: member.role,
-                            description: member.bio,
-                            worksFor: {
-                                "@id": "https://nexusdeveloppement.fr/#organization",
-                                "@type": "Organization",
-                            },
-                        })),
+                        mainEntity: team.map((member) => {
+                            const slug = member.name
+                                .toLowerCase()
+                                .normalize("NFD")
+                                .replace(/[̀-ͯ]/g, "")
+                                .replace(/[^a-z0-9]+/g, "-")
+                                .replace(/^-|-$/g, "");
+                            return {
+                                "@type": "Person",
+                                "@id": `https://nexusdeveloppement.fr/equipe#${slug}`,
+                                name: member.name,
+                                jobTitle: member.role,
+                                description: member.bio,
+                                worksFor: {
+                                    "@id": "https://nexusdeveloppement.fr/#organization",
+                                    "@type": "Organization",
+                                },
+                            };
+                        }),
                     },
                     breadcrumbSchema([
                         { name: "Accueil", url: "/" },
