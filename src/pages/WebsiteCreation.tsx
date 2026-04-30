@@ -283,7 +283,7 @@ const WebsiteCreation = () => {
             <div className="space-y-6">
               <div className="bg-slate-800/40 p-6 rounded-lg border border-white/10 hover:border-cyan-500/30 transition-colors">
                 <h3 className="text-xl font-bold text-white mb-3">
-                  💰 Combien coûte la création d'un site web à Élancourt ?
+                  Combien coûte la création d'un site web à Élancourt ?
                 </h3>
                 <p className="text-blue-100/80 leading-relaxed">
                   Nos tarifs démarrent à <strong>950€ pour le pack Essential</strong> (site vitrine 1 à 3 pages,
@@ -296,7 +296,7 @@ const WebsiteCreation = () => {
 
               <div className="bg-slate-800/40 p-6 rounded-lg border border-white/10 hover:border-cyan-500/30 transition-colors">
                 <h3 className="text-xl font-bold text-white mb-3">
-                  ⏱️ Combien de temps pour créer mon site web ?
+                  Combien de temps pour créer mon site web ?
                 </h3>
                 <p className="text-blue-100/80 leading-relaxed">
                   Le délai moyen est de <strong>2 à 4 semaines</strong> pour un site vitrine, 4 à 8 semaines
@@ -307,7 +307,7 @@ const WebsiteCreation = () => {
 
               <div className="bg-slate-800/40 p-6 rounded-lg border border-white/10 hover:border-cyan-500/30 transition-colors">
                 <h3 className="text-xl font-bold text-white mb-3">
-                  📍 Nexus Développement est-il basé à Élancourt ?
+                  Nexus Développement est-il basé à Élancourt ?
                 </h3>
                 <p className="text-blue-100/80 leading-relaxed">
                   Oui ! Nexus Développement est basé au <strong>4 rue de la Ferme, 78990 Élancourt</strong>,
@@ -318,7 +318,7 @@ const WebsiteCreation = () => {
 
               <div className="bg-slate-800/40 p-6 rounded-lg border border-white/10 hover:border-cyan-500/30 transition-colors">
                 <h3 className="text-xl font-bold text-white mb-3">
-                  📱 Mon site sera-t-il optimisé pour mobiles ?
+                  Mon site sera-t-il optimisé pour mobiles ?
                 </h3>
                 <p className="text-blue-100/80 leading-relaxed">
                   Absolument ! Tous nos sites sont <strong>100% responsive</strong> et optimisés pour smartphones,
