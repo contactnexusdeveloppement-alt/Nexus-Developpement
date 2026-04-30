@@ -13,20 +13,20 @@ import { breadcrumbSchema, faqSchema, serviceSchema } from "@/lib/schemas";
 
 const FAQ_WEBAPPS = [
   {
-    q: "Combien coûte une application web sur-mesure ?",
-    a: "Un MVP démarre à 5 000€ (fonctionnalités essentielles, auth, base de données, hébergement cloud). Un SaaS standard avec paiements Stripe et dashboard à partir de 7 500€. Un SaaS Premium avec rôles, permissions, monitoring et SLA à partir de 12 000€. Hébergement et maintenance à partir de 150€/mois selon la stack.",
+    q: "Combien coûte le développement d'une application web sur-mesure SaaS ou métier ?",
+    a: "Un MVP Starter démarre à 5 000 € HT et inclut les fonctionnalités essentielles, l'authentification utilisateur (email/password + OAuth), une base de données sécurisée (PostgreSQL ou Supabase), une interface utilisateur propre, l'hébergement cloud scalable (Vercel) et un code maintenable et documenté. Un SaaS Standard à partir de 7 500 € HT ajoute un dashboard de gestion complet, l'intégration des paiements récurrents Stripe avec gestion des abonnements, des emails transactionnels automatiques (welcome, factures, relances), une API REST documentée, un système d'analytics intégré, et 3 mois de support technique. Un SaaS Premium à partir de 12 000 € HT couvre les architectures complexes : tableaux de bord multi-niveaux avec rôles et permissions granulaires, API complète avec webhooks, tests unitaires et end-to-end, monitoring avec alertes, et SLA garanti. L'hébergement et la maintenance courante démarrent à 150 € HT par mois selon la complexité de la stack.",
   },
   {
-    q: "Quelles technologies utilisez-vous pour les applications web ?",
-    a: "Stack moderne typée : React + TypeScript côté front, Node.js / Vercel Functions côté back, PostgreSQL ou Supabase pour la donnée, Stripe pour les paiements, Resend pour les emails transactionnels. Hébergement Vercel ou Cloudflare pour la performance globale.",
+    q: "Quelles technologies utilisez-vous pour les applications web (front + back + DB) ?",
+    a: "Notre stack standard est moderne, typée et reconnue : React 18 avec TypeScript strict côté frontend, Tailwind CSS pour le styling, Vite ou Next.js pour le bundling, et Radix UI / shadcn pour les composants accessibles. Côté backend, nous privilégions Node.js avec Vercel Functions (Web Fetch API standard) ou Express selon la complexité, ou bien des Edge Functions Cloudflare pour la latence ultra-faible. Pour la persistance des données, PostgreSQL via Supabase reste notre solution de référence (auth, storage, realtime, edge functions inclus), avec Prisma comme ORM pour la sécurité de typage. Les paiements sont gérés via Stripe (abonnements, one-shot, marketplaces avec Connect). Les emails transactionnels passent par Resend (DKIM, SPF, domaine vérifié). L'hébergement principal est Vercel pour le frontend et les Functions, ou Railway / Fly.io pour les besoins plus serveur. Cette stack est volontairement standard pour faciliter la reprise par tout développeur React/Node après notre intervention.",
   },
   {
-    q: "Combien de temps pour livrer un MVP ?",
-    a: "6 à 10 semaines pour un MVP fonctionnel (cadrage 1 semaine, design 1 à 2 semaines, dev 4 à 6 semaines, recette 1 à 2 semaines). Nous livrons en sprints toutes les 2 semaines avec démo systématique pour ajuster en continu.",
+    q: "Combien de temps pour livrer un MVP fonctionnel à des utilisateurs réels ?",
+    a: "Pour un MVP Starter, comptez 6 à 10 semaines de bout en bout : 1 semaine de cadrage avec ateliers utilisateurs et définition stricte du périmètre minimum (méthode MoSCoW pour prioriser), 1 à 2 semaines de design des écrans clés sous Figma avec validation par démos cliquables, 4 à 6 semaines de développement en sprints de 2 semaines avec démo systématique en fin de sprint, et 1 à 2 semaines de recette utilisateur avec corrections, optimisations performance et déploiement progressif. Pour un SaaS Standard, prévoyez 12 à 18 semaines au total. Pour un SaaS Premium avec architecture avancée, 16 à 24 semaines. Nous travaillons toujours en mode itératif avec une démo cliquable toutes les 2 semaines, ce qui permet de pivoter en cours de route si les retours utilisateurs invalident une hypothèse, et garantit qu'aucune mauvaise surprise n'apparaît à la livraison finale.",
   },
   {
-    q: "Pouvez-vous reprendre une application existante ?",
-    a: "Oui, nous auditons votre code existant (qualité, dette, sécurité), proposons un plan de remise en état si nécessaire, et reprenons les évolutions. L'audit est facturé selon la taille du projet (à partir de 600€).",
+    q: "Pouvez-vous reprendre et faire évoluer une application existante ?",
+    a: "Oui, c'est même 30 à 40 % de nos missions. Nous commençons toujours par un audit technique de votre application existante : qualité et lisibilité du code, dette technique accumulée, vulnérabilités de sécurité (injection SQL, XSS, CSRF, dépendances obsolètes), conformité RGPD, performance front et back, couverture de tests, qualité de la documentation. L'audit est facturé selon la taille du projet, à partir de 600 € HT pour une application simple jusqu'à 2 500 € HT pour un SaaS complexe avec plusieurs services. Le rapport d'audit est livré sous 1 à 2 semaines avec un plan de remise en état si nécessaire (priorisé par impact / effort) et une estimation chiffrée des évolutions souhaitées. Nous reprenons aussi bien des projets sur stack moderne (React, Node, Next.js) que des projets legacy (PHP, jQuery) où nous proposons souvent une migration progressive plutôt qu'une réécriture totale.",
   },
 ];
 

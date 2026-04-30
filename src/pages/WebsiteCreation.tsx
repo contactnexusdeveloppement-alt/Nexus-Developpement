@@ -13,24 +13,24 @@ import { breadcrumbSchema, faqSchema, serviceSchema } from "@/lib/schemas";
 
 const FAQ_WEBSITE = [
   {
-    q: "Combien coûte la création d'un site web à Élancourt ?",
-    a: "Nos tarifs démarrent à 950€ pour le pack Essential (1 à 3 pages, design responsive, formulaire), 1 850€ pour le pack Business (4 à 10 pages, CMS, blog, SEO avancé) et 4 000€ pour le pack Premium (11 à 20 pages, design 100% sur-mesure, animations avancées). Tous les devis sont gratuits et sans engagement, réponse sous 24h.",
+    q: "Combien coûte la création d'un site web à Élancourt et dans les Yvelines ?",
+    a: "Chez Nexus Développement, nos tarifs démarrent à 950 € HT pour le pack Essential (1 à 3 pages, design responsive sur-mesure, formulaire de contact sécurisé, hébergement et certificat SSL inclus pour le premier mois, livraison sous 10 jours ouvrés). Le pack Business à 1 850 € HT couvre 4 à 10 pages structurées avec un CMS pour gérer le contenu, un module blog, un SEO avancé et 1 mois de support inclus. Le pack Premium à 4 000 € HT cible les marques exigeantes : 11 à 20 pages 100 % sur-mesure dessinées sous Figma, animations Framer Motion, fonctionnalités personnalisées, formation complète et support prioritaire 3 mois. Tous les devis sont gratuits, transparents, sans engagement, et nous répondons en moins de 24 heures à toute demande envoyée via le formulaire ou par email.",
   },
   {
-    q: "Combien de temps pour créer mon site web ?",
-    a: "Le délai moyen est de 2 à 4 semaines pour un site vitrine, 4 à 8 semaines pour un site e-commerce complexe. Nous garantissons une livraison rapide avec un accompagnement personnalisé et des points réguliers pour valider chaque étape ensemble.",
+    q: "Combien de temps faut-il pour créer un site web professionnel ?",
+    a: "Le délai moyen pour un site vitrine est de 2 à 4 semaines : 3 à 5 jours de cadrage et design Figma, 1 à 2 semaines de développement, et environ une semaine de relecture, recette et corrections finales avant la mise en ligne. Pour un site plus complexe avec CMS, blog, espace membre ou intégration de services tiers (Stripe, Calendly, Brevo, Make), comptez 4 à 6 semaines. Pour un site e-commerce avec catalogue, paiement, gestion des stocks et tableau de bord, prévoyez 6 à 10 semaines selon la richesse du catalogue. Nous travaillons en sprints de 2 semaines avec une démo systématique en fin de sprint, ce qui vous permet de valider l'avancement, ajuster les priorités, et éviter les mauvaises surprises à la livraison finale.",
   },
   {
-    q: "Nexus Développement est-il basé à Élancourt ?",
-    a: "Oui, Nexus Développement est basé au 4 rue de la Ferme, 78990 Élancourt, dans les Yvelines. Nous nous déplaçons dans tout le département 78 et l'Île-de-France (Trappes, Plaisir, Montigny-le-Bretonneux, Versailles, Maurepas) pour rencontrer nos clients.",
+    q: "Nexus Développement est-il vraiment basé à Élancourt dans les Yvelines ?",
+    a: "Oui, Nexus Développement (SARL au capital de 1 000 €, SIREN 995 394 095, RCS Versailles) est basée au 4 rue de la Ferme, 78990 Élancourt, dans le département des Yvelines, en Île-de-France. Notre périmètre d'intervention couvre prioritairement Saint-Quentin-en-Yvelines (Montigny-le-Bretonneux, Voisins-le-Bretonneux, Guyancourt, Trappes, Magny-les-Hameaux, La Verrière), ainsi que les communes alentour : Plaisir, Maurepas, Versailles, Bois-d'Arcy, Coignières, Saint-Cyr-l'École. Nous proposons un rendez-vous de cadrage en présentiel, sans surcoût, dans un rayon de 30 km autour d'Élancourt. Pour les clients hors Yvelines, nous travaillons en visioconférence et nous déplaçons sur demande pour les phases clés du projet (kick-off, recette, mise en production).",
   },
   {
-    q: "Mon site sera-t-il optimisé pour mobiles ?",
-    a: "Oui. Tous nos sites sont 100% responsive et optimisés pour smartphones, tablettes et ordinateurs. Nous testons sur tous les appareils pour garantir une expérience parfaite quel que soit l'écran de vos visiteurs.",
+    q: "Mon site sera-t-il optimisé pour mobiles, tablettes et tous les écrans ?",
+    a: "Oui, sans exception. Nous concevons systématiquement nos sites en approche mobile-first : le design est d'abord pensé pour les écrans de 375 px de large (smartphones standards), puis adapté aux tablettes (768 px) et aux écrans desktop (1280 px et plus). Nous utilisons Tailwind CSS et des grilles responsives qui s'adaptent à toutes les résolutions, y compris aux iPhone Mini, iPad Pro, et écrans 4K. Chaque site est testé sur les principaux navigateurs (Chrome, Safari, Firefox, Edge) et sur Android et iOS réels avant la livraison. Côté performance mobile, nous visons un score Lighthouse minimum de 90 sur Mobile et 95 sur Desktop, avec une attention particulière au LCP (Largest Contentful Paint) inférieur à 2,5 secondes même en 4G dégradée.",
   },
   {
-    q: "Le SEO est-il inclus dans la création du site ?",
-    a: "Le SEO technique de base (meta tags, sitemap, balisage sémantique, Open Graph, schemas JSON-LD, performance Lighthouse 90+, mobile-first) est inclus dans tous nos packs. Le pack Business ajoute du SEO avancé (recherche de mots-clés, optimisation on-page, intention de recherche). Le pack Premium intègre une stratégie SEO complète avec recommandations de contenu.",
+    q: "Le référencement SEO est-il inclus dans la création du site web ?",
+    a: "Le SEO technique de base est inclus dans tous nos packs sans surcoût : balises title et meta description optimisées par page, structure de headings (H1-H6) propre, sitemap XML, robots.txt configuré, schemas JSON-LD (Organization, LocalBusiness, Service, FAQPage, BreadcrumbList) intégrés au pré-rendering, balises Open Graph et Twitter Card pour les partages sociaux, balisage sémantique HTML5 strict. Le pack Business ajoute une recherche de mots-clés ciblée pour votre secteur, l'optimisation on-page de chaque page (intention de recherche, maillage interne, contenu enrichi) et la création d'un compte Google Search Console + Bing Webmaster. Le pack Premium intègre une stratégie SEO complète avec audit concurrentiel, plan de contenu éditorial sur 3 à 6 mois, et recommandations détaillées pour le netlinking local Yvelines.",
   },
 ];
 

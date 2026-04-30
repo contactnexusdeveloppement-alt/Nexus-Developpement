@@ -13,20 +13,20 @@ import { breadcrumbSchema, faqSchema, serviceSchema } from "@/lib/schemas";
 
 const FAQ_MOBILE = [
   {
-    q: "Combien coûte le développement d'une application mobile ?",
-    a: "Une app hybride (iOS ou Android au choix) démarre à 4 000€. Une app multi-plateformes (iOS + Android) à 6 000€. Une app complexe avec backend custom à partir de 9 000€. Hébergement et maintenance à partir de 100€/mois.",
+    q: "Combien coûte le développement d'une application mobile iOS et Android ?",
+    a: "Le tarif dépend du périmètre fonctionnel et du nombre de plateformes ciblées. Une app hybride mono-plateforme (iOS au choix OU Android au choix) démarre à 4 000 € HT et inclut le développement React Native, le design adaptatif natif, les notifications push, l'inscription au store et la publication. Une app multi-plateformes (iOS et Android avec un seul code base) démarre à 6 000 € HT, soit 50 % moins cher que deux développements natifs séparés en Swift / Kotlin. Pour une app complexe avec backend custom (API REST + base de données + authentification + capteurs comme GPS, caméra, Bluetooth, mode hors-ligne avancé), comptez à partir de 9 000 € HT. La maintenance, l'hébergement du backend et les mises à jour des stores démarrent à 100 € HT par mois pour une app simple, et jusqu'à 250 € HT par mois pour les apps avec backend complexe et fort trafic. Le compte développeur Apple (99 $/an) et Google Play (25 $ uniques) reste à votre charge.",
   },
   {
-    q: "iOS et Android avec un seul code, c'est vraiment possible ?",
-    a: "Oui, avec React Native ou Expo nous écrivons un seul code base qui se déploie sur les deux stores. Vous gagnez environ 40 à 50% du coût comparé à du natif Swift / Kotlin double, sans compromis significatif sur les performances pour la plupart des cas d'usage (l'app native pure n'est nécessaire que pour des besoins très spécifiques : jeux 3D, traitement vidéo intensif).",
+    q: "iOS et Android avec un seul code, c'est vraiment possible et performant ?",
+    a: "Oui, totalement. Avec React Native (utilisé par Meta, Discord, Shopify, Microsoft Office, Coinbase) ou Expo, nous écrivons un seul code base TypeScript qui se compile et se déploie sur les deux stores. Vous gagnez 40 à 50 % du coût et 30 à 40 % du délai versus un développement natif double Swift + Kotlin, sans compromis significatif sur les performances pour la grande majorité des cas d'usage business : commerce, réservation, prise de RDV, suivi de commandes, dashboards, applications métier internes, fitness, content apps. Le natif pur en Swift ou Kotlin n'est vraiment nécessaire que pour des cas très spécifiques : jeux 3D haute performance (Unity reste de toute façon meilleur), traitement vidéo en temps réel ultra-intensif, applications avec un usage très lourd des dernières API natives non encore portées dans React Native. Pour 95 % des projets TPE/PME, React Native est le bon choix tant en coût qu'en qualité finale.",
   },
   {
-    q: "Combien de temps pour publier une app sur l'App Store et Google Play ?",
-    a: "10 à 16 semaines en moyenne pour une app multi-plateformes : 2 semaines de cadrage et design, 6 à 10 semaines de développement, 1 à 2 semaines de recette interne, 1 à 2 semaines de validation Apple et Google (le plus imprévisible). Nous gérons toutes les démarches Stores (compte développeur, soumission, métadonnées, captures d'écran).",
+    q: "Combien de temps pour publier mon app sur l'App Store et Google Play ?",
+    a: "10 à 16 semaines en moyenne pour une app multi-plateformes complète : 2 semaines de cadrage avec ateliers utilisateurs et wireframes Figma, 1 à 2 semaines de design final des écrans avec maquettes haute fidélité validées, 6 à 10 semaines de développement en sprints de 2 semaines avec démos sur appareils réels (iPhone et Android), 1 à 2 semaines de recette interne avec tests sur la TestFlight Apple et la Internal Testing Track Google, et enfin 1 à 2 semaines pour la validation des stores. La validation Apple est le facteur le plus imprévisible : généralement 24 à 72 heures, mais peut prendre jusqu'à 7 jours en cas de demande de modification (politique de confidentialité, In-App Purchase, capture d'écran). Google Play valide en 1 à 3 jours. Nous gérons intégralement toutes les démarches stores : création des comptes développeurs, configuration des certificats, soumission, rédaction des métadonnées optimisées ASO, captures d'écran, vidéos preview.",
   },
   {
-    q: "Quelles fonctionnalités natives intégrez-vous ?",
-    a: "Notifications push, FaceID/TouchID, géolocalisation GPS, caméra et photothèque, Bluetooth/NFC, mode hors-ligne avec synchronisation, deep linking, paiements In-App Apple/Google ou Stripe externe.",
+    q: "Quelles fonctionnalités natives mobiles intégrez-vous (push, biométrie, GPS, etc.) ?",
+    a: "Toutes les fonctionnalités natives standards sont intégrables sans surcoût significatif via les bibliothèques officielles React Native et Expo : notifications push avec OneSignal, Firebase Cloud Messaging ou Expo Notifications (avec ciblage et programmation horaire), authentification biométrique FaceID / TouchID / Face Unlock / empreinte Android, géolocalisation GPS précise avec gestion fine des permissions iOS et Android, accès caméra et photothèque avec compression automatique des images, scan de codes-barres et QR codes, intégration Bluetooth Low Energy (BLE) et NFC pour les solutions de paiement ou d'identification, mode hors-ligne avancé avec synchronisation automatique au retour de connexion, deep linking et universal links, partage natif (Share Sheet iOS), notifications locales programmées, paiements In-App Apple Pay et Google Pay (commission 15-30 % stores) ou paiements Stripe externes selon votre modèle.",
   },
 ];
 

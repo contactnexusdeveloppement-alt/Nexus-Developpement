@@ -13,20 +13,20 @@ import { breadcrumbSchema, faqSchema, serviceSchema } from "@/lib/schemas";
 
 const FAQ_AUTOMATION = [
   {
-    q: "Combien coûte l'automatisation d'un processus métier ?",
-    a: "L'audit approfondi (analyse + plan d'action + estimation ROI) est facturé 390€ et déductible si vous validez le projet. Une automatisation simple démarre à 450€, un pack de 3 automatisations à 1 200€. Maintenance à partir de 25€/mois.",
+    q: "Combien coûte l'automatisation d'un processus métier pour une TPE ou PME ?",
+    a: "L'audit approfondi initial est facturé 390 € HT et comprend une analyse complète de vos processus actuels, l'identification des tâches chronophages prioritaires à automatiser, un plan d'action détaillé avec phases et coûts, ainsi qu'une estimation du ROI attendu. Cet audit est intégralement déductible si vous validez ensuite le projet d'automatisation. Une automatisation sur-mesure simple (ex : envoi automatique de facture après paiement Stripe) démarre à 450 € HT et inclut le design du scénario, la connexion de vos outils, les tests, la documentation et la formation à votre équipe. Un pack de 3 automatisations cohérentes (ex : facturation + relance + reporting) revient à 1 200 € HT, soit 30 % d'économie versus l'achat séparé. La maintenance et le monitoring démarrent à 25 € HT par mois pour les workflows simples.",
   },
   {
-    q: "Quels outils utilisez-vous pour les automatisations ?",
-    a: "Nous concevons des workflows avec Make (anciennement Integromat), Zapier, n8n et des scripts custom Node.js / Python selon la complexité. Le choix de l'outil dépend du nombre d'opérations, de la sensibilité des données et du budget récurrent.",
+    q: "Quels outils d'automatisation utilisez-vous (Make, Zapier, n8n, scripts custom) ?",
+    a: "Nous choisissons l'outil en fonction de votre cas d'usage, pas par habitude ou par commodité. Pour la majorité des automatisations marketing et commerciales (qualification de leads, synchronisation CRM, emails transactionnels), Make (anciennement Integromat) offre le meilleur rapport puissance / prix avec ses 1 500+ connecteurs. Pour les automatisations simples avec peu d'étapes et un volume limité (jusqu'à 750 tâches par mois), Zapier reste pertinent. Pour les workflows à fort volume (plus de 10 000 opérations par mois) ou avec des données sensibles qui ne peuvent pas transiter par un service tiers, nous déployons n8n en self-hosting sur votre infrastructure ou la nôtre. Pour les cas vraiment spécifiques (parsing complexe, ML, scraping massif), nous écrivons des scripts custom en Node.js ou Python que nous déployons sur Vercel Functions ou AWS Lambda. Cette flexibilité d'outils nous distingue des prestataires mono-stack qui forcent toujours la même solution quelle que soit la situation.",
   },
   {
-    q: "Quels processus peut-on automatiser dans une TPE ?",
-    a: "Les classiques à fort ROI : génération et envoi de factures depuis Stripe ou les paiements reçus, qualification des leads entrants depuis le site et enrichissement CRM, onboarding client (création espace projet, envoi des accès), relances automatiques de paiement, synchronisation CRM ⇄ comptabilité, rappels rendez-vous SMS/email, agrégation de reporting hebdomadaire.",
+    q: "Quels sont les processus les plus rentables à automatiser dans une TPE ?",
+    a: "Sur la base de nos missions, les automatisations à plus fort ROI immédiat sont : (1) la génération et l'envoi automatique de factures depuis vos paiements Stripe ou Sumup avec archivage comptable, (2) la qualification automatique des leads entrants depuis votre site web et leur enrichissement dans votre CRM (HubSpot, Notion, Airtable), (3) l'onboarding client automatisé après signature de devis (création de l'espace projet, envoi des accès, invitation Slack ou Discord), (4) les relances de paiement automatiques sur factures impayées avec escalade selon l'ancienneté, (5) la synchronisation CRM ⇄ comptabilité (Pennylane, Tiime), (6) les rappels SMS et email automatiques avant les rendez-vous pour réduire le no-show, et (7) l'agrégation hebdomadaire de vos KPI (chiffre d'affaires, leads, NPS) dans un rapport envoyé tous les lundis matin. Chacun de ces workflows libère typiquement 2 à 5 heures par semaine.",
   },
   {
-    q: "Combien de temps prend la mise en place d'une automatisation ?",
-    a: "Une automatisation simple est livrée en 1 à 2 semaines (analyse, scénario, tests, documentation). Un pack de 3 automatisations en 3 à 4 semaines. Nous incluons toujours une phase de tests réels et une formation à votre équipe.",
+    q: "Combien de temps prend la mise en place d'une automatisation de bout en bout ?",
+    a: "Une automatisation simple à 450 € HT est livrée en 1 à 2 semaines : 2 à 3 jours d'analyse et de cartographie des étapes actuelles, 3 à 5 jours de design et développement du scénario dans Make/Zapier/n8n, 1 à 2 jours de tests sur un environnement séparé avec des données réelles, et la dernière journée pour la documentation, la formation à votre équipe et le passage en production. Un pack de 3 automatisations cohérentes prend 3 à 4 semaines complètes au total. Pour les automatisations complexes avec plusieurs intégrations métier (ERP, comptabilité, CRM, outil sectoriel spécifique), comptez 4 à 8 semaines. Nous incluons systématiquement une phase de tests sur données réelles, une période de monitoring de 7 jours après mise en production pour ajuster les éventuelles erreurs, et une formation enregistrée que vous pouvez rejouer.",
   },
 ];
 

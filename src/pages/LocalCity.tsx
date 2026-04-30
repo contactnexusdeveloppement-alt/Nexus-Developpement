@@ -68,24 +68,24 @@ const LocalCity = ({ slug }: LocalCityProps) => {
 
   const faqs = [
     {
-      q: `Vous intervenez vraiment à ${city.name} ?`,
-      a: `Oui. Nous sommes basés à Élancourt (78990), à seulement ${city.distanceFromElancourt} de ${city.name}. Nous nous déplaçons sans surcoût pour les rendez-vous découverte, le cadrage projet et les points de pilotage. Nous travaillons aussi à distance par visio si vous préférez.`,
+      q: `Nexus Développement intervient-il vraiment à ${city.name} ?`,
+      a: `Oui, sans aucune restriction. Nous sommes basés au 4 rue de la Ferme, 78990 Élancourt, à seulement ${city.distanceFromElancourt} de ${city.name} en voiture. Nous proposons systématiquement un rendez-vous découverte gratuit en présentiel chez vous (commerce, bureau, atelier), avec un café offert, sans aucun frais de déplacement. Pour les phases suivantes (cadrage du projet, validation des maquettes Figma, recette finale, formation à la prise en main du site), nous nous déplaçons à nouveau sans surcoût dans tout le rayon de 30 km autour d'Élancourt — ce qui couvre largement ${city.name} et les communes environnantes des Yvelines. Si vous préférez travailler à distance, nous proposons aussi tous nos rendez-vous en visioconférence (Google Meet ou Zoom) avec partage d'écran et enregistrement systématique pour que vous puissiez revoir les échanges.`,
     },
     {
-      q: `Combien coûte un site web pour une entreprise à ${city.name} ?`,
-      a: `Le pack Essential démarre à 950€ pour un site vitrine de 1 à 3 pages, le pack Business à 1 850€ (4 à 10 pages, blog, CMS), et le pack Premium à 4 000€ pour un site sur-mesure complet. Tous nos devis sont gratuits, transparents et sans engagement.`,
+      q: `Combien coûte la création d'un site web pour une entreprise à ${city.name} ?`,
+      a: `Nos tarifs sont identiques à ${city.name} et dans toutes les communes des Yvelines, sans facturation supplémentaire pour le déplacement. Le pack Essential démarre à 950 € HT (1 à 3 pages, design responsive, formulaire de contact, hébergement et SSL inclus 1 mois, livraison 10 jours ouvrés). Le pack Business à 1 850 € HT couvre 4 à 10 pages avec un CMS pour gérer le contenu vous-même, un module blog pour le SEO, du référencement avancé et 1 mois de support. Le pack Premium à 4 000 € HT propose 11 à 20 pages 100 % sur-mesure, des animations Framer Motion, une stratégie SEO complète et 3 mois de support prioritaire. Tous nos devis sont rédigés sous 24 heures, gratuits et sans engagement, et nos prix sont publics sur le site (pas de devis opaque).`,
     },
     {
-      q: `Combien de temps pour avoir un site visible sur Google à ${city.name} ?`,
-      a: `Le site est indexé sous 1 à 2 semaines après mise en ligne. Pour bien ressortir sur les requêtes locales du type "votre métier ${city.name}", comptez 2 à 4 mois en moyenne avec une stratégie SEO local solide (fiche Google Business Profile optimisée, schemas JSON-LD géolocalisés, contenu enrichi avec mentions de quartiers, citations locales sur les annuaires Pages Jaunes / Sortlist / Codeur).`,
+      q: `En combien de temps mon site sera-t-il visible sur Google à ${city.name} ?`,
+      a: `L'indexation Google se fait sous 1 à 2 semaines après mise en ligne, à condition que le sitemap soit soumis dans Google Search Console (nous nous en occupons). Pour bien ressortir sur les requêtes locales type "votre métier ${city.name}" ou "votre métier 78", comptez 2 à 4 mois en moyenne avec une stratégie SEO local solide. Cela inclut : optimisation complète de votre fiche Google Business Profile (choix des catégories, photos, services, FAQ, gestion des avis), schemas JSON-LD géolocalisés (LocalBusiness avec areaServed sur ${city.name}), contenu enrichi mentionnant les quartiers et points d'intérêt locaux, et citations cohérentes sur les annuaires professionnels (Pages Jaunes, Sortlist, Codeur, Apple Maps). Pour les requêtes très concurrentielles, l'effort SEO peut s'étaler sur 6 à 9 mois mais les premiers résultats apparaissent toujours dès le 3e mois.`,
     },
     {
-      q: `Pouvez-vous m'aider avec ma fiche Google Business Profile à ${city.name} ?`,
-      a: `Oui, l'optimisation Google Business Profile est incluse dans nos packs SEO : choix des catégories pertinentes, rédaction de la description, photos, services et tarifs, FAQ, gestion des avis. Sur ${city.name} comme partout, c'est souvent le levier de visibilité locale n°1.`,
+      q: `Pouvez-vous m'aider à optimiser ma fiche Google Business Profile à ${city.name} ?`,
+      a: `Oui, l'optimisation complète de votre fiche Google Business Profile est incluse dans nos packs Business et Premium, et disponible en option sur le pack Essential. Concrètement, nous prenons en charge : la création ou réclamation de la fiche, le choix des catégories pertinentes (catégorie principale + 2 à 3 secondaires), la rédaction d'une description optimisée pour le SEO local, l'ajout de toutes vos prestations avec descriptifs et tarifs indicatifs, l'upload de 10 à 20 photos professionnelles (logo, équipe, locaux, réalisations), la création des sections FAQ et "Posts" hebdomadaires, et la mise en place d'une stratégie de réponse aux avis (positifs comme négatifs). À ${city.name} comme dans toutes les villes des Yvelines, Google Business Profile est le levier n°1 de visibilité locale et représente souvent 40 à 60 % du trafic web d'une PME locale.`,
     },
     {
-      q: `Pourquoi choisir une agence locale plutôt qu'un freelance distant ?`,
-      a: `La proximité (${city.distanceFromElancourt} de ${city.name}) permet de vrais ateliers en présentiel pour bien cadrer le projet. Nous comprenons le tissu économique local, les habitudes de consommation des Yvelines et les enjeux concrets des commerces et PME du 78. Et vous avez un interlocuteur identifié, pas un sous-traitant à l'autre bout du monde.`,
+      q: `Pourquoi choisir une agence locale Yvelines plutôt qu'un freelance distant ou une agence parisienne ?`,
+      a: `La proximité géographique (${city.distanceFromElancourt} de ${city.name} seulement) permet d'organiser de vrais ateliers de cadrage en présentiel, autour d'un café, qui sont 3 à 4 fois plus efficaces qu'une visioconférence pour comprendre votre activité, votre clientèle, vos contraintes opérationnelles. Nous connaissons intimement le tissu économique local des Yvelines : les flux clients entre Versailles, Saint-Quentin-en-Yvelines, Plaisir, les habitudes des consommateurs locaux, les pôles d'activité (Pariwest, Open Sky, Gare TGV de Montigny). Vous avez un interlocuteur identifié et joignable, pas un sous-traitant à l'autre bout du monde ou un commercial parisien qui vous délègue à un junior. Côté tarifs, nous sommes 30 à 50 % moins chers que les grandes agences parisiennes pour une qualité de livraison équivalente, sans rien sacrifier sur la stack technique (React, TypeScript, Vercel) ni sur la cession totale des droits.`,
     },
   ];
 

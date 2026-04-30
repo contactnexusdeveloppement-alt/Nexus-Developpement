@@ -13,20 +13,20 @@ import { breadcrumbSchema, faqSchema, serviceSchema } from "@/lib/schemas";
 
 const FAQ_BRANDING = [
   {
-    q: "Combien coûte la création d'un logo professionnel ?",
-    a: "Le pack Logo Essential démarre à 250€ (3 propositions, déclinaisons noir/blanc, palette, typographies, fichiers sources AI/SVG/PNG, cession de droits). Le pack Logo + Supports à 600€ ajoute cartes de visite, signature email et en-tête de documents. Le pack Branding Complet à 1 200€ couvre la charte graphique complète, le brand book et les templates réseaux sociaux.",
+    q: "Combien coûte la création d'un logo professionnel et d'une identité visuelle complète ?",
+    a: "Notre offre démarre à 250 € HT pour le pack Logo Essential : briefing approfondi (1 heure de visio), 3 propositions de logo distinctes inspirées de votre univers, 2 tours d'allers-retours pour ajuster l'option retenue, déclinaisons noir / blanc / négatif, palette de couleurs principales (5 à 7 teintes avec codes HEX, RGB, CMYK), sélection typographique (1 typographie principale + 1 secondaire), livraison de tous les fichiers sources (.AI, .SVG, .PNG, .EPS, .PDF) et cession totale et exclusive des droits patrimoniaux. Le pack Logo + Supports à 600 € HT ajoute la conception de cartes de visite recto-verso, une signature email professionnelle compatible Gmail / Outlook, un en-tête de documents Word et PowerPoint réutilisable. Le pack Branding Complet à 1 200 € HT couvre l'ensemble : charte graphique professionnelle de 30 à 40 pages, brand book stratégique, papeterie complète (cartes, factures, devis, présentations), templates pour vos 3 réseaux sociaux principaux (Instagram, LinkedIn, Facebook).",
   },
   {
-    q: "En combien de temps livrez-vous un logo ?",
-    a: "Logo Essential : 5 à 7 jours ouvrés (brief, 3 propositions, 2 tours d'aller-retour, fichiers finaux). Pack avec supports : 10 à 14 jours. Branding complet : 3 à 4 semaines.",
+    q: "En combien de temps livrez-vous un logo professionnel finalisé ?",
+    a: "Le pack Logo Essential est livré en 5 à 7 jours ouvrés selon votre disponibilité pour les allers-retours : 1 jour pour le briefing initial et l'analyse de votre univers concurrentiel, 2 à 3 jours pour la création des 3 premières propositions de logo, 1 à 2 jours pour le tour d'aller-retour avec ajustements (couleurs, typographie, équilibre, simplification), et 1 jour pour la finalisation et la livraison de tous les fichiers sources. Le pack Logo + Supports prend 10 à 14 jours ouvrés au total : aux étapes du logo s'ajoutent le design des cartes de visite, la signature email et l'en-tête de documents. Le pack Branding Complet nécessite 3 à 4 semaines de travail : phase de brand strategy (positionnement, valeurs, ton de communication), création complète de la charte graphique avec règles d'utilisation, conception du brand book stratégique et création de tous les templates et supports déclinés.",
   },
   {
-    q: "Que comprend la charte graphique complète ?",
-    a: "Logo et déclinaisons, palette colorimétrique avec codes HEX/RGB/CMYK/Pantone, hiérarchie typographique, règles d'utilisation (espaces de protection, tailles minimums, fonds autorisés), iconographie ou illustrations clés, exemples d'application sur tous les supports (web, print, signalétique, réseaux sociaux). Le tout livré en PDF print + sources.",
+    q: "Que comprend exactement une charte graphique complète professionnelle ?",
+    a: "Une charte graphique professionnelle (incluse dans le pack Branding Complet à 1 200 € HT) regroupe l'ensemble des règles visuelles de votre marque sur 30 à 40 pages : présentation du logo et de toutes ses déclinaisons (horizontale, verticale, mono-couleur, négative), zone de protection minimale et tailles minimales d'utilisation, palette colorimétrique complète avec codes HEX, RGB, CMYK et Pantone pour le print, hiérarchie typographique détaillée (titres H1-H6, corps de texte, citations, légendes) avec polices web et print, iconographie ou pictogrammes clés conçus dans le style de la marque, règles photographiques (style, traitement, recommandations de banques d'images), exemples d'application concrets sur tous les supports (site web, application mobile, cartes de visite, papeterie, signalétique, réseaux sociaux, affichage). Le tout est livré en PDF haute définition prêt à être imprimé et partagé avec votre équipe ou prestataires, plus tous les fichiers sources éditables.",
   },
   {
-    q: "Cédez-vous les droits sur le logo ?",
-    a: "Oui. Tous nos packs incluent la cession totale et exclusive des droits patrimoniaux sur le logo final livré. Vous êtes libre de l'utiliser sans aucune restriction, en France comme à l'international, pour tout support et toute durée.",
+    q: "Cédez-vous l'intégralité des droits sur le logo et les créations livrées ?",
+    a: "Oui, sans aucune restriction ni surcoût. Tous nos packs identité visuelle incluent la cession totale et exclusive des droits patrimoniaux sur le logo final livré et l'ensemble des créations associées (charte graphique, supports déclinés, templates). Vous êtes libre d'utiliser ces créations sans la moindre restriction : en France comme à l'international, pour tout support physique ou numérique (site web, application, packaging, signalétique, véhicule, vêtement, communication digitale, supports publicitaires), pour toute durée (illimitée), pour toute exploitation commerciale (vente de produits ou services dérivés, franchise, licence). Vous pouvez également modifier ou faire évoluer ces créations à votre guise sans nous demander d'accord. Cette cession est officialisée par un document écrit signé à la livraison, conforme au Code de la Propriété Intellectuelle (article L. 131-3), qui sécurise juridiquement vos droits pour le présent et l'avenir.",
   },
 ];
 
