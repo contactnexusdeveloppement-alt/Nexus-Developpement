@@ -154,7 +154,7 @@ const WebsiteCreation = () => {
                 <CardContent className="p-10 space-y-8">
                   <h3 className="text-2xl font-bold text-white flex items-center gap-3">
                     <Monitor className="w-6 h-6 text-blue-400" />
-                    L'excellence digitale
+                    Pourquoi un site sur-mesure plutôt qu'un template ?
                   </h3>
                   <div className="space-y-6">
                     {[
@@ -182,8 +182,8 @@ const WebsiteCreation = () => {
           {/* Process Section */}
           <div id="process" className="mb-32">
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white">Comment nous travaillons</h2>
-              <p className="text-blue-200/60 max-w-2xl mx-auto">Une méthodologie éprouvée pour des résultats prévisibles et de qualité.</p>
+              <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white">Comment se déroule la création de votre site web ?</h2>
+              <p className="text-blue-200/60 max-w-2xl mx-auto">Une méthodologie éprouvée en 4 étapes pour des résultats prévisibles et de qualité.</p>
             </div>
 
             <div className="grid md:grid-cols-4 gap-8">
@@ -215,10 +215,10 @@ const WebsiteCreation = () => {
           <div id="tarifs" className="mb-20 scroll-mt-32">
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-white to-blue-400 bg-clip-text text-transparent">
-                Nos Offres Claires
+                Quel pack site web choisir pour votre activité ?
               </h2>
               <p className="text-lg text-blue-200/70 max-w-2xl mx-auto">
-                Des solutions clé en main pour démarrer sereinement. Transparence totale, aucun coût caché.
+                Trois solutions clé en main pour démarrer sereinement. Transparence totale, aucun coût caché.
               </p>
             </div>
 
@@ -240,7 +240,7 @@ const WebsiteCreation = () => {
               expertise en création de sites web, nous garantissons des résultats concrets et mesurables.
             </p>
 
-            <h3 className="text-2xl font-bold text-white mb-4 mt-8">Notre engagement qualité</h3>
+            <h3 className="text-2xl font-bold text-white mb-4 mt-8">Que comprend exactement la création de votre site web ?</h3>
             <ul className="space-y-3 text-blue-100/80 leading-relaxed">
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-5 h-5 text-cyan-400 mt-1 flex-shrink-0" />
@@ -264,7 +264,7 @@ const WebsiteCreation = () => {
               </li>
             </ul>
 
-            <h3 className="text-2xl font-bold text-white mb-4 mt-8">Notre expertise création de sites web</h3>
+            <h3 className="text-2xl font-bold text-white mb-4 mt-8">Pour qui concevons-nous nos sites web ?</h3>
             <p className="text-blue-100/80 leading-relaxed">
               Nous concevons des sites pour les TPE, PME et indépendants qui veulent une présence digitale
               à la hauteur de leur ambition. De la boulangerie de quartier au cabinet de conseil B2B, nous

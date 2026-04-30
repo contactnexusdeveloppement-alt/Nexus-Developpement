@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Code, Compass, Sparkles, ShieldCheck, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
@@ -10,102 +10,61 @@ import { useEffect } from "react";
 import SEO from "@/components/SEO";
 import { breadcrumbSchema } from "@/lib/schemas";
 
-// Import team images
 import adamImage from "@/assets/adam_lecharles.webp";
 import theoJImage from "@/assets/theo_jacobee.webp";
-import theoGImage from "@/assets/theo_gautier.webp";
-import sarahImage from "@/assets/sarah_chen.webp";
-import lucasImage from "@/assets/lucas_martin.webp";
-import emmaImage from "@/assets/emma_dubois.webp";
-import thomasImage from "@/assets/thomas_petit.webp";
-import julieImage from "@/assets/julie_morel.webp";
-import maximeImage from "@/assets/maxime_leroy.webp";
-import chloeImage from "@/assets/chloe_durand.webp";
 
 const Team = () => {
-    // Scroll to top on mount
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
 
-    const team = [
+    const founders = [
         {
             name: "Adam Le Charlès",
             role: "Co-fondateur & Tech Lead",
-            bio: "Je suis passionné par l'architecture logicielle. Je supervise toute la vision technique de l'agence pour garantir à nos partenaires des solutions robustes, pérennes et à la pointe de l'innovation.",
+            bio: "Passionné par l'architecture logicielle, je supervise toute la vision technique de l'agence. Mon rôle : garantir des solutions robustes, pérennes et faciles à faire évoluer pour nos clients.",
             image: adamImage,
-            details: "Expert React & Node.js"
+            details: "Tech Lead — Stack moderne",
+            objectPosition: { objectPosition: "center 30%" },
         },
         {
             name: "Théo Jacobée",
             role: "Co-fondateur & Stratégie",
-            bio: "Mon but est de transformer vos idées complexes en plans d'action concrets. J'analyse votre marché pour maximiser votre ROI et assurer une croissance durable de votre activité.",
+            bio: "Mon rôle est de transformer vos idées en plans d'action concrets. J'analyse votre marché, votre cible et vos contraintes pour vous proposer la meilleure approche digitale possible.",
             image: theoJImage,
-            details: "Visionnaire Business"
+            details: "Stratégie & Business",
+            objectPosition: {},
+        },
+    ];
+
+    const values = [
+        {
+            icon: Code,
+            title: "Qualité du code avant tout",
+            text: "Stack moderne et typée (React, TypeScript, Tailwind, Vercel). Code livré sur GitHub privé du client, documenté, prêt à être repris par n'importe quel développeur.",
         },
         {
-            name: "Théo Gautier",
-            role: "Directeur Créatif",
-            bio: "Diplômé des Gobelins et ami d'enfance d'Adam, j'ai affûté mon œil dans des studios parisiens. J'apporte cette touche artistique unique qui rendra votre projet inoubliable.",
-            image: theoGImage,
-            details: "Master Web Design - Gobelins"
+            icon: Compass,
+            title: "Tarifs transparents",
+            text: "Tous nos prix sont publiés sur le site et dans nos schémas JSON-LD. Pas de devis opaque, pas de coûts cachés. Vous savez exactement ce que vous payez avant de signer.",
         },
         {
-            name: "Sarah Chen",
-            role: "Lead Developer Fullstack",
-            bio: "Ancienne de chez Criteo et diplômée d'EPITECH, je suis obsédée par la performance. Je conçois l'architecture de vos applications pour qu'elles soient rapides et scalables.",
-            image: sarahImage,
-            details: "Ex-Criteo • EPITECH"
+            icon: Sparkles,
+            title: "Livraison rapide",
+            text: "Site vitrine en 2 à 4 semaines. Application MVP en 6 à 10 semaines. Sprints de 2 semaines avec démo systématique pour ajuster en continu.",
         },
         {
-            name: "Lucas Martin",
-            role: "Senior Backend Developer",
-            bio: "Issu de l'École 42, je suis un puriste du code. Je bâtis pour vous des API sécurisées et ultra-rapides, capables d'encaisser n'importe quelle charge de trafic.",
-            image: lucasImage,
-            details: "Alumni École 42"
+            icon: ShieldCheck,
+            title: "Cession totale des droits",
+            text: "Le code, le design, le contenu : tout vous appartient à la livraison. Pas de dépendance à notre agence, pas de licence cachée. Liberté totale.",
         },
-        {
-            name: "Emma Dubois",
-            role: "Senior UI/UX Designer",
-            bio: "Formée à Strate, j'allie la psychologie cognitive au design. Je crée des parcours utilisateurs si fluides que vos clients navigueront sur votre site sans même y penser.",
-            image: emmaImage,
-            details: "Master UX - Strate"
-        },
-        {
-            name: "Thomas Petit",
-            role: "Frontend Developer",
-            bio: "Sorti de l'IIM, je suis le magicien qui donne vie aux maquettes. Je code des animations immersives en WebGL et Three.js pour créer l'effet 'Wow' que vous recherchez.",
-            image: thomasImage,
-            details: "Expert Creative Coding"
-        },
-        {
-            name: "Julie Morel",
-            role: "Chef de Projet Digital",
-            bio: "Avec mon Master d'HEC Paris, j'orchestre les sprints techniques. Je suis votre point de contact privilégié pour m'assurer que votre projet avance vite et bien.",
-            image: julieImage,
-            details: "Master HEC Paris"
-        },
-        {
-            name: "Maxime Leroy",
-            role: "DevOps Engineer",
-            bio: "Ingénieur INSA Lyon, je suis le gardien de votre infrastructure. J'automatise tout pour que votre site soit en ligne 24h/24 et 7j/7, quoi qu'il arrive.",
-            image: maximeImage,
-            details: "Ingénieur INSA"
-        },
-        {
-            name: "Chloé Durand",
-            role: "SEO & Content Manager",
-            bio: "Diplômée du CELSA, je manie les mots pour plaire à Google. Je déploie des stratégies de contenu chirurgicales pour vous propulser en tête des résultats de recherche.",
-            image: chloeImage,
-            details: "Master CELSA"
-        }
     ];
 
     return (
         <div className="min-h-screen relative font-sans text-slate-200">
             <SEO
-                title="Notre Équipe | Nexus Développement Élancourt"
-                description="Rencontrez l'équipe Nexus Développement : experts en développement web, automatisation et design. Basés à Élancourt (78), Île-de-France."
+                title="L'équipe Nexus Développement | Co-fondateurs & valeurs"
+                description="Présentation des co-fondateurs de Nexus Développement, agence digitale française à Élancourt (78). Adam Le Charlès et Théo Jacobée vous accompagnent sur votre projet web et mobile."
                 type="website"
                 canonical="/equipe"
                 schemas={[
@@ -114,13 +73,13 @@ const Team = () => {
                         "@type": "AboutPage",
                         "@id": "https://nexusdeveloppement.fr/equipe#aboutpage",
                         name: "L'équipe Nexus Développement",
-                        description: "Présentation des co-fondateurs et collaborateurs de l'agence Nexus Développement à Élancourt.",
+                        description: "Présentation des co-fondateurs de l'agence Nexus Développement à Élancourt.",
                         url: "https://nexusdeveloppement.fr/equipe",
                         about: {
                             "@id": "https://nexusdeveloppement.fr/#organization",
                             "@type": "Organization",
                         },
-                        mainEntity: team.map((member) => {
+                        mainEntity: founders.map((member) => {
                             const slug = member.name
                                 .toLowerCase()
                                 .normalize("NFD")
@@ -160,48 +119,49 @@ const Team = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
-                        className="text-center mb-20"
+                        className="text-center mb-16"
                     >
                         <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-blue-100 to-blue-200 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(59,130,246,0.5)] mb-6">
-                            L'Équipe Nexus
+                            Les co-fondateurs de Nexus Développement
                         </h1>
-                        <p className="text-slate-400 text-lg max-w-2xl mx-auto leading-relaxed">
-                            Une synergie d'experts passionnés, unis par la volonté de repousser les limites du digital.
+                        <p className="text-slate-400 text-lg max-w-3xl mx-auto leading-relaxed">
+                            Une agence à taille humaine, créée le 22 décembre 2025 à Élancourt (Yvelines).
+                            Notre engagement : un interlocuteur unique pour votre projet, du cadrage à la livraison.
                         </p>
                     </motion.div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        {team.map((member, index) => (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-24">
+                        {founders.map((member, index) => (
                             <motion.div
                                 key={index}
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ delay: index * 0.05 }}
+                                transition={{ delay: index * 0.1 }}
                             >
                                 <Card className="bg-slate-900/40 backdrop-blur-md border border-white/10 overflow-hidden hover:border-blue-500/40 hover:shadow-[0_0_30px_rgba(59,130,246,0.1)] transition-all duration-300 group h-full flex flex-col hover:-translate-y-1">
-                                    <div className="relative h-80 overflow-hidden">
+                                    <div className="relative h-96 overflow-hidden">
                                         <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent z-10 opacity-60" />
                                         <img
                                             src={member.image}
-                                            alt={member.name}
+                                            alt={`Portrait de ${member.name}, ${member.role} chez Nexus Développement`}
                                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                            style={member.name === "Adam Le Charlès" ? { objectPosition: 'center 30%' } : {}}
+                                            style={member.objectPosition}
                                         />
                                     </div>
-                                    <CardContent className="p-5 flex-1 flex flex-col relative z-20 -mt-12">
+                                    <CardContent className="p-6 flex-1 flex flex-col relative z-20 -mt-12">
                                         <div className="mb-3">
                                             <span className="inline-block px-3 py-1 rounded-full bg-blue-600/90 text-white text-[10px] font-bold shadow-lg shadow-blue-900/50 mb-3 backdrop-blur-sm border border-blue-400/30">
                                                 {member.details}
                                             </span>
-                                            <h3 className="text-lg font-bold text-white mb-0.5 group-hover:text-blue-300 transition-colors">
+                                            <h2 className="text-2xl font-bold text-white mb-1 group-hover:text-blue-300 transition-colors">
                                                 {member.name}
-                                            </h3>
+                                            </h2>
                                             <p className="text-blue-400 text-xs font-bold uppercase tracking-widest mb-3">
                                                 {member.role}
                                             </p>
                                         </div>
-                                        <p className="text-slate-300 text-sm leading-relaxed flex-1 border-t border-white/10 pt-4 opacity-90">
+                                        <p className="text-slate-300 text-base leading-relaxed flex-1 border-t border-white/10 pt-4 opacity-90">
                                             {member.bio}
                                         </p>
                                     </CardContent>
@@ -210,8 +170,57 @@ const Team = () => {
                         ))}
                     </div>
 
-                    <div className="mt-20 text-center">
-                        <p className="text-slate-400 mb-6">Prêt à démarrer votre projet avec notre équipe ?</p>
+                    {/* Notre histoire */}
+                    <div className="max-w-4xl mx-auto mb-24 prose prose-invert prose-lg">
+                        <h2 className="text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                            <Users className="w-7 h-7 text-cyan-400" />
+                            Notre histoire
+                        </h2>
+                        <p className="text-blue-100/80 leading-relaxed mb-4">
+                            Nexus Développement est née le 22 décembre 2025 d'une conviction simple : les TPE
+                            et PME françaises méritent un accompagnement digital aussi soigné que celui des
+                            grandes entreprises, sans le tarif des grandes agences parisiennes.
+                        </p>
+                        <p className="text-blue-100/80 leading-relaxed mb-4">
+                            Basés à Élancourt, au cœur des Yvelines, nous accompagnons en priorité les
+                            entreprises locales (Versailles, Saint-Quentin-en-Yvelines, Trappes, Plaisir,
+                            Montigny-le-Bretonneux, Maurepas) et plus largement toute structure française qui
+                            cherche un partenaire technique fiable et transparent. Tous nos rendez-vous découverte
+                            sont proposés en présentiel sans surcoût dans un rayon de 30 km autour d'Élancourt,
+                            ou en visioconférence partout ailleurs.
+                        </p>
+                        <p className="text-blue-100/80 leading-relaxed">
+                            Notre stack technique est moderne et résolument durable : React, TypeScript,
+                            Tailwind, Vercel, Stripe, Resend. Nous évitons les frameworks propriétaires ou les
+                            CMS verrouillés qui rendent les sites difficiles à maintenir et coûteux à faire
+                            évoluer. À la fin de chaque mission, vous recevez votre code sur un repository
+                            GitHub privé qui vous appartient — vous restez maître de votre infrastructure.
+                        </p>
+                    </div>
+
+                    {/* Nos valeurs */}
+                    <div className="max-w-5xl mx-auto mb-20">
+                        <h2 className="text-3xl font-bold text-white mb-12 text-center">
+                            Nos engagements pour vos projets
+                        </h2>
+                        <div className="grid md:grid-cols-2 gap-6">
+                            {values.map((value) => (
+                                <div
+                                    key={value.title}
+                                    className="bg-slate-900/40 border border-white/5 p-6 rounded-2xl hover:border-blue-500/30 transition-colors"
+                                >
+                                    <div className="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-400/20 flex items-center justify-center text-cyan-400 mb-4">
+                                        <value.icon className="w-6 h-6" />
+                                    </div>
+                                    <h3 className="text-xl font-bold text-white mb-2">{value.title}</h3>
+                                    <p className="text-blue-100/70 text-sm leading-relaxed">{value.text}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="mt-12 text-center">
+                        <p className="text-slate-400 mb-6">Prêt à démarrer votre projet avec nous ?</p>
                         <Link to="/#tarifs">
                             <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-0 hover:from-blue-500 hover:to-indigo-500 shadow-lg shadow-blue-900/20 active:scale-95 transition-all rounded-full px-8 py-6 text-lg font-medium">
                                 Voir nos offres
