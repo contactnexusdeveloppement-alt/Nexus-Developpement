@@ -118,6 +118,64 @@ All colors MUST be HSL.
   }
 }
 
+/*
+ * Sous-thème "Apporteurs d'affaires" — scoped à .theme-apporteurs.
+ * Ne touche pas au reste du site. Palette plus sombre / saturée pour donner
+ * un look "spatial / aérospatial" à la landing de recrutement.
+ */
+.theme-apporteurs {
+  --ned-bg-deep: #050B1F;
+  --ned-bg-mid: #0A1628;
+  --ned-bg-elevated: #0F1E36;
+  --ned-silver: #C8CDD3;
+  --ned-silver-light: #E8EAED;
+  --ned-accent: #4A9EFF;
+  --ned-accent-soft: rgba(74, 158, 255, 0.15);
+  --ned-success: #2DD4BF;
+  --ned-border: rgba(200, 205, 211, 0.1);
+
+  background-color: var(--ned-bg-deep);
+  color: var(--ned-silver-light);
+}
+
+.theme-apporteurs ::selection {
+  background-color: var(--ned-accent);
+  color: var(--ned-bg-deep);
+}
+
+/* Chiffres tabulaires pour le simulateur de gains */
+.theme-apporteurs .tabular-nums {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* Halo doux derrière les CTA primaires */
+.theme-apporteurs .ned-cta-glow {
+  box-shadow:
+    0 0 0 1px rgba(74, 158, 255, 0.4),
+    0 8px 24px -8px rgba(74, 158, 255, 0.5),
+    0 0 40px -12px rgba(74, 158, 255, 0.6);
+}
+
+.theme-apporteurs .ned-cta-glow:hover {
+  box-shadow:
+    0 0 0 1px rgba(74, 158, 255, 0.6),
+    0 12px 32px -8px rgba(74, 158, 255, 0.6),
+    0 0 60px -8px rgba(74, 158, 255, 0.7);
+}
+
+/* Respect prefers-reduced-motion (non négociable) */
+@media (prefers-reduced-motion: reduce) {
+  .theme-apporteurs *,
+  .theme-apporteurs *::before,
+  .theme-apporteurs *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 @layer base {
 
   html,

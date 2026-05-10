@@ -76,6 +76,12 @@
     <loc>https://nexusdeveloppement.fr/equipe</loc>
     <lastmod>2026-04-30</lastmod>
   </url>
+  <url>
+    <loc>https://nexusdeveloppement.fr/apporteurs</loc>
+    <lastmod>2026-05-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 
   <url>
     <loc>https://nexusdeveloppement.fr/mentions-legales</loc>

@@ -29,6 +29,7 @@ const AgenceImmobiliere = lazy(() => import("./pages/AgenceImmobiliere"));
 const PropertyDetail = lazy(() => import("./pages/PropertyDetail"));
 const ProjectsCatalog = lazy(() => import("./pages/ProjectsCatalog"));
 const LocalCity = lazy(() => import("./pages/LocalCity"));
+const Apporteurs = lazy(() => import("./pages/Apporteurs"));
 
 const queryClient = new QueryClient();
 
@@ -65,6 +66,7 @@ const App = () => (
             <Route path="/cgv" element={<CGV />} />
             <Route path="/cookies" element={<CookiePolicy />} />
             <Route path="/equipe" element={<Team />} />
+            <Route path="/apporteurs" element={<Apporteurs />} />
 
             {LOCAL_CITIES.map((city) => (
               <Route

@@ -22,6 +22,7 @@ const ROUTES_TO_PRERENDER = [
   "/agence-immobiliere",
   "/catalogue",
   "/equipe",
+  "/apporteurs",
   "/mentions-legales",
   "/confidentialite",
   "/cgu",

@@ -88,6 +88,12 @@ const Footer = () => {
                   Contact
                 </a>
               </li>
+              <li>
+                <Link to="/apporteurs" className="text-slate-400 hover:text-blue-400 text-sm flex items-center gap-2 group transition-colors">
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500/0 group-hover:bg-blue-400 transition-colors" />
+                  Devenir apporteur
+                </Link>
+              </li>
             </ul>
           </div>
 
