@@ -23,6 +23,7 @@ const ROUTES_TO_PRERENDER = [
   "/catalogue",
   "/equipe",
   "/apporteurs",
+  "/links",
   "/mentions-legales",
   "/confidentialite",
   "/cgu",

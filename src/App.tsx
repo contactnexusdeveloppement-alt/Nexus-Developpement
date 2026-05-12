@@ -30,6 +30,7 @@ const PropertyDetail = lazy(() => import("./pages/PropertyDetail"));
 const ProjectsCatalog = lazy(() => import("./pages/ProjectsCatalog"));
 const LocalCity = lazy(() => import("./pages/LocalCity"));
 const Apporteurs = lazy(() => import("./pages/Apporteurs"));
+const Links = lazy(() => import("./pages/Links"));
 
 const queryClient = new QueryClient();
 
@@ -67,6 +68,7 @@ const App = () => (
             <Route path="/cookies" element={<CookiePolicy />} />
             <Route path="/equipe" element={<Team />} />
             <Route path="/apporteurs" element={<Apporteurs />} />
+            <Route path="/links" element={<Links />} />
 
             {LOCAL_CITIES.map((city) => (
               <Route
