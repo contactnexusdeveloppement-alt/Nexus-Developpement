@@ -71,7 +71,7 @@ const CGV = () => {
           <p>
             La commande est réputée ferme et définitive à réception par le Prestataire du devis daté,
             signé et accompagné de la mention manuscrite « Bon pour accord », ainsi que du versement
-            de l'acompte prévu à l'article 4.
+            de l'acompte prévu à l'article 5.
           </p>
           <p>
             Toute modification du périmètre initial demandée par le Client après acceptation fera l'objet
@@ -101,8 +101,41 @@ const CGV = () => {
       ),
     },
     {
+      icon: RefreshCw,
+      title: "4. Formules d'engagement",
+      content: (
+        <div className="space-y-3 text-slate-300 text-sm leading-relaxed">
+          <p>
+            Le Prestataire propose trois modes de fourniture des prestations, selon les besoins du
+            Client. La formule applicable est obligatoirement précisée dans le devis :
+          </p>
+          <ul className="list-disc list-inside space-y-2 ml-2">
+            <li>
+              <strong className="text-white">Formule Classique</strong> — prestation forfaitaire
+              one-shot, payable selon les modalités de l'article&nbsp;5. Livraison ponctuelle, sans
+              engagement de suivi au-delà de la garantie prévue à l'article&nbsp;13.
+            </li>
+            <li>
+              <strong className="text-white">Formule Service Managé</strong> — prestation initiale
+              one-shot complétée par un forfait mensuel récurrent couvrant la maintenance corrective,
+              l'hébergement et le support technique. Conditions détaillées à l'article&nbsp;6.
+            </li>
+            <li>
+              <strong className="text-white">Formule Évolutif</strong> — prestation initiale one-shot
+              complétée par un forfait mensuel récurrent comprenant la maintenance et un volume
+              d'évolutions fonctionnelles défini au devis. Conditions détaillées à l'article&nbsp;6.
+            </li>
+          </ul>
+          <p>
+            Le choix de la formule détermine les obligations contractuelles spécifiques applicables
+            (durée, prix, livrables, modalités de résiliation).
+          </p>
+        </div>
+      ),
+    },
+    {
       icon: CreditCard,
-      title: "4. Prix & Modalités de paiement",
+      title: "5. Prix & Modalités de paiement",
       content: (
         <div className="space-y-3 text-slate-300 text-sm leading-relaxed">
           <p>
@@ -111,16 +144,24 @@ const CGV = () => {
             au taux légal en vigueur (20 % à la date des présentes) est ajoutée aux prix HT indiqués
             sur le devis et la facture.
           </p>
-          <p><strong className="text-white">Modalités de paiement :</strong></p>
+          <p><strong className="text-white">Modalités de paiement standard :</strong></p>
           <ul className="list-disc list-inside space-y-1 ml-2">
             <li>Un acompte de 40 % à la signature du devis, non remboursable sauf manquement du Prestataire ;</li>
             <li>30 % à mi-parcours ou à la livraison d'une étape convenue ;</li>
             <li>Le solde de 30 % à la livraison finale, avant mise en production.</li>
           </ul>
+          <p className="text-slate-400 italic">
+            Ces modalités constituent un standard. Le devis signé peut prévoir un échelonnement
+            différent (50&nbsp;%/50&nbsp;%, paiement en trois fois égales, ou tout autre découpage)
+            adapté à la nature et à la durée du projet. Les modalités spécifiques figurant sur le
+            devis signé prévalent sur les présentes.
+          </p>
           <p>
-            Les paiements sont effectués par virement bancaire sur le compte indiqué sur la facture.
-            Le délai de règlement des factures est de <strong className="text-white">trente (30) jours</strong>
-            à compter de leur date d'émission, sauf stipulation contraire.
+            Les paiements sont effectués par virement bancaire sur le compte indiqué sur la facture,
+            ou par carte bancaire via la plateforme Stripe pour les forfaits récurrents
+            (voir article&nbsp;6). Le délai de règlement des factures one-shot est de
+            <strong className="text-white"> trente (30) jours</strong> à compter de leur date
+            d'émission, sauf stipulation contraire.
           </p>
           <p>
             Conformément à l'article L.441-10 du Code de commerce, tout retard de paiement entraîne
@@ -135,8 +176,75 @@ const CGV = () => {
       ),
     },
     {
+      icon: Wallet,
+      title: "6. Forfaits récurrents & abonnements",
+      content: (
+        <div className="space-y-3 text-slate-300 text-sm leading-relaxed">
+          <p>
+            Les formules <strong className="text-white">Service Managé</strong> et{" "}
+            <strong className="text-white">Évolutif</strong> comportent un volet récurrent payable
+            mensuellement, dont les caractéristiques sont les suivantes :
+          </p>
+          <ul className="list-disc list-inside space-y-2 ml-2">
+            <li>
+              <strong className="text-white">Périodicité</strong> — le forfait est facturé et
+              prélevé chaque mois civil, à terme à échoir, par carte bancaire via la plateforme
+              <strong className="text-white"> Stripe</strong> ou par tout autre moyen indiqué au devis.
+            </li>
+            <li>
+              <strong className="text-white">Durée minimale</strong> — aucun engagement de durée
+              n'est imposé, sauf stipulation contraire du devis signé.
+            </li>
+            <li>
+              <strong className="text-white">Renouvellement tacite</strong> — sauf résiliation par
+              l'une des parties, le forfait se renouvelle automatiquement de mois en mois.
+            </li>
+            <li>
+              <strong className="text-white">Résiliation par le Client</strong> — le Client peut
+              résilier son forfait à tout moment par email à{" "}
+              <a href="mailto:contact.nexus.developpement@gmail.com" className="text-blue-400 hover:text-blue-300 underline">
+                contact.nexus.developpement@gmail.com
+              </a>
+              , avec un préavis de <strong className="text-white">trente (30) jours</strong>.
+              La résiliation prend effet à l'issue du dernier mois facturé incluant le préavis.
+              Les sommes déjà prélevées restent acquises au Prestataire.
+            </li>
+            <li>
+              <strong className="text-white">Résiliation par le Prestataire</strong> — le
+              Prestataire peut résilier le forfait avec un préavis de trente (30) jours, par email,
+              sans motif à fournir.
+            </li>
+            <li>
+              <strong className="text-white">Modification du prix</strong> — le Prestataire peut
+              modifier le prix du forfait à l'occasion de son renouvellement, sous réserve d'en
+              informer le Client par email au moins <strong className="text-white">trente (30) jours</strong>
+              {" "}avant la prise d'effet. Dans ce délai, le Client peut résilier le forfait sans frais
+              s'il refuse la nouvelle tarification.
+            </li>
+            <li>
+              <strong className="text-white">Suspension</strong> — le Client peut demander une
+              suspension temporaire du forfait pour une durée maximale de trois (3) mois. Pendant la
+              période de suspension, la facturation est interrompue mais les services ne sont pas
+              exécutés.
+            </li>
+            <li>
+              <strong className="text-white">Remboursement</strong> — sauf défaillance imputable au
+              Prestataire, aucune somme déjà prélevée au titre du mois en cours ou du préavis n'est
+              remboursable au prorata.
+            </li>
+            <li>
+              <strong className="text-white">Défaut de paiement</strong> — en cas d'incident de
+              prélèvement non régularisé dans les sept (7) jours, le Prestataire peut suspendre
+              l'accès aux services associés et facturer les frais de recouvrement prévus à
+              l'article&nbsp;5.
+            </li>
+          </ul>
+        </div>
+      ),
+    },
+    {
       icon: Clock,
-      title: "5. Délais d'exécution",
+      title: "7. Délais d'exécution",
       content: (
         <div className="space-y-3 text-slate-300 text-sm leading-relaxed">
           <p>
@@ -154,7 +262,7 @@ const CGV = () => {
     },
     {
       icon: Truck,
-      title: "6. Livraison, Recette & Acceptation",
+      title: "8. Livraison, Recette & Acceptation",
       content: (
         <div className="space-y-3 text-slate-300 text-sm leading-relaxed">
           <p>
@@ -176,7 +284,7 @@ const CGV = () => {
     },
     {
       icon: UserX,
-      title: "7. Obligations du Client",
+      title: "9. Obligations du Client",
       content: (
         <div className="space-y-3 text-slate-300 text-sm leading-relaxed">
           <p>Le Client s'engage à :</p>
@@ -192,7 +300,7 @@ const CGV = () => {
     },
     {
       icon: ShieldCheck,
-      title: "8. Obligations du Prestataire",
+      title: "10. Obligations du Prestataire",
       content: (
         <div className="space-y-3 text-slate-300 text-sm leading-relaxed">
           <p>
@@ -210,7 +318,7 @@ const CGV = () => {
     },
     {
       icon: Copyright,
-      title: "9. Propriété intellectuelle",
+      title: "11. Propriété intellectuelle",
       content: (
         <div className="space-y-3 text-slate-300 text-sm leading-relaxed">
           <p>
@@ -237,7 +345,7 @@ const CGV = () => {
     },
     {
       icon: Wallet,
-      title: "10. Rétractation & Annulation",
+      title: "12. Rétractation & Annulation",
       content: (
         <div className="space-y-3 text-slate-300 text-sm leading-relaxed">
           <p>
@@ -264,7 +372,7 @@ const CGV = () => {
     },
     {
       icon: RefreshCw,
-      title: "11. Garantie & Maintenance",
+      title: "13. Garantie & Maintenance",
       content: (
         <div className="space-y-3 text-slate-300 text-sm leading-relaxed">
           <p>
@@ -286,7 +394,7 @@ const CGV = () => {
     },
     {
       icon: AlertOctagon,
-      title: "12. Responsabilité & Limitations",
+      title: "14. Responsabilité & Limitations",
       content: (
         <div className="space-y-3 text-slate-300 text-sm leading-relaxed">
           <p>
@@ -310,7 +418,7 @@ const CGV = () => {
     },
     {
       icon: FileWarning,
-      title: "13. Confidentialité",
+      title: "15. Confidentialité",
       content: (
         <div className="space-y-3 text-slate-300 text-sm leading-relaxed">
           <p>
@@ -324,7 +432,7 @@ const CGV = () => {
     },
     {
       icon: Scale,
-      title: "14. Données personnelles (RGPD)",
+      title: "16. Données personnelles (RGPD)",
       content: (
         <div className="space-y-3 text-slate-300 text-sm leading-relaxed">
           <p>
@@ -341,7 +449,7 @@ const CGV = () => {
     },
     {
       icon: FileWarning,
-      title: "15. Force majeure",
+      title: "17. Force majeure",
       content: (
         <div className="space-y-3 text-slate-300 text-sm leading-relaxed">
           <p>
@@ -355,7 +463,7 @@ const CGV = () => {
     },
     {
       icon: AlertOctagon,
-      title: "16. Résiliation",
+      title: "18. Résiliation",
       content: (
         <div className="space-y-3 text-slate-300 text-sm leading-relaxed">
           <p>
@@ -373,7 +481,7 @@ const CGV = () => {
     },
     {
       icon: Gavel,
-      title: "17. Médiation & Litiges",
+      title: "19. Médiation & Litiges",
       content: (
         <div className="space-y-3 text-slate-300 text-sm leading-relaxed">
           <p>
@@ -407,7 +515,7 @@ const CGV = () => {
     },
     {
       icon: Scale,
-      title: "18. Droit applicable & Dispositions finales",
+      title: "20. Droit applicable & Dispositions finales",
       content: (
         <div className="space-y-3 text-slate-300 text-sm leading-relaxed">
           <p>
@@ -428,7 +536,7 @@ const CGV = () => {
     <div className="min-h-screen relative font-sans text-slate-200">
       <SEO
         title="Conditions Générales de Vente | Nexus Développement"
-        description="CGV de Nexus Développement : modalités de vente des prestations, devis, paiement, livraison, garanties, propriété intellectuelle, médiation. SARL au capital de 1 000 €."
+        description="CGV de Nexus Développement : modalités de vente des prestations, devis, paiement, livraison, garanties, propriété intellectuelle, médiation. SARL au capital de 500 €."
         canonical="/cgv"
       />
       <div className="fixed inset-0 z-0">
