@@ -225,7 +225,8 @@ const CGV = () => {
               <strong className="text-white">Suspension</strong> — le Client peut demander une
               suspension temporaire du forfait pour une durée maximale de trois (3) mois. Pendant la
               période de suspension, la facturation est interrompue mais les services ne sont pas
-              exécutés.
+              exécutés. La période de suspension <strong className="text-white">ne s'impute pas</strong>
+              {" "}sur la durée d'engagement minimale éventuellement prévue au devis.
             </li>
             <li>
               <strong className="text-white">Remboursement</strong> — sauf défaillance imputable au
