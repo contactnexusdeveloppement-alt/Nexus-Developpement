@@ -22,20 +22,24 @@ const LegalNotice = () => {
           <p><strong className="text-white">RCS :</strong> 995 394 095 R.C.S. Versailles (inscrit le 22/12/2025)</p>
           <p><strong className="text-white">RNE :</strong> Inscrit</p>
           <p><strong className="text-white">N° TVA intracommunautaire :</strong> FR49995394095</p>
-          <p><strong className="text-white">Directeur de la publication :</strong> Adam Le Charlès & Théo Jacobée</p>
+          <p><strong className="text-white">Directeur de la publication :</strong> Adam Le Charlès</p>
+          <p><strong className="text-white">Téléphone :</strong> <a href="tel:+33761847580" className="text-blue-400 hover:text-blue-300 underline">+33 7 61 84 75 80</a></p>
           <p><strong className="text-white">Contact :</strong> <a href="mailto:contact.nexus.developpement@gmail.com" className="text-blue-400 hover:text-blue-300 underline">contact.nexus.developpement@gmail.com</a></p>
         </div>
       )
     },
     {
       icon: Globe,
-      title: "2. Hébergement",
+      title: "2. Hébergement & sous-traitants techniques",
       content: (
-        <div className="space-y-2 text-slate-300 text-sm leading-relaxed">
+        <div className="space-y-3 text-slate-300 text-sm leading-relaxed">
           <p><strong className="text-white">Hébergeur :</strong> Vercel Inc.</p>
           <p><strong className="text-white">Adresse :</strong> 340 S Lemon Ave #4133, Walnut, CA 91789, USA</p>
           <p><strong className="text-white">Site web :</strong> <a href="https://vercel.com" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline transition-colors">https://vercel.com</a></p>
-          <p className="pt-2"><strong className="text-white">Base de données & Auth :</strong> Supabase (hébergement UE)</p>
+          <p className="pt-2"><strong className="text-white">Envoi des emails transactionnels :</strong> Resend (Resend, Inc., USA) — utilisé pour l'envoi des emails de confirmation et de notification suite aux formulaires.</p>
+          <p className="pt-1 text-slate-400 italic">
+            Vercel et Resend sont des sous-traitants au sens du RGPD. Les transferts de données vers les États-Unis sont encadrés par le <strong className="text-white">EU-US Data Privacy Framework</strong> (décision d'adéquation de la Commission européenne du 10 juillet 2023) auquel ces deux prestataires adhèrent. Détails complets dans la <Link to="/confidentialite" className="text-blue-400 hover:text-blue-300 underline">Politique de confidentialité</Link>.
+          </p>
         </div>
       )
     },
