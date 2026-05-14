@@ -115,7 +115,7 @@ const Links = () => {
               Nexus Développement
             </h1>
             <p className="mt-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-blue-400">
-              Agence Numérique · Paris
+              Agence Numérique · Yvelines
             </p>
             <p className="mt-4 text-sm leading-relaxed text-slate-300">
               Création de sites internet, applications mobiles, automatisations et branding visuel.{" "}
