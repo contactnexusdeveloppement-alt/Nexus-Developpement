@@ -4,9 +4,6 @@ import { ArrowRight, Instagram, Facebook, Globe } from "lucide-react";
 import SEO from "@/components/SEO";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import logo from "@/assets/nexus-logo.webp";
-import { useToast } from "@/hooks/use-toast";
-
-const EMAIL = "contact.nexus.developpement@gmail.com";
 
 /**
  * Linktree custom pour les bios Instagram.
@@ -18,24 +15,13 @@ interface LinkItem {
   icon: string; // emoji
   title: string;
   description: string;
-  /** Présent pour les liens (internes ou externes). Absent pour les boutons d'action. */
-  href?: string;
-  /** True = <Link> React Router. False/undefined = <a target="_blank">. Ignoré si onClick est défini. */
-  internal?: boolean;
+  href: string;
+  /** True = <Link> React Router. False = <a target="_blank">. */
+  internal: boolean;
   featured?: boolean;
-  /** Présent uniquement pour les boutons d'action (ex: copier email). Remplace href/internal. */
-  onClick?: () => void;
 }
 
-const STATIC_LINKS: LinkItem[] = [
-  {
-    icon: "🚀",
-    title: "Devenir apporteur d'affaires",
-    description: "20 % de commission · Sans engagement",
-    href: "/apporteurs",
-    internal: true,
-    featured: true,
-  },
+const LINKS: LinkItem[] = [
   {
     icon: "🌐",
     title: "Notre site",
@@ -56,6 +42,14 @@ const STATIC_LINKS: LinkItem[] = [
     description: "Réponse sous 24 h",
     href: "/#devis",
     internal: true,
+  },
+  {
+    icon: "🚀",
+    title: "Devenir apporteur d'affaires",
+    description: "20 % de commission · Sans engagement",
+    href: "/apporteurs",
+    internal: true,
+    featured: true,
   },
 ];
 
@@ -78,46 +72,6 @@ const SOCIALS = [
 ];
 
 const Links = () => {
-  const { toast } = useToast();
-
-  /**
-   * Copie l'email dans le presse-papier puis tente d'ouvrir le client mail.
-   * On évite target="_blank" qui ouvrait un onglet vide chez les utilisateurs
-   * sans client mail configuré (Gmail web, Outlook web, etc.).
-   * - Si client mail dispo : `window.location.href = mailto:` l'ouvre, la page reste
-   * - Sinon : rien ne se passe visuellement (pas d'onglet vide)
-   * Dans tous les cas, l'email est déjà dans le presse-papier et le toast confirme.
-   */
-  const handleCopyEmail = async () => {
-    try {
-      await navigator.clipboard.writeText(EMAIL);
-      toast({
-        title: "Email copié !",
-        description: EMAIL,
-      });
-    } catch {
-      toast({
-        title: "Impossible de copier",
-        description: EMAIL,
-        variant: "destructive",
-      });
-    }
-    // Léger délai pour que le toast s'affiche avant la tentative de navigation
-    setTimeout(() => {
-      window.location.href = `mailto:${EMAIL}`;
-    }, 200);
-  };
-
-  const LINKS: LinkItem[] = [
-    ...STATIC_LINKS,
-    {
-      icon: "✉️",
-      title: "Copier mon adresse email",
-      description: EMAIL,
-      onClick: handleCopyEmail,
-    },
-  ];
-
   return (
     <div className="min-h-screen relative" style={{ backgroundColor: "#0a0f1e" }}>
       <SEO
@@ -372,22 +326,8 @@ const LinkCard = ({ item }: { item: LinkItem }) => {
 
   const className = `links-card ${item.featured ? "links-card--featured" : ""}`;
 
-  // Cas 1 : bouton d'action (ex: copier email). Pas d'href, juste un handler.
-  if (item.onClick) {
-    return (
-      <button
-        type="button"
-        onClick={item.onClick}
-        className={className}
-        aria-label={item.title}
-      >
-        {content}
-      </button>
-    );
-  }
-
-  // Cas 2 : navigation interne (React Router)
-  if (item.internal && item.href) {
+  // Navigation interne (React Router)
+  if (item.internal) {
     return (
       <Link to={item.href} className={className} aria-label={item.title}>
         {content}
@@ -395,7 +335,7 @@ const LinkCard = ({ item }: { item: LinkItem }) => {
     );
   }
 
-  // Cas 3 : lien externe (nouvel onglet)
+  // Lien externe (nouvel onglet)
   return (
     <a
       href={item.href}
