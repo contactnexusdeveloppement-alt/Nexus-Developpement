@@ -3,7 +3,7 @@ import { ArrowUpRight, ArrowLeft } from "lucide-react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { projects, Project } from "@/data/projects";
+import { projects, ctaProject, Project } from "@/data/projects";
 import { Button } from "@/components/ui/button";
 import SEO from "@/components/SEO";
 import { breadcrumbSchema } from "@/lib/schemas";
@@ -206,7 +206,7 @@ const ProjectsCatalog = () => {
                     className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
                     style={{ perspective: "1000px" }}
                 >
-                    {projects.map((project, index) => (
+                    {[...projects, ctaProject].map((project, index) => (
                         <CatalogProjectCard key={index} project={project} index={index} />
                     ))}
                 </div>

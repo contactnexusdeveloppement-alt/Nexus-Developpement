@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { useEffect, useRef, useState } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { projects, Project } from "@/data/projects";
+import { projects, ctaProject, Project } from "@/data/projects";
 
 const ProjectCard = ({ project, index }: { project: Project; index: number }) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -159,12 +159,14 @@ const Portfolio = () => {
           </p>
         </motion.div>
 
-        {/* Project Grid with Perspective */}
+        {/* Project Grid with Perspective.
+            On affiche les 5 premiers projets + la card CTA en 6ème position
+            (la CTA ferme la grille pour pousser au contact). */}
         <div
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto"
           style={{ perspective: "1000px" }}
         >
-          {projects.slice(0, 6).map((project, index) => (
+          {[...projects.slice(0, 5), ctaProject].map((project, index) => (
             <ProjectCard key={index} project={project} index={index} />
           ))}
         </div>

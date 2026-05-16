@@ -82,16 +82,21 @@ export const projects: Project[] = [
         category: "Site Vitrine",
         altText: "Agence immobilière de prestige",
     },
-
-    // --- CTA en fin de portfolio ----------------------------------------
-    {
-        title: "Votre Futur Projet ?",
-        description:
-            "Vous avez une vision ambitieuse ? Transformons-la en réalité digitale. Cliquez ici pour démarrer votre projet avec nous.",
-        image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&fm=webp&fit=crop",
-        url: "#contact",
-        technologies: ["Innovation", "Performance", "Design"],
-        category: "Prochain Succès",
-        altText: "Concept abstrait technologique",
-    },
 ];
+
+/**
+ * Card d'appel à l'action affichée en fin de portfolio.
+ * - Sur la home (Portfolio) : insérée en 6ème position après les 5 premiers projets
+ * - Sur /catalogue (ProjectsCatalog) : ajoutée à la toute fin
+ * Sortie du tableau `projects` pour pouvoir la positionner différemment selon le contexte.
+ */
+export const ctaProject: Project = {
+    title: "Votre Futur Projet ?",
+    description:
+        "Vous avez une vision ambitieuse ? Transformons-la en réalité digitale. Cliquez ici pour démarrer votre projet avec nous.",
+    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&fm=webp&fit=crop",
+    url: "#contact",
+    technologies: ["Innovation", "Performance", "Design"],
+    category: "Prochain Succès",
+    altText: "Concept abstrait technologique",
+};
