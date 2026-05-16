@@ -9,9 +9,12 @@
  *
  * Le script :
  *   - resize en 1600×800 (ratio 2:1, calé sur celui des cards Portfolio
- *     qui font ~390x192 sur desktop ≈ 2.03). Évite tout crop latéral.
+ *     qui font ~390x192 sur desktop ≈ 2.03).
  *   - qualité WebP 85 (bon compromis poids/perception)
- *   - cover + position 'top' (garde la navbar du site, coupe le bas)
+ *   - cover + position 'left top' : ancre au coin haut-gauche, on garde
+ *     ainsi la navbar ET le texte du hero (souvent à gauche). Si la
+ *     source est plus large que 2.0, on coupe le côté droit uniquement
+ *     (au lieu de couper symétriquement comme avec 'top').
  *   - skip si le webp cible existe déjà (pour éviter d'écraser des manips manuelles)
  */
 import sharp from "sharp";
@@ -62,7 +65,7 @@ async function run() {
 
     try {
       await sharp(inputPath)
-        .resize({ width: 1600, height: 800, fit: "cover", position: "top" })
+        .resize({ width: 1600, height: 800, fit: "cover", position: "left top" })
         .webp({ quality: 85 })
         .toFile(outputPath);
 
