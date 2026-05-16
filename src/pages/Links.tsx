@@ -9,31 +9,43 @@ import logo from "@/assets/nexus-logo.webp";
  * Linktree custom pour les bios Instagram.
  * Volontairement sans Navigation ni Footer global : page focalisée 100 %
  * sur la redirection. Mobile-first (80 % du trafic vient d'Insta mobile).
+ *
+ * 3 niveaux visuels :
+ *   - 'hero'    : CTA principal (audit gratuit). Plus gros, gradient bleu/teal,
+ *                 glow intense, peut afficher un sous-texte promo.
+ *   - default   : CTA standard (voir réalisations, demander devis).
+ *   - 'compact' : CTA réduits (site, apporteur). Moins haut, font plus petite.
  */
 
 interface LinkItem {
-  icon: string; // emoji
+  icon: string;
   title: string;
-  description: string;
+  description?: string;
   href: string;
   /** True = <Link> React Router. False = <a target="_blank">. */
   internal: boolean;
-  featured?: boolean;
+  variant?: "hero" | "compact";
+  /** Bandeau promo affiché en bas de la card (variant hero uniquement). */
+  promo?: string;
 }
 
 const LINKS: LinkItem[] = [
+  // CTA principal — le plus visible
   {
-    icon: "🌐",
-    title: "Notre site",
-    description: "Découvre nos services & nos projets",
-    href: "/",
+    icon: "🎁",
+    title: "Audit gratuit · 15 min · 100% offert",
+    description: "Réservez votre créneau, on analyse votre projet ensemble.",
+    href: "/#reservation",
     internal: true,
+    variant: "hero",
+    promo: "🔥 Offre lancement -30% jusqu'au 15 sept",
   },
+  // CTA secondaires (standard)
   {
-    icon: "💎",
-    title: "Créer mon site internet",
-    description: "Vitrine, e-commerce, sur-mesure",
-    href: "/creation-site-web",
+    icon: "💼",
+    title: "Voir nos réalisations",
+    description: "Notre portfolio complet",
+    href: "/catalogue",
     internal: true,
   },
   {
@@ -43,13 +55,23 @@ const LINKS: LinkItem[] = [
     href: "/#devis",
     internal: true,
   },
+  // CTA tertiaire (compact)
+  {
+    icon: "🌐",
+    title: "Découvrir notre site",
+    description: "Tous nos services",
+    href: "/",
+    internal: true,
+    variant: "compact",
+  },
+  // En bas, format réduit, sans badge
   {
     icon: "🚀",
     title: "Devenir apporteur d'affaires",
     description: "20 % de commission · Sans engagement",
     href: "/apporteurs",
     internal: true,
-    featured: true,
+    variant: "compact",
   },
 ];
 
@@ -76,16 +98,14 @@ const Links = () => {
     <div className="min-h-screen relative" style={{ backgroundColor: "#0a0f1e" }}>
       <SEO
         title="Liens utiles · Nexus Développement"
-        description="Accède directement à notre programme apporteurs d'affaires, nos services et notre formulaire de contact."
+        description="Réservez votre audit gratuit, découvrez nos réalisations, demandez un devis ou rejoignez notre programme apporteur d'affaires."
         canonical="https://nexusdeveloppement.fr/links"
       />
 
-      {/* Fond animé canvas — pattern identique aux autres pages du site */}
       <div className="fixed inset-0 z-0" aria-hidden="true">
         <AnimatedBackground />
       </div>
 
-      {/* Skip link clavier */}
       <a
         href="#links-list"
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-blue-500 focus:text-white"
@@ -187,27 +207,25 @@ const Links = () => {
         </div>
       </main>
 
-      {/* Styles spécifiques à la page (hover/focus, reduced-motion) */}
+      {/* Styles spécifiques à la page */}
       <style>{`
+        /* === Base : commun à toutes les variantes ============================= */
         .links-card {
+          display: block;
+          width: 100%;
           background: rgba(15, 30, 54, 0.7);
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
           border: 1px solid rgba(74, 158, 255, 0.2);
           border-radius: 16px;
           padding: 18px 22px;
-          display: flex;
-          align-items: center;
-          gap: 16px;
           color: inherit;
           text-decoration: none;
           position: relative;
           transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
           will-change: transform;
-          /* Normalise le rendu entre <a> et <button> (le button a une font/align/width différents par défaut) */
           font: inherit;
           text-align: left;
-          width: 100%;
           cursor: pointer;
         }
         .links-card:hover,
@@ -222,7 +240,47 @@ const Links = () => {
           box-shadow: 0 0 0 2px rgba(74, 158, 255, 0.7),
                       0 8px 24px -8px rgba(74, 158, 255, 0.4);
         }
-        .links-card .links-arrow {
+
+        .links-card__row {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+        }
+        .links-card__icon {
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 44px;
+          height: 44px;
+          border-radius: 12px;
+          background-color: rgba(74, 158, 255, 0.08);
+          border: 1px solid rgba(74, 158, 255, 0.2);
+          font-size: 1.25rem;
+          line-height: 1;
+        }
+        .links-card__body {
+          flex: 1 1 0%;
+          min-width: 0;
+        }
+        .links-card__title {
+          display: block;
+          color: white;
+          font-weight: 700;
+          font-size: 15px;
+          line-height: 1.25;
+        }
+        .links-card__desc {
+          display: block;
+          font-size: 13px;
+          color: rgba(203, 213, 225, 0.8);
+          margin-top: 4px;
+        }
+        .links-arrow {
+          flex-shrink: 0;
+          width: 20px;
+          height: 20px;
+          color: rgb(147, 197, 253);
           transition: transform 0.22s ease;
         }
         .links-card:hover .links-arrow,
@@ -230,18 +288,75 @@ const Links = () => {
           transform: translateX(4px);
         }
 
-        .links-card--featured {
-          background: linear-gradient(135deg, rgba(74,158,255,0.18) 0%, rgba(45,212,191,0.10) 100%);
-          border: 1.5px solid rgba(74, 158, 255, 0.6);
-          box-shadow: 0 0 24px -4px rgba(74, 158, 255, 0.35),
-                      0 4px 16px -4px rgba(45, 212, 191, 0.15);
+        /* === Variant Hero (CTA principal) ===================================== */
+        .links-card--hero {
+          background: linear-gradient(135deg, rgba(74, 158, 255, 0.28) 0%, rgba(45, 212, 191, 0.12) 100%);
+          border: 1.5px solid rgba(74, 158, 255, 0.7);
+          padding: 24px 28px;
+          box-shadow: 0 0 36px -4px rgba(74, 158, 255, 0.4),
+                      0 4px 16px -4px rgba(45, 212, 191, 0.2);
         }
-        .links-card--featured:hover,
-        .links-card--featured:focus-visible {
-          box-shadow: 0 8px 32px -4px rgba(74, 158, 255, 0.5),
-                      0 0 40px -4px rgba(74, 158, 255, 0.35);
+        .links-card--hero:hover,
+        .links-card--hero:focus-visible {
+          box-shadow: 0 8px 40px -4px rgba(74, 158, 255, 0.55),
+                      0 0 48px -4px rgba(74, 158, 255, 0.4);
+        }
+        .links-card--hero .links-card__icon {
+          width: 56px;
+          height: 56px;
+          font-size: 1.75rem;
+          background-color: rgba(74, 158, 255, 0.2);
+          border-color: rgba(74, 158, 255, 0.5);
+        }
+        .links-card--hero .links-card__title {
+          font-size: 17px;
+          font-weight: 800;
+        }
+        .links-card--hero .links-card__desc {
+          font-size: 13px;
+          color: rgba(226, 232, 240, 0.85);
+        }
+        .links-card--hero .links-arrow {
+          width: 24px;
+          height: 24px;
         }
 
+        /* Bandeau promo (dans la card hero uniquement) */
+        .links-card__promo {
+          margin-top: 14px;
+          padding-top: 12px;
+          border-top: 1px solid rgba(74, 158, 255, 0.28);
+          font-size: 13px;
+          font-weight: 600;
+          color: rgb(94, 234, 212);
+          text-align: center;
+          letter-spacing: 0.01em;
+        }
+
+        /* === Variant Compact (réduit, en bas) ================================ */
+        .links-card--compact {
+          padding: 12px 18px;
+          background: rgba(15, 30, 54, 0.5);
+        }
+        .links-card--compact .links-card__icon {
+          width: 36px;
+          height: 36px;
+          font-size: 1rem;
+        }
+        .links-card--compact .links-card__title {
+          font-size: 13px;
+          font-weight: 600;
+        }
+        .links-card--compact .links-card__desc {
+          font-size: 11px;
+          margin-top: 2px;
+        }
+        .links-card--compact .links-arrow {
+          width: 16px;
+          height: 16px;
+        }
+
+        /* === Socials carrés ================================================== */
         .links-icon:hover,
         .links-icon:focus-visible {
           transform: translateY(-2px);
@@ -254,9 +369,10 @@ const Links = () => {
           box-shadow: 0 0 0 2px rgba(74, 158, 255, 0.7) !important;
         }
 
+        /* === Accessibilité : prefers-reduced-motion ========================== */
         @media (prefers-reduced-motion: reduce) {
           .links-card,
-          .links-card .links-arrow,
+          .links-arrow,
           .links-icon {
             transition: none !important;
           }
@@ -277,54 +393,26 @@ const Links = () => {
 };
 
 const LinkCard = ({ item }: { item: LinkItem }) => {
+  const variantClass = item.variant ? `links-card--${item.variant}` : "";
+  const className = `links-card ${variantClass}`.trim();
+
   const content = (
     <>
-      {/* Icône carrée 44×44 */}
-      <span
-        aria-hidden="true"
-        className="flex-shrink-0 flex items-center justify-center w-11 h-11 rounded-xl text-xl"
-        style={{
-          backgroundColor: item.featured ? "rgba(74,158,255,0.18)" : "rgba(74,158,255,0.08)",
-          border: "1px solid rgba(74,158,255,0.2)",
-        }}
-      >
-        {item.icon}
-      </span>
-
-      {/* Body */}
-      <span className="flex-1 min-w-0">
-        <span className="block font-bold text-white text-[15px] leading-tight">
-          {item.title}
+      <div className="links-card__row">
+        <span aria-hidden="true" className="links-card__icon">
+          {item.icon}
         </span>
-        <span className="block text-[13px] text-slate-300/80 mt-1 truncate">
-          {item.description}
+        <span className="links-card__body">
+          <span className="links-card__title">{item.title}</span>
+          {item.description && (
+            <span className="links-card__desc">{item.description}</span>
+          )}
         </span>
-      </span>
-
-      {/* Flèche */}
-      <ArrowRight
-        className="links-arrow flex-shrink-0 w-5 h-5 text-blue-300"
-        aria-hidden="true"
-      />
-
-      {/* Badge featured */}
-      {item.featured && (
-        <span
-          className="absolute -top-2 right-3 px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-wider rounded-full"
-          style={{
-            backgroundColor: "#2DD4BF",
-            color: "#042F2A",
-            boxShadow: "0 4px 12px -2px rgba(45, 212, 191, 0.45)",
-          }}
-          aria-label="Nouveau"
-        >
-          Nouveau
-        </span>
-      )}
+        <ArrowRight className="links-arrow" aria-hidden="true" />
+      </div>
+      {item.promo && <div className="links-card__promo">{item.promo}</div>}
     </>
   );
-
-  const className = `links-card ${item.featured ? "links-card--featured" : ""}`;
 
   // Navigation interne (React Router)
   if (item.internal) {
