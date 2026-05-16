@@ -14,7 +14,7 @@ export const projects: Project[] = [
         title: "Arno Polynice",
         description:
             "Conception complète d'un e-commerce pour une marque de vêtements sur mesure fait main. Catalogue produits, paiement sécurisé et tunnel de commande optimisé.",
-        image: "/projects/arno-polynice.webp?v=2",
+        image: "/projects/arno-polynice.webp?v=3",
         url: "https://www.arno-polynice.com/",
         technologies: ["React", "Shopify", "Resend"],
         category: "E-commerce",
@@ -24,7 +24,7 @@ export const projects: Project[] = [
         title: "Orient Relais",
         description:
             "Refonte premium d'un e-commerce de produits bio. Modernisation complète de l'expérience utilisateur, optimisation du tunnel d'achat et performance maximale.",
-        image: "/projects/orient-relais.webp?v=2",
+        image: "/projects/orient-relais.webp?v=3",
         url: "https://www.orient-relais.com/",
         technologies: ["React", "WooCommerce", "Stripe"],
         category: "E-commerce",
@@ -34,7 +34,7 @@ export const projects: Project[] = [
         title: "Bodystart Nutrition",
         description:
             "Boutique en ligne de compléments alimentaires, prolongement digital de la boutique physique. Catalogue, paiement et logistique synchronisés.",
-        image: "/projects/bodystart.webp?v=2",
+        image: "/projects/bodystart.webp?v=3",
         url: "https://bodystart.vercel.app/",
         technologies: ["React", "Shopify", "Resend"],
         category: "E-commerce",

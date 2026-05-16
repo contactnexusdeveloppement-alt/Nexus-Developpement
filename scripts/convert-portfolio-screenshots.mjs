@@ -8,13 +8,13 @@
  *   3. node scripts/convert-portfolio-screenshots.mjs
  *
  * Le script :
- *   - resize en 1600×800 (ratio 2:1, calé sur celui des cards Portfolio
- *     qui font ~390x192 sur desktop ≈ 2.03).
+ *   - resize en 1600×1000 (ratio 8:5 = 1.6, aligné avec les cards Portfolio
+ *     qui utilisent désormais `aspect-[8/5]`). Garantit zéro crop CSS dans
+ *     les cards : ce qu'on capture = ce qui s'affiche.
  *   - qualité WebP 85 (bon compromis poids/perception)
- *   - cover + position 'left top' : ancre au coin haut-gauche, on garde
- *     ainsi la navbar ET le texte du hero (souvent à gauche). Si la
- *     source est plus large que 2.0, on coupe le côté droit uniquement
- *     (au lieu de couper symétriquement comme avec 'top').
+ *   - cover + position 'top' : si la source est plus large que 1.6 (ex:
+ *     screenshot 16:9 brut), on coupe le bas; le haut (navbar + hero)
+ *     reste intact.
  *   - skip si le webp cible existe déjà (pour éviter d'écraser des manips manuelles)
  */
 import sharp from "sharp";
@@ -65,7 +65,7 @@ async function run() {
 
     try {
       await sharp(inputPath)
-        .resize({ width: 1600, height: 800, fit: "cover", position: "left top" })
+        .resize({ width: 1600, height: 1000, fit: "cover", position: "top" })
         .webp({ quality: 85 })
         .toFile(outputPath);
 

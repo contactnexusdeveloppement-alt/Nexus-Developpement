@@ -72,8 +72,9 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
         className="relative h-full min-h-[420px] rounded-xl bg-gray-900/40 border border-white/10 backdrop-blur-sm overflow-hidden flex flex-col transition-shadow duration-300 group-hover:shadow-[0_20px_50px_rgba(8,112,184,0.3)]"
         style={{ transform: "translateZ(0)" }}
       >
-        {/* Image Section */}
-        <div className="relative h-48 overflow-hidden transform transition-transform duration-300" style={{ transform: "translateZ(30px)" }}>
+        {/* Image Section — aspect-[8/5] = ratio 1.6 (cohérent avec les
+            captures clients en 800×500 qu'on affiche sans crop CSS) */}
+        <div className="relative aspect-[8/5] overflow-hidden transform transition-transform duration-300" style={{ transform: "translateZ(30px)" }}>
           <div className="absolute top-4 right-4 z-20">
             <Badge className="bg-black/50 text-cyan-300 border border-cyan-500/50 backdrop-blur-md">
               {project.category}
