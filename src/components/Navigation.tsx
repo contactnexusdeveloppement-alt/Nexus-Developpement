@@ -127,7 +127,7 @@ const Navigation = () => {
 
                   <NavigationMenuItem>
                     <NavigationMenuTrigger className="bg-transparent text-white hover:bg-white/5 hover:text-blue-300 focus:bg-white/5 focus:text-blue-300 px-4 py-2 rounded-md transition-all duration-300 text-sm md:text-base font-medium data-[state=open]:bg-white/5">
-                      Agences locales
+                      Zones d'intervention
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
                       <ul className="grid w-[400px] gap-2 p-4 md:w-[500px] md:grid-cols-2 bg-[#0A0F1E]/95 backdrop-blur-xl border border-blue-500/30 rounded-xl shadow-[0_0_30px_rgba(0,0,0,0.5)]">
@@ -202,7 +202,7 @@ const Navigation = () => {
 
             <div className="h-px bg-gradient-to-r from-transparent via-blue-500/20 to-transparent my-4"></div>
 
-            <div className="font-bold text-blue-400 px-4 py-3 text-sm tracking-wider uppercase opacity-80">Agences locales</div>
+            <div className="font-bold text-blue-400 px-4 py-3 text-sm tracking-wider uppercase opacity-80">Zones d'intervention</div>
             {LOCAL_CITIES.map((city) => (
               <Link
                 key={city.slug}

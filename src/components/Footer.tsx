@@ -125,7 +125,7 @@ const Footer = () => {
         {/* Maillage SEO local */}
         <div className="pt-6 pb-4 border-t border-slate-800/50">
           <p className="text-slate-400 text-xs uppercase tracking-wider mb-3 text-center">
-            Notre agence dans les Yvelines
+            Nos zones d'intervention en Yvelines
           </p>
           <div className="flex flex-wrap justify-center gap-x-3 gap-y-2 text-xs">
             {LOCAL_CITIES.map((city) => (
