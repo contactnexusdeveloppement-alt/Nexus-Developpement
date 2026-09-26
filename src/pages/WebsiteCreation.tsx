@@ -71,7 +71,7 @@ const WebsiteCreation = () => {
         schemas={[
           serviceSchema({
             name: "Création de site web TPE/PME",
-            description: "Sites vitrines responsive, performants et optimisés SEO. Design sur-mesure, intégration React/Tailwind, score PageSpeed 95+, livraison sous 2 à 4 semaines.",
+            description: "Sites vitrines responsive, performants et optimisés SEO. Design sur-mesure, intégration React/Tailwind, optimisation Core Web Vitals, livraison sous 2 à 4 semaines.",
             url: "/creation-site-web",
             serviceType: "Web Development",
             areaServed: ["Yvelines", "Île-de-France", "France"],
@@ -159,7 +159,7 @@ const WebsiteCreation = () => {
                   <div className="space-y-6">
                     {[
                       { icon: CheckCircle, title: "Design Unique", text: "Une identité visuelle qui vous ressemble, pas de templates génériques." },
-                      { icon: Zap, title: "Performance Maximale", text: "Score Google PageSpeed 95+, chargement instantané." },
+                      { icon: Zap, title: "Performance Maximale", text: "Optimisé pour les Core Web Vitals de Google, chargement rapide." },
                       { icon: Smartphone, title: "100% Mobile", text: "Une expérience parfaite sur smartphones et tablettes." },
                       { icon: Search, title: "SEO Friendly", text: "Structure optimisée pour plaire aux moteurs de recherche." }
                     ].map((item, i) => (
@@ -224,7 +224,7 @@ const WebsiteCreation = () => {
 
             <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
               {pricingPlans.map((plan, index) => (
-                <PricingCard key={index} plan={plan} index={index} />
+                <PricingCard key={index} plan={plan} categoryId="sites" index={index} />
               ))}
             </div>
           </div>
@@ -248,7 +248,7 @@ const WebsiteCreation = () => {
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-5 h-5 text-cyan-400 mt-1 flex-shrink-0" />
-                <span><strong>Performance garantie</strong> : Score Google PageSpeed 95+ sur tous nos projets</span>
+                <span><strong>Performance</strong> : sites optimisés pour les Core Web Vitals de Google (vitesse, stabilité, réactivité)</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-5 h-5 text-cyan-400 mt-1 flex-shrink-0" />

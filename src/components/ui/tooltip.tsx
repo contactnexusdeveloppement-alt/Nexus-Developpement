@@ -31,7 +31,7 @@ const TooltipTrigger = React.forwardRef<
   // For simplicity, we just wrap it in a span if not asChild, or cloneElement if it behaves.
   // Actually, standard div wrapper in Tooltip handles hover. 
   return (
-    <span ref={ref as any} className={cn("cursor-pointer", className)} {...props}>
+    <span ref={ref as React.Ref<HTMLSpanElement>} className={cn("cursor-pointer", className)} {...props}>
       {children}
     </span>
   );
@@ -40,8 +40,8 @@ TooltipTrigger.displayName = "TooltipTrigger";
 
 const TooltipContent = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, sideOffset = 4, ...props }, ref) => {
+  React.HTMLAttributes<HTMLDivElement> & { sideOffset?: number }
+>(({ className, sideOffset: _sideOffset = 4, ...props }, ref) => {
   const context = React.useContext(TooltipContext);
   if (!context?.open) return null;
 

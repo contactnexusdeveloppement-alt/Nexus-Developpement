@@ -43,14 +43,15 @@ const CookiePolicy = () => {
       content: (
         <div className="space-y-3 text-slate-300 text-sm leading-relaxed">
           <p>
-            Ces cookies sont indispensables au bon fonctionnement du site (session d'authentification,
-            mémorisation du choix de cookies, sécurité). Ils sont exemptés de consentement et ne peuvent
-            être désactivés sans empêcher l'utilisation normale du site.
+            Le site ne dépose actuellement aucun cookie propre, même technique : il n'y a ni espace
+            client ni session à maintenir. Les formulaires (demande de devis, réservation d'appel,
+            candidature apporteur) transmettent vos informations par email sans déposer de cookie.
           </p>
-          <ul className="list-disc list-inside space-y-1 ml-2">
-            <li><strong className="text-white">sb-* (Supabase)</strong> — session d'authentification, durée de 1 an ;</li>
-            <li><strong className="text-white">cookie_consent</strong> — mémorisation de votre choix, durée de 6 mois.</li>
-          </ul>
+          <p>
+            Si un cookie strictement nécessaire devait être introduit (sécurité, protection anti-spam
+            d'un formulaire), il serait exempté de consentement conformément à l'article 82 de la loi
+            Informatique et Libertés, et cette page serait mise à jour.
+          </p>
         </div>
       ),
     },
@@ -60,14 +61,14 @@ const CookiePolicy = () => {
       content: (
         <div className="space-y-3 text-slate-300 text-sm leading-relaxed">
           <p>
-            Ces cookies nous permettent de mesurer la fréquentation du site et d'améliorer son contenu.
-            Ils ne sont déposés qu'après votre consentement explicite, sauf si nous utilisons une solution
-            exemptée par la CNIL (statistiques anonymes, durée de vie ≤ 13 mois, pas de croisement de
-            données).
+            Aucun outil de mesure d'audience n'est déployé sur le site à ce jour.
           </p>
-          <ul className="list-disc list-inside space-y-1 ml-2">
-            <li>Statistiques de visite : pages consultées, temps passé, parcours (durée ≤ 13 mois).</li>
-          </ul>
+          <p>
+            Si une solution était mise en place, elle serait soit exemptée de consentement au sens
+            des recommandations de la CNIL (statistiques anonymes, durée de vie ≤ 13 mois, pas de
+            croisement de données), soit conditionnée à votre consentement préalable, recueilli par un
+            bandeau proposant « Accepter » et « Refuser » au même niveau.
+          </p>
         </div>
       ),
     },
@@ -94,10 +95,9 @@ const CookiePolicy = () => {
       content: (
         <div className="space-y-3 text-slate-300 text-sm leading-relaxed">
           <p>
-            Lors de votre première visite, un bandeau vous permet d'accepter, de refuser ou de personnaliser
-            le dépôt des cookies soumis à consentement. Vous pouvez modifier votre choix à tout moment
-            en vidant les cookies de votre navigateur et en rechargeant la page, ou via le lien dédié
-            en pied de page du site.
+            Le site n'affiche pas de bandeau de consentement : aucun cookie soumis à consentement n'est
+            déposé. Si cela devait changer, un bandeau conforme aux recommandations de la CNIL serait mis
+            en place avant tout dépôt, avec la possibilité de refuser aussi simplement que d'accepter.
           </p>
           <p>
             Vous pouvez également configurer votre navigateur pour bloquer ou supprimer les cookies.

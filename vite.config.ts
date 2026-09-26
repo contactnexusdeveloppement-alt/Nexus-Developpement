@@ -1,4 +1,4 @@
-import { defineConfig } from "vite";
+import { defineConfig, type PluginOption, type UserConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 
@@ -37,8 +37,8 @@ const ROUTES_TO_PRERENDER = [
   "/agence-web-maurepas",
 ];
 
-export default defineConfig(async ({ mode }) => {
-  const plugins: any[] = [react()];
+export default defineConfig(async ({ mode }): Promise<UserConfig> => {
+  const plugins: PluginOption[] = [react()];
 
   if (PRERENDER) {
     const { default: prerender } = await import("@prerenderer/rollup-plugin");
@@ -67,14 +67,16 @@ export default defineConfig(async ({ mode }) => {
       },
     },
     publicDir: "public",
+    // Option de premier niveau : sous `build`, elle était ignorée par Vite
+    // et les console.log partaient en production.
+    esbuild: {
+      drop: mode === "production" ? ["console", "debugger"] : [],
+    },
     build: {
       outDir: "dist",
       assetsDir: "assets",
       copyPublicDir: true,
       minify: "esbuild",
-      esbuild: {
-        drop: mode === "production" ? ["console", "debugger"] : [],
-      },
       rollupOptions: {
         output: {
           manualChunks: {

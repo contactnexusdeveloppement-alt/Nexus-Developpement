@@ -95,12 +95,12 @@ const Navigation = () => {
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-6">
+            <div className="hidden lg:flex items-center gap-4 xl:gap-6">
 
               <NavigationMenu>
                 <NavigationMenuList>
                   <NavigationMenuItem>
-                    <NavigationMenuTrigger className="bg-transparent text-white hover:bg-white/5 hover:text-blue-300 focus:bg-white/5 focus:text-blue-300 px-4 py-2 rounded-md transition-all duration-300 text-sm md:text-base font-medium data-[state=open]:bg-white/5">
+                    <NavigationMenuTrigger className="bg-transparent text-white hover:bg-white/5 hover:text-blue-300 focus:bg-white/5 focus:text-blue-300 px-3 xl:px-4 py-2 rounded-md transition-all duration-300 text-sm xl:text-base font-medium data-[state=open]:bg-white/5">
                       Services
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
@@ -127,25 +127,25 @@ const Navigation = () => {
                 </NavigationMenuList>
               </NavigationMenu>
 
-              <Link to="/catalogue" className="bg-transparent text-white hover:bg-white/5 hover:text-blue-300 focus:bg-white/5 focus:text-blue-300 px-4 py-2 rounded-md transition-all duration-300 text-sm md:text-base font-medium">
+              <Link to="/catalogue" className="bg-transparent text-white hover:bg-white/5 hover:text-blue-300 focus:bg-white/5 focus:text-blue-300 px-3 xl:px-4 py-2 rounded-md transition-all duration-300 text-sm xl:text-base font-medium">
                 Portfolio
               </Link>
-              <button onClick={() => scrollToSection("tarifs")} className="bg-transparent text-white hover:bg-white/5 hover:text-blue-300 focus:bg-white/5 focus:text-blue-300 px-4 py-2 rounded-md transition-all duration-300 text-sm md:text-base font-medium">
+              <button onClick={() => scrollToSection("tarifs")} className="bg-transparent text-white hover:bg-white/5 hover:text-blue-300 focus:bg-white/5 focus:text-blue-300 px-3 xl:px-4 py-2 rounded-md transition-all duration-300 text-sm xl:text-base font-medium">
                 Tarifs
               </button>
-              <button onClick={() => scrollToSection("reservation")} className="bg-transparent text-white hover:bg-white/5 hover:text-blue-300 focus:bg-white/5 focus:text-blue-300 px-4 py-2 rounded-md transition-all duration-300 text-sm md:text-base font-medium">
+              <button onClick={() => scrollToSection("reservation")} className="bg-transparent text-white hover:bg-white/5 hover:text-blue-300 focus:bg-white/5 focus:text-blue-300 px-3 xl:px-4 py-2 rounded-md transition-all duration-300 text-sm xl:text-base font-medium">
                 Réserver
               </button>
-              <button onClick={() => scrollToSection("contact")} className="bg-transparent text-white hover:bg-white/5 hover:text-blue-300 focus:bg-white/5 focus:text-blue-300 px-4 py-2 rounded-md transition-all duration-300 text-sm md:text-base font-medium">
+              <button onClick={() => scrollToSection("contact")} className="bg-transparent text-white hover:bg-white/5 hover:text-blue-300 focus:bg-white/5 focus:text-blue-300 px-3 xl:px-4 py-2 rounded-md transition-all duration-300 text-sm xl:text-base font-medium">
                 Contact
               </button>
-              <Link to="/equipe" className="bg-transparent text-white hover:bg-white/5 hover:text-blue-300 focus:bg-white/5 focus:text-blue-300 px-4 py-2 rounded-md transition-all duration-300 text-sm md:text-base font-medium">
+              <Link to="/equipe" className="bg-transparent text-white hover:bg-white/5 hover:text-blue-300 focus:bg-white/5 focus:text-blue-300 px-3 xl:px-4 py-2 rounded-md transition-all duration-300 text-sm xl:text-base font-medium">
                 Notre Équipe
               </Link>
 
               <Button
                 onClick={() => scrollToSection('devis')}
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold px-6 py-2 rounded-full shadow-[0_0_20px_rgba(59,130,246,0.5)] hover:shadow-[0_0_30px_rgba(59,130,246,0.7)] transition-all duration-300 transform hover:scale-105 border border-blue-400/30"
+                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold px-5 xl:px-6 py-2 rounded-full shadow-[0_0_20px_rgba(59,130,246,0.5)] hover:shadow-[0_0_30px_rgba(59,130,246,0.7)] transition-all duration-300 transform hover:scale-105 border border-blue-400/30"
               >
                 Demander un devis
               </Button>
@@ -153,7 +153,7 @@ const Navigation = () => {
 
             {/* Mobile Menu Button */}
             <button
-              className="md:hidden text-white p-2 rounded-lg hover:bg-white/10 transition-colors"
+              className="lg:hidden text-white p-2 rounded-lg hover:bg-white/10 transition-colors"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label={isMobileMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
             >
@@ -165,7 +165,7 @@ const Navigation = () => {
 
       {/* Mobile Menu (Moved outside nav to avoid backdrop-filter issues) */}
       {isMobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 z-40 bg-slate-950/95 backdrop-blur-xl border-t border-blue-500/20 pt-20 overflow-y-auto animate-in slide-in-from-top-5 duration-300">
+        <div className="lg:hidden fixed inset-0 z-40 bg-slate-950/95 backdrop-blur-xl border-t border-blue-500/20 pt-20 overflow-y-auto animate-in slide-in-from-top-5 duration-300">
           <div className="flex flex-col gap-2 p-4">
             <div className="font-bold text-blue-400 px-4 py-3 text-sm tracking-wider uppercase opacity-80">Nos Services</div>
             <Link to="/creation-site-web" className="px-4 py-3 text-white hover:bg-blue-500/10 hover:text-blue-300 rounded-lg transition-colors flex items-center justify-between group" onClick={() => setIsMobileMenuOpen(false)}>

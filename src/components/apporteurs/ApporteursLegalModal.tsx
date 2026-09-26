@@ -7,14 +7,12 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 const ApporteursLegalModal = () => {
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <button
-          type="button"
-          className="text-xs underline-offset-4 hover:underline focus:outline-none focus-visible:underline"
-          style={{ color: "var(--ned-silver)" }}
-        >
-          Mentions légales du programme
-        </button>
+      <DialogTrigger
+        type="button"
+        className="text-xs underline-offset-4 hover:underline focus:outline-none focus-visible:underline"
+        style={{ color: "var(--ned-silver)" }}
+      >
+        Mentions légales du programme
       </DialogTrigger>
       <DialogContent
         className="max-w-2xl"

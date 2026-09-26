@@ -4,7 +4,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Suspense, lazy } from "react";
-import CookieConsent from "./components/CookieConsent";
 import ScrollToTop from "./components/ScrollToTop";
 import { LOCAL_CITIES } from "./data/localCities";
 
@@ -83,7 +82,6 @@ const App = () => (
           </Routes>
         </Suspense>
         <ScrollToTop />
-        <CookieConsent />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

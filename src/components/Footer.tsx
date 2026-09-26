@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import logo from "@/assets/nexus-logo.webp";
-import { Facebook, Twitter, Instagram, Linkedin, Send, ArrowRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { Facebook, Instagram } from "lucide-react";
 import { LOCAL_CITIES } from "@/data/localCities";
 
 const Footer = () => {
@@ -11,7 +10,7 @@ const Footer = () => {
       <div className="absolute bottom-0 left-0 right-0 h-[500px] bg-gradient-to-t from-blue-900/10 to-transparent pointer-events-none" />
 
       <div className="container mx-auto px-4 relative z-10">
-        <div className="grid md:grid-cols-4 gap-12 mb-16">
+        <div className="grid md:grid-cols-3 gap-12 mb-16">
           {/* Brand Column */}
           <div className="md:col-span-1">
             <Link to="/" className="flex items-center gap-3 mb-6 group">
@@ -49,19 +48,20 @@ const Footer = () => {
             <h3 className="font-bold text-white mb-6 text-lg">Services</h3>
             <ul className="space-y-4">
               {[
-                { label: "Création de sites", href: "#services" },
-                { label: "Applications Web", href: "#services" },
-                { label: "Automatisation", href: "#services" },
-                { label: "Consulting", href: "#services" }
-              ].map((link, index) => (
-                <li key={index}>
-                  <a
-                    href={link.href}
+                { label: "Création de sites", to: "/creation-site-web" },
+                { label: "Applications Web", to: "/applications-web" },
+                { label: "Applications Mobiles", to: "/applications-mobiles" },
+                { label: "Automatisation", to: "/automatisation" },
+                { label: "Identité Visuelle", to: "/identite-visuelle" }
+              ].map((link) => (
+                <li key={link.to}>
+                  <Link
+                    to={link.to}
                     className="text-slate-400 hover:text-blue-400 text-sm flex items-center gap-2 group transition-colors"
                   >
                     <span className="w-1.5 h-1.5 rounded-full bg-blue-500/0 group-hover:bg-blue-400 transition-colors" />
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -97,29 +97,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Newsletter */}
-          <div>
-            <h3 className="font-bold text-white mb-6 text-lg">Newsletter</h3>
-            <p className="text-slate-400 text-sm mb-4">
-              L'actualité du digital et nos conseils tech directement dans votre boîte mail.
-            </p>
-            <div className="relative group">
-              <input
-                type="email"
-                placeholder="Votre email..."
-                className="w-full bg-slate-900 border border-blue-500/20 rounded-xl py-3 px-4 text-slate-300 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all pr-12"
-              />
-              <button
-                className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white hover:bg-blue-500 transition-colors"
-                aria-label="S'inscrire"
-              >
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-            <p className="text-xs text-slate-500 mt-3">
-              En vous inscrivant, vous acceptez notre politique de confidentialité.
-            </p>
-          </div>
         </div>
 
         {/* Maillage SEO local */}

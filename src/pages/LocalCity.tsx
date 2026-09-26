@@ -39,7 +39,7 @@ const LocalCity = ({ slug }: LocalCityProps) => {
     {
       icon: Globe,
       title: "Création de site web",
-      description: `Sites vitrines modernes pour les TPE et PME de ${city.name}. Design responsive, score PageSpeed 95+, livraison sous 2 à 4 semaines.`,
+      description: `Sites vitrines modernes pour les TPE et PME de ${city.name}. Design responsive, optimisation Core Web Vitals, livraison sous 2 à 4 semaines.`,
       href: "/creation-site-web",
       from: "à partir de 950€",
     },

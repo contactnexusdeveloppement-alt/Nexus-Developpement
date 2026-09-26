@@ -5,25 +5,6 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import SEO from '@/components/SEO';
 import { breadcrumbSchema, serviceSchema } from '@/lib/schemas';
 
-// Fonts Google specifiques au theme Concession (Montserrat + Outfit) injectees
-// dynamiquement uniquement sur cette page pour ne pas alourdir le reste du site.
-const useConcessionFonts = () => {
-    useEffect(() => {
-        const links = [
-            { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-            { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
-            { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Outfit:wght@300;400;600&display=swap' },
-        ];
-        const created = links.map((attrs) => {
-            const el = document.createElement('link');
-            Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v as string));
-            document.head.appendChild(el);
-            return el;
-        });
-        return () => created.forEach((el) => el.remove());
-    }, []);
-};
-
 // Mock Data for Cars
 const cars = [
     {
@@ -149,7 +130,6 @@ const cars = [
 ];
 
 const Concession = () => {
-    useConcessionFonts();
     const [filter, setFilter] = useState('all');
 
     // Embla Carousel setup
