@@ -168,10 +168,10 @@ const Ecommerce = () => {
               <Card className="relative bg-slate-900/40 border-white/10 backdrop-blur-xl overflow-hidden group hover:border-blue-500/30 transition-colors duration-500">
                 <div className="absolute top-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 <CardContent className="p-10 space-y-8">
-                  <h3 className="text-2xl font-bold text-white flex items-center gap-3">
+                  <h2 className="text-2xl font-bold text-white flex items-center gap-3">
                     <Package className="w-6 h-6 text-blue-400" />
                     Ce que comprend votre boutique
-                  </h3>
+                  </h2>
                   <div className="space-y-6">
                     {[
                       { icon: CheckCircle, title: "Plateforme adaptée à votre volume", text: "Shopify en thème ou en headless, WooCommerce si vous êtes déjà sur WordPress, sur-mesure pour les règles métier particulières." },
@@ -184,7 +184,7 @@ const Ecommerce = () => {
                           <item.icon className="w-8 h-8 text-cyan-500/80 group-hover/item:text-cyan-400 transition-colors" />
                         </div>
                         <div>
-                          <h4 className="text-lg font-semibold text-white mb-1 group-hover/item:translate-x-1 transition-transform">{item.title}</h4>
+                          <h3 className="text-lg font-semibold text-white mb-1 group-hover/item:translate-x-1 transition-transform">{item.title}</h3>
                           <p className="text-blue-200/60 text-sm leading-relaxed">{item.text}</p>
                         </div>
                       </div>

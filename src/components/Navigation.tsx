@@ -56,7 +56,6 @@ const Navigation = () => {
               to="/"
               className="flex items-center gap-3 cursor-pointer group"
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              aria-label="Retour en haut de page"
             >
               <img
                 src={logo}

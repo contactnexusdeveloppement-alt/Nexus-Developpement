@@ -234,7 +234,7 @@ const Portfolio = () => {
           transition={{ delay: 0.5 }}
           className="text-center mt-20"
         >
-          <p className="text-gray-500 font-medium">
+          <p className="text-gray-400 font-medium">
             Retrouvez l'ensemble de nos réalisations et démos.
             <Link
               to="/catalogue"

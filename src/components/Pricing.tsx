@@ -57,7 +57,7 @@ const Pricing = () => {
                 onClick={() => setActiveCategory(category.id)}
                 className={`group relative px-2 py-2 text-sm md:text-base font-medium transition-colors duration-300 flex-shrink-0 snap-center ${activeCategory === category.id
                   ? "text-white"
-                  : "text-gray-500 hover:text-gray-300"
+                  : "text-gray-400 hover:text-gray-200"
                   }`}
               >
                 <div className="flex items-center gap-2">
@@ -105,7 +105,7 @@ const Pricing = () => {
           </AnimatePresence>
         </div>
 
-        <p className="text-center text-sm text-gray-500 mt-8">
+        <p className="text-center text-sm text-gray-400 mt-8">
           Prix indiqués hors taxes (HT), TVA de 20 % en sus.
         </p>
 
