@@ -13,7 +13,7 @@ const AgenceImmobiliere = () => {
         <div className="min-h-screen bg-white">
             <SEO
                 title="Démo : Site Web pour Agence Immobilière | Nexus Développement"
-                description="Découvrez une démo de site web professionnel pour agence immobilière : catalogue de biens, fiches détaillées, recherche avancée, formulaires de contact. Création sur-mesure par Nexus Développement Élancourt."
+                description="Démo de site pour agence immobilière : catalogue de biens, fiches détaillées, recherche avancée, contact. Réalisée par Nexus Développement, Élancourt (78)."
                 type="website"
                 canonical="/agence-immobiliere"
                 schemas={[

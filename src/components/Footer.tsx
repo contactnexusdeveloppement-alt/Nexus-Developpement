@@ -49,6 +49,7 @@ const Footer = () => {
             <ul className="space-y-4">
               {[
                 { label: "Création de sites", to: "/creation-site-web" },
+                { label: "Sites e-commerce", to: "/e-commerce" },
                 { label: "Applications Web", to: "/applications-web" },
                 { label: "Applications Mobiles", to: "/applications-mobiles" },
                 { label: "Automatisation", to: "/automatisation" },
@@ -111,7 +112,7 @@ const Footer = () => {
                 to={`/${city.slug}`}
                 className="text-slate-500 hover:text-blue-400 transition-colors"
               >
-                Agence web {city.name}
+                {`Agence web ${city.name}`}
               </Link>
             ))}
           </div>
@@ -127,7 +128,8 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500">
-          <p>&copy; {new Date().getFullYear()} Nexus Développement. Tous droits réservés.</p>
+          {/* Un seul nœud texte : des nœuds adjacents (« © », année, texte) sont fusionnés par le pré-rendu et cassent l'hydratation */}
+          <p>{`© ${new Date().getFullYear()} Nexus Développement. Tous droits réservés.`}</p>
           <div className="flex flex-wrap justify-center gap-4 md:gap-6">
             <Link to="/mentions-legales" className="hover:text-blue-400 transition-colors">Mentions légales</Link>
             <Link to="/confidentialite" className="hover:text-blue-400 transition-colors">Confidentialité</Link>

@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { intro } from "@/lib/motion";
 import { ArrowUpRight, ArrowLeft, ExternalLink } from "lucide-react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useId, useRef } from "react";
@@ -107,7 +108,7 @@ const CatalogProjectCard = ({ project, index }: { project: Project; index: numbe
     return (
         <motion.div
             ref={ref}
-            initial={{ opacity: 0, y: 50 }}
+            initial={intro({ opacity: 0, y: 50 })}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
             onMouseMove={handleMouseMove}
@@ -213,7 +214,7 @@ const ProjectsCatalog = () => {
         <div className="min-h-screen bg-black text-white relative overflow-hidden pt-20 pb-20">
             <SEO
                 title="Nos Réalisations & Démos | Nexus Développement"
-                description="Découvrez le catalogue des réalisations Nexus Développement : sites vitrines, applications, démos sectorielles (salon, restaurant, immobilier, concession). React, TypeScript, design moderne."
+                description="Réalisations et démos de Nexus Développement : boutiques en ligne clients et démos sectorielles (salon, restaurant, immobilier, concession). React et TypeScript."
                 type="website"
                 canonical="/catalogue"
                 schemas={[

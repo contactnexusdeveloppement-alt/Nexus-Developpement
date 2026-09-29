@@ -26,7 +26,7 @@ const SITE_URL = "https://nexusdeveloppement.fr";
 const SEO = ({
     title = "Nexus - Agence de Développement Tech",
     description = "Experts en création de sites web, applications mobiles et automatisation. Propulsez votre entreprise avec nos solutions digitales sur-mesure.",
-    image = "/og-image.png",
+    image = "/og-image.jpg",
     type = "website",
     canonical,
     schemas = [],

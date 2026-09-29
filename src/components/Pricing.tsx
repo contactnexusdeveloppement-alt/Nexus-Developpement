@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { intro } from "@/lib/motion";
 import { pricingData } from "@/data/pricingData";
 import PricingCard from "@/components/PricingCard";
 import { motion, AnimatePresence } from "framer-motion";
@@ -86,7 +87,7 @@ const Pricing = () => {
           <AnimatePresence mode="wait">
             <motion.div
               key={activeCategory}
-              initial={{ opacity: 0, x: 20 }}
+              initial={intro({ opacity: 0, x: 20 })}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.3 }}

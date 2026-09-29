@@ -1,4 +1,5 @@
 import MagneticButton from "@/components/MagneticButton";
+import { intro } from "@/lib/motion";
 import { useTypewriter } from "@/hooks/useTypewriter";
 import { scrollToId } from "@/components/HashScroll";
 import { motion } from "framer-motion";
@@ -36,7 +37,7 @@ const Hero = () => {
 
       <div className="relative z-10 container mx-auto px-4 text-center">
         <motion.div
-          initial={{ opacity: 0, y: isMobile ? 15 : 30 }}
+          initial={intro({ opacity: 0, y: isMobile ? 15 : 30 })}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: isMobile ? 0.4 : 0.8 }}
         >

@@ -71,6 +71,7 @@ Maintenance et hébergement : à partir de 50 €/mois selon le pack.
 
 ### Pages de service
 - /creation-site-web — Création de sites web professionnels (Essential 950 €, Business 1 850 €, Premium 4 000 €).
+- /e-commerce — Création de boutiques en ligne (Boutique Starter 2 000 €, E-commerce Standard 3 500 €, E-commerce Advanced 5 500 €), Shopify, WooCommerce ou sur-mesure.
 - /automatisation — Automatisation de processus métier avec Make, Zapier, n8n.
 - /applications-web — Applications web sur-mesure (MVP, SaaS) avec React + Node.js.
 - /applications-mobiles — Applications iOS et Android cross-platform avec React Native.

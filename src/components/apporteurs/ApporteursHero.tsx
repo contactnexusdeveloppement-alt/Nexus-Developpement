@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { intro } from "@/lib/motion";
 import { ArrowRight, ChevronDown } from "lucide-react";
 
 /**
@@ -28,7 +29,7 @@ const ApporteursHero = () => {
 
       <div className="relative z-10 container mx-auto px-4 text-center max-w-5xl">
         <motion.p
-          initial={{ opacity: 0, y: -8 }}
+          initial={intro({ opacity: 0, y: -8 })}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="text-xs md:text-sm font-semibold tracking-[0.3em] uppercase mb-6"
@@ -39,7 +40,7 @@ const ApporteursHero = () => {
 
         <motion.h1
           id="apporteurs-hero-title"
-          initial={{ opacity: 0, y: 20 }}
+          initial={intro({ opacity: 0, y: 20 })}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.05 }}
           className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold leading-[1.05] mb-8"
@@ -56,7 +57,7 @@ const ApporteursHero = () => {
         </motion.h1>
 
         <motion.p
-          initial={{ opacity: 0, y: 16 }}
+          initial={intro({ opacity: 0, y: 16 })}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.15 }}
           className="text-lg md:text-xl max-w-3xl mx-auto mb-12 leading-relaxed"
@@ -64,12 +65,12 @@ const ApporteursHero = () => {
         >
           Vous connaissez quelqu'un qui a besoin d'un site internet, d'une app ou d'une refonte ?
           Présentez-le-nous. Si on signe, vous touchez{" "}
-          <strong style={{ color: "var(--ned-silver-light)" }}>20&nbsp;% du montant</strong> de la
+          <strong style={{ color: "var(--ned-silver-light)" }}>20&nbsp;% du montant HT encaissé</strong> sur la
           prestation. Pas de quota, pas d'engagement, pas de blabla.
         </motion.p>
 
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={intro({ opacity: 0, y: 16 })}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.25 }}
           className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12"
@@ -99,7 +100,7 @@ const ApporteursHero = () => {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0 }}
+          initial={intro({ opacity: 0 })}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.4 }}
           className="inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-xs md:text-sm font-medium px-5 py-2.5 rounded-full border"

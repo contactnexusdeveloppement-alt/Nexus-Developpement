@@ -9,11 +9,11 @@ import {
 const faq = [
   {
     q: "Je dois être auto-entrepreneur, c'est obligatoire ?",
-    a: "Oui. C'est la seule façon légale pour nous de vous payer une commission. Si vous n'êtes pas encore AE, l'inscription se fait en ligne en 15 minutes sur autoentrepreneur.urssaf.fr et c'est gratuit. On vous accompagne si vous bloquez.",
+    a: "C'est le statut que nous demandons pour pouvoir vous régler sur facture. Si vous avez déjà une entreprise (EI, société, portage salarial), écrivez-nous : une facture avec SIRET suffit. Si vous n'êtes pas encore AE, l'inscription se fait en ligne en 15 minutes sur autoentrepreneur.urssaf.fr et c'est gratuit. On vous accompagne si vous bloquez.",
   },
   {
     q: "Combien je touche exactement ?",
-    a: "20 % du chiffre d'affaires HT que nous encaissons sur le projet. Sur un site à 1 990 € HT, vous touchez 398 €. Sur un projet à 3 500 €, vous touchez 700 €.",
+    a: "20 % du chiffre d'affaires HT que nous encaissons sur le projet. Sur un site Business à 1 850 € HT, vous touchez 370 €. Sur un site Premium à 4 000 € HT, vous touchez 800 €.",
   },
   {
     q: "Et si le client signe mais ne paie pas ?",
@@ -21,7 +21,7 @@ const faq = [
   },
   {
     q: "Je touche une commission sur la maintenance aussi ?",
-    a: "Oui. 20 % de chaque échéance encaissée pendant 24 mois maximum à compter de la signature. Sur une maintenance à 39 €/mois, ça fait environ 8 €/mois × 24 = près de 200 € en plus par client.",
+    a: "Oui. 20 % de chaque échéance encaissée pendant 24 mois maximum à compter de la signature. Sur un site Business, le forfait mensuel est de 75 € HT : 15 € × 24 mois = 360 € en plus par client.",
   },
   {
     q: "C'est quand le paiement ?",

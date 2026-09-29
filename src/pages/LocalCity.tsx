@@ -1,4 +1,6 @@
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate, Navigate, Link } from "react-router-dom";
+import { intro } from "@/lib/motion";
+import { LOCAL_CITIES } from "@/data/localCities";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import AnimatedBackground from "@/components/AnimatedBackground";
@@ -90,8 +92,8 @@ const LocalCity = ({ slug }: LocalCityProps) => {
   ];
 
   const url = `/${city.slug}`;
-  const title = `Agence Web ${city.name} (${city.postalCode}) — Création de Site, Apps, Automatisation | Nexus Développement`;
-  const description = `Agence web à ${city.distanceFromElancourt} de ${city.name}. Création de sites web professionnels, applications mobiles, automatisation et identité visuelle pour TPE et PME. Devis gratuit en 24h.`;
+  const title = `Agence web ${city.name} (${city.postalCode}) | Nexus Développement`;
+  const description = `Agence web à ${city.distanceFromElancourt} de ${city.name} : sites web, applications mobiles et automatisation pour les TPE et PME. Devis gratuit sous 24 h.`;
 
   return (
     <div className="min-h-screen relative overflow-x-hidden">
@@ -133,7 +135,7 @@ const LocalCity = ({ slug }: LocalCityProps) => {
 
           {/* Hero */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={intro({ opacity: 0, y: 20 })}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="max-w-4xl mb-20"
@@ -287,6 +289,25 @@ const LocalCity = ({ slug }: LocalCityProps) => {
             </div>
           </div>
         </div>
+
+        {/* Maillage entre pages villes */}
+        <section className="container mx-auto px-4 pb-20" aria-labelledby="villes-voisines">
+          <h2 id="villes-voisines" className="text-2xl font-bold text-white mb-6 text-center">
+            Nos autres zones d'intervention dans les Yvelines
+          </h2>
+          <ul className="flex flex-wrap justify-center gap-3">
+            {LOCAL_CITIES.filter((c) => c.slug !== city.slug).map((c) => (
+              <li key={c.slug}>
+                <Link
+                  to={`/${c.slug}`}
+                  className="inline-block px-4 py-2 rounded-full border border-blue-500/20 text-blue-100 hover:border-cyan-400 hover:text-cyan-300 transition-colors"
+                >
+                  {`Agence web ${c.name}`}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
 
         <Footer />
       </div>

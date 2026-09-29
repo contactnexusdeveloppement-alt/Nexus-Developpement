@@ -87,6 +87,9 @@ const Navigation = () => {
                         <ListItem title="Sites Vitrine" href="/creation-site-web">
                           Sites modernes et performants pour votre présence en ligne.
                         </ListItem>
+                        <ListItem title="Sites E-commerce" href="/e-commerce">
+                          Boutiques en ligne : catalogue, paiement, logistique.
+                        </ListItem>
                         <ListItem title="Automatisation" href="/automatisation">
                           Optimisez vos processus et gagnez du temps précieux.
                         </ListItem>
@@ -148,6 +151,9 @@ const Navigation = () => {
             <div className="font-bold text-blue-400 px-4 py-3 text-sm tracking-wider uppercase opacity-80">Nos Services</div>
             <Link to="/creation-site-web" className="px-4 py-3 text-white hover:bg-blue-500/10 hover:text-blue-300 rounded-lg transition-colors flex items-center justify-between group" onClick={() => setIsMobileMenuOpen(false)}>
               Sites Vitrine <span className="text-blue-500/50 group-hover:translate-x-1 transition-transform">→</span>
+            </Link>
+            <Link to="/e-commerce" className="px-4 py-3 text-white hover:bg-blue-500/10 hover:text-blue-300 rounded-lg transition-colors flex items-center justify-between group" onClick={() => setIsMobileMenuOpen(false)}>
+              Sites E-commerce <span className="text-blue-500/50 group-hover:translate-x-1 transition-transform">→</span>
             </Link>
             <Link to="/automatisation" className="px-4 py-3 text-white hover:bg-blue-500/10 hover:text-blue-300 rounded-lg transition-colors flex items-center justify-between group" onClick={() => setIsMobileMenuOpen(false)}>
               Automatisation <span className="text-blue-500/50 group-hover:translate-x-1 transition-transform">→</span>

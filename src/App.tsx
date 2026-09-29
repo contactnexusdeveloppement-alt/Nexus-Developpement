@@ -3,13 +3,15 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Suspense, lazy } from "react";
+import React, { Suspense, lazy } from "react";
+// Import statique : l'accueil est hydraté à partir du HTML pré-rendu (voir main.tsx).
+import Index from "./pages/Index";
 import ScrollToTop from "./components/ScrollToTop";
+import ClientOnly from "./components/ClientOnly";
 import HashScroll from "./components/HashScroll";
 import { LOCAL_CITIES } from "./data/localCities";
 
 // Lazy loading pages for performance
-const Index = lazy(() => import("./pages/Index"));
 const LegalNotice = lazy(() => import("./pages/LegalNotice"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("./pages/TermsOfService"));
@@ -18,6 +20,7 @@ const CookiePolicy = lazy(() => import("./pages/CookiePolicy"));
 const Team = lazy(() => import("./pages/Team"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const WebsiteCreation = lazy(() => import("./pages/WebsiteCreation"));
+const Ecommerce = lazy(() => import("./pages/Ecommerce"));
 const Automation = lazy(() => import("./pages/Automation"));
 const WebApps = lazy(() => import("./pages/WebApps"));
 const MobileApps = lazy(() => import("./pages/MobileApps"));
@@ -40,48 +43,54 @@ const PageLoader = () => (
   </div>
 );
 
+// Chaque route lazy a sa propre frontière Suspense : l'accueil (import statique)
+// est ainsi hydraté sans passer par un Suspense absent du HTML pré-rendu.
+const withSuspense = (element: React.ReactNode) => <Suspense fallback={<PageLoader />}>{element}</Suspense>;
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
+      {/* Les toasters rendent un nœud après montage : montés hors hydratation pour ne pas faire échouer celle de l'accueil pré-rendu */}
+      <ClientOnly>
+        <Toaster />
+        <Sonner />
+      </ClientOnly>
       <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-        <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/creation-site-web" element={<WebsiteCreation />} />
-            <Route path="/automatisation" element={<Automation />} />
-            <Route path="/applications-web" element={<WebApps />} />
-            <Route path="/applications-mobiles" element={<MobileApps />} />
-            <Route path="/identite-visuelle" element={<VisualIdentity />} />
-            <Route path="/salon-coiffure" element={<SalonCoiffure />} />
-            <Route path="/restaurant" element={<Restaurant />} />
-            <Route path="/agence-immobiliere" element={<AgenceImmobiliere />} />
-            <Route path="/agence-immo/property/:id" element={<PropertyDetail />} />
-            <Route path="/concession-automobile" element={<Concession />} />
-            <Route path="/catalogue" element={<ProjectsCatalog />} />
+            <Route path="/creation-site-web" element={withSuspense(<WebsiteCreation />)} />
+            <Route path="/e-commerce" element={withSuspense(<Ecommerce />)} />
+            <Route path="/automatisation" element={withSuspense(<Automation />)} />
+            <Route path="/applications-web" element={withSuspense(<WebApps />)} />
+            <Route path="/applications-mobiles" element={withSuspense(<MobileApps />)} />
+            <Route path="/identite-visuelle" element={withSuspense(<VisualIdentity />)} />
+            <Route path="/salon-coiffure" element={withSuspense(<SalonCoiffure />)} />
+            <Route path="/restaurant" element={withSuspense(<Restaurant />)} />
+            <Route path="/agence-immobiliere" element={withSuspense(<AgenceImmobiliere />)} />
+            <Route path="/agence-immo/property/:id" element={withSuspense(<PropertyDetail />)} />
+            <Route path="/concession-automobile" element={withSuspense(<Concession />)} />
+            <Route path="/catalogue" element={withSuspense(<ProjectsCatalog />)} />
 
-            <Route path="/mentions-legales" element={<LegalNotice />} />
-            <Route path="/confidentialite" element={<PrivacyPolicy />} />
-            <Route path="/cgu" element={<TermsOfService />} />
-            <Route path="/cgv" element={<CGV />} />
-            <Route path="/cookies" element={<CookiePolicy />} />
-            <Route path="/equipe" element={<Team />} />
-            <Route path="/apporteurs" element={<Apporteurs />} />
-            <Route path="/links" element={<Links />} />
+            <Route path="/mentions-legales" element={withSuspense(<LegalNotice />)} />
+            <Route path="/confidentialite" element={withSuspense(<PrivacyPolicy />)} />
+            <Route path="/cgu" element={withSuspense(<TermsOfService />)} />
+            <Route path="/cgv" element={withSuspense(<CGV />)} />
+            <Route path="/cookies" element={withSuspense(<CookiePolicy />)} />
+            <Route path="/equipe" element={withSuspense(<Team />)} />
+            <Route path="/apporteurs" element={withSuspense(<Apporteurs />)} />
+            <Route path="/links" element={withSuspense(<Links />)} />
 
             {LOCAL_CITIES.map((city) => (
               <Route
                 key={city.slug}
                 path={`/${city.slug}`}
-                element={<LocalCity slug={city.slug} />}
+                element={withSuspense(<LocalCity slug={city.slug} />)}
               />
             ))}
 
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
+            <Route path="*" element={withSuspense(<NotFound />)} />
           </Routes>
-        </Suspense>
         <ScrollToTop />
         <HashScroll />
       </BrowserRouter>

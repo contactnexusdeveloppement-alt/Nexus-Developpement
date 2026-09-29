@@ -1,10 +1,12 @@
 import { motion } from "framer-motion";
 import { HelpCircle, ChevronDown } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 interface FAQItem {
     question: string;
     answer: string;
+    links?: { label: string; to: string }[];
 }
 
 const faqData: FAQItem[] = [
@@ -14,7 +16,15 @@ const faqData: FAQItem[] = [
     },
     {
         question: "Êtes-vous une agence locale ?",
-        answer: "Oui, Nexus Développement est une agence basée à Élancourt (78). Nous rencontrons avec plaisir nos clients de Saint-Quentin-en-Yvelines et de toute l'Île-de-France, mais nous travaillons aussi à distance dans toute la France."
+        answer: "Oui, Nexus Développement est une agence basée à Élancourt (78). Nous rencontrons avec plaisir nos clients de Saint-Quentin-en-Yvelines et de toute l'Île-de-France, mais nous travaillons aussi à distance dans toute la France.",
+        links: [
+            { label: "Agence web Versailles", to: "/agence-web-versailles" },
+            { label: "Saint-Quentin-en-Yvelines", to: "/agence-web-saint-quentin-en-yvelines" },
+            { label: "Plaisir", to: "/agence-web-plaisir" },
+            { label: "Trappes", to: "/agence-web-trappes" },
+            { label: "Montigny-le-Bretonneux", to: "/agence-web-montigny-le-bretonneux" },
+            { label: "Maurepas", to: "/agence-web-maurepas" },
+        ]
     },
     {
         question: "Combien de temps faut-il pour créer mon site ?",
@@ -100,6 +110,15 @@ const FAQ = () => {
                                         <div className="border-t border-white/10 pt-4">
                                             <p className="text-slate-300 leading-relaxed">
                                                 {item.answer}
+                                                {item.links && (
+                                                    <span className="mt-3 flex flex-wrap gap-2">
+                                                        {item.links.map((l) => (
+                                                            <Link key={l.to} to={l.to} className="text-cyan-400 hover:text-cyan-300 underline underline-offset-4 text-sm">
+                                                                {l.label}
+                                                            </Link>
+                                                        ))}
+                                                    </span>
+                                                )}
                                             </p>
                                         </div>
                                     </div>

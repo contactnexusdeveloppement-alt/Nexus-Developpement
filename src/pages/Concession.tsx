@@ -157,7 +157,7 @@ const Concession = () => {
         <div className="concession-page">
             <SEO
                 title="Démo : Site Web pour Concession Automobile | Nexus Développement"
-                description="Découvrez une démo de site web professionnel pour concession automobile : stock véhicules avec filtres, fiches détaillées, formulaires de contact, vidéo immersive. Création sur-mesure par Nexus Développement Élancourt."
+                description="Démo de site pour concession automobile : stock avec filtres, fiches véhicules, formulaires de contact, vidéo. Réalisée par Nexus Développement, Élancourt (78)."
                 type="website"
                 canonical="/concession-automobile"
                 schemas={[

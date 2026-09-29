@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { intro } from "@/lib/motion";
 import { motion } from "framer-motion";
 import { Send, CheckCircle2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -168,7 +169,7 @@ const ApporteursForm = () => {
       >
         <div className="container mx-auto max-w-xl text-center">
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={intro({ opacity: 0, scale: 0.9 })}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
           >

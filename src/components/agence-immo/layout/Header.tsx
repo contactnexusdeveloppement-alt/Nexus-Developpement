@@ -71,7 +71,7 @@ export default function Header({ forceSolid = false }: HeaderProps) {
                     </div>
 
                     {/* Logo */}
-                    <Link to="/agence-immo" className="text-2xl md:text-3xl font-serif font-bold tracking-wider text-center">
+                    <Link to="/agence-immobiliere" className="text-2xl md:text-3xl font-serif font-bold tracking-wider text-center">
                         <span className="text-white-creamy">ENTRE </span>
                         <span className="text-gold">TERRE</span>
                         <span className="text-white-creamy"> ET </span>
@@ -101,10 +101,10 @@ export default function Header({ forceSolid = false }: HeaderProps) {
                             <Heart className="w-5 h-5" />
                             <span className="absolute -top-1 -right-1 w-3 h-3 bg-gold rounded-full text-[8px] flex items-center justify-center text-black-rich font-bold">0</span>
                         </button>
-                        <Link to="/agence-immo/login" className="hidden md:flex items-center gap-2 hover:text-gold transition-colors">
+                        <span className="hidden md:flex items-center gap-2 hover:text-gold transition-colors" title="Espace client (démonstration)">
                             <User className="w-5 h-5" />
                             <span className="text-sm font-medium">COMPTE</span>
-                        </Link>
+                        </span>
                         <span className="hidden md:inline text-gold">FR</span>
                     </div>
                 </div>
@@ -136,7 +136,7 @@ export default function Header({ forceSolid = false }: HeaderProps) {
                     ].map((item) => (
                         <Link
                             key={item.label}
-                            to={`/agence-immo${item.path === '/' ? '' : item.path.replace(/^\/properties/, '/properties')}`}
+                            to="/agence-immobiliere"
                             onClick={() => setIsMenuOpen(false)}
                             className="text-2xl md:text-3xl font-serif text-white hover:text-gold transition-all duration-300 hover:translate-x-2 font-bold"
                         >

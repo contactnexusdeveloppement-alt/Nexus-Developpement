@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react';
 
-// Vrai si l'animation doit être sautée : préférence utilisateur pour moins de
-// mouvement, ou navigateur piloté (pré-rendu Puppeteer en CI) qui capturerait
-// sinon un titre tronqué dans le HTML statique.
+// Vrai si l'animation doit être sautée :
+// - hydratation d'une page pré-rendue (le HTML contient déjà le titre complet,
+//   animer créerait un décalage entre serveur et client) ;
+// - préférence utilisateur pour moins de mouvement ;
+// - navigateur piloté (pré-rendu Puppeteer en CI), qui capturerait sinon un
+//   titre tronqué dans le HTML statique.
 const shouldSkipAnimation = (): boolean => {
   if (typeof window === 'undefined') return true;
+  if (window.__NED_PRERENDERED__) return true;
   if (typeof navigator !== 'undefined' && navigator.webdriver) return true;
   return (
     typeof window.matchMedia === 'function' &&

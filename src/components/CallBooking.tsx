@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { intro } from "@/lib/motion";
 import { Calendar } from '@/components/ui/calendar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -593,7 +594,7 @@ export function CallBooking() {
                                   {selectedTime === time && (
                                     <motion.div
                                       className="absolute inset-0 bg-white/20"
-                                      initial={{ opacity: 0 }}
+                                      initial={intro({ opacity: 0 })}
                                       animate={{ opacity: 1 }}
                                       transition={{ duration: 0.2 }}
                                     />

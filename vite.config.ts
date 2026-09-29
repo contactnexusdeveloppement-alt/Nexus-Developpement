@@ -12,6 +12,7 @@ const PRERENDER = process.env.PRERENDER === "true";
 const ROUTES_TO_PRERENDER = [
   "/",
   "/creation-site-web",
+  "/e-commerce",
   "/automatisation",
   "/applications-web",
   "/applications-mobiles",
@@ -80,14 +81,18 @@ export default defineConfig(async ({ mode }): Promise<UserConfig> => {
       minify: "esbuild",
       rollupOptions: {
         output: {
-          manualChunks: {
-            "react-vendor": [
-              "react",
-              "react-dom",
-              "react-router-dom",
-              "@tanstack/react-query",
-            ],
-            "ui-vendor": ["framer-motion", "lucide-react"],
+          // Un seul chunk vendor pour React et les bibliothèques qui touchent à
+          // ses internes (framer-motion, react-router, react-query). Deux chunks
+          // séparés créaient un cycle react-vendor ↔ ui-vendor (avertissement
+          // Rollup) qui plantait le bundle de développement au démarrage.
+          manualChunks(id) {
+            if (!id.includes("node_modules")) return undefined;
+            if (
+              /[\\/]node_modules[\\/](react|react-dom|scheduler|react-router|react-router-dom|@remix-run|@tanstack|use-sync-external-store|framer-motion|motion-dom|motion-utils|lucide-react)[\\/]/.test(id)
+            ) {
+              return "vendor";
+            }
+            return undefined;
           },
         },
       },

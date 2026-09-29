@@ -1,4 +1,5 @@
 import Navigation from "@/components/Navigation";
+import { intro } from "@/lib/motion";
 import Footer from "@/components/Footer";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import { Button } from "@/components/ui/button";
@@ -108,7 +109,7 @@ const WebsiteCreation = () => {
 
           <div className="grid lg:grid-cols-2 gap-16 items-center mb-32">
             <motion.div
-              initial={{ opacity: 0, x: -50 }}
+              initial={intro({ opacity: 0, x: -50 })}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
@@ -143,7 +144,7 @@ const WebsiteCreation = () => {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={intro({ opacity: 0, scale: 0.9 })}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1 }}
               className="relative"
@@ -276,52 +277,14 @@ const WebsiteCreation = () => {
               Questions Fréquentes - Création de Sites Web
             </h2>
 
+            {/* Même source que le JSON-LD FAQPage : une seule vérité pour les prix et délais */}
             <div className="space-y-6">
-              <div className="bg-slate-800/40 p-6 rounded-lg border border-white/10 hover:border-cyan-500/30 transition-colors">
-                <h3 className="text-xl font-bold text-white mb-3">
-                  Combien coûte la création d'un site web à Élancourt ?
-                </h3>
-                <p className="text-blue-100/80 leading-relaxed">
-                  Nos tarifs démarrent à <strong>950€ pour le pack Essential</strong> (site vitrine 1 à 3 pages,
-                  responsive, formulaire de contact sécurisé), <strong>1 850€ pour le pack Business</strong>
-                  (4 à 10 pages, CMS, blog, SEO avancé, formation) et <strong>4 000€ pour le pack Premium</strong>
-                  (11 à 20 pages sur-mesure, animations, SEO expert). Tous nos devis sont gratuits et sans
-                  engagement, réponse sous 24h.
-                </p>
-              </div>
-
-              <div className="bg-slate-800/40 p-6 rounded-lg border border-white/10 hover:border-cyan-500/30 transition-colors">
-                <h3 className="text-xl font-bold text-white mb-3">
-                  Combien de temps pour créer mon site web ?
-                </h3>
-                <p className="text-blue-100/80 leading-relaxed">
-                  Le délai moyen est de <strong>2 à 4 semaines</strong> pour un site vitrine, 4 à 8 semaines
-                  pour un site e-commerce complexe. Vous êtes accompagné tout au long du projet, avec des points
-                  réguliers pour valider chaque étape ensemble.
-                </p>
-              </div>
-
-              <div className="bg-slate-800/40 p-6 rounded-lg border border-white/10 hover:border-cyan-500/30 transition-colors">
-                <h3 className="text-xl font-bold text-white mb-3">
-                  Nexus Développement est-il basé à Élancourt ?
-                </h3>
-                <p className="text-blue-100/80 leading-relaxed">
-                  Oui ! Nexus Développement est basé au <strong>4 rue de la Ferme, 78990 Élancourt</strong>,
-                  dans les Yvelines. Nous nous déplaçons dans tout le département 78 et l'Île-de-France
-                  (Trappes, Plaisir, Montigny-le-Bretonneux, Versailles...) pour rencontrer nos clients.
-                </p>
-              </div>
-
-              <div className="bg-slate-800/40 p-6 rounded-lg border border-white/10 hover:border-cyan-500/30 transition-colors">
-                <h3 className="text-xl font-bold text-white mb-3">
-                  Mon site sera-t-il optimisé pour mobiles ?
-                </h3>
-                <p className="text-blue-100/80 leading-relaxed">
-                  Absolument ! Tous nos sites sont <strong>100% responsive</strong> et optimisés pour smartphones,
-                  tablettes et ordinateurs. Nous testons sur tous les appareils pour garantir une expérience
-                  parfaite quel que soit l'écran de vos visiteurs.
-                </p>
-              </div>
+              {FAQ_WEBSITE.map((item) => (
+                <div key={item.q} className="bg-slate-800/40 p-6 rounded-lg border border-white/10 hover:border-cyan-500/30 transition-colors">
+                  <h3 className="text-xl font-bold text-white mb-3">{item.q}</h3>
+                  <p className="text-blue-100/80 leading-relaxed">{item.a}</p>
+                </div>
+              ))}
             </div>
           </div>
 

@@ -5,26 +5,33 @@ import Services from "@/components/Services";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import SEO from "@/components/SEO";
 import Footer from "@/components/Footer";
+import ClientOnly from "@/components/ClientOnly";
+// Sections en import statique : l'accueil est hydraté à partir du HTML
+// pré-rendu, et une frontière Suspense absente de ce HTML ferait échouer
+// l'hydratation (React re-rendrait tout côté client, LCP retardé).
+import Testimonials from "@/components/Testimonials";
+import Portfolio from "@/components/Portfolio";
+import Methodology from "@/components/Methodology";
+import Pricing from "@/components/Pricing";
+import Contact from "@/components/Contact";
+import FAQ from "@/components/FAQ";
 
-// Lazy load below-the-fold components for faster initial load
-const Testimonials = lazy(() => import("@/components/Testimonials"));
-const Portfolio = lazy(() => import("@/components/Portfolio"));
-const Methodology = lazy(() => import("@/components/Methodology"));
-const Pricing = lazy(() => import("@/components/Pricing"));
+// Les deux formulaires restent en lazy (calendrier, Select Radix : ~100 kB) et
+// sont montés côté client après l'hydratation, derrière un placeholder qui
+// existe aussi dans le HTML pré-rendu.
 const CallBooking = lazy(() => import("@/components/CallBooking").then(m => ({ default: m.CallBooking })));
 const QuoteForm = lazy(() => import("@/components/QuoteForm"));
-const Contact = lazy(() => import("@/components/Contact"));
-const FAQ = lazy(() => import("@/components/FAQ"));
 
-// Minimal loading fallback (invisible, no layout shift)
-const SectionLoader = () => <div className="min-h-[200px]" />;
+const FormPlaceholder = ({ id, minHeight }: { id: string; minHeight: string }) => (
+  <section id={id} className={`${minHeight} scroll-mt-32`} aria-busy="true" aria-label="Chargement du formulaire" />
+);
 
 const Index = () => {
   return (
     <div className="min-h-screen relative overflow-x-hidden">
       <SEO
         title="Nexus Développement — Agence Digitale Élancourt (78) | Sites Web, Apps, Automatisation"
-        description="Agence digitale française à Élancourt (78). Création de sites web professionnels, applications mobiles, automatisation de processus et identité visuelle pour TPE et PME. Devis gratuit en 24h."
+        description="Agence digitale à Élancourt (78) : sites web, e-commerce, applications mobiles, automatisation et identité visuelle pour TPE et PME. Devis gratuit sous 24 h."
         canonical="/"
       />
 
@@ -46,32 +53,24 @@ const Index = () => {
         <Navigation />
         <Hero />
         <Services />
+        <Testimonials />
+        <Portfolio />
+        <Methodology />
+        <Pricing />
 
-        {/* Lazy-loaded sections */}
-        <Suspense fallback={<SectionLoader />}>
-          <Testimonials />
-        </Suspense>
-        <Suspense fallback={<SectionLoader />}>
-          <Portfolio />
-        </Suspense>
-        <Suspense fallback={<SectionLoader />}>
-          <Methodology />
-        </Suspense>
-        <Suspense fallback={<SectionLoader />}>
-          <Pricing />
-        </Suspense>
-        <Suspense fallback={<SectionLoader />}>
-          <CallBooking />
-        </Suspense>
-        <Suspense fallback={<SectionLoader />}>
-          <QuoteForm />
-        </Suspense>
-        <Suspense fallback={<SectionLoader />}>
-          <Contact />
-        </Suspense>
-        <Suspense fallback={<SectionLoader />}>
-          <FAQ />
-        </Suspense>
+        <ClientOnly fallback={<FormPlaceholder id="reservation" minHeight="min-h-[640px]" />}>
+          <Suspense fallback={<FormPlaceholder id="reservation" minHeight="min-h-[640px]" />}>
+            <CallBooking />
+          </Suspense>
+        </ClientOnly>
+        <ClientOnly fallback={<FormPlaceholder id="devis" minHeight="min-h-[900px]" />}>
+          <Suspense fallback={<FormPlaceholder id="devis" minHeight="min-h-[900px]" />}>
+            <QuoteForm />
+          </Suspense>
+        </ClientOnly>
+
+        <Contact />
+        <FAQ />
         <Footer />
       </div>
     </div>

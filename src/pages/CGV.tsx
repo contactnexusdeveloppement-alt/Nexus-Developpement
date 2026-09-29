@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { intro } from "@/lib/motion";
+import { LEGAL_LAST_UPDATE } from "@/data/company";
 import {
   ArrowLeft,
   FileText,
@@ -548,7 +550,7 @@ const CGV = () => {
           </div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={intro({ opacity: 0, y: 20 })}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
@@ -610,11 +612,7 @@ const CGV = () => {
           <div className="mt-20 text-center border-t border-white/5 pt-8">
             <p className="text-slate-500 text-sm">
               Dernière mise à jour :{" "}
-              {new Date().toLocaleDateString("fr-FR", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
+              {LEGAL_LAST_UPDATE}
             </p>
           </div>
         </div>
