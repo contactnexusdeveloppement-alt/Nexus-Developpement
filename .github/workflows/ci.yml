@@ -1,0 +1,35 @@
+name: CI (lint, typecheck, build)
+
+# Vérifications sur chaque pull request. Le déploiement (deploy.yml) ne tourne
+# que sur main : sans ce job, une PR pouvait être fusionnée avec des erreurs
+# ESLint ou TypeScript sans qu'aucun check ne l'indique.
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      # Build sans pré-rendu (pas de Chrome nécessaire) : vérifie que le bundle passe.
+      - name: Build
+        run: npm run build

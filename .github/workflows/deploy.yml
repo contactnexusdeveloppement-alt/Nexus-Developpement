@@ -29,6 +29,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Barrière qualité : main ne se déploie plus avec des erreurs ESLint ou TypeScript.
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
       - name: Install Chrome for Puppeteer
         run: npx puppeteer browsers install chrome
 
