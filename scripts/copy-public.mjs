@@ -17,7 +17,12 @@ async function main() {
       await copyFile('dist/404/index.html', 'dist/404.html');
       console.log('dist/404.html généré depuis la page 404 pré-rendue');
     } else {
-      console.log('Pas de page 404 pré-rendue (PRERENDER inactif) : dist/404.html non généré');
+      // Sans pré-rendu (prévisualisations Vercel, build local), les routes ne
+      // sont pas des fichiers statiques : Vercel sert alors 404.html, qui doit
+      // contenir le shell de l'application pour que le routeur affiche la page
+      // demandée (avec un statut 404, acceptable hors production).
+      await copyFile('dist/index.html', 'dist/404.html');
+      console.log('Pas de pré-rendu : dist/404.html = shell SPA (les routes profondes restent servies, statut 404)');
     }
   } catch (error) {
     console.error('copy-public : erreur', error);
