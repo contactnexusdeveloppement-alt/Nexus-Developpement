@@ -1,19 +1,28 @@
-import { cp } from 'fs/promises';
+import { cp, copyFile } from 'fs/promises';
 import { existsSync } from 'fs';
 
-async function copyPublic() {
-    try {
-        if (existsSync('public')) {
-            console.log('📁 Copying public directory to dist...');
-            await cp('public', 'dist', { recursive: true });
-            console.log('✅ Public directory copied successfully!');
-        } else {
-            console.log('⚠️  No public directory found');
-        }
-    } catch (error) {
-        console.error('❌ Error copying public directory:', error);
-        process.exit(1);
+// 1. Copie public/ dans dist/ (Vite le fait déjà via copyPublicDir ; conservé
+//    pour les fichiers ajoutés après le build).
+// 2. Expose la page 404 pré-rendue à la racine (dist/404.html). Vercel la sert
+//    avec un vrai statut 404 pour toute URL inconnue, maintenant que la rewrite
+//    catch-all vers index.html a été retirée de vercel.json. Sans pré-rendu
+//    (build local), le fichier n'existe pas et rien n'est généré.
+async function main() {
+  try {
+    if (existsSync('public')) {
+      await cp('public', 'dist', { recursive: true });
+      console.log('public/ copié dans dist/');
     }
+    if (existsSync('dist/404/index.html')) {
+      await copyFile('dist/404/index.html', 'dist/404.html');
+      console.log('dist/404.html généré depuis la page 404 pré-rendue');
+    } else {
+      console.log('Pas de page 404 pré-rendue (PRERENDER inactif) : dist/404.html non généré');
+    }
+  } catch (error) {
+    console.error('copy-public : erreur', error);
+    process.exit(1);
+  }
 }
 
-copyPublic();
+main();

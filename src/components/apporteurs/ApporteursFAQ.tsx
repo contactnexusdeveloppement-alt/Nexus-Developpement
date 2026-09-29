@@ -37,7 +37,7 @@ const faq = [
   },
   {
     q: "Quel est le délai entre ma présentation et la signature du client ?",
-    a: "En moyenne 2 à 4 semaines selon la complexité du projet. Vous suivez l'avancement en temps réel via votre dashboard apporteur.",
+    a: "En moyenne 2 à 4 semaines selon la complexité du projet. Vous êtes tenu informé par email à chaque étape (prise de contact, devis envoyé, signature).",
   },
   {
     q: "Y a-t-il une zone géographique imposée ?",

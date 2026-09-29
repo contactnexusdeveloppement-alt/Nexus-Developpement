@@ -1,5 +1,6 @@
 import MagneticButton from "@/components/MagneticButton";
 import { useTypewriter } from "@/hooks/useTypewriter";
+import { scrollToId } from "@/components/HashScroll";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 
@@ -24,11 +25,6 @@ const Hero = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    element?.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-20">
 
@@ -46,8 +42,11 @@ const Hero = () => {
         >
           <div className="mb-8"></div>
 
+          {/* Le texte complet est toujours dans le DOM (lecteurs d'écran, Google,
+              pré-rendu) ; seule la version visible est animée. */}
           <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black mb-8 leading-tight tracking-tight min-h-[120px] sm:min-h-[160px] md:min-h-[220px]">
-            <span className="bg-gradient-to-r from-white via-blue-100 to-gray-400 bg-clip-text text-transparent drop-shadow-lg">
+            <span className="sr-only">{fullText}</span>
+            <span aria-hidden="true" className="bg-gradient-to-r from-white via-blue-100 to-gray-400 bg-clip-text text-transparent drop-shadow-lg">
               {typedText}
             </span>
           </h1>
@@ -60,14 +59,14 @@ const Hero = () => {
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
             <MagneticButton
               size="lg"
-              onClick={() => scrollToSection('devis')}
+              onClick={() => scrollToId('devis')}
               className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-8 py-6 text-lg rounded-full shadow-[0_0_20px_rgba(34,211,238,0.5)] hover:shadow-[0_0_30px_rgba(34,211,238,0.8)] transition-all duration-300 transform hover:scale-105"
             >
               Démarrer un projet
             </MagneticButton>
             <MagneticButton
               size="lg"
-              onClick={() => scrollToSection('services')}
+              onClick={() => scrollToId('services')}
               className="bg-white/5 backdrop-blur-sm border border-white/20 text-white font-medium px-8 py-6 text-lg rounded-full hover:bg-white/10 transition-all duration-300"
             >
               Explorer nos services

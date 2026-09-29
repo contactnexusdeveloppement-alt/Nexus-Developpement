@@ -22,7 +22,7 @@ const FAQ_AUTOMATION = [
   },
   {
     q: "Quels sont les processus les plus rentables à automatiser dans une TPE ?",
-    a: "Sur la base de nos missions, les automatisations à plus fort ROI immédiat sont : (1) la génération et l'envoi automatique de factures depuis vos paiements Stripe ou Sumup avec archivage comptable, (2) la qualification automatique des leads entrants depuis votre site web et leur enrichissement dans votre CRM (HubSpot, Notion, Airtable), (3) l'onboarding client automatisé après signature de devis (création de l'espace projet, envoi des accès, invitation Slack ou Discord), (4) les relances de paiement automatiques sur factures impayées avec escalade selon l'ancienneté, (5) la synchronisation CRM ⇄ comptabilité (Pennylane, Tiime), (6) les rappels SMS et email automatiques avant les rendez-vous pour réduire le no-show, et (7) l'agrégation hebdomadaire de vos KPI (chiffre d'affaires, leads, NPS) dans un rapport envoyé tous les lundis matin. Chacun de ces workflows libère typiquement 2 à 5 heures par semaine.",
+    a: "Pour une TPE, les automatisations à plus fort retour sur investissement sont généralement : (1) la génération et l'envoi automatique de factures depuis vos paiements Stripe ou Sumup avec archivage comptable, (2) la qualification automatique des leads entrants depuis votre site web et leur enrichissement dans votre CRM (HubSpot, Notion, Airtable), (3) l'onboarding client automatisé après signature de devis (création de l'espace projet, envoi des accès, invitation Slack ou Discord), (4) les relances de paiement automatiques sur factures impayées avec escalade selon l'ancienneté, (5) la synchronisation CRM ⇄ comptabilité (Pennylane, Tiime), (6) les rappels SMS et email automatiques avant les rendez-vous pour réduire le no-show, et (7) l'agrégation hebdomadaire de vos KPI (chiffre d'affaires, leads, NPS) dans un rapport envoyé tous les lundis matin. Chacun de ces workflows peut libérer plusieurs heures par semaine.",
   },
   {
     q: "Combien de temps prend la mise en place d'une automatisation de bout en bout ?",
@@ -186,7 +186,7 @@ const Automation = () => {
                     <div id="exemples" className="mb-32">
                         <div className="text-center mb-16">
                             <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white">Cas Concrets</h2>
-                            <p className="text-amber-200/60 max-w-2xl mx-auto">Voici comment nous faisons gagner des heures à nos clients chaque semaine.</p>
+                            <p className="text-amber-200/60 max-w-2xl mx-auto">Des exemples concrets d'automatisations et du temps qu'elles font gagner.</p>
                         </div>
 
                         <div className="grid md:grid-cols-3 gap-8">
@@ -270,39 +270,14 @@ const Automation = () => {
                             Questions Fréquentes - Automatisation
                         </h2>
 
+                        {/* Même source que le JSON-LD FAQPage : une seule vérité pour les prix et délais */}
                         <div className="space-y-6">
-                            <div className="bg-slate-800/40 p-6 rounded-lg border border-white/10 hover:border-amber-500/30 transition-colors">
-                                <h3 className="text-xl font-bold text-white mb-3">
-                                    💰 Combien coûte l'automatisation de processus ?
-                                </h3>
-                                <p className="text-amber-100/80 leading-relaxed">
-                                    Le <strong>pack Audit démarre à 490€</strong> pour identifier vos opportunités d'automatisation.
-                                    Le pack Automatisation complète démarre à 1490€. L'investissement se récupère en moyenne en 2-3 mois
-                                    grâce au temps gagné.
-                                </p>
-                            </div>
-
-                            <div className="bg-slate-800/40 p-6 rounded-lg border border-white/10 hover:border-amber-500/30 transition-colors">
-                                <h3 className="text-xl font-bold text-white mb-3">
-                                    🔧 Quels outils utilisez-vous pour automatiser ?
-                                </h3>
-                                <p className="text-amber-100/80 leading-relaxed">
-                                    Nous maîtrisons <strong>Zapier, Make.com (ex-Integromat), n8n</strong> pour le no-code, ainsi que
-                                    des solutions custom en <strong>Python, Node.js et API</strong> pour les besoins avancés nécessitant
-                                    du code sur-mesure.
-                                </p>
-                            </div>
-
-                            <div className="bg-slate-800/40 p-6 rounded-lg border border-white/10 hover:border-amber-500/30 transition-colors">
-                                <h3 className="text-xl font-bold text-white mb-3">
-                                    ⏱️ Combien de temps faut-il pour automatiser un processus ?
-                                </h3>
-                                <p className="text-amber-100/80 leading-relaxed">
-                                    Un workflow simple peut être mis en place en <strong>2-5 jours</strong>. Pour des automatisations
-                                    complexes impliquant plusieurs outils, comptez 2-4 semaines. Nous commençons toujours par un audit
-                                    pour identifier les gains rapides.
-                                </p>
-                            </div>
+                            {FAQ_AUTOMATION.map((item) => (
+                                <div key={item.q} className="bg-slate-800/40 p-6 rounded-lg border border-white/10 hover:border-amber-500/30 transition-colors">
+                                    <h3 className="text-xl font-bold text-white mb-3">{item.q}</h3>
+                                    <p className="text-amber-100/80 leading-relaxed">{item.a}</p>
+                                </div>
+                            ))}
                         </div>
                     </div>
 
@@ -317,7 +292,7 @@ const Automation = () => {
                             onClick={() => navigate('/#reservation')}
                             className="bg-white text-amber-950 hover:bg-amber-50 font-bold rounded-full px-8 py-6 shadow-lg hover:shadow-xl transition-all"
                         >
-                            Réserver mon audit offert
+                            Réserver un appel découverte
                         </Button>
                     </div>
                 </div>

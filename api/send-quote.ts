@@ -1,17 +1,31 @@
 import { buildCorsHeaders, preflight } from "./_lib/cors";
 import { rateLimit, getClientIP } from "./_lib/rate-limit";
-import { escapeHtml, isValidEmail, safeOptString, safeString } from "./_lib/validation";
+import { CONTACT_EMAIL, MESSAGES, apiError, contentLengthExceeds, json, readJsonObject, type ErrorCode } from "./_lib/http";
+import { deliverAdminThenClient } from "./_lib/resend";
+import {
+  NAME_RULE_MESSAGE,
+  PHONE_LOOSE_REGEX,
+  escapeHtml,
+  isHoneypotFilled,
+  isValidEmail,
+  isValidPersonName,
+  optionalString,
+  trimString,
+} from "./_lib/validation";
 
 export const config = { runtime: "edge" };
 
-const VALID_SERVICES = new Set(["website", "webapp", "mobile", "automation", "logo", "branding", "custom"]);
-const VALID_BUDGETS = new Set(["<500", "500-1000", "1000-2500", "2500-5000", "5000-10000", ">10000"]);
-const VALID_TIMELINES = new Set(["urgent", "1month", "2-3months", "flexible"]);
-const PHONE_REGEX = /^[\d+\s().-]{6,30}$/;
+const ENDPOINT = "send-quote";
 const MAX_BODY_BYTES = 20_000;
+const MAX_NAME_LENGTH = 100;
+const MAX_PHONE_LENGTH = 30;
+const MAX_BUSINESS_TYPE_LENGTH = 100;
+const MAX_PROJECT_DETAILS_LENGTH = 5000;
+const MAX_SERVICES = 10;
 
 const SERVICE_LABELS: Record<string, string> = {
   website: "Création d'un site web",
+  ecommerce: "Site e-commerce",
   webapp: "Application web",
   mobile: "Application mobile",
   automation: "Automatisation de processus",
@@ -19,6 +33,25 @@ const SERVICE_LABELS: Record<string, string> = {
   branding: "Branding visuel complet",
   custom: "Service sur mesure",
 };
+const BUDGET_LABELS: Record<string, string> = {
+  "<500": "Moins de 500 €",
+  "500-1000": "500 € – 1 000 €",
+  "1000-2500": "1 000 € – 2 500 €",
+  "2500-5000": "2 500 € – 5 000 €",
+  "5000-10000": "5 000 € – 10 000 €",
+  ">10000": "Plus de 10 000 €",
+};
+const TIMELINE_LABELS: Record<string, string> = {
+  urgent: "Urgent (moins de 2 semaines)",
+  "1month": "Dans le mois",
+  "2-3months": "2 à 3 mois",
+  flexible: "Flexible",
+};
+const VALID_SERVICES = new Set(Object.keys(SERVICE_LABELS));
+const VALID_BUDGETS = new Set(Object.keys(BUDGET_LABELS));
+const VALID_TIMELINES = new Set(Object.keys(TIMELINE_LABELS));
+
+const SUCCESS_BODY = { success: true, message: "Demande envoyée" };
 
 interface ValidatedQuote {
   name: string;
@@ -31,105 +64,130 @@ interface ValidatedQuote {
   timeline: string | null;
 }
 
-function validateBody(body: unknown): { ok: true; data: ValidatedQuote } | { ok: false; error: string } {
-  if (!body || typeof body !== "object") return { ok: false, error: "Invalid body" };
-  const b = body as Record<string, unknown>;
+type Validation = { ok: true; data: ValidatedQuote } | { ok: false; code: ErrorCode; error: string };
 
-  const name = safeString(b.name, 100);
-  if (!name) return { ok: false, error: "Invalid name" };
+const fail = (code: ErrorCode, error: string): Validation => ({ ok: false, code, error });
 
-  const email = safeString(b.email, 254);
-  if (!email || !isValidEmail(email)) return { ok: false, error: "Invalid email" };
+function validateBody(b: Record<string, unknown>): Validation {
+  const name = trimString(b.name);
+  const email = trimString(b.email);
+  const phone = optionalString(b.phone);
+  const businessType = optionalString(b.businessType);
+  const projectDetails = optionalString(b.projectDetails);
+  const budget = optionalString(b.budget);
+  const timeline = optionalString(b.timeline);
 
-  const phone = safeOptString(b.phone, 30);
-  if (phone && !PHONE_REGEX.test(phone)) return { ok: false, error: "Invalid phone" };
+  // 1. Obligatoires absents, mauvais types, valeurs de liste inconnues → un seul message
+  const problems: string[] = [];
+  if (name === null) problems.push("nom");
+  if (email === null) problems.push("email");
+  if (phone === false) problems.push("téléphone");
+  if (businessType === false) problems.push("activité");
+  if (projectDetails === false) problems.push("description du projet");
+  if (budget === false || (budget !== null && !VALID_BUDGETS.has(budget))) problems.push("budget");
+  if (timeline === false || (timeline !== null && !VALID_TIMELINES.has(timeline))) problems.push("délai");
+  if (!Array.isArray(b.services) || b.services.length === 0) problems.push("services");
+  if (b.consentGiven !== true) problems.push("consentement (politique de confidentialité)");
+  // Les conditions sur name/email/services sont redondantes avec `problems` : elles servent au typage.
+  if (problems.length > 0 || name === null || email === null || !Array.isArray(b.services)) {
+    return fail("missing_fields", `Champs manquants ou invalides : ${problems.join(", ")}.`);
+  }
 
-  const businessType = safeOptString(b.businessType, 100);
-  const projectDetails = safeOptString(b.projectDetails, 5000);
+  // 2. Longueurs
+  if (name.length > MAX_NAME_LENGTH) {
+    return fail("too_long", `Nom trop long : ${MAX_NAME_LENGTH} caractères maximum.`);
+  }
+  if (phone && phone.length > MAX_PHONE_LENGTH) {
+    return fail("too_long", `Numéro de téléphone trop long : ${MAX_PHONE_LENGTH} caractères maximum.`);
+  }
+  if (businessType && businessType.length > MAX_BUSINESS_TYPE_LENGTH) {
+    return fail("too_long", `Activité trop longue : ${MAX_BUSINESS_TYPE_LENGTH} caractères maximum.`);
+  }
+  if (projectDetails && projectDetails.length > MAX_PROJECT_DETAILS_LENGTH) {
+    return fail("too_long", `Description du projet trop longue : ${MAX_PROJECT_DETAILS_LENGTH} caractères maximum.`);
+  }
 
-  const budget = safeOptString(b.budget, 30);
-  if (budget && !VALID_BUDGETS.has(budget)) return { ok: false, error: "Invalid budget" };
+  // 3. Formats
+  if (!isValidPersonName(name)) return fail("invalid_name", `Nom invalide : ${NAME_RULE_MESSAGE}.`);
+  if (!isValidEmail(email)) return fail("invalid_email", "Adresse email invalide.");
+  if (phone && !PHONE_LOOSE_REGEX.test(phone)) {
+    return fail("invalid_phone", "Numéro de téléphone invalide : chiffres, espaces, +, (), - uniquement.");
+  }
 
-  const timeline = safeOptString(b.timeline, 30);
-  if (timeline && !VALID_TIMELINES.has(timeline)) return { ok: false, error: "Invalid timeline" };
-
-  if (!Array.isArray(b.services) || b.services.length === 0 || b.services.length > 10) {
-    return { ok: false, error: "Invalid services" };
+  // 4. Services
+  const rawServices = b.services as unknown[];
+  if (rawServices.length > MAX_SERVICES) {
+    return fail("invalid_service", `Trop de services sélectionnés : ${MAX_SERVICES} maximum.`);
   }
   const services: string[] = [];
-  for (const s of b.services) {
+  for (const s of rawServices) {
     if (typeof s !== "string" || !VALID_SERVICES.has(s)) {
-      return { ok: false, error: "Invalid service value" };
+      return fail("invalid_service", `Service inconnu. Valeurs acceptées : ${[...VALID_SERVICES].join(", ")}.`);
     }
-    services.push(s);
+    if (!services.includes(s)) services.push(s);
   }
-
-  if (b.consentGiven !== true) return { ok: false, error: "Consent required" };
 
   return {
     ok: true,
-    data: { name, email, phone, businessType, services, projectDetails, budget, timeline },
+    data: {
+      name,
+      email,
+      phone: phone || null,
+      businessType: businessType || null,
+      services,
+      projectDetails: projectDetails || null,
+      budget: budget || null,
+      timeline: timeline || null,
+    },
   };
 }
 
 export default async function handler(req: Request): Promise<Response> {
-  const corsHeaders = buildCorsHeaders(req.headers.get("Origin"));
+  const cors = buildCorsHeaders(req.headers.get("Origin"));
   const pre = preflight(req);
   if (pre) return pre;
 
   if (req.method !== "POST") {
-    return new Response(JSON.stringify({ error: "Method not allowed" }), {
-      status: 405,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+    return apiError(405, "method_not_allowed", MESSAGES.method_not_allowed, cors, { Allow: "POST, OPTIONS" });
   }
 
-  const contentLength = Number(req.headers.get("content-length") ?? 0);
-  if (contentLength > MAX_BODY_BYTES) {
-    return new Response(JSON.stringify({ error: "Payload too large" }), {
-      status: 413,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+  if (contentLengthExceeds(req, MAX_BODY_BYTES)) {
+    return apiError(413, "payload_too_large", MESSAGES.payload_too_large, cors);
   }
 
   // Rate-limit : 3 demandes / heure / IP
   const ip = getClientIP(req);
   if (!rateLimit(`send-quote:${ip}`, 3, 3_600_000)) {
-    return new Response(JSON.stringify({ error: "Trop de demandes. Réessayez plus tard." }), {
-      status: 429,
-      headers: { ...corsHeaders, "Content-Type": "application/json", "Retry-After": "3600" },
-    });
+    return apiError(
+      429,
+      "rate_limited",
+      `Trop de demandes depuis votre connexion. Réessayez dans une heure ou écrivez-nous à ${CONTACT_EMAIL}.`,
+      cors,
+      { "Retry-After": "3600" },
+    );
   }
 
-  const RESEND_API_KEY = process.env.RESEND_API_KEY;
-  const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "contact.nexus.developpement@gmail.com";
-  const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "Nexus Développement <noreply@send.nexusdeveloppement.fr>";
+  const parsed = await readJsonObject(req, MAX_BODY_BYTES, cors);
+  if (parsed.ok === false) return parsed.response;
+  const body = parsed.body;
 
-  if (!RESEND_API_KEY) {
-    return new Response(JSON.stringify({ error: "Email service not configured" }), {
-      status: 503,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
-  }
-
-  let body: unknown;
-  try {
-    body = await req.json();
-  } catch {
-    return new Response(JSON.stringify({ error: "Invalid JSON" }), {
-      status: 400,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+  // Honeypot : réponse strictement identique au succès, mais rien n'est envoyé.
+  if (isHoneypotFilled(body.website)) {
+    console.log(JSON.stringify({ endpoint: ENDPOINT, event: "honeypot" }));
+    return json(200, SUCCESS_BODY, cors);
   }
 
   const validation = validateBody(body);
-  if (!validation.ok) {
-    return new Response(JSON.stringify({ error: validation.error }), {
-      status: 400,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
-  }
+  if (validation.ok === false) return apiError(400, validation.code, validation.error, cors);
   const data = validation.data;
+
+  const RESEND_API_KEY = process.env.RESEND_API_KEY;
+  const ADMIN_EMAIL = process.env.ADMIN_EMAIL || CONTACT_EMAIL;
+  const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "Nexus Développement <noreply@send.nexusdeveloppement.fr>";
+
+  if (!RESEND_API_KEY) {
+    return apiError(503, "not_configured", MESSAGES.not_configured, cors);
+  }
 
   // Préparation HTML emails (escape complet)
   const safeName = escapeHtml(data.name);
@@ -137,12 +195,14 @@ export default async function handler(req: Request): Promise<Response> {
   const safePhone = escapeHtml(data.phone ?? "");
   const safeBusinessType = escapeHtml(data.businessType ?? "");
   const safeProjectDetails = escapeHtml(data.projectDetails ?? "");
-  const safeBudget = escapeHtml(data.budget ?? "");
-  const safeTimeline = escapeHtml(data.timeline ?? "");
+  const safeBudget = escapeHtml(data.budget ? BUDGET_LABELS[data.budget] : "");
+  const safeTimeline = escapeHtml(data.timeline ? TIMELINE_LABELS[data.timeline] : "");
 
   const servicesListHtml = data.services
-    .map((id) => `<tr><td style="padding:8px 0;color:#e2e8f0;font-size:14px;">✓ ${escapeHtml(SERVICE_LABELS[id] || id)}</td></tr>`)
+    .map((id) => `<tr><td style="padding:8px 0;color:#e2e8f0;font-size:14px;">✓ ${escapeHtml(SERVICE_LABELS[id])}</td></tr>`)
     .join("");
+
+  // ----- Email admin : toutes les données, échappées ------------------------
 
   const adminHtml = `<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Nouvelle Demande de Devis</title></head>
 <body style="margin:0;padding:0;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background-color:#0f172a;">
@@ -167,6 +227,9 @@ ${safeTimeline ? `<tr><td style="padding:6px 0;color:#93c5fd;font-size:13px;">�
 ${safeProjectDetails ? `<tr><td colspan="2" style="padding:10px 0;"><span style="color:#93c5fd;font-size:13px;">📝 Description :</span><p style="color:#e2e8f0;font-size:14px;line-height:1.5;margin:6px 0 0;white-space:pre-wrap;">${safeProjectDetails}</p></td></tr>` : ""}
 </table></td></tr></table></td></tr></table></td></tr></table></body></html>`;
 
+  // ----- Email client : récapitulatif structuré uniquement (aucun texte libre,
+  // pour ne pas servir de relais d'emails vers des tiers) ---------------------
+
   const clientHtml = `<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Confirmation</title></head>
 <body style="margin:0;padding:0;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background-color:#0f172a;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 100%);padding:40px 20px;">
@@ -183,7 +246,6 @@ ${safeProjectDetails ? `<tr><td colspan="2" style="padding:10px 0;"><span style=
 <table width="100%" style="margin-bottom:15px;"><tr><td style="padding-bottom:10px;"><span style="color:#93c5fd;font-size:13px;">Services demandés</span></td></tr>${servicesListHtml}</table>
 ${safeBudget ? `<table width="100%" style="border-top:1px solid #3b82f6;padding-top:12px;margin-top:12px;"><tr><td><span style="color:#93c5fd;font-size:13px;">💰 Budget</span><br><span style="color:#4ade80;font-size:15px;">${safeBudget}</span></td></tr></table>` : ""}
 ${safeTimeline ? `<table width="100%" style="border-top:1px solid #3b82f6;padding-top:12px;margin-top:12px;"><tr><td><span style="color:#93c5fd;font-size:13px;">⏱️ Délai</span><br><span style="color:#fbbf24;font-size:15px;">${safeTimeline}</span></td></tr></table>` : ""}
-${safeProjectDetails ? `<table width="100%" style="border-top:1px solid #3b82f6;padding-top:12px;margin-top:12px;"><tr><td><span style="color:#93c5fd;font-size:13px;">📝 Description</span><p style="color:#e2e8f0;font-size:14px;line-height:1.5;margin:8px 0 0;white-space:pre-wrap;">${safeProjectDetails}</p></td></tr></table>` : ""}
 </td></tr></table>
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#1e40af;border-radius:16px;margin-bottom:20px;border:2px solid #3b82f6;"><tr><td style="padding:20px;text-align:center;">
 <p style="margin:0;color:#fff;font-size:15px;font-weight:500;">⏱️ Notre équipe vous recontactera sous <strong style="color:#7dd3fc;">24-48h</strong>.</p></td></tr></table>
@@ -191,43 +253,27 @@ ${safeProjectDetails ? `<table width="100%" style="border-top:1px solid #3b82f6;
 <p style="margin:0;color:#e2e8f0;font-size:15px;">Cordialement,<br><strong style="color:#7dd3fc;">L'équipe Nexus Développement</strong></p>
 </td></tr></table></td></tr></table></td></tr></table></body></html>`;
 
-  // Envoi parallèle (échec d'un email = on log mais on retourne quand même OK pour l'autre)
-  const [adminRes, clientRes] = await Promise.allSettled([
-    fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: { "Authorization": `Bearer ${RESEND_API_KEY}`, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        from: FROM_EMAIL,
-        to: [ADMIN_EMAIL],
-        reply_to: data.email,
-        subject: `📩 Nouvelle demande de devis - ${safeName}`,
-        html: adminHtml,
-      }),
-    }),
-    fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: { "Authorization": `Bearer ${RESEND_API_KEY}`, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        from: FROM_EMAIL,
-        to: [data.email],
-        subject: "✅ Confirmation de votre demande de devis - Nexus Développement",
-        html: clientHtml,
-      }),
-    }),
-  ]);
+  const delivered = await deliverAdminThenClient({
+    endpoint: ENDPOINT,
+    apiKey: RESEND_API_KEY,
+    admin: {
+      from: FROM_EMAIL,
+      to: [ADMIN_EMAIL],
+      reply_to: data.email,
+      subject: `📩 Nouvelle demande de devis - ${data.name}`,
+      html: adminHtml,
+    },
+    client: {
+      from: FROM_EMAIL,
+      to: [data.email],
+      subject: "✅ Confirmation de votre demande de devis - Nexus Développement",
+      html: clientHtml,
+    },
+  });
 
-  const adminOk = adminRes.status === "fulfilled" && adminRes.value.ok;
-  const clientOk = clientRes.status === "fulfilled" && clientRes.value.ok;
-
-  if (!adminOk && !clientOk) {
-    return new Response(JSON.stringify({ error: "Email service unavailable" }), {
-      status: 502,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+  if (!delivered) {
+    return apiError(502, "upstream_error", MESSAGES.upstream_error, cors);
   }
 
-  return new Response(
-    JSON.stringify({ success: true, message: "Demande envoyée" }),
-    { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-  );
+  return json(200, SUCCESS_BODY, cors);
 }

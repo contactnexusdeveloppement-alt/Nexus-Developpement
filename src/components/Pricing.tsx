@@ -104,6 +104,10 @@ const Pricing = () => {
           </AnimatePresence>
         </div>
 
+        <p className="text-center text-sm text-gray-500 mt-8">
+          Prix indiqués hors taxes (HT), TVA de 20 % en sus.
+        </p>
+
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}

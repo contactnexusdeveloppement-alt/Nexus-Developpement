@@ -17,16 +17,14 @@ const PricingCard = ({ plan, categoryId, isVisible = true, index = 0 }: PricingC
 
     const scrollToQuote = () => {
         // Navigate with search params without page reload
+        // Le formulaire de devis n'existe que sur l'accueil : on y navigue
+        // toujours, le composant HashScroll gère le défilement une fois la
+        // section (chargée en lazy) montée.
         navigate({
+            pathname: '/',
             hash: '#devis',
             search: `?category=${categoryId}&plan=${encodeURIComponent(plan.name)}`
         });
-
-        // Smooth scroll to the form after a brief delay for state update
-        setTimeout(() => {
-            const element = document.getElementById('devis');
-            element?.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
     };
 
     return (
@@ -83,6 +81,7 @@ const PricingCard = ({ plan, categoryId, isVisible = true, index = 0 }: PricingC
                                     </span>
                                     <span className={`text-4xl md:text-5xl font-black bg-gradient-to-r ${plan.priceColor} bg-clip-text text-transparent drop-shadow-lg`}>
                                         {priceMatch[2]}
+                                        <span className="ml-2 text-lg font-semibold text-gray-400 align-baseline">HT</span>
                                     </span>
                                 </div>
                             );
@@ -91,6 +90,9 @@ const PricingCard = ({ plan, categoryId, isVisible = true, index = 0 }: PricingC
                         return (
                             <span className={`text-4xl md:text-5xl font-black bg-gradient-to-r ${plan.priceColor} bg-clip-text text-transparent drop-shadow-lg whitespace-nowrap`}>
                                 {plan.price}
+                                {plan.price.includes('€') && (
+                                    <span className="ml-2 text-lg font-semibold text-gray-400 align-baseline">HT</span>
+                                )}
                             </span>
                         );
                     })()}

@@ -96,17 +96,7 @@ const LegalNotice = () => {
           <p>
             <strong className="text-white">Médiation de la consommation :</strong> conformément aux articles
             L.612-1 et suivants du Code de la consommation, en cas de litige persistant, le consommateur
-            peut recourir à un médiateur de la consommation. La plateforme européenne de règlement en ligne
-            des litiges est disponible :{" "}
-            <a
-              href="https://ec.europa.eu/consumers/odr/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-400 hover:text-blue-300 underline"
-            >
-              https://ec.europa.eu/consumers/odr/
-            </a>
-            .
+            peut recourir à un médiateur de la consommation.
           </p>
         </div>
       )

@@ -492,18 +492,7 @@ const CGV = () => {
           <p>
             <strong className="text-white">Pour les clients consommateurs :</strong> conformément à l'article
             L.612-1 du Code de la consommation, le consommateur peut recourir gratuitement à un médiateur
-            de la consommation. Le Client est également informé de l'existence de la plateforme européenne
-            de règlement en ligne des litiges :
-            {" "}
-            <a
-              href="https://ec.europa.eu/consumers/odr/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-400 hover:text-blue-300 underline"
-            >
-              https://ec.europa.eu/consumers/odr/
-            </a>
-            .
+            de la consommation.
           </p>
           <p>
             <strong className="text-white">Juridiction compétente :</strong> à défaut d'accord amiable,

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/nexus-logo.webp";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -16,7 +16,6 @@ import { cn } from "@/lib/utils";
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,26 +23,6 @@ const Navigation = () => {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const scrollToSection = (id: string) => {
-    if (window.location.pathname !== '/') {
-      navigate('/', { state: { scrollTo: id } });
-    } else {
-      const element = document.getElementById(id);
-      element?.scrollIntoView({ behavior: "smooth" });
-    }
-    setIsMobileMenuOpen(false);
-  };
-
-  useEffect(() => {
-    if (window.location.hash) {
-      const id = window.location.hash.substring(1);
-      setTimeout(() => {
-        const element = document.getElementById(id);
-        element?.scrollIntoView({ behavior: "smooth" });
-      }, 100);
-    }
   }, []);
 
   // Lock body scroll when mobile menu is open
@@ -130,24 +109,23 @@ const Navigation = () => {
               <Link to="/catalogue" className="bg-transparent text-white hover:bg-white/5 hover:text-blue-300 focus:bg-white/5 focus:text-blue-300 px-3 xl:px-4 py-2 rounded-md transition-all duration-300 text-sm xl:text-base font-medium">
                 Portfolio
               </Link>
-              <button onClick={() => scrollToSection("tarifs")} className="bg-transparent text-white hover:bg-white/5 hover:text-blue-300 focus:bg-white/5 focus:text-blue-300 px-3 xl:px-4 py-2 rounded-md transition-all duration-300 text-sm xl:text-base font-medium">
+              <Link to="/#tarifs" className="bg-transparent text-white hover:bg-white/5 hover:text-blue-300 focus:bg-white/5 focus:text-blue-300 px-3 xl:px-4 py-2 rounded-md transition-all duration-300 text-sm xl:text-base font-medium">
                 Tarifs
-              </button>
-              <button onClick={() => scrollToSection("reservation")} className="bg-transparent text-white hover:bg-white/5 hover:text-blue-300 focus:bg-white/5 focus:text-blue-300 px-3 xl:px-4 py-2 rounded-md transition-all duration-300 text-sm xl:text-base font-medium">
+              </Link>
+              <Link to="/#reservation" className="bg-transparent text-white hover:bg-white/5 hover:text-blue-300 focus:bg-white/5 focus:text-blue-300 px-3 xl:px-4 py-2 rounded-md transition-all duration-300 text-sm xl:text-base font-medium">
                 Réserver
-              </button>
-              <button onClick={() => scrollToSection("contact")} className="bg-transparent text-white hover:bg-white/5 hover:text-blue-300 focus:bg-white/5 focus:text-blue-300 px-3 xl:px-4 py-2 rounded-md transition-all duration-300 text-sm xl:text-base font-medium">
+              </Link>
+              <Link to="/#contact" className="bg-transparent text-white hover:bg-white/5 hover:text-blue-300 focus:bg-white/5 focus:text-blue-300 px-3 xl:px-4 py-2 rounded-md transition-all duration-300 text-sm xl:text-base font-medium">
                 Contact
-              </button>
+              </Link>
               <Link to="/equipe" className="bg-transparent text-white hover:bg-white/5 hover:text-blue-300 focus:bg-white/5 focus:text-blue-300 px-3 xl:px-4 py-2 rounded-md transition-all duration-300 text-sm xl:text-base font-medium">
                 Notre Équipe
               </Link>
 
-              <Button
-                onClick={() => scrollToSection('devis')}
+              <Button asChild
                 className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold px-5 xl:px-6 py-2 rounded-full shadow-[0_0_20px_rgba(59,130,246,0.5)] hover:shadow-[0_0_30px_rgba(59,130,246,0.7)] transition-all duration-300 transform hover:scale-105 border border-blue-400/30"
               >
-                Demander un devis
+                <Link to="/#devis">Demander un devis</Link>
               </Button>
             </div>
 
@@ -187,17 +165,16 @@ const Navigation = () => {
             <div className="h-px bg-gradient-to-r from-transparent via-blue-500/20 to-transparent my-4"></div>
 
             <Link to="/catalogue" className="px-4 py-3 text-white hover:bg-blue-500/10 hover:text-blue-300 rounded-lg text-left transition-colors" onClick={() => setIsMobileMenuOpen(false)}>Portfolio</Link>
-            <button onClick={() => scrollToSection('tarifs')} className="px-4 py-3 text-white hover:bg-blue-500/10 hover:text-blue-300 rounded-lg text-left transition-colors">Tarifs</button>
-            <button onClick={() => scrollToSection('reservation')} className="px-4 py-3 text-white hover:bg-blue-500/10 hover:text-blue-300 rounded-lg text-left transition-colors">Réserver</button>
-            <button onClick={() => scrollToSection('contact')} className="px-4 py-3 text-white hover:bg-blue-500/10 hover:text-blue-300 rounded-lg text-left transition-colors">Contact</button>
+            <Link to="/#tarifs" className="px-4 py-3 text-white hover:bg-blue-500/10 hover:text-blue-300 rounded-lg text-left transition-colors" onClick={() => setIsMobileMenuOpen(false)}>Tarifs</Link>
+            <Link to="/#reservation" className="px-4 py-3 text-white hover:bg-blue-500/10 hover:text-blue-300 rounded-lg text-left transition-colors" onClick={() => setIsMobileMenuOpen(false)}>Réserver</Link>
+            <Link to="/#contact" className="px-4 py-3 text-white hover:bg-blue-500/10 hover:text-blue-300 rounded-lg text-left transition-colors" onClick={() => setIsMobileMenuOpen(false)}>Contact</Link>
             <Link to="/equipe" className="px-4 py-3 text-white hover:bg-blue-500/10 hover:text-blue-300 rounded-lg text-left transition-colors" onClick={() => setIsMobileMenuOpen(false)}>Notre Équipe</Link>
 
-            <Button
-              onClick={() => scrollToSection('devis')}
+            <Button asChild
               className="mt-6 w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold py-6 rounded-xl shadow-lg shadow-blue-900/20"
             >
-              Demander un devis
-            </Button>
+                <Link to="/#devis" onClick={() => setIsMobileMenuOpen(false)}>Demander un devis</Link>
+              </Button>
           </div>
         </div>
       )}

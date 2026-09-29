@@ -33,12 +33,11 @@ const LINKS: LinkItem[] = [
   // CTA principal — le plus visible
   {
     icon: "🎁",
-    title: "Audit gratuit · 15 min · 100% offert",
+    title: "Appel découverte · 15 min · offert",
     description: "Réservez votre créneau, on analyse votre projet ensemble.",
     href: "/#reservation",
     internal: true,
     variant: "hero",
-    promo: "🔥 Offre lancement -30% jusqu'au 15 sept",
   },
   // CTA secondaires (standard)
   {

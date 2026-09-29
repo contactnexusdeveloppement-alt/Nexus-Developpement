@@ -22,7 +22,7 @@ const FAQ_WEBSITE = [
   },
   {
     q: "Nexus Développement est-il vraiment basé à Élancourt dans les Yvelines ?",
-    a: "Oui, Nexus Développement (SARL au capital de 1 000 €, SIREN 995 394 095, RCS Versailles) est basée au 4 rue de la Ferme, 78990 Élancourt, dans le département des Yvelines, en Île-de-France. Notre périmètre d'intervention couvre prioritairement Saint-Quentin-en-Yvelines (Montigny-le-Bretonneux, Voisins-le-Bretonneux, Guyancourt, Trappes, Magny-les-Hameaux, La Verrière), ainsi que les communes alentour : Plaisir, Maurepas, Versailles, Bois-d'Arcy, Coignières, Saint-Cyr-l'École. Nous proposons un rendez-vous de cadrage en présentiel, sans surcoût, dans un rayon de 30 km autour d'Élancourt. Pour les clients hors Yvelines, nous travaillons en visioconférence et nous déplaçons sur demande pour les phases clés du projet (kick-off, recette, mise en production).",
+    a: "Oui, Nexus Développement (SARL au capital de 500 €, SIREN 995 394 095, RCS Versailles) est basée au 4 rue de la Ferme, 78990 Élancourt, dans le département des Yvelines, en Île-de-France. Notre périmètre d'intervention couvre prioritairement Saint-Quentin-en-Yvelines (Montigny-le-Bretonneux, Voisins-le-Bretonneux, Guyancourt, Trappes, Magny-les-Hameaux, La Verrière), ainsi que les communes alentour : Plaisir, Maurepas, Versailles, Bois-d'Arcy, Coignières, Saint-Cyr-l'École. Nous proposons un rendez-vous de cadrage en présentiel, sans surcoût, dans un rayon de 30 km autour d'Élancourt. Pour les clients hors Yvelines, nous travaillons en visioconférence et nous déplaçons sur demande pour les phases clés du projet (kick-off, recette, mise en production).",
   },
   {
     q: "Mon site sera-t-il optimisé pour mobiles, tablettes et tous les écrans ?",
@@ -237,7 +237,7 @@ const WebsiteCreation = () => {
             <p className="text-lg text-blue-100/80 leading-relaxed mb-6">
               Basée à <strong>Élancourt dans les Yvelines (78)</strong>, notre agence Nexus Développement
               accompagne les entreprises locales et nationales dans leur transformation digitale. Avec notre
-              expertise en création de sites web, nous garantissons des résultats concrets et mesurables.
+              expertise en création de sites web, nous visons des résultats concrets et mesurables.
             </p>
 
             <h3 className="text-2xl font-bold text-white mb-4 mt-8">Que comprend exactement la création de votre site web ?</h3>
@@ -252,15 +252,11 @@ const WebsiteCreation = () => {
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-5 h-5 text-cyan-400 mt-1 flex-shrink-0" />
-                <span><strong>Support technique réactif</strong> sous 24h, 7j/7</span>
+                <span><strong>Support technique réactif</strong> sous 48 h, 7j/7</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-5 h-5 text-cyan-400 mt-1 flex-shrink-0" />
                 <span><strong>Formation complète incluse</strong> pour que vous soyez autonome</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="w-5 h-5 text-cyan-400 mt-1 flex-shrink-0" />
-                <span><strong>Garantie satisfaction</strong> ou remboursement intégral</span>
               </li>
             </ul>
 
@@ -300,8 +296,8 @@ const WebsiteCreation = () => {
                 </h3>
                 <p className="text-blue-100/80 leading-relaxed">
                   Le délai moyen est de <strong>2 à 4 semaines</strong> pour un site vitrine, 4 à 8 semaines
-                  pour un site e-commerce complexe. Nous garantissons une livraison rapide avec un accompagnement
-                  personnalisé et des points réguliers pour valider chaque étape ensemble.
+                  pour un site e-commerce complexe. Vous êtes accompagné tout au long du projet, avec des points
+                  réguliers pour valider chaque étape ensemble.
                 </p>
               </div>
 

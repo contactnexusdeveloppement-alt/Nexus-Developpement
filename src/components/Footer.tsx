@@ -77,16 +77,16 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <a href="#portfolio" className="text-slate-400 hover:text-blue-400 text-sm flex items-center gap-2 group transition-colors">
+                <Link to="/catalogue" className="text-slate-400 hover:text-blue-400 text-sm flex items-center gap-2 group transition-colors">
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-500/0 group-hover:bg-blue-400 transition-colors" />
                   Nos réalisations
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#contact" className="text-slate-400 hover:text-blue-400 text-sm flex items-center gap-2 group transition-colors">
+                <Link to="/#contact" className="text-slate-400 hover:text-blue-400 text-sm flex items-center gap-2 group transition-colors">
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-500/0 group-hover:bg-blue-400 transition-colors" />
                   Contact
-                </a>
+                </Link>
               </li>
               <li>
                 <Link to="/apporteurs" className="text-slate-400 hover:text-blue-400 text-sm flex items-center gap-2 group transition-colors">

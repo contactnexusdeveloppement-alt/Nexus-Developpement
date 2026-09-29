@@ -1,12 +1,70 @@
 import { ExternalLink, ArrowUpRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { useEffect, useRef, useState } from "react";
+import { useId, useRef } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { useNavigate } from "react-router-dom";
-import { projects, ctaProject, Project } from "@/data/projects";
+import { Link } from "react-router-dom";
+import { projects, ctaProject, isExternalUrl, Project } from "@/data/projects";
+
+const cardLinkClassName =
+  "block h-full rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black";
+
+type ProjectLinkProps = {
+  project: Project;
+  descriptionId: string;
+  children: React.ReactNode;
+};
+
+/**
+ * Lien englobant la carte : un vrai <a> (clavier, lecteur d'écran, clic molette).
+ * - site client externe : nouvelle fenêtre ;
+ * - démo interne : route react-router ;
+ * - CTA « #contact » : navigation vers /#contact, le défilement jusqu'à la
+ *   section (lazy-loadée) est assuré par <HashScroll /> monté dans App.tsx.
+ */
+const ProjectLink = ({ project, descriptionId, children }: ProjectLinkProps) => {
+  if (isExternalUrl(project.url)) {
+    return (
+      <a
+        href={project.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`Voir le projet ${project.title} (nouvelle fenêtre)`}
+        aria-describedby={descriptionId}
+        className={cardLinkClassName}
+      >
+        {children}
+      </a>
+    );
+  }
+
+  if (project.url.startsWith("#")) {
+    return (
+      <Link
+        to={{ pathname: "/", hash: project.url }}
+        aria-label="Démarrer votre projet : aller au formulaire de contact"
+        aria-describedby={descriptionId}
+        className={cardLinkClassName}
+      >
+        {children}
+      </Link>
+    );
+  }
+
+  return (
+    <Link
+      to={project.url}
+      aria-label={`Voir la démo ${project.title}`}
+      aria-describedby={descriptionId}
+      className={cardLinkClassName}
+    >
+      {children}
+    </Link>
+  );
+};
 
 const ProjectCard = ({ project, index }: { project: Project; index: number }) => {
   const ref = useRef<HTMLDivElement>(null);
+  const descriptionId = useId();
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -16,8 +74,6 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
 
   const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["15deg", "-15deg"]);
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-15deg", "15deg"]);
-
-  const navigate = useNavigate();
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const rect = ref.current?.getBoundingClientRect();
@@ -41,15 +97,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
     y.set(0);
   };
 
-  const handleClick = () => {
-    if (project.url.startsWith('#')) {
-      const element = document.querySelector(project.url);
-      element?.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      // Open all links (internal demos and external sites) in a new tab
-      window.open(project.url, '_blank');
-    }
-  };
+  const ActionIcon = isExternalUrl(project.url) ? ExternalLink : ArrowUpRight;
 
   return (
     <motion.div
@@ -65,77 +113,83 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
         rotateX,
         transformStyle: "preserve-3d",
       }}
-      className="relative group cursor-pointer"
-      onClick={handleClick}
+      className="relative group"
     >
-      <div
-        className="relative h-full min-h-[420px] rounded-xl bg-gray-900/40 border border-white/10 backdrop-blur-sm overflow-hidden flex flex-col transition-shadow duration-300 group-hover:shadow-[0_20px_50px_rgba(8,112,184,0.3)]"
-        style={{ transform: "translateZ(0)" }}
-      >
-        {/* Image Section — aspect-[8/5] = ratio 1.6 (cohérent avec les
-            captures clients en 800×500 qu'on affiche sans crop CSS) */}
-        <div className="relative aspect-[8/5] overflow-hidden transform transition-transform duration-300" style={{ transform: "translateZ(30px)" }}>
-          <div className="absolute top-4 right-4 z-20">
-            <Badge className="bg-black/50 text-cyan-300 border border-cyan-500/50 backdrop-blur-md">
-              {project.category}
-            </Badge>
-          </div>
-          <img
-            src={project.image}
-            alt={project.altText}
-            loading="lazy"
-            className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${project.image.includes('concession') || project.image.includes('agence-immo') ? 'scale-110' : ''
-              }`}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-60" />
-        </div>
-
-        {/* Content Section */}
-        <div className="flex-1 p-6 flex flex-col justify-between transform transition-transform duration-300 bg-gradient-to-b from-gray-900/0 to-gray-900/80" style={{ transform: "translateZ(50px)" }}>
-
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors">
-                {project.title}
-              </h3>
-              <div className="p-2 rounded-full bg-white/5 text-gray-300 group-hover:bg-cyan-500 group-hover:text-black transition-all duration-300">
-                <ArrowUpRight className="w-4 h-4" />
+      <ProjectLink project={project} descriptionId={descriptionId}>
+        <div
+          className="relative h-full min-h-[420px] rounded-xl bg-gray-900/40 border border-white/10 backdrop-blur-sm overflow-hidden flex flex-col transition-shadow duration-300 group-hover:shadow-[0_20px_50px_rgba(8,112,184,0.3)]"
+          style={{ transform: "translateZ(0)" }}
+        >
+          {/* Image Section — aspect-[8/5] = ratio 1.6 (cohérent avec les
+              captures clients en 800×500 qu'on affiche sans crop CSS) */}
+          <div className="relative aspect-[8/5] overflow-hidden transform transition-transform duration-300" style={{ transform: "translateZ(30px)" }}>
+            {project.isDemo && (
+              <div className="absolute top-4 left-4 z-20">
+                <Badge className="bg-amber-500/20 text-amber-200 border border-amber-400/60 backdrop-blur-md">
+                  Démo
+                </Badge>
               </div>
+            )}
+            <div className="absolute top-4 right-4 z-20">
+              <Badge className="bg-black/50 text-cyan-300 border border-cyan-500/50 backdrop-blur-md">
+                {project.category}
+              </Badge>
+            </div>
+            <img
+              src={project.image}
+              alt={project.altText}
+              loading="lazy"
+              className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${project.image.includes('concession') || project.image.includes('agence-immo') ? 'scale-110' : ''
+                }`}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-60" />
+          </div>
+
+          {/* Content Section */}
+          <div className="flex-1 p-6 flex flex-col justify-between transform transition-transform duration-300 bg-gradient-to-b from-gray-900/0 to-gray-900/80" style={{ transform: "translateZ(50px)" }}>
+
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors">
+                  {project.title}
+                </h3>
+                <div className="p-2 rounded-full bg-white/5 text-gray-300 group-hover:bg-cyan-500 group-hover:text-black transition-all duration-300" aria-hidden="true">
+                  <ActionIcon className="w-4 h-4" />
+                </div>
+              </div>
+
+              <p id={descriptionId} className="text-gray-400 text-sm leading-relaxed line-clamp-3">
+                {project.description}
+              </p>
             </div>
 
-            <p className="text-gray-400 text-sm leading-relaxed line-clamp-3">
-              {project.description}
-            </p>
+            {/* Technologies */}
+            <div className="flex flex-wrap gap-2 pt-4 mt-2 border-t border-white/5">
+              {project.technologies.slice(0, 3).map((tech, idx) => (
+                <span
+                  key={idx}
+                  className="text-xs px-2.5 py-1 rounded-full bg-white/5 text-gray-400 border border-white/5 transition-colors group-hover:border-cyan-500/30 group-hover:text-cyan-200"
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
           </div>
 
-          {/* Technologies */}
-          <div className="flex flex-wrap gap-2 pt-4 mt-2 border-t border-white/5">
-            {project.technologies.slice(0, 3).map((tech, idx) => (
-              <span
-                key={idx}
-                className="text-xs px-2.5 py-1 rounded-full bg-white/5 text-gray-400 border border-white/5 transition-colors group-hover:border-cyan-500/30 group-hover:text-cyan-200"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
+          {/* Shine Effect */}
+          <div
+            className="absolute inset-0 z-20 pointer-events-none bg-gradient-to-tr from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-shine"
+          />
+
+          {/* Border Glow */}
+          <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none ring-1 ring-cyan-500/50 shadow-[0_0_30px_rgba(34,211,238,0.15)]" />
         </div>
-
-        {/* Shine Effect */}
-        <div
-          className="absolute inset-0 z-20 pointer-events-none bg-gradient-to-tr from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-shine"
-        />
-
-        {/* Border Glow */}
-        <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none ring-1 ring-cyan-500/50 shadow-[0_0_30px_rgba(34,211,238,0.15)]" />
-      </div>
+      </ProjectLink>
     </motion.div>
   );
 };
 
 const Portfolio = () => {
-  const navigate = useNavigate();
-
   return (
     <section id="portfolio" className="py-20 relative overflow-hidden">
       {/* Background Decor - reduced blur on mobile */}
@@ -152,11 +206,12 @@ const Portfolio = () => {
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             <span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-400 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(59,130,246,0.5)]">
-              Nos Réalisations
+              Nos réalisations et démos
             </span>
           </h2>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-            Une sélection de nos meilleurs projets, alliant design primé et excellence technique.
+            Nos sites clients en ligne, complétés par des démos sectorielles fictives qui illustrent
+            ce que nous pouvons concevoir pour votre activité. Design sur-mesure et rigueur technique.
           </p>
         </motion.div>
 
@@ -168,7 +223,7 @@ const Portfolio = () => {
           style={{ perspective: "1000px" }}
         >
           {[...projects.slice(0, 5), ctaProject].map((project, index) => (
-            <ProjectCard key={index} project={project} index={index} />
+            <ProjectCard key={project.title} project={project} index={index} />
           ))}
         </div>
 
@@ -180,13 +235,13 @@ const Portfolio = () => {
           className="text-center mt-20"
         >
           <p className="text-gray-500 font-medium">
-            Et bien plus encore...
-            <button
-              onClick={() => navigate('/catalogue')}
-              className="text-cyan-400 hover:text-cyan-300 underline underline-offset-4 transition-colors ml-2"
+            Retrouvez l'ensemble de nos réalisations et démos.
+            <Link
+              to="/catalogue"
+              className="text-cyan-400 hover:text-cyan-300 underline underline-offset-4 transition-colors ml-2 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
             >
               Voir tout le catalogue
-            </button>
+            </Link>
           </p>
         </motion.div>
       </div>

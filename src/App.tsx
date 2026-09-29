@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import ScrollToTop from "./components/ScrollToTop";
+import HashScroll from "./components/HashScroll";
 import { LOCAL_CITIES } from "./data/localCities";
 
 // Lazy loading pages for performance
@@ -82,6 +83,7 @@ const App = () => (
           </Routes>
         </Suspense>
         <ScrollToTop />
+        <HashScroll />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

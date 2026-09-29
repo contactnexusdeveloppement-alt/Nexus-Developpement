@@ -26,7 +26,7 @@ const FAQ_WEBAPPS = [
   },
   {
     q: "Pouvez-vous reprendre et faire évoluer une application existante ?",
-    a: "Oui, c'est même 30 à 40 % de nos missions. Nous commençons toujours par un audit technique de votre application existante : qualité et lisibilité du code, dette technique accumulée, vulnérabilités de sécurité (injection SQL, XSS, CSRF, dépendances obsolètes), conformité RGPD, performance front et back, couverture de tests, qualité de la documentation. L'audit est facturé selon la taille du projet, à partir de 600 € HT pour une application simple jusqu'à 2 500 € HT pour un SaaS complexe avec plusieurs services. Le rapport d'audit est livré sous 1 à 2 semaines avec un plan de remise en état si nécessaire (priorisé par impact / effort) et une estimation chiffrée des évolutions souhaitées. Nous reprenons aussi bien des projets sur stack moderne (React, Node, Next.js) que des projets legacy (PHP, jQuery) où nous proposons souvent une migration progressive plutôt qu'une réécriture totale.",
+    a: "Oui. Nous commençons toujours par un audit technique de votre application existante : qualité et lisibilité du code, dette technique accumulée, vulnérabilités de sécurité (injection SQL, XSS, CSRF, dépendances obsolètes), conformité RGPD, performance front et back, couverture de tests, qualité de la documentation. L'audit est facturé selon la taille du projet, à partir de 600 € HT pour une application simple jusqu'à 2 500 € HT pour un SaaS complexe avec plusieurs services. Le rapport d'audit est livré sous 1 à 2 semaines avec un plan de remise en état si nécessaire (priorisé par impact / effort) et une estimation chiffrée des évolutions souhaitées. Nous reprenons aussi bien des projets sur stack moderne (React, Node, Next.js) que des projets legacy (PHP, jQuery) où nous proposons souvent une migration progressive plutôt qu'une réécriture totale.",
   },
 ];
 
@@ -262,39 +262,14 @@ const WebApps = () => {
                             Questions Fréquentes - Applications Web
                         </h2>
 
+                        {/* Même source que le JSON-LD FAQPage : une seule vérité pour les prix et délais */}
                         <div className="space-y-6">
-                            <div className="bg-slate-800/40 p-6 rounded-lg border border-white/10 hover:border-cyan-500/30 transition-colors">
-                                <h3 className="text-xl font-bold text-white mb-3">
-                                    💰 Quel est le coût d'une application web sur-mesure ?
-                                </h3>
-                                <p className="text-blue-100/80 leading-relaxed">
-                                    Les tarifs démarrent à <strong>2990€ pour une application simple</strong> et 5990€ pour
-                                    une solution SaaS complète. Le prix varie selon la complexité, le nombre de fonctionnalités
-                                    et l'intégration avec vos systèmes existants.
-                                </p>
-                            </div>
-
-                            <div className="bg-slate-800/40 p-6 rounded-lg border border-white/10 hover:border-cyan-500/30 transition-colors">
-                                <h3 className="text-xl font-bold text-white mb-3">
-                                    ⏱️ Combien de temps pour développer mon application ?
-                                </h3>
-                                <p className="text-blue-100/80 leading-relaxed">
-                                    Comptez <strong>4 à 8 semaines pour une application simple</strong>, 3 à 6 mois pour un
-                                    SaaS complet avec fonctionnalités avancées. Nous travaillons en sprints agiles avec des
-                                    démos régulières.
-                                </p>
-                            </div>
-
-                            <div className="bg-slate-800/40 p-6 rounded-lg border border-white/10 hover:border-cyan-500/30 transition-colors">
-                                <h3 className="text-xl font-bold text-white mb-3">
-                                    🔐 Mon application sera-t-elle sécurisée ?
-                                </h3>
-                                <p className="text-blue-100/80 leading-relaxed">
-                                    Absolument ! Nous implémentons <strong>l'authentification forte, le chiffrement des données,
-                                        la gestion des rôles</strong> et respectons les normes RGPD. Tests de sécurité systématiques
-                                    avant mise en production.
-                                </p>
-                            </div>
+                            {FAQ_WEBAPPS.map((item) => (
+                                <div key={item.q} className="bg-slate-800/40 p-6 rounded-lg border border-white/10 hover:border-cyan-500/30 transition-colors">
+                                    <h3 className="text-xl font-bold text-white mb-3">{item.q}</h3>
+                                    <p className="text-blue-100/80 leading-relaxed">{item.a}</p>
+                                </div>
+                            ))}
                         </div>
                     </div>
 

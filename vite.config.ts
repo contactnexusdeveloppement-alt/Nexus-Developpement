@@ -29,6 +29,7 @@ const ROUTES_TO_PRERENDER = [
   "/cgu",
   "/cgv",
   "/cookies",
+  "/404",
   "/agence-web-versailles",
   "/agence-web-saint-quentin-en-yvelines",
   "/agence-web-trappes",
