@@ -31,8 +31,9 @@ const ApporteursFinalCTA = () => {
           className="text-lg md:text-xl mb-10 leading-relaxed"
           style={{ color: "var(--ned-silver)" }}
         >
-          Vous pouvez vous faire <strong style={{ color: "var(--ned-success)" }}>1&nbsp;500 à 3&nbsp;000&nbsp;€</strong>
-          {" "}rien qu'avec ces 5 personnes. Le reste, c'est vous qui voyez.
+          Si deux d'entre elles signent un site Business à 1&nbsp;850&nbsp;€ HT, vous touchez{" "}
+          <strong style={{ color: "var(--ned-success)" }}>740&nbsp;€</strong> de commission (20&nbsp;%).
+          Le simulateur ci-dessus vous donne une estimation selon votre réseau. Le reste, c'est vous qui voyez.
         </motion.p>
 
         <motion.div

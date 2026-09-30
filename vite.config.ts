@@ -1,4 +1,4 @@
-import { defineConfig } from "vite";
+import { defineConfig, type PluginOption, type UserConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 
@@ -12,6 +12,7 @@ const PRERENDER = process.env.PRERENDER === "true";
 const ROUTES_TO_PRERENDER = [
   "/",
   "/creation-site-web",
+  "/e-commerce",
   "/automatisation",
   "/applications-web",
   "/applications-mobiles",
@@ -29,6 +30,7 @@ const ROUTES_TO_PRERENDER = [
   "/cgu",
   "/cgv",
   "/cookies",
+  "/404",
   "/agence-web-versailles",
   "/agence-web-saint-quentin-en-yvelines",
   "/agence-web-trappes",
@@ -37,8 +39,8 @@ const ROUTES_TO_PRERENDER = [
   "/agence-web-maurepas",
 ];
 
-export default defineConfig(async ({ mode }) => {
-  const plugins: any[] = [react()];
+export default defineConfig(async ({ mode }): Promise<UserConfig> => {
+  const plugins: PluginOption[] = [react()];
 
   if (PRERENDER) {
     const { default: prerender } = await import("@prerenderer/rollup-plugin");
@@ -67,24 +69,30 @@ export default defineConfig(async ({ mode }) => {
       },
     },
     publicDir: "public",
+    // Option de premier niveau : sous `build`, elle était ignorée par Vite
+    // et les console.log partaient en production.
+    esbuild: {
+      drop: mode === "production" ? ["console", "debugger"] : [],
+    },
     build: {
       outDir: "dist",
       assetsDir: "assets",
       copyPublicDir: true,
       minify: "esbuild",
-      esbuild: {
-        drop: mode === "production" ? ["console", "debugger"] : [],
-      },
       rollupOptions: {
         output: {
-          manualChunks: {
-            "react-vendor": [
-              "react",
-              "react-dom",
-              "react-router-dom",
-              "@tanstack/react-query",
-            ],
-            "ui-vendor": ["framer-motion", "lucide-react"],
+          // Un seul chunk vendor pour React et les bibliothèques qui touchent à
+          // ses internes (framer-motion, react-router, react-query). Deux chunks
+          // séparés créaient un cycle react-vendor ↔ ui-vendor (avertissement
+          // Rollup) qui plantait le bundle de développement au démarrage.
+          manualChunks(id) {
+            if (!id.includes("node_modules")) return undefined;
+            if (
+              /[\\/]node_modules[\\/](react|react-dom|scheduler|react-router|react-router-dom|@remix-run|@tanstack|use-sync-external-store|framer-motion|motion-dom|motion-utils|lucide-react)[\\/]/.test(id)
+            ) {
+              return "vendor";
+            }
+            return undefined;
           },
         },
       },

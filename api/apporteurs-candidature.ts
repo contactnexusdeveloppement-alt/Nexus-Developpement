@@ -1,8 +1,22 @@
-import { buildCorsHeaders, preflight } from "./_lib/cors";
+import { buildCorsHeaders, isJsonRequest, isOriginAllowed, preflight } from "./_lib/cors";
 import { rateLimit, getClientIP } from "./_lib/rate-limit";
-import { escapeHtml, isValidEmail, safeOptString, safeString } from "./_lib/validation";
+import { CONTACT_EMAIL, MESSAGES, apiError, contentLengthExceeds, json, readJsonObject, type ErrorCode } from "./_lib/http";
+import { deliverAdminThenClient } from "./_lib/resend";
+import {
+  DATE_REGEX,
+  NAME_RULE_MESSAGE,
+  PHONE_FR_REGEX,
+  escapeHtml,
+  isHoneypotFilled,
+  isValidEmail,
+  isValidPersonName,
+  safeOptString,
+  safeString,
+} from "./_lib/validation";
 
 export const config = { runtime: "edge" };
+
+const ENDPOINT = "apporteurs-candidature";
 
 // --- Constantes de validation -----------------------------------------------
 
@@ -12,11 +26,15 @@ const VALID_AE_STATUS = new Set(["yes", "no", "in_progress"]);
 const VALID_SOURCES = new Set(["instagram", "linkedin", "tiktok", "bouche_a_oreille", "autre"]);
 const VALID_NETWORK_SIZES = new Set(["0-5", "6-15", "16-50", "50+"]);
 
-const PHONE_REGEX = /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/;
-const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
 const MAX_BODY_BYTES = 30_000;
+const MAX_NAME_LENGTH = 100;
+const MAX_CITY_LENGTH = 100;
+const MAX_PHONE_LENGTH = 30;
 const MIN_REASON_LENGTH = 200;
 const MAX_REASON_LENGTH = 5000;
+
+const UPSTREAM_ERROR_MESSAGE = `Impossible d'envoyer votre candidature pour le moment. Écrivez-nous directement à ${CONTACT_EMAIL}.`;
+const SUCCESS_BODY = { success: true, message: "Candidature reçue" };
 
 // --- Libellés humanisés (pour les emails) -----------------------------------
 
@@ -64,73 +82,90 @@ interface ValidatedCandidature {
   networkSize: string;
 }
 
-function isAtLeast16(dateString: string): boolean {
+type Validation = { ok: true; data: ValidatedCandidature } | { ok: false; code: ErrorCode; error: string };
+
+const fail = (code: ErrorCode, error: string): Validation => ({ ok: false, code, error });
+
+// Majorité exigée : la modale juridique et le statut (auto-entrepreneur, contrat
+// d'apporteur) supposent un apporteur majeur.
+function isAtLeast18(dateString: string): boolean {
   const birth = new Date(dateString + "T00:00:00Z");
   if (isNaN(birth.getTime())) return false;
   const cutoff = new Date();
-  cutoff.setUTCFullYear(cutoff.getUTCFullYear() - 16);
+  cutoff.setUTCFullYear(cutoff.getUTCFullYear() - 18);
   return birth <= cutoff;
 }
 
-function validateBody(
-  body: unknown,
-): { ok: true; data: ValidatedCandidature } | { ok: false; error: string } {
-  if (!body || typeof body !== "object") return { ok: false, error: "Invalid body" };
-  const b = body as Record<string, unknown>;
-
-  // Honeypot — un humain ne remplit pas ce champ
-  if (typeof b.website === "string" && b.website.trim() !== "") {
-    return { ok: false, error: "Spam detected" };
-  }
-
+function validateBody(b: Record<string, unknown>): Validation {
+  // Lecture brute : null = absent / vide / mauvais type. Les longueurs sont
+  // vérifiées séparément pour renvoyer `too_long` plutôt que « manquant ».
   const civility = safeString(b.civility, 10);
-  if (!civility || !VALID_CIVILITIES.has(civility)) return { ok: false, error: "Invalid civility" };
-
-  const lastName = safeString(b.lastName, 100);
-  if (!lastName) return { ok: false, error: "Invalid lastName" };
-
-  const firstName = safeString(b.firstName, 100);
-  if (!firstName) return { ok: false, error: "Invalid firstName" };
-
-  const email = safeString(b.email, 254);
-  if (!email || !isValidEmail(email)) return { ok: false, error: "Invalid email" };
-
-  const phoneRaw = safeString(b.phone, 30);
-  if (!phoneRaw || !PHONE_REGEX.test(phoneRaw.trim())) return { ok: false, error: "Invalid phone" };
-
+  const lastName = safeString(b.lastName, 10_000);
+  const firstName = safeString(b.firstName, 10_000);
+  const email = safeString(b.email, 10_000);
+  const phone = safeString(b.phone, 10_000);
   const birthDate = safeString(b.birthDate, 10);
-  if (!birthDate || !DATE_REGEX.test(birthDate) || !isAtLeast16(birthDate)) {
-    return { ok: false, error: "Invalid birthDate" };
-  }
-
-  const city = safeString(b.city, 100);
-  if (!city) return { ok: false, error: "Invalid city" };
-
+  const city = safeString(b.city, 10_000);
   const workStatus = safeString(b.workStatus, 30);
-  if (!workStatus || !VALID_WORK_STATUS.has(workStatus)) {
-    return { ok: false, error: "Invalid workStatus" };
-  }
-
   const aeStatus = safeString(b.aeStatus, 30);
-  if (!aeStatus || !VALID_AE_STATUS.has(aeStatus)) {
-    return { ok: false, error: "Invalid aeStatus" };
-  }
-
   const source = safeOptString(b.source, 30);
-  if (source && !VALID_SOURCES.has(source)) return { ok: false, error: "Invalid source" };
-
-  const reasonRaw = safeString(b.reason, MAX_REASON_LENGTH);
-  if (!reasonRaw || reasonRaw.length < MIN_REASON_LENGTH) {
-    return { ok: false, error: "Invalid reason" };
-  }
-
+  const reason = safeString(b.reason, 100_000);
   const networkSize = safeString(b.networkSize, 10);
-  if (!networkSize || !VALID_NETWORK_SIZES.has(networkSize)) {
-    return { ok: false, error: "Invalid networkSize" };
+
+  // 1. Obligatoires absents, valeurs de liste inconnues, consentements → un seul message
+  const problems: string[] = [];
+  if (!civility || !VALID_CIVILITIES.has(civility)) problems.push("civilité");
+  if (!lastName) problems.push("nom");
+  if (!firstName) problems.push("prénom");
+  if (!email) problems.push("email");
+  if (!phone) problems.push("téléphone");
+  if (!birthDate || !DATE_REGEX.test(birthDate) || !isAtLeast18(birthDate)) {
+    problems.push("date de naissance (18 ans minimum)");
+  }
+  if (!city) problems.push("ville");
+  if (!workStatus || !VALID_WORK_STATUS.has(workStatus)) problems.push("statut actuel");
+  if (!aeStatus || !VALID_AE_STATUS.has(aeStatus)) problems.push("statut auto-entrepreneur");
+  if (b.source != null && (source === null || !VALID_SOURCES.has(source))) problems.push("source");
+  if (!reason) problems.push("motivation");
+  if (!networkSize || !VALID_NETWORK_SIZES.has(networkSize)) problems.push("taille du réseau");
+  if (b.consentRgpd !== true) problems.push("consentement (politique de confidentialité)");
+  if (b.consentContract !== true) problems.push("acceptation des conditions du programme");
+
+  // Les tests de nullité ci-dessous sont redondants avec `problems` : ils servent au typage.
+  if (
+    problems.length > 0 ||
+    !civility || !lastName || !firstName || !email || !phone ||
+    !birthDate || !city || !workStatus || !aeStatus || !reason || !networkSize
+  ) {
+    return fail("missing_fields", `Champs manquants ou invalides : ${problems.join(", ")}.`);
   }
 
-  if (b.consentRgpd !== true) return { ok: false, error: "RGPD consent required" };
-  if (b.consentContract !== true) return { ok: false, error: "Contract consent required" };
+  // 2. Longueurs
+  if (lastName.length > MAX_NAME_LENGTH || firstName.length > MAX_NAME_LENGTH) {
+    return fail("too_long", `Nom ou prénom trop long : ${MAX_NAME_LENGTH} caractères maximum.`);
+  }
+  if (email.length > 254) return fail("too_long", "Adresse email trop longue.");
+  if (phone.length > MAX_PHONE_LENGTH) {
+    return fail("too_long", `Numéro de téléphone trop long : ${MAX_PHONE_LENGTH} caractères maximum.`);
+  }
+  if (city.length > MAX_CITY_LENGTH) {
+    return fail("too_long", `Ville trop longue : ${MAX_CITY_LENGTH} caractères maximum.`);
+  }
+  if (reason.length > MAX_REASON_LENGTH) {
+    return fail("too_long", `Motivation trop longue : ${MAX_REASON_LENGTH} caractères maximum.`);
+  }
+  if (reason.length < MIN_REASON_LENGTH) {
+    return fail("missing_fields", `Motivation trop courte : ${MIN_REASON_LENGTH} caractères minimum.`);
+  }
+
+  // 3. Formats
+  if (!isValidPersonName(lastName) || !isValidPersonName(firstName)) {
+    return fail("invalid_name", `Nom ou prénom invalide : ${NAME_RULE_MESSAGE}.`);
+  }
+  if (!isValidEmail(email)) return fail("invalid_email", "Adresse email invalide.");
+  if (!PHONE_FR_REGEX.test(phone)) {
+    return fail("invalid_phone", "Numéro de téléphone invalide : numéro français attendu (ex. 06 12 34 56 78).");
+  }
 
   return {
     ok: true,
@@ -139,13 +174,13 @@ function validateBody(
       lastName,
       firstName,
       email,
-      phone: phoneRaw,
+      phone,
       birthDate,
       city,
       workStatus,
       aeStatus,
-      source,
-      reason: reasonRaw,
+      source: source || null,
+      reason,
       networkSize,
     },
   };
@@ -154,71 +189,59 @@ function validateBody(
 // --- Handler ----------------------------------------------------------------
 
 export default async function handler(req: Request): Promise<Response> {
-  const corsHeaders = buildCorsHeaders(req.headers.get("Origin"));
+  const cors = buildCorsHeaders(req.headers.get("Origin"));
   const pre = preflight(req);
   if (pre) return pre;
 
   if (req.method !== "POST") {
-    return new Response(JSON.stringify({ error: "Method not allowed" }), {
-      status: 405,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+    return apiError(405, "method_not_allowed", MESSAGES.method_not_allowed, cors, { Allow: "POST, OPTIONS" });
   }
 
-  const contentLength = Number(req.headers.get("content-length") ?? 0);
-  if (contentLength > MAX_BODY_BYTES) {
-    return new Response(JSON.stringify({ error: "Payload too large" }), {
-      status: 413,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+  // Cross-site ou non JSON : refus avant toute lecture du corps (voir isOriginAllowed).
+  if (!isOriginAllowed(req)) {
+    return apiError(403, "forbidden_origin", MESSAGES.forbidden_origin, cors);
+  }
+  if (!isJsonRequest(req)) {
+    return apiError(415, "unsupported_media_type", MESSAGES.unsupported_media_type, cors);
+  }
+
+  if (contentLengthExceeds(req, MAX_BODY_BYTES)) {
+    return apiError(413, "payload_too_large", MESSAGES.payload_too_large, cors);
   }
 
   // Rate-limit : 3 candidatures / heure / IP (cohérent avec /api/send-quote)
   const ip = getClientIP(req);
   if (!rateLimit(`apporteurs:${ip}`, 3, 3_600_000)) {
-    return new Response(
-      JSON.stringify({ error: "Trop de candidatures. Réessayez plus tard." }),
-      {
-        status: 429,
-        headers: { ...corsHeaders, "Content-Type": "application/json", "Retry-After": "3600" },
-      },
+    return apiError(
+      429,
+      "rate_limited",
+      `Trop de candidatures depuis votre connexion. Réessayez dans une heure ou écrivez-nous à ${CONTACT_EMAIL}.`,
+      cors,
+      { "Retry-After": "3600" },
     );
   }
 
-  const RESEND_API_KEY = process.env.RESEND_API_KEY;
-  const ADMIN_EMAIL =
-    process.env.EMAIL_TO_RECRUITMENT ||
-    process.env.ADMIN_EMAIL ||
-    "contact.nexus.developpement@gmail.com";
-  const FROM_EMAIL =
-    process.env.RESEND_FROM_EMAIL ||
-    "Nexus Développement <noreply@send.nexusdeveloppement.fr>";
+  const parsed = await readJsonObject(req, MAX_BODY_BYTES, cors);
+  if (parsed.ok === false) return parsed.response;
+  const body = parsed.body;
 
-  if (!RESEND_API_KEY) {
-    return new Response(JSON.stringify({ error: "Email service not configured" }), {
-      status: 503,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
-  }
-
-  let body: unknown;
-  try {
-    body = await req.json();
-  } catch {
-    return new Response(JSON.stringify({ error: "Invalid JSON" }), {
-      status: 400,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+  // Honeypot : réponse strictement identique au succès, mais rien n'est envoyé.
+  if (isHoneypotFilled(body.website)) {
+    console.log(JSON.stringify({ endpoint: ENDPOINT, event: "honeypot" }));
+    return json(200, SUCCESS_BODY, cors);
   }
 
   const validation = validateBody(body);
-  if (!validation.ok) {
-    return new Response(JSON.stringify({ error: validation.error }), {
-      status: 400,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
-  }
+  if (validation.ok === false) return apiError(400, validation.code, validation.error, cors);
   const d = validation.data;
+
+  const RESEND_API_KEY = process.env.RESEND_API_KEY;
+  const ADMIN_EMAIL = process.env.EMAIL_TO_RECRUITMENT || process.env.ADMIN_EMAIL || CONTACT_EMAIL;
+  const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "Nexus Développement <noreply@send.nexusdeveloppement.fr>";
+
+  if (!RESEND_API_KEY) {
+    return apiError(503, "not_configured", MESSAGES.not_configured, cors);
+  }
 
   // Escape HTML pour tous les champs avant injection dans les templates
   const safe = {
@@ -265,7 +288,8 @@ export default async function handler(req: Request): Promise<Response> {
 </td></tr>
 </table></td></tr></table></body></html>`;
 
-  // ----- Email candidat (sobre, accusé de réception) -----------------------
+  // ----- Email candidat : accusé de réception sans aucun texte libre --------
+  // (le prénom est validé comme nom de personne : pas d'URL ni de message)
 
   const candidateHtml = `<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Candidature reçue</title></head>
 <body style="margin:0;padding:0;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background-color:#050B1F;">
@@ -286,56 +310,36 @@ export default async function handler(req: Request): Promise<Response> {
   <p style="margin:0;font-size:12px;color:#C8CDD3;text-align:center;border-top:1px solid rgba(200,205,211,0.1);padding-top:16px;">
     <a href="https://nexusdeveloppement.fr/apporteurs" style="color:#4A9EFF;text-decoration:none;">Programme apporteur</a>
     &nbsp;·&nbsp;
-    <a href="mailto:contact.nexus.developpement@gmail.com" style="color:#4A9EFF;text-decoration:none;">Nous contacter</a>
+    <a href="mailto:${CONTACT_EMAIL}" style="color:#4A9EFF;text-decoration:none;">Nous contacter</a>
   </p>
 </td></tr>
 </table></td></tr></table></body></html>`;
 
-  // Envoi parallèle (échec d'un email = on log mais on retourne quand même OK)
-  const [adminRes, candidateRes] = await Promise.allSettled([
-    fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${RESEND_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: FROM_EMAIL,
-        to: [ADMIN_EMAIL],
-        reply_to: d.email,
-        subject: `Candidature apporteur — ${d.firstName} ${d.lastName}`,
-        html: adminHtml,
-      }),
-    }),
-    fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${RESEND_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: FROM_EMAIL,
-        to: [d.email],
-        subject: "Votre candidature apporteur — Nexus Développement",
-        html: candidateHtml,
-      }),
-    }),
-  ]);
+  // L'email admin est le critère de succès ; l'accusé de réception au candidat
+  // n'est envoyé qu'après, en best-effort (voir _lib/resend.ts).
+  const delivered = await deliverAdminThenClient({
+    endpoint: ENDPOINT,
+    apiKey: RESEND_API_KEY,
+    admin: {
+      from: FROM_EMAIL,
+      to: [ADMIN_EMAIL],
+      reply_to: d.email,
+      subject: `Candidature apporteur — ${d.firstName} ${d.lastName}`,
+      html: adminHtml,
+    },
+    client: {
+      from: FROM_EMAIL,
+      to: [d.email],
+      subject: "Votre candidature apporteur — Nexus Développement",
+      html: candidateHtml,
+    },
+  });
 
-  const adminOk = adminRes.status === "fulfilled" && adminRes.value.ok;
-  const candidateOk = candidateRes.status === "fulfilled" && candidateRes.value.ok;
-
-  if (!adminOk && !candidateOk) {
-    return new Response(JSON.stringify({ error: "Email service unavailable" }), {
-      status: 502,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+  if (!delivered) {
+    return apiError(502, "upstream_error", UPSTREAM_ERROR_MESSAGE, cors);
   }
 
-  return new Response(
-    JSON.stringify({ success: true, message: "Candidature reçue" }),
-    { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-  );
+  return json(200, SUCCESS_BODY, cors);
 }
 
 // --- Helpers HTML -----------------------------------------------------------

@@ -2,31 +2,43 @@ import { useMemo, useState, useId } from "react";
 import { motion } from "framer-motion";
 import { TrendingUp } from "lucide-react";
 
-type SignatureRate = "prudent" | "realiste" | "optimiste";
+type SignatureRate = "basse" | "mediane" | "haute";
 type Mix = "vitrines" | "equilibre" | "premium";
 
-const TICKET_AVERAGE: Record<Mix, number> = {
-  vitrines: 1200,
-  equilibre: 1990,
-  premium: 3500,
+// Tickets HT alignés sur la grille publiée dans src/data/pricingData.ts
+// (packs Essential, Business et Premium) et sur les forfaits mensuels
+// d'hébergement/maintenance qui les accompagnent.
+const TICKET_HT: Record<Mix, number> = {
+  vitrines: 950,
+  equilibre: 1850,
+  premium: 4000,
+};
+const FORFAIT_MENSUEL_HT: Record<Mix, number> = {
+  vitrines: 50,
+  equilibre: 75,
+  premium: 115,
 };
 
+// Taux de signature indicatifs : aucun historique ne les étaye encore.
 const SIGNATURE_RATES: Record<SignatureRate, number> = {
-  prudent: 0.25,
-  realiste: 0.4,
-  optimiste: 0.6,
+  basse: 0.25,
+  mediane: 0.4,
+  haute: 0.6,
 };
 
 const COMMISSION_RATE = 0.2;
+// Mois de forfait commissionnés sur une projection de 3 ans, à raison de
+// 24 mois maximum par client signé au mois t (t = 0..35) : Σ min(24, 36 − t).
+const MOIS_FORFAIT_3_ANS = 588;
 
-function computeGains(contactsParMois: number, signatureRate: SignatureRate, mix: Mix) {
-  const ticket = TICKET_AVERAGE[mix];
-  const dealsParMois = contactsParMois * SIGNATURE_RATES[signatureRate];
-  const gainMensuel = dealsParMois * ticket * COMMISSION_RATE;
-  const gainAnnuel = gainMensuel * 12;
-  // Maintenance récurrente : 8€/mois × deals × 24 mois max sur 3 ans, pondération conservatrice 0.5
-  const maintenance3ans = dealsParMois * 12 * 3 * 8 * 0.5;
-  const total3ans = gainAnnuel * 3 + maintenance3ans;
+function computeGains(contactsParAn: number, signatureRate: SignatureRate, mix: Mix) {
+  const dealsParAn = contactsParAn * SIGNATURE_RATES[signatureRate];
+  const gainAnnuel = Math.round(dealsParAn * TICKET_HT[mix] * COMMISSION_RATE);
+  const gainMensuel = Math.round(gainAnnuel / 12);
+  const forfaits3ans = Math.round(
+    (dealsParAn / 12) * MOIS_FORFAIT_3_ANS * FORFAIT_MENSUEL_HT[mix] * COMMISSION_RATE,
+  );
+  const total3ans = gainAnnuel * 3 + forfaits3ans;
   return { gainMensuel, gainAnnuel, total3ans };
 }
 
@@ -35,29 +47,33 @@ const formatEuros = (n: number) =>
     style: "currency",
     currency: "EUR",
     maximumFractionDigits: 0,
-  }).format(Math.round(n));
+  }).format(n);
 
 const SIGNATURE_OPTIONS: { value: SignatureRate; label: string; pct: string }[] = [
-  { value: "prudent", label: "Prudent", pct: "25 %" },
-  { value: "realiste", label: "Réaliste", pct: "40 %" },
-  { value: "optimiste", label: "Optimiste", pct: "60 %" },
+  { value: "basse", label: "Hypothèse basse", pct: "25 %" },
+  { value: "mediane", label: "Hypothèse médiane", pct: "40 %" },
+  { value: "haute", label: "Hypothèse haute", pct: "60 %" },
 ];
 
-const MIX_OPTIONS: { value: Mix; label: string }[] = [
-  { value: "vitrines", label: "Plutôt sites vitrines" },
-  { value: "equilibre", label: "Mix équilibré" },
-  { value: "premium", label: "Plutôt projets premium" },
+const MIX_OPTIONS: { value: Mix; label: string; detail: string }[] = [
+  { value: "vitrines", label: "Plutôt sites vitrines", detail: "pack Essential, 950 € HT" },
+  { value: "equilibre", label: "Mix équilibré", detail: "pack Business, 1 850 € HT" },
+  { value: "premium", label: "Plutôt projets premium", detail: "pack Premium, 4 000 € HT" },
 ];
+
+const CONTACTS_MAX = 24;
 
 const ApporteursSimulator = () => {
-  const [contacts, setContacts] = useState(2);
-  const [signature, setSignature] = useState<SignatureRate>("realiste");
+  const [contacts, setContacts] = useState(4);
+  const [signature, setSignature] = useState<SignatureRate>("basse");
   const [mix, setMix] = useState<Mix>("equilibre");
 
   const headingId = useId();
   const liveId = useId();
+  const noteId = useId();
 
   const gains = useMemo(() => computeGains(contacts, signature, mix), [contacts, signature, mix]);
+  const sliderPct = (contacts / CONTACTS_MAX) * 100;
 
   return (
     <section
@@ -97,7 +113,8 @@ const ApporteursSimulator = () => {
             className="text-base md:text-lg max-w-2xl mx-auto"
             style={{ color: "var(--ned-silver)" }}
           >
-            Pas de promesses bidon. Voici les vrais chiffres, basés sur nos tarifs réels.
+            Une estimation à partir de nos tarifs publiés (packs Essential, Business et Premium)
+            et d'hypothèses de signature que vous choisissez.
           </p>
         </motion.div>
 
@@ -112,7 +129,7 @@ const ApporteursSimulator = () => {
             borderColor: "var(--ned-border)",
           }}
         >
-          {/* Slider 1 — Contacts par mois */}
+          {/* Curseur — contacts qualifiés par an */}
           <div className="mb-8">
             <div className="flex items-baseline justify-between mb-3">
               <label
@@ -120,7 +137,7 @@ const ApporteursSimulator = () => {
                 className="text-sm font-medium"
                 style={{ color: "var(--ned-silver-light)" }}
               >
-                Combien de contacts qualifiés par mois&nbsp;?
+                Combien de contacts qualifiés pouvez-vous présenter par an&nbsp;?
               </label>
               <span
                 className="text-2xl font-bold tabular-nums"
@@ -132,31 +149,31 @@ const ApporteursSimulator = () => {
             <input
               id="sim-contacts"
               type="range"
-              min={1}
-              max={10}
+              min={0}
+              max={CONTACTS_MAX}
               step={1}
               value={contacts}
               onChange={(e) => setContacts(Number(e.target.value))}
               className="ned-slider w-full"
-              aria-valuemin={1}
-              aria-valuemax={10}
+              aria-valuemin={0}
+              aria-valuemax={CONTACTS_MAX}
               aria-valuenow={contacts}
             />
             <div className="flex justify-between text-xs mt-2 tabular-nums" style={{ color: "var(--ned-silver)" }}>
-              <span>1</span>
-              <span>5</span>
-              <span>10</span>
+              <span>0</span>
+              <span>12</span>
+              <span>{CONTACTS_MAX}</span>
             </div>
           </div>
 
-          {/* Slider 2 — Taux de signature */}
+          {/* Taux de signature */}
           <div className="mb-8">
             <p
               className="text-sm font-medium mb-3"
               style={{ color: "var(--ned-silver-light)" }}
               id="sim-signature-label"
             >
-              Taux de signature estimé
+              Part de ces contacts qui signent (hypothèse)
             </p>
             <div
               role="radiogroup"
@@ -194,7 +211,7 @@ const ApporteursSimulator = () => {
               style={{ color: "var(--ned-silver-light)" }}
               id="sim-mix-label"
             >
-              Mix de projets
+              Type de projets présentés
             </p>
             <div
               role="radiogroup"
@@ -217,41 +234,46 @@ const ApporteursSimulator = () => {
                       color: active ? "var(--ned-silver-light)" : "var(--ned-silver)",
                     }}
                   >
-                    {opt.label}
+                    <div className="font-semibold">{opt.label}</div>
+                    <div className="text-xs mt-0.5 opacity-80">{opt.detail}</div>
                   </button>
                 );
               })}
             </div>
           </div>
 
-          {/* Affichage des gains */}
+          {/* Résultats */}
           <div
             className="grid sm:grid-cols-3 gap-4 md:gap-6 pt-6 border-t"
             style={{ borderColor: "var(--ned-border)" }}
+            aria-describedby={noteId}
           >
-            <GainBlock label="Gain mensuel estimé" value={formatEuros(gains.gainMensuel)} />
-            <GainBlock label="Gain annuel estimé" value={formatEuros(gains.gainAnnuel)} />
+            <GainBlock label="≈ par mois (CA HT)" value={formatEuros(gains.gainMensuel)} />
+            <GainBlock label="Par an (CA HT)" value={formatEuros(gains.gainAnnuel)} highlight />
             <GainBlock
-              label="Sur 3 ans avec maintenance"
+              label="Projection 3 ans, forfaits inclus (flux constant)"
               value={formatEuros(gains.total3ans)}
-              highlight
             />
           </div>
 
+          <p
+            id={noteId}
+            className="mt-6 text-sm leading-relaxed"
+            style={{ color: "var(--ned-silver)" }}
+          >
+            Montants HT que vous facturez en tant qu'auto-entrepreneur : retirez vos cotisations
+            sociales (environ 21 à 26 % selon votre activité). Taux de signature indicatifs, non
+            issus d'un historique. Aucun gain n'est garanti : la commission n'est due que sur les
+            projets réellement signés et encaissés, dans les conditions des mentions légales du
+            programme.
+          </p>
+
           {/* Annonce vocale ARIA pour les screen readers */}
           <p id={liveId} className="sr-only" aria-live="polite" aria-atomic="true">
-            Gain mensuel estimé : {formatEuros(gains.gainMensuel)}. Gain annuel estimé :{" "}
-            {formatEuros(gains.gainAnnuel)}. Sur 3 ans : {formatEuros(gains.total3ans)}.
+            Environ {formatEuros(gains.gainMensuel)} HT par mois, {formatEuros(gains.gainAnnuel)} HT
+            par an, {formatEuros(gains.total3ans)} HT sur 3 ans forfaits inclus.
           </p>
         </motion.div>
-
-        <p
-          className="mt-6 text-xs md:text-sm italic text-center max-w-3xl mx-auto"
-          style={{ color: "var(--ned-silver)" }}
-        >
-          Estimations honnêtes basées sur nos tarifs effectifs. Aucun gain n'est garanti — votre
-          rémunération dépend uniquement du nombre de clients réellement signés et payés.
-        </p>
       </div>
 
       {/* Style local pour le slider (cross-browser, sans dépendance) */}
@@ -261,9 +283,7 @@ const ApporteursSimulator = () => {
           appearance: none;
           height: 6px;
           border-radius: 999px;
-          background: linear-gradient(to right, var(--ned-accent) 0%, var(--ned-accent) ${
-            ((contacts - 1) / 9) * 100
-          }%, rgba(200,205,211,0.15) ${((contacts - 1) / 9) * 100}%, rgba(200,205,211,0.15) 100%);
+          background: linear-gradient(to right, var(--ned-accent) 0%, var(--ned-accent) ${sliderPct}%, rgba(200,205,211,0.15) ${sliderPct}%, rgba(200,205,211,0.15) 100%);
           outline: none;
         }
         .ned-slider::-webkit-slider-thumb {

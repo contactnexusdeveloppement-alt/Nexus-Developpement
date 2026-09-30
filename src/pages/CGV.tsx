@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { intro } from "@/lib/motion";
+import { LEGAL_LAST_UPDATE } from "@/data/company";
 import {
   ArrowLeft,
   FileText,
@@ -492,18 +494,7 @@ const CGV = () => {
           <p>
             <strong className="text-white">Pour les clients consommateurs :</strong> conformément à l'article
             L.612-1 du Code de la consommation, le consommateur peut recourir gratuitement à un médiateur
-            de la consommation. Le Client est également informé de l'existence de la plateforme européenne
-            de règlement en ligne des litiges :
-            {" "}
-            <a
-              href="https://ec.europa.eu/consumers/odr/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-400 hover:text-blue-300 underline"
-            >
-              https://ec.europa.eu/consumers/odr/
-            </a>
-            .
+            de la consommation.
           </p>
           <p>
             <strong className="text-white">Juridiction compétente :</strong> à défaut d'accord amiable,
@@ -559,7 +550,7 @@ const CGV = () => {
           </div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={intro({ opacity: 0, y: 20 })}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
@@ -621,11 +612,7 @@ const CGV = () => {
           <div className="mt-20 text-center border-t border-white/5 pt-8">
             <p className="text-slate-500 text-sm">
               Dernière mise à jour :{" "}
-              {new Date().toLocaleDateString("fr-FR", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
+              {LEGAL_LAST_UPDATE}
             </p>
           </div>
         </div>

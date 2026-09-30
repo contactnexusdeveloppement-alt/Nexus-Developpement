@@ -29,3 +29,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Réglages locaux du CLI Vercel (contient les identifiants du projet)
+.vercel

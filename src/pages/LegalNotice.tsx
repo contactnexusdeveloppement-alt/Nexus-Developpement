@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { intro } from "@/lib/motion";
+import { LEGAL_LAST_UPDATE } from "@/data/company";
 import { ArrowLeft, Scale, Building, Shield, Globe, Users, FileText, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import AnimatedBackground from "@/components/AnimatedBackground";
@@ -34,7 +36,8 @@ const LegalNotice = () => {
       content: (
         <div className="space-y-3 text-slate-300 text-sm leading-relaxed">
           <p><strong className="text-white">Hébergeur :</strong> Vercel Inc.</p>
-          <p><strong className="text-white">Adresse :</strong> 340 S Lemon Ave #4133, Walnut, CA 91789, USA</p>
+          <p><strong className="text-white">Adresse :</strong> 440 N Barranca Ave #4133, Covina, CA 91723, USA</p>
+          <p><strong className="text-white">Téléphone :</strong> +1 (951) 383-6898</p>
           <p><strong className="text-white">Site web :</strong> <a href="https://vercel.com" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline transition-colors">https://vercel.com</a></p>
           <p className="pt-2"><strong className="text-white">Envoi des emails transactionnels :</strong> Resend (Resend, Inc., USA) — utilisé pour l'envoi des emails de confirmation et de notification suite aux formulaires.</p>
           <p className="pt-1 text-slate-400 italic">
@@ -96,17 +99,7 @@ const LegalNotice = () => {
           <p>
             <strong className="text-white">Médiation de la consommation :</strong> conformément aux articles
             L.612-1 et suivants du Code de la consommation, en cas de litige persistant, le consommateur
-            peut recourir à un médiateur de la consommation. La plateforme européenne de règlement en ligne
-            des litiges est disponible :{" "}
-            <a
-              href="https://ec.europa.eu/consumers/odr/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-400 hover:text-blue-300 underline"
-            >
-              https://ec.europa.eu/consumers/odr/
-            </a>
-            .
+            peut recourir à un médiateur de la consommation.
           </p>
         </div>
       )
@@ -136,7 +129,7 @@ const LegalNotice = () => {
           </div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={intro({ opacity: 0, y: 20 })}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
@@ -195,7 +188,7 @@ const LegalNotice = () => {
 
           <div className="mt-20 text-center border-t border-white/5 pt-8">
             <p className="text-slate-500 text-sm">
-              Dernière mise à jour : {new Date().toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })}
+              Dernière mise à jour : {LEGAL_LAST_UPDATE}
             </p>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import Navigation from "@/components/Navigation";
+import { intro } from "@/lib/motion";
 import Footer from "@/components/Footer";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import { Button } from "@/components/ui/button";
@@ -22,7 +23,7 @@ const FAQ_WEBSITE = [
   },
   {
     q: "Nexus Développement est-il vraiment basé à Élancourt dans les Yvelines ?",
-    a: "Oui, Nexus Développement (SARL au capital de 1 000 €, SIREN 995 394 095, RCS Versailles) est basée au 4 rue de la Ferme, 78990 Élancourt, dans le département des Yvelines, en Île-de-France. Notre périmètre d'intervention couvre prioritairement Saint-Quentin-en-Yvelines (Montigny-le-Bretonneux, Voisins-le-Bretonneux, Guyancourt, Trappes, Magny-les-Hameaux, La Verrière), ainsi que les communes alentour : Plaisir, Maurepas, Versailles, Bois-d'Arcy, Coignières, Saint-Cyr-l'École. Nous proposons un rendez-vous de cadrage en présentiel, sans surcoût, dans un rayon de 30 km autour d'Élancourt. Pour les clients hors Yvelines, nous travaillons en visioconférence et nous déplaçons sur demande pour les phases clés du projet (kick-off, recette, mise en production).",
+    a: "Oui, Nexus Développement (SARL au capital de 500 €, SIREN 995 394 095, RCS Versailles) est basée au 4 rue de la Ferme, 78990 Élancourt, dans le département des Yvelines, en Île-de-France. Notre périmètre d'intervention couvre prioritairement Saint-Quentin-en-Yvelines (Montigny-le-Bretonneux, Voisins-le-Bretonneux, Guyancourt, Trappes, Magny-les-Hameaux, La Verrière), ainsi que les communes alentour : Plaisir, Maurepas, Versailles, Bois-d'Arcy, Coignières, Saint-Cyr-l'École. Nous proposons un rendez-vous de cadrage en présentiel, sans surcoût, dans un rayon de 30 km autour d'Élancourt. Pour les clients hors Yvelines, nous travaillons en visioconférence et nous déplaçons sur demande pour les phases clés du projet (kick-off, recette, mise en production).",
   },
   {
     q: "Mon site sera-t-il optimisé pour mobiles, tablettes et tous les écrans ?",
@@ -71,7 +72,7 @@ const WebsiteCreation = () => {
         schemas={[
           serviceSchema({
             name: "Création de site web TPE/PME",
-            description: "Sites vitrines responsive, performants et optimisés SEO. Design sur-mesure, intégration React/Tailwind, score PageSpeed 95+, livraison sous 2 à 4 semaines.",
+            description: "Sites vitrines responsive, performants et optimisés SEO. Design sur-mesure, intégration React/Tailwind, optimisation Core Web Vitals, livraison sous 2 à 4 semaines.",
             url: "/creation-site-web",
             serviceType: "Web Development",
             areaServed: ["Yvelines", "Île-de-France", "France"],
@@ -108,7 +109,7 @@ const WebsiteCreation = () => {
 
           <div className="grid lg:grid-cols-2 gap-16 items-center mb-32">
             <motion.div
-              initial={{ opacity: 0, x: -50 }}
+              initial={intro({ opacity: 0, x: -50 })}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
@@ -143,7 +144,7 @@ const WebsiteCreation = () => {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={intro({ opacity: 0, scale: 0.9 })}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1 }}
               className="relative"
@@ -159,7 +160,7 @@ const WebsiteCreation = () => {
                   <div className="space-y-6">
                     {[
                       { icon: CheckCircle, title: "Design Unique", text: "Une identité visuelle qui vous ressemble, pas de templates génériques." },
-                      { icon: Zap, title: "Performance Maximale", text: "Score Google PageSpeed 95+, chargement instantané." },
+                      { icon: Zap, title: "Performance Maximale", text: "Optimisé pour les Core Web Vitals de Google, chargement rapide." },
                       { icon: Smartphone, title: "100% Mobile", text: "Une expérience parfaite sur smartphones et tablettes." },
                       { icon: Search, title: "SEO Friendly", text: "Structure optimisée pour plaire aux moteurs de recherche." }
                     ].map((item, i) => (
@@ -224,7 +225,7 @@ const WebsiteCreation = () => {
 
             <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
               {pricingPlans.map((plan, index) => (
-                <PricingCard key={index} plan={plan} index={index} />
+                <PricingCard key={index} plan={plan} categoryId="sites" index={index} />
               ))}
             </div>
           </div>
@@ -237,7 +238,7 @@ const WebsiteCreation = () => {
             <p className="text-lg text-blue-100/80 leading-relaxed mb-6">
               Basée à <strong>Élancourt dans les Yvelines (78)</strong>, notre agence Nexus Développement
               accompagne les entreprises locales et nationales dans leur transformation digitale. Avec notre
-              expertise en création de sites web, nous garantissons des résultats concrets et mesurables.
+              expertise en création de sites web, nous visons des résultats concrets et mesurables.
             </p>
 
             <h3 className="text-2xl font-bold text-white mb-4 mt-8">Que comprend exactement la création de votre site web ?</h3>
@@ -248,19 +249,15 @@ const WebsiteCreation = () => {
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-5 h-5 text-cyan-400 mt-1 flex-shrink-0" />
-                <span><strong>Performance garantie</strong> : Score Google PageSpeed 95+ sur tous nos projets</span>
+                <span><strong>Performance</strong> : sites optimisés pour les Core Web Vitals de Google (vitesse, stabilité, réactivité)</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-5 h-5 text-cyan-400 mt-1 flex-shrink-0" />
-                <span><strong>Support technique réactif</strong> sous 24h, 7j/7</span>
+                <span><strong>Support technique réactif</strong> sous 48 h, 7j/7</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-5 h-5 text-cyan-400 mt-1 flex-shrink-0" />
                 <span><strong>Formation complète incluse</strong> pour que vous soyez autonome</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="w-5 h-5 text-cyan-400 mt-1 flex-shrink-0" />
-                <span><strong>Garantie satisfaction</strong> ou remboursement intégral</span>
               </li>
             </ul>
 
@@ -280,52 +277,14 @@ const WebsiteCreation = () => {
               Questions Fréquentes - Création de Sites Web
             </h2>
 
+            {/* Même source que le JSON-LD FAQPage : une seule vérité pour les prix et délais */}
             <div className="space-y-6">
-              <div className="bg-slate-800/40 p-6 rounded-lg border border-white/10 hover:border-cyan-500/30 transition-colors">
-                <h3 className="text-xl font-bold text-white mb-3">
-                  Combien coûte la création d'un site web à Élancourt ?
-                </h3>
-                <p className="text-blue-100/80 leading-relaxed">
-                  Nos tarifs démarrent à <strong>950€ pour le pack Essential</strong> (site vitrine 1 à 3 pages,
-                  responsive, formulaire de contact sécurisé), <strong>1 850€ pour le pack Business</strong>
-                  (4 à 10 pages, CMS, blog, SEO avancé, formation) et <strong>4 000€ pour le pack Premium</strong>
-                  (11 à 20 pages sur-mesure, animations, SEO expert). Tous nos devis sont gratuits et sans
-                  engagement, réponse sous 24h.
-                </p>
-              </div>
-
-              <div className="bg-slate-800/40 p-6 rounded-lg border border-white/10 hover:border-cyan-500/30 transition-colors">
-                <h3 className="text-xl font-bold text-white mb-3">
-                  Combien de temps pour créer mon site web ?
-                </h3>
-                <p className="text-blue-100/80 leading-relaxed">
-                  Le délai moyen est de <strong>2 à 4 semaines</strong> pour un site vitrine, 4 à 8 semaines
-                  pour un site e-commerce complexe. Nous garantissons une livraison rapide avec un accompagnement
-                  personnalisé et des points réguliers pour valider chaque étape ensemble.
-                </p>
-              </div>
-
-              <div className="bg-slate-800/40 p-6 rounded-lg border border-white/10 hover:border-cyan-500/30 transition-colors">
-                <h3 className="text-xl font-bold text-white mb-3">
-                  Nexus Développement est-il basé à Élancourt ?
-                </h3>
-                <p className="text-blue-100/80 leading-relaxed">
-                  Oui ! Nexus Développement est basé au <strong>4 rue de la Ferme, 78990 Élancourt</strong>,
-                  dans les Yvelines. Nous nous déplaçons dans tout le département 78 et l'Île-de-France
-                  (Trappes, Plaisir, Montigny-le-Bretonneux, Versailles...) pour rencontrer nos clients.
-                </p>
-              </div>
-
-              <div className="bg-slate-800/40 p-6 rounded-lg border border-white/10 hover:border-cyan-500/30 transition-colors">
-                <h3 className="text-xl font-bold text-white mb-3">
-                  Mon site sera-t-il optimisé pour mobiles ?
-                </h3>
-                <p className="text-blue-100/80 leading-relaxed">
-                  Absolument ! Tous nos sites sont <strong>100% responsive</strong> et optimisés pour smartphones,
-                  tablettes et ordinateurs. Nous testons sur tous les appareils pour garantir une expérience
-                  parfaite quel que soit l'écran de vos visiteurs.
-                </p>
-              </div>
+              {FAQ_WEBSITE.map((item) => (
+                <div key={item.q} className="bg-slate-800/40 p-6 rounded-lg border border-white/10 hover:border-cyan-500/30 transition-colors">
+                  <h3 className="text-xl font-bold text-white mb-3">{item.q}</h3>
+                  <p className="text-blue-100/80 leading-relaxed">{item.a}</p>
+                </div>
+              ))}
             </div>
           </div>
 

@@ -61,7 +61,7 @@ const Apporteurs = () => {
     <div className="min-h-screen relative" style={{ backgroundColor: "var(--ned-bg-deep)" }}>
       <SEO
         title="Devenir apporteur d'affaires — Nexus Développement | 20 % de commission"
-        description="Recommandez Nexus Développement à votre réseau et touchez 20 % du montant de chaque projet signé. Aucun engagement, paiement sous 30 jours, contrat clair. Postulez en 2 minutes."
+        description="Recommandez Nexus Développement à votre réseau et touchez 20 % du montant HT encaissé sur chaque projet. Aucun engagement, paiement sous 30 jours, contrat clair. Postulez en 2 minutes."
         canonical="/apporteurs"
         image="/og-image.png"
         schemas={[jobPostingSchema]}

@@ -1,26 +1,42 @@
 import { useState, useEffect } from 'react';
 
+// Vrai si l'animation doit être sautée :
+// - hydratation d'une page pré-rendue (le HTML contient déjà le titre complet,
+//   animer créerait un décalage entre serveur et client) ;
+// - préférence utilisateur pour moins de mouvement ;
+// - navigateur piloté (pré-rendu Puppeteer en CI), qui capturerait sinon un
+//   titre tronqué dans le HTML statique.
+const shouldSkipAnimation = (): boolean => {
+  if (typeof window === 'undefined') return true;
+  if (window.__NED_PRERENDERED__) return true;
+  if (typeof navigator !== 'undefined' && navigator.webdriver) return true;
+  return (
+    typeof window.matchMedia === 'function' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
+};
+
 export const useTypewriter = (text: string, speed: number = 100, enabled: boolean = true) => {
-  // If disabled, return full text immediately without any animation
-  const [displayedText, setDisplayedText] = useState(enabled ? '' : text);
+  const [active] = useState(() => enabled && !shouldSkipAnimation());
+  const [displayedText, setDisplayedText] = useState(active ? '' : text);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    // Skip animation entirely if disabled
-    if (!enabled) {
+    // Texte complet immédiatement si l'animation est désactivée ou sautée
+    if (!active || !enabled) {
       setDisplayedText(text);
       return;
     }
 
     if (currentIndex < text.length) {
       const timeout = setTimeout(() => {
-        setDisplayedText(prev => prev + text[currentIndex]);
+        setDisplayedText(text.slice(0, currentIndex + 1));
         setCurrentIndex(prev => prev + 1);
       }, speed);
 
       return () => clearTimeout(timeout);
     }
-  }, [currentIndex, text, speed, enabled]);
+  }, [currentIndex, text, speed, enabled, active]);
 
   return displayedText;
 };

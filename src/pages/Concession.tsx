@@ -5,25 +5,6 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import SEO from '@/components/SEO';
 import { breadcrumbSchema, serviceSchema } from '@/lib/schemas';
 
-// Fonts Google specifiques au theme Concession (Montserrat + Outfit) injectees
-// dynamiquement uniquement sur cette page pour ne pas alourdir le reste du site.
-const useConcessionFonts = () => {
-    useEffect(() => {
-        const links = [
-            { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-            { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
-            { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Outfit:wght@300;400;600&display=swap' },
-        ];
-        const created = links.map((attrs) => {
-            const el = document.createElement('link');
-            Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v as string));
-            document.head.appendChild(el);
-            return el;
-        });
-        return () => created.forEach((el) => el.remove());
-    }, []);
-};
-
 // Mock Data for Cars
 const cars = [
     {
@@ -149,7 +130,6 @@ const cars = [
 ];
 
 const Concession = () => {
-    useConcessionFonts();
     const [filter, setFilter] = useState('all');
 
     // Embla Carousel setup
@@ -177,7 +157,7 @@ const Concession = () => {
         <div className="concession-page">
             <SEO
                 title="Démo : Site Web pour Concession Automobile | Nexus Développement"
-                description="Découvrez une démo de site web professionnel pour concession automobile : stock véhicules avec filtres, fiches détaillées, formulaires de contact, vidéo immersive. Création sur-mesure par Nexus Développement Élancourt."
+                description="Démo de site pour concession automobile : stock avec filtres, fiches véhicules, formulaires de contact, vidéo. Réalisée par Nexus Développement, Élancourt (78)."
                 type="website"
                 canonical="/concession-automobile"
                 schemas={[
@@ -343,9 +323,15 @@ const Concession = () => {
                             </div>
                         </div>
                         <div className="contact-map">
-                            <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.9916256937595!2d2.292292615674389!3d48.85837007928746!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e2964e34e2d%3A0x8ddca9ee380ef7e0!2sTour%20Eiffel!5e0!3m2!1sfr!2sfr!4v1625060000000!5m2!1sfr!2sfr"
-                                width="100%" height="100%" style={{ border: 0 }} allowFullScreen loading="lazy"></iframe>
+                            {/* Lien statique : une iframe Google Maps est bloquée par la CSP et déposerait des cookies tiers */}
+                            <a
+                                href="https://www.google.com/maps/search/?api=1&query=Tour+Eiffel+Paris"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", height: "100%", minHeight: 280, padding: 24, background: "#0f172a", color: "#fff", textAlign: "center", textDecoration: "underline" }}
+                            >
+                                Voir le plan d'accès sur Google Maps (nouvel onglet)
+                            </a>
                         </div>
                     </div>
                 </section>

@@ -6,6 +6,11 @@ export type Project = {
     technologies: string[];
     category: string;
     altText: string;
+    /**
+     * Démo sectorielle fictive (aucun client derrière) : affichée avec un badge
+     * « Démo », comptée à part et exclue du JSON-LD des réalisations.
+     */
+    isDemo?: boolean;
 };
 
 export const projects: Project[] = [
@@ -41,7 +46,7 @@ export const projects: Project[] = [
         altText: "Capture d'écran de la boutique Bodystart Nutrition",
     },
 
-    // --- Cas d'usage & démos sectorielles -------------------------------
+    // --- Cas d'usage & démos sectorielles (fictives : isDemo) -----------
     {
         title: "Élégance Coiffure",
         description:
@@ -49,18 +54,20 @@ export const projects: Project[] = [
         image: "/salon/screenshot.webp",
         url: "/salon-coiffure",
         technologies: ["React", "Tailwind", "Framer Motion"],
-        category: "Site Vitrine",
+        category: "Démo sectorielle",
         altText: "Interface du site Élégance Coiffure",
+        isDemo: true,
     },
     {
         title: "Saveurs & Traditions",
         description:
-            "Site vitrine élégant pour un restaurant gastronomique. Menu digital interactif, galerie photos immersive et module de réservation de table en temps réel.",
+            "Site vitrine élégant pour un restaurant gastronomique. Menu digital interactif, galerie photos immersive et formulaire de réservation de table présenté en démonstration.",
         image: "/restaurant/screenshot.webp",
         url: "/restaurant",
-        technologies: ["React", "Framer Motion", "Reservation API"],
-        category: "Site Vitrine",
+        technologies: ["React", "Framer Motion", "CSS Modules"],
+        category: "Démo sectorielle",
         altText: "Ambiance restaurant gastronomique",
+        isDemo: true,
     },
     {
         title: "Héritage Auto",
@@ -69,20 +76,31 @@ export const projects: Project[] = [
         image: "/projects/concession-home.webp",
         url: "/concession-automobile",
         technologies: ["React", "CSS Modules", "Responsive Design"],
-        category: "Site Vitrine",
+        category: "Démo sectorielle",
         altText: "Garage Héritage Auto",
+        isDemo: true,
     },
     {
         title: "Prestige Immobilier Vosges",
         description:
-            "Agence immobilière de luxe. Site vitrine élégant avec catalogue de biens, recherche avancée et présentation des services haut de gamme.",
+            "Agence immobilière de luxe. Site vitrine élégant avec catalogue de biens et présentation des services haut de gamme.",
         image: "/agence-immo/screenshot.webp",
         url: "/agence-immobiliere",
         technologies: ["React", "Tailwind", "Responsive Design"],
-        category: "Site Vitrine",
+        category: "Démo sectorielle",
         altText: "Agence immobilière de prestige",
+        isDemo: true,
     },
 ];
+
+/** Réalisations clients réelles : compteur et ItemList JSON-LD. */
+export const clientProjects = projects.filter((project) => !project.isDemo);
+
+/** Démos sectorielles fictives : compteur. */
+export const demoProjects = projects.filter((project) => project.isDemo);
+
+/** Site externe (client) : ouvre une nouvelle fenêtre. Sinon route interne (démo) ou ancre. */
+export const isExternalUrl = (url: string) => /^https?:\/\//i.test(url);
 
 /**
  * Card d'appel à l'action affichée en fin de portfolio.

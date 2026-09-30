@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
+import { intro } from "@/lib/motion";
 import { ArrowLeft, Scale, FileCheck, UserX, AlertTriangle, Gavel, RefreshCw, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import { motion } from "framer-motion";
 import SEO from "@/components/SEO";
+import { LEGAL_LAST_UPDATE } from "@/data/company";
 
 const TermsOfService = () => {
 
@@ -99,7 +101,7 @@ const TermsOfService = () => {
                     </div>
 
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={intro({ opacity: 0, y: 20 })}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
                         className="text-center mb-16"
@@ -158,7 +160,7 @@ const TermsOfService = () => {
 
                     <div className="mt-20 text-center border-t border-white/5 pt-8">
                         <p className="text-slate-500 text-sm">
-                            Dernière mise à jour : {new Date().toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })}
+                            Dernière mise à jour : {LEGAL_LAST_UPDATE}
                         </p>
                     </div>
                 </div>

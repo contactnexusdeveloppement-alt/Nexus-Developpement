@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { intro } from "@/lib/motion";
+import { LEGAL_LAST_UPDATE } from "@/data/company";
 import {
     ArrowLeft,
     Shield,
@@ -55,7 +57,7 @@ const PrivacyPolicy = () => {
                     <div className="space-y-3">
                         <FinalityBlock
                             label="Réponse à une demande de devis ou de contact"
-                            data="Civilité, nom, prénom, email, téléphone, type d'activité, description du projet, budget, délai."
+                            data="Nom, email, téléphone, services demandés, budget, délai, et la description du projet si vous la renseignez."
                         />
                         <FinalityBlock
                             label="Réservation d'un appel de présentation"
@@ -167,6 +169,18 @@ const PrivacyPolicy = () => {
                             role="Envoi des emails transactionnels (confirmations, notifications de devis et candidatures)"
                             safeguard="Adhérent EU-US Data Privacy Framework + Clauses Contractuelles Types"
                         />
+                        <SubProcessorItem
+                            name="Google LLC (Gmail)"
+                            country="États-Unis"
+                            role="Boîte de réception de l'agence : les demandes envoyées via les formulaires y sont reçues et conservées"
+                            safeguard="Adhérent EU-US Data Privacy Framework + Clauses Contractuelles Types"
+                        />
+                        <SubProcessorItem
+                            name="Stripe Payments Europe, Ltd. / Stripe, Inc."
+                            country="Irlande / États-Unis"
+                            role="Paiement par carte bancaire des forfaits récurrents, uniquement si vous choisissez ce mode de règlement (voir CGV)"
+                            safeguard="Adhérent EU-US Data Privacy Framework + Clauses Contractuelles Types"
+                        />
                     </ul>
                     <p className="text-slate-400 italic pt-1">
                         Vos données peuvent également être communiquées aux autorités administratives ou judiciaires lorsque la loi nous y oblige.
@@ -264,10 +278,10 @@ const PrivacyPolicy = () => {
             content: (
                 <div className="space-y-3 text-slate-300 leading-relaxed text-sm">
                     <p>
-                        Notre site n'utilise que des cookies <strong className="text-white">strictement nécessaires</strong> au fonctionnement (mémorisation du consentement, préférences techniques). Aucun cookie publicitaire ou de traçage tiers n'est déposé sans votre consentement explicite.
+                        Le site <strong className="text-white">ne dépose aucun cookie</strong> et n'utilise ni stockage local ni traceur : il n'y a donc pas de bandeau de consentement. Aucun outil de mesure d'audience, de publicité ou de réseau social n'est intégré.
                     </p>
                     <p>
-                        Si nous activons ultérieurement des outils de mesure d'audience (Google Analytics ou équivalent), ces cookies seront soumis à votre consentement préalable via la bannière cookies, et vous pourrez le retirer à tout moment. Voir la <Link to="/cookies" className="text-blue-400 hover:text-blue-300 underline">Politique cookies</Link> pour le détail.
+                        Si un outil de mesure d'audience devait être ajouté, un bandeau conforme aux recommandations de la CNIL (refuser aussi simplement qu'accepter) serait mis en place avant tout dépôt. Voir la <Link to="/cookies" className="text-blue-400 hover:text-blue-300 underline">Politique cookies</Link> pour le détail.
                     </p>
                 </div>
             )
@@ -308,7 +322,7 @@ const PrivacyPolicy = () => {
                     </div>
 
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={intro({ opacity: 0, y: 20 })}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
                         className="text-center mb-16"
@@ -367,7 +381,7 @@ const PrivacyPolicy = () => {
 
                     <div className="mt-20 text-center border-t border-white/5 pt-8">
                         <p className="text-slate-500 text-sm">
-                            Dernière mise à jour : {new Date().toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })}
+                            Dernière mise à jour : {LEGAL_LAST_UPDATE}
                         </p>
                     </div>
                 </div>

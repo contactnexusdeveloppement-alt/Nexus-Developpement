@@ -15,6 +15,13 @@ env:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    # Garde-fou : seul main part en production (workflow_dispatch depuis une autre branche compris).
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      contents: read
+    concurrency:
+      group: production-deploy
+      cancel-in-progress: false
     timeout-minutes: 15
     steps:
       - name: Checkout
@@ -28,6 +35,13 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      # Barrière qualité : main ne se déploie plus avec des erreurs ESLint ou TypeScript.
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
 
       - name: Install Chrome for Puppeteer
         run: npx puppeteer browsers install chrome

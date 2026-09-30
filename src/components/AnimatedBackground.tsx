@@ -60,7 +60,9 @@ const AnimatedBackground = () => {
     gradient.addColorStop(0, '#000000'); // Pure Black
     gradient.addColorStop(1, '#020617'); // Slate 950 (Deepest Blue)
 
-    // Animation loop
+    // Animation loop (identifiant conservé pour annuler la boucle au démontage :
+    // sans cela, chaque navigation laissait tourner une boucle sur un canvas détaché)
+    let frameId = 0;
     const animate = () => {
       // Clear canvas with gradient
       ctx.fillStyle = gradient;
@@ -130,12 +132,16 @@ const AnimatedBackground = () => {
         ctx.stroke();
       }
 
-      requestAnimationFrame(animate);
+      frameId = requestAnimationFrame(animate);
     };
 
+    // prefers-reduced-motion : une seule image, pas d'animation continue.
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     animate();
+    if (reduceMotion) cancelAnimationFrame(frameId);
 
     return () => {
+      cancelAnimationFrame(frameId);
       window.removeEventListener('resize', resizeCanvas);
       window.removeEventListener('scroll', handleScroll);
     };

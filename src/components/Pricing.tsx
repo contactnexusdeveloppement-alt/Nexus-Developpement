@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { intro } from "@/lib/motion";
 import { pricingData } from "@/data/pricingData";
 import PricingCard from "@/components/PricingCard";
 import { motion, AnimatePresence } from "framer-motion";
@@ -56,7 +57,7 @@ const Pricing = () => {
                 onClick={() => setActiveCategory(category.id)}
                 className={`group relative px-2 py-2 text-sm md:text-base font-medium transition-colors duration-300 flex-shrink-0 snap-center ${activeCategory === category.id
                   ? "text-white"
-                  : "text-gray-500 hover:text-gray-300"
+                  : "text-gray-400 hover:text-gray-200"
                   }`}
               >
                 <div className="flex items-center gap-2">
@@ -86,7 +87,7 @@ const Pricing = () => {
           <AnimatePresence mode="wait">
             <motion.div
               key={activeCategory}
-              initial={{ opacity: 0, x: 20 }}
+              initial={intro({ opacity: 0, x: 20 })}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.3 }}
@@ -103,6 +104,10 @@ const Pricing = () => {
             </motion.div>
           </AnimatePresence>
         </div>
+
+        <p className="text-center text-sm text-gray-400 mt-8">
+          Prix indiqués hors taxes (HT), TVA de 20 % en sus.
+        </p>
 
         <motion.div
           initial={{ opacity: 0 }}

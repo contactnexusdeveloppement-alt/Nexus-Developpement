@@ -1,4 +1,6 @@
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate, Navigate, Link } from "react-router-dom";
+import { intro } from "@/lib/motion";
+import { LOCAL_CITIES } from "@/data/localCities";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import AnimatedBackground from "@/components/AnimatedBackground";
@@ -39,7 +41,7 @@ const LocalCity = ({ slug }: LocalCityProps) => {
     {
       icon: Globe,
       title: "Création de site web",
-      description: `Sites vitrines modernes pour les TPE et PME de ${city.name}. Design responsive, score PageSpeed 95+, livraison sous 2 à 4 semaines.`,
+      description: `Sites vitrines modernes pour les TPE et PME de ${city.name}. Design responsive, optimisation Core Web Vitals, livraison sous 2 à 4 semaines.`,
       href: "/creation-site-web",
       from: "à partir de 950€",
     },
@@ -85,13 +87,13 @@ const LocalCity = ({ slug }: LocalCityProps) => {
     },
     {
       q: `Pourquoi choisir une agence locale Yvelines plutôt qu'un freelance distant ou une agence parisienne ?`,
-      a: `La proximité géographique (${city.distanceFromElancourt} de ${city.name} seulement) permet d'organiser de vrais ateliers de cadrage en présentiel, autour d'un café, qui sont 3 à 4 fois plus efficaces qu'une visioconférence pour comprendre votre activité, votre clientèle, vos contraintes opérationnelles. Nous connaissons intimement le tissu économique local des Yvelines : les flux clients entre Versailles, Saint-Quentin-en-Yvelines, Plaisir, les habitudes des consommateurs locaux, les pôles d'activité (Pariwest, Open Sky, Gare TGV de Montigny). Vous avez un interlocuteur identifié et joignable, pas un sous-traitant à l'autre bout du monde ou un commercial parisien qui vous délègue à un junior. Côté tarifs, nous sommes 30 à 50 % moins chers que les grandes agences parisiennes pour une qualité de livraison équivalente, sans rien sacrifier sur la stack technique (React, TypeScript, Vercel) ni sur la cession totale des droits.`,
+      a: `La proximité géographique (${city.distanceFromElancourt} de ${city.name} seulement) permet d'organiser de vrais ateliers de cadrage en présentiel, autour d'un café, souvent plus efficaces qu'une visioconférence pour comprendre votre activité, votre clientèle, vos contraintes opérationnelles. Nous connaissons intimement le tissu économique local des Yvelines : les flux clients entre Versailles, Saint-Quentin-en-Yvelines, Plaisir, les habitudes des consommateurs locaux, les pôles d'activité (Pariwest, Open Sky, Gare TGV de Montigny). Vous avez un interlocuteur identifié et joignable, pas un sous-traitant à l'autre bout du monde ou un commercial parisien qui vous délègue à un junior. Côté tarifs, nos prix sont publiés sur le site et restent nettement en dessous de ceux des grandes agences parisiennes, sans rien sacrifier sur la stack technique (React, TypeScript, Vercel) ni sur la cession totale des droits.`,
     },
   ];
 
   const url = `/${city.slug}`;
-  const title = `Agence Web ${city.name} (${city.postalCode}) — Création de Site, Apps, Automatisation | Nexus Développement`;
-  const description = `Agence web à ${city.distanceFromElancourt} de ${city.name}. Création de sites web professionnels, applications mobiles, automatisation et identité visuelle pour TPE et PME. Devis gratuit en 24h.`;
+  const title = `Agence web ${city.name} (${city.postalCode}) | Nexus Développement`;
+  const description = `Agence web à ${city.distanceFromElancourt} de ${city.name} : sites web, applications mobiles et automatisation pour les TPE et PME. Devis gratuit sous 24 h.`;
 
   return (
     <div className="min-h-screen relative overflow-x-hidden">
@@ -133,7 +135,7 @@ const LocalCity = ({ slug }: LocalCityProps) => {
 
           {/* Hero */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={intro({ opacity: 0, y: 20 })}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="max-w-4xl mb-20"
@@ -287,6 +289,25 @@ const LocalCity = ({ slug }: LocalCityProps) => {
             </div>
           </div>
         </div>
+
+        {/* Maillage entre pages villes */}
+        <section className="container mx-auto px-4 pb-20" aria-labelledby="villes-voisines">
+          <h2 id="villes-voisines" className="text-2xl font-bold text-white mb-6 text-center">
+            Nos autres zones d'intervention dans les Yvelines
+          </h2>
+          <ul className="flex flex-wrap justify-center gap-3">
+            {LOCAL_CITIES.filter((c) => c.slug !== city.slug).map((c) => (
+              <li key={c.slug}>
+                <Link
+                  to={`/${c.slug}`}
+                  className="inline-block px-4 py-2 rounded-full border border-blue-500/20 text-blue-100 hover:border-cyan-400 hover:text-cyan-300 transition-colors"
+                >
+                  {`Agence web ${c.name}`}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
 
         <Footer />
       </div>

@@ -1,8 +1,9 @@
-import { Globe, Zap, Palette, Smartphone, Layout } from "lucide-react";
+import { Globe, Zap, Palette, Smartphone, Layout, ShoppingCart } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { motion, Variants } from "framer-motion";
 import websiteImg from "@/assets/service-website.webp";
+import ecommerceImg from "@/assets/bodystart-project.webp";
 import automationImg from "@/assets/service-automation.webp";
 import mobileImg from "@/assets/service-mobile.webp";
 import brandingImg from "@/assets/service-branding.webp";
@@ -16,6 +17,14 @@ const services = [
     image: websiteImg,
     altText: "Création de site vitrine par Nexus Développement",
     link: "/creation-site-web"
+  },
+  {
+    icon: ShoppingCart,
+    title: "Sites E-commerce",
+    description: "Boutiques en ligne sur Shopify, WooCommerce ou sur-mesure : catalogue, paiement, logistique.",
+    image: ecommerceImg,
+    altText: "Création de boutique en ligne par Nexus Développement",
+    link: "/e-commerce"
   },
   {
     icon: Zap,

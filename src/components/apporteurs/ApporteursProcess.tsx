@@ -18,7 +18,7 @@ const steps = [
   {
     title: "On prend le relais",
     description:
-      "Notre équipe appelle, qualifie, devise, négocie, signe et livre. Vous suivez l'avancement en temps réel.",
+      "Notre équipe appelle, qualifie, devise, négocie, signe et livre. Vous êtes informé par email à chaque étape.",
   },
   {
     title: "Vous encaissez",

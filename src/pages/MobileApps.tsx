@@ -1,4 +1,5 @@
 import Navigation from "@/components/Navigation";
+import { intro } from "@/lib/motion";
 import Footer from "@/components/Footer";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import { Button } from "@/components/ui/button";
@@ -88,7 +89,7 @@ const MobileApps = () => {
 
                     <div className="grid lg:grid-cols-2 gap-16 items-center mb-32">
                         <motion.div
-                            initial={{ opacity: 0, x: -50 }}
+                            initial={intro({ opacity: 0, x: -50 })}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.8 }}
                         >
@@ -115,7 +116,7 @@ const MobileApps = () => {
                         </motion.div>
 
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.9 }}
+                            initial={intro({ opacity: 0, scale: 0.9 })}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 1 }}
                             className="relative"

@@ -7,14 +7,12 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 const ApporteursLegalModal = () => {
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <button
-          type="button"
-          className="text-xs underline-offset-4 hover:underline focus:outline-none focus-visible:underline"
-          style={{ color: "var(--ned-silver)" }}
-        >
-          Mentions légales du programme
-        </button>
+      <DialogTrigger
+        type="button"
+        className="text-xs underline-offset-4 hover:underline focus:outline-none focus-visible:underline"
+        style={{ color: "var(--ned-silver)" }}
+      >
+        Mentions légales du programme
       </DialogTrigger>
       <DialogContent
         className="max-w-2xl"
@@ -53,7 +51,9 @@ const ApporteursLegalModal = () => {
 
             <Section title="Rémunération">
               La commission s'élève à 20&nbsp;% du chiffre d'affaires hors taxes effectivement
-              encaissé par Nexus Développement auprès du client présenté. Aucune commission n'est
+              encaissé par Nexus Développement auprès du client présenté : la prestation initiale et, pendant
+              24&nbsp;mois à compter de la signature, les forfaits mensuels (hébergement, maintenance)
+              effectivement encaissés. Aucune commission n'est
               due en cas de prospect déjà connu de Nexus Développement, en cas d'impayé, ou si la
               signature intervient au-delà du délai de droit de suite de 12&nbsp;mois à compter de
               la présentation.
@@ -61,7 +61,8 @@ const ApporteursLegalModal = () => {
 
             <Section title="Versement">
               La commission est versée par virement bancaire sous 30&nbsp;jours calendaires à
-              compter de l'encaissement intégral du prix par Nexus Développement, sur réception
+              compter de l'encaissement du prix par Nexus Développement (ou de chaque échéance mensuelle
+              pour les forfaits), sur réception
               d'une facture conforme émise par l'Apporteur.
             </Section>
 

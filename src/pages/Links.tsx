@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { intro } from "@/lib/motion";
 import { motion } from "framer-motion";
 import { ArrowRight, Instagram, Facebook, Globe } from "lucide-react";
 import SEO from "@/components/SEO";
@@ -33,12 +34,11 @@ const LINKS: LinkItem[] = [
   // CTA principal — le plus visible
   {
     icon: "🎁",
-    title: "Audit gratuit · 15 min · 100% offert",
+    title: "Appel découverte · 15 min · offert",
     description: "Réservez votre créneau, on analyse votre projet ensemble.",
     href: "/#reservation",
     internal: true,
     variant: "hero",
-    promo: "🔥 Offre lancement -30% jusqu'au 15 sept",
   },
   // CTA secondaires (standard)
   {
@@ -117,7 +117,7 @@ const Links = () => {
         <div className="w-full max-w-[480px]">
           {/* Header */}
           <motion.header
-            initial={{ opacity: 0, y: -10 }}
+            initial={intro({ opacity: 0, y: -10 })}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="text-center mb-8"
@@ -173,7 +173,7 @@ const Links = () => {
 
           {/* Socials */}
           <motion.div
-            initial={{ opacity: 0 }}
+            initial={intro({ opacity: 0 })}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.5 }}
             className="mt-8 flex justify-center gap-3"

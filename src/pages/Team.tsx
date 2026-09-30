@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { intro } from "@/lib/motion";
 import { ArrowLeft, Code, Compass, Sparkles, ShieldCheck, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -64,7 +65,7 @@ const Team = () => {
         <div className="min-h-screen relative font-sans text-slate-200">
             <SEO
                 title="L'équipe Nexus Développement | Co-fondateurs & valeurs"
-                description="Présentation des co-fondateurs de Nexus Développement, agence digitale française à Élancourt (78). Adam Le Charlès et Théo Jacobée vous accompagnent sur votre projet web et mobile."
+                description="Les co-fondateurs de Nexus Développement, agence digitale à Élancourt (78) : Adam Le Charlès et Théo Jacobée vous accompagnent sur votre projet web et mobile."
                 type="website"
                 canonical="/equipe"
                 schemas={[
@@ -116,7 +117,7 @@ const Team = () => {
                 <div className="container mx-auto max-w-6xl px-4 pt-32 pb-20">
 
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={intro({ opacity: 0, y: 20 })}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
                         className="text-center mb-16"
