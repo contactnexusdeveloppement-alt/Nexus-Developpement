@@ -80,9 +80,11 @@ const CookiePolicy = () => {
       content: (
         <div className="space-y-3 text-slate-300 text-sm leading-relaxed">
           <p>
-            Certains services intégrés au site peuvent déposer leurs propres cookies (hébergement Vercel,
-            intégrations éventuelles de vidéos, cartes, réseaux sociaux, polices distantes). Ces cookies
-            sont soumis aux politiques de confidentialité de leurs éditeurs respectifs.
+            Aucune intégration tierce du site ne dépose de cookie : pas de vidéo embarquée, de carte
+            interactive, de bouton de réseau social ni de police distante (les polices sont hébergées
+            sur nos propres serveurs). L'hébergeur Vercel ne dépose pas non plus de cookie sur ce site.
+            Les liens vers nos pages Instagram et Facebook ouvrent ces sites, soumis à leurs propres
+            politiques de confidentialité.
           </p>
           <p>
             Aucun cookie publicitaire, de profilage marketing ou de ciblage comportemental n'est déposé

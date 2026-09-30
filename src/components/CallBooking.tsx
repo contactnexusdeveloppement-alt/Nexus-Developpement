@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { intro } from "@/lib/motion";
 import { Calendar } from '@/components/ui/calendar';
 import { Button } from '@/components/ui/button';
@@ -762,6 +763,16 @@ export function CallBooking() {
                         </div>
                       </div>
                     </div>
+
+                    <p className="text-xs text-blue-200/60 leading-relaxed">
+                      Ces informations servent uniquement à organiser l'appel de présentation demandé et ne sont
+                      conservées que le temps nécessaire à son traitement. Vous pouvez accéder à vos données, les
+                      rectifier ou demander leur effacement : voir notre{" "}
+                      <Link to="/confidentialite" className="underline text-blue-300 hover:text-white">
+                        politique de confidentialité
+                      </Link>
+                      <span>.</span>
+                    </p>
 
                     <div className="flex justify-between pt-6">
                       <Button

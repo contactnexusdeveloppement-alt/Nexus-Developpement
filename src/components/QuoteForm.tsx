@@ -332,7 +332,7 @@ const QuoteForm = () => {
     if (!formData.consentGiven) {
       toast({
         title: "Consentement requis",
-        description: "Vous devez accepter la politique de confidentialité pour continuer",
+        description: "Merci de confirmer avoir pris connaissance de la politique de confidentialité pour continuer",
         variant: "destructive"
       });
       return;
@@ -691,16 +691,16 @@ const QuoteForm = () => {
                     htmlFor="quote-consent"
                     className="text-sm text-blue-200/80 leading-relaxed cursor-pointer select-none"
                   >
-                    J'accepte que mes données soient traitées pour cette demande. Voir nos{" "}
+                    J'ai pris connaissance de la{" "}
                     <Link
-                      to="/mentions-legales"
+                      to="/confidentialite"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-400 hover:text-blue-300 underline"
                     >
-                      mentions légales
+                      politique de confidentialité
                     </Link>
-                    .
+                    <span> et j'accepte que mes données soient utilisées pour répondre à cette demande.</span>
                   </label>
                 </div>
 

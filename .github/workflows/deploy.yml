@@ -15,6 +15,13 @@ env:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    # Garde-fou : seul main part en production (workflow_dispatch depuis une autre branche compris).
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      contents: read
+    concurrency:
+      group: production-deploy
+      cancel-in-progress: false
     timeout-minutes: 15
     steps:
       - name: Checkout

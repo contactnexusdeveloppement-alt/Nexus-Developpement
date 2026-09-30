@@ -323,9 +323,15 @@ const Concession = () => {
                             </div>
                         </div>
                         <div className="contact-map">
-                            <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.9916256937595!2d2.292292615674389!3d48.85837007928746!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e2964e34e2d%3A0x8ddca9ee380ef7e0!2sTour%20Eiffel!5e0!3m2!1sfr!2sfr!4v1625060000000!5m2!1sfr!2sfr"
-                                width="100%" height="100%" style={{ border: 0 }} allowFullScreen loading="lazy"></iframe>
+                            {/* Lien statique : une iframe Google Maps est bloquée par la CSP et déposerait des cookies tiers */}
+                            <a
+                                href="https://www.google.com/maps/search/?api=1&query=Tour+Eiffel+Paris"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", height: "100%", minHeight: 280, padding: 24, background: "#0f172a", color: "#fff", textAlign: "center", textDecoration: "underline" }}
+                            >
+                                Voir le plan d'accès sur Google Maps (nouvel onglet)
+                            </a>
                         </div>
                     </div>
                 </section>

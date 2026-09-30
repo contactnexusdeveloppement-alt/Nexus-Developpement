@@ -15,16 +15,15 @@ const Contact = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 overflow-hidden rounded-3xl shadow-xl bg-white">
                     {/* Map showing Paris location */}
                     <div className="relative h-96 lg:h-auto min-h-[400px] bg-gray-200">
-                        <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.9916256937604!2d2.345593015674755!3d48.85837007928746!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e1f06e2b70f%3A0x40b82c3688c9460!2sParis!5e0!3m2!1sen!2sfr!4v1620000000000!5m2!1sen!2sfr"
-                            width="100%"
-                            height="100%"
-                            style={{ border: 0 }}
-                            allowFullScreen={false}
-                            loading="lazy"
-                            title="Google Map"
-                            className="absolute inset-0 grayscale hover:grayscale-0 transition-all duration-500"
-                        ></iframe>
+                        {/* Lien statique : une iframe Google Maps est bloquée par la CSP et déposerait des cookies tiers */}
+                        <a
+                            href="https://www.google.com/maps/search/?api=1&query=Paris"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="absolute inset-0 flex items-center justify-center p-6 text-center text-charcoal underline hover:bg-gray-300 transition-colors"
+                        >
+                            Voir le plan d'accès sur Google Maps (nouvel onglet)
+                        </a>
                     </div>
 
                     {/* Info */}

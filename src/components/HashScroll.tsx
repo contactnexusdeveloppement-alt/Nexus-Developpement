@@ -48,7 +48,12 @@ export default function HashScroll() {
 
   useEffect(() => {
     if (!hash) return;
-    const id = decodeURIComponent(hash.slice(1));
+    let id = "";
+    try {
+      id = decodeURIComponent(hash.slice(1));
+    } catch {
+      return; // fragment mal encodé (ex. « #% ») : on ignore au lieu de planter
+    }
     if (!id) return;
     const t = window.setTimeout(() => scrollToId(id), 50);
     return () => window.clearTimeout(t);

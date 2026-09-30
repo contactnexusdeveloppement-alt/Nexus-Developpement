@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import ScrollToTop from "./components/ScrollToTop";
 import ClientOnly from "./components/ClientOnly";
 import HashScroll from "./components/HashScroll";
+import { ErrorBoundary } from "./components/ErrorBoundary";
 import { LOCAL_CITIES } from "./data/localCities";
 
 // Lazy loading pages for performance
@@ -56,6 +57,7 @@ const App = () => (
         <Sonner />
       </ClientOnly>
       <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+          <ErrorBoundary>
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/creation-site-web" element={withSuspense(<WebsiteCreation />)} />
@@ -91,6 +93,7 @@ const App = () => (
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={withSuspense(<NotFound />)} />
           </Routes>
+          </ErrorBoundary>
         <ScrollToTop />
         <HashScroll />
       </BrowserRouter>

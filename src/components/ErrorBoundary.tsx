@@ -44,7 +44,7 @@ export class ErrorBoundary extends Component<Props, State> {
                             Oups, quelque chose s'est mal passé
                         </h2>
                         <p className="text-slate-400 mb-4">
-                            {this.state.error?.message || 'Une erreur inattendue est survenue'}
+                            Une erreur inattendue est survenue. Rechargez la page ou écrivez-nous si le problème persiste.
                         </p>
                         <div className="flex gap-2 justify-center">
                             <Button

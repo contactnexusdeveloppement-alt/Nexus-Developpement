@@ -1,4 +1,4 @@
-import { buildCorsHeaders, preflight } from "./_lib/cors";
+import { buildCorsHeaders, isJsonRequest, isOriginAllowed, preflight } from "./_lib/cors";
 import { rateLimit, getClientIP } from "./_lib/rate-limit";
 import { CONTACT_EMAIL, MESSAGES, apiError, contentLengthExceeds, json, readJsonObject, type ErrorCode } from "./_lib/http";
 import { deliverAdminThenClient } from "./_lib/resend";
@@ -108,6 +108,14 @@ export default async function handler(req: Request): Promise<Response> {
 
   if (req.method !== "POST") {
     return apiError(405, "method_not_allowed", MESSAGES.method_not_allowed, cors, { Allow: "POST, OPTIONS" });
+  }
+
+  // Cross-site ou non JSON : refus avant toute lecture du corps (voir isOriginAllowed).
+  if (!isOriginAllowed(req)) {
+    return apiError(403, "forbidden_origin", MESSAGES.forbidden_origin, cors);
+  }
+  if (!isJsonRequest(req)) {
+    return apiError(415, "unsupported_media_type", MESSAGES.unsupported_media_type, cors);
   }
 
   if (contentLengthExceeds(req, MAX_BODY_BYTES)) {

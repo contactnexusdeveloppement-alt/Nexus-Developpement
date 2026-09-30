@@ -68,12 +68,12 @@ function isAdult(dateString: string): boolean {
   const birth = new Date(dateString);
   if (isNaN(birth.getTime())) return false;
   const now = new Date();
-  const sixteenYearsAgo = new Date(
-    now.getFullYear() - 16,
+  const eighteenYearsAgo = new Date(
+    now.getFullYear() - 18,
     now.getMonth(),
     now.getDate(),
   );
-  return birth <= sixteenYearsAgo;
+  return birth <= eighteenYearsAgo;
 }
 
 const ApporteursForm = () => {
@@ -102,7 +102,7 @@ const ApporteursForm = () => {
     if (!data.firstName.trim()) e.firstName = "Prénom obligatoire";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) e.email = "Email invalide";
     if (!PHONE_REGEX.test(data.phone.trim())) e.phone = "Numéro français attendu";
-    if (!isAdult(data.birthDate)) e.birthDate = "Vous devez avoir au moins 16 ans";
+    if (!isAdult(data.birthDate)) e.birthDate = "Vous devez être majeur (18 ans révolus)";
     if (!data.city.trim()) e.city = "Ville obligatoire";
     if (!data.workStatus) e.workStatus = "Sélectionnez un statut";
     if (!data.aeStatus) e.aeStatus = "Précisez votre statut auto-entrepreneur";

@@ -11,7 +11,9 @@ export function escapeHtml(text: string | undefined | null): string {
 }
 
 export function isValidEmail(s: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s) && s.length <= 254;
+  // Longueur d'abord (coût de la regex borné), puis forme simple sans les caractères
+  // qui permettraient de forger un lien mailto: ou du HTML dans l'email admin.
+  return s.length <= 254 && /^[^\s@?&%<>,;"']+@[^\s@?&%<>,;"']+\.[^\s@?&%<>,;"']+$/.test(s);
 }
 
 export function safeString(v: unknown, max = 255): string | null {

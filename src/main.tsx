@@ -39,6 +39,10 @@ if (prerendered) {
 // Après un déploiement, un chunk lazy peut avoir disparu (nouveaux hashes) :
 // recharger la page récupère un HTML frais au lieu de laisser un écran vide.
 window.addEventListener("vite:preloadError", () => {
+  // Un seul rechargement automatique : si la page vient déjà d'être rechargée,
+  // on n'insiste pas (évite une boucle quand un chunk reste injoignable).
+  const nav = performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming | undefined;
+  if (nav?.type === "reload") return;
   window.location.reload();
 });
 

@@ -20,10 +20,13 @@ const NotFound = () => {
     const previousTitle = document.title;
     document.title = "Page non trouvée (404) | Nexus Développement";
 
-    const robots = document.createElement("meta");
+    // Une seule balise robots : on modifie celle du gabarit au lieu d'en ajouter une contradictoire.
+    const existingRobots = document.head.querySelector<HTMLMetaElement>('meta[name="robots"]');
+    const previousRobots = existingRobots ? existingRobots.getAttribute("content") : null;
+    const robots = existingRobots ?? document.createElement("meta");
     robots.setAttribute("name", "robots");
     robots.setAttribute("content", "noindex, nofollow");
-    document.head.appendChild(robots);
+    if (!existingRobots) document.head.appendChild(robots);
 
     const status = document.createElement("meta");
     status.setAttribute("name", "prerender-status-code");
@@ -32,7 +35,8 @@ const NotFound = () => {
 
     return () => {
       document.title = previousTitle;
-      robots.remove();
+      if (existingRobots && previousRobots !== null) existingRobots.setAttribute("content", previousRobots);
+      else robots.remove();
       status.remove();
     };
   }, []);

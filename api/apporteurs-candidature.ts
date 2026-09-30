@@ -1,4 +1,4 @@
-import { buildCorsHeaders, preflight } from "./_lib/cors";
+import { buildCorsHeaders, isJsonRequest, isOriginAllowed, preflight } from "./_lib/cors";
 import { rateLimit, getClientIP } from "./_lib/rate-limit";
 import { CONTACT_EMAIL, MESSAGES, apiError, contentLengthExceeds, json, readJsonObject, type ErrorCode } from "./_lib/http";
 import { deliverAdminThenClient } from "./_lib/resend";
@@ -86,11 +86,13 @@ type Validation = { ok: true; data: ValidatedCandidature } | { ok: false; code: 
 
 const fail = (code: ErrorCode, error: string): Validation => ({ ok: false, code, error });
 
-function isAtLeast16(dateString: string): boolean {
+// Majorité exigée : la modale juridique et le statut (auto-entrepreneur, contrat
+// d'apporteur) supposent un apporteur majeur.
+function isAtLeast18(dateString: string): boolean {
   const birth = new Date(dateString + "T00:00:00Z");
   if (isNaN(birth.getTime())) return false;
   const cutoff = new Date();
-  cutoff.setUTCFullYear(cutoff.getUTCFullYear() - 16);
+  cutoff.setUTCFullYear(cutoff.getUTCFullYear() - 18);
   return birth <= cutoff;
 }
 
@@ -117,8 +119,8 @@ function validateBody(b: Record<string, unknown>): Validation {
   if (!firstName) problems.push("prénom");
   if (!email) problems.push("email");
   if (!phone) problems.push("téléphone");
-  if (!birthDate || !DATE_REGEX.test(birthDate) || !isAtLeast16(birthDate)) {
-    problems.push("date de naissance (16 ans minimum)");
+  if (!birthDate || !DATE_REGEX.test(birthDate) || !isAtLeast18(birthDate)) {
+    problems.push("date de naissance (18 ans minimum)");
   }
   if (!city) problems.push("ville");
   if (!workStatus || !VALID_WORK_STATUS.has(workStatus)) problems.push("statut actuel");
@@ -193,6 +195,14 @@ export default async function handler(req: Request): Promise<Response> {
 
   if (req.method !== "POST") {
     return apiError(405, "method_not_allowed", MESSAGES.method_not_allowed, cors, { Allow: "POST, OPTIONS" });
+  }
+
+  // Cross-site ou non JSON : refus avant toute lecture du corps (voir isOriginAllowed).
+  if (!isOriginAllowed(req)) {
+    return apiError(403, "forbidden_origin", MESSAGES.forbidden_origin, cors);
+  }
+  if (!isJsonRequest(req)) {
+    return apiError(415, "unsupported_media_type", MESSAGES.unsupported_media_type, cors);
   }
 
   if (contentLengthExceeds(req, MAX_BODY_BYTES)) {

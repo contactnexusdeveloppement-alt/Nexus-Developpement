@@ -17,6 +17,8 @@ export type ErrorCode =
   | "payload_too_large"
   | "rate_limited"
   | "method_not_allowed"
+  | "forbidden_origin"
+  | "unsupported_media_type"
   | "not_configured"
   | "upstream_error";
 
@@ -30,6 +32,8 @@ export const CONTACT_EMAIL = "contact.nexus.developpement@gmail.com";
 /** Messages français des erreurs transverses (identiques sur les 3 endpoints). */
 export const MESSAGES = {
   method_not_allowed: "Méthode non autorisée : utilisez POST.",
+  forbidden_origin: "Origine non autorisée.",
+  unsupported_media_type: "Le corps de la requête doit être envoyé en JSON (Content-Type: application/json).",
   payload_too_large: "Requête trop volumineuse.",
   invalid_json: "Requête invalide : le corps doit être un objet JSON.",
   not_configured: `Service d'envoi non configuré. Écrivez-nous directement à ${CONTACT_EMAIL}.`,

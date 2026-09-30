@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import AnimatedBackground from "@/components/AnimatedBackground";
 import { motion } from "framer-motion";
 import SEO from "@/components/SEO";
+import { LEGAL_LAST_UPDATE } from "@/data/company";
 
 const TermsOfService = () => {
 
@@ -159,7 +160,7 @@ const TermsOfService = () => {
 
                     <div className="mt-20 text-center border-t border-white/5 pt-8">
                         <p className="text-slate-500 text-sm">
-                            Dernière mise à jour : {new Date().toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })}
+                            Dernière mise à jour : {LEGAL_LAST_UPDATE}
                         </p>
                     </div>
                 </div>

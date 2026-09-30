@@ -36,7 +36,8 @@ const LegalNotice = () => {
       content: (
         <div className="space-y-3 text-slate-300 text-sm leading-relaxed">
           <p><strong className="text-white">Hébergeur :</strong> Vercel Inc.</p>
-          <p><strong className="text-white">Adresse :</strong> 340 S Lemon Ave #4133, Walnut, CA 91789, USA</p>
+          <p><strong className="text-white">Adresse :</strong> 440 N Barranca Ave #4133, Covina, CA 91723, USA</p>
+          <p><strong className="text-white">Téléphone :</strong> +1 (951) 383-6898</p>
           <p><strong className="text-white">Site web :</strong> <a href="https://vercel.com" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline transition-colors">https://vercel.com</a></p>
           <p className="pt-2"><strong className="text-white">Envoi des emails transactionnels :</strong> Resend (Resend, Inc., USA) — utilisé pour l'envoi des emails de confirmation et de notification suite aux formulaires.</p>
           <p className="pt-1 text-slate-400 italic">
