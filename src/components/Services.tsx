@@ -23,6 +23,8 @@ const services = [
     title: "Sites E-commerce",
     description: "Boutiques en ligne sur Shopify, WooCommerce ou sur-mesure : catalogue, paiement, logistique.",
     image: ecommerceImg,
+    // Capture d'écran réelle (texte blanc géant) : atténuée pour ne pas concurrencer le texte de la carte
+    imageClassName: "object-top opacity-30 blur-md scale-110",
     altText: "Création de boutique en ligne par Nexus Développement",
     link: "/e-commerce"
   },
@@ -123,7 +125,7 @@ const Services = () => {
                       src={service.image}
                       alt={service.altText}
                       loading="lazy"
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${service.imageClassName ?? ""}`}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-background via-background/90 to-background/40 group-hover:from-background group-hover:via-background/80 transition-all duration-500" />
                   </div>
