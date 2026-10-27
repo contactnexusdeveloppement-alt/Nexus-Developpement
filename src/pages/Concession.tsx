@@ -3,6 +3,7 @@ import '../styles/concession/style.css';
 import useEmblaCarousel from 'embla-carousel-react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import SEO from '@/components/SEO';
+import DemoBanner from '@/components/DemoBanner';
 import { breadcrumbSchema, serviceSchema } from '@/lib/schemas';
 
 // Mock Data for Cars
@@ -348,6 +349,7 @@ const Concession = () => {
                     </div>
                 </div>
             </footer>
+            <DemoBanner />
         </div>
     );
 };
