@@ -182,11 +182,19 @@ const inputClass =
   "bg-slate-800/50 border-white/10 text-white placeholder:text-blue-200/20 focus:border-blue-400/50 focus:bg-slate-800/80 transition-all h-11";
 const inputErrorClass = "border-red-400/60 focus:border-red-400";
 
-const QuoteForm = () => {
+interface QuoteFormProps {
+  /** Service présélectionné (id de serviceTypes), utilisé sur les pages services. */
+  defaultService?: string;
+}
+
+const QuoteForm = ({ defaultService }: QuoteFormProps) => {
   const { toast } = useToast();
   const [searchParams] = useSearchParams();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState<FormState>(initialFormData);
+  const emptyForm: FormState = defaultService
+    ? { ...initialFormData, services: [defaultService] }
+    : initialFormData;
+  const [formData, setFormData] = useState<FormState>(emptyForm);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   // Message lu par les lecteurs d'écran (zone aria-live toujours présente dans le DOM)
   const [statusMessage, setStatusMessage] = useState("");
@@ -380,7 +388,7 @@ const QuoteForm = () => {
       });
 
       // Reset form
-      setFormData(initialFormData);
+      setFormData(emptyForm);
     } catch (error) {
       const isTimeout = error instanceof Error && error.name === "AbortError";
       toast({

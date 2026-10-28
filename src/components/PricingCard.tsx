@@ -3,7 +3,7 @@ import { Check, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PricingPlan } from "@/data/pricingData";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface PricingCardProps {
     plan: PricingPlan;
@@ -14,14 +14,16 @@ interface PricingCardProps {
 
 const PricingCard = ({ plan, categoryId, isVisible = true, index = 0 }: PricingCardProps) => {
     const navigate = useNavigate();
+    const { pathname } = useLocation();
 
     const scrollToQuote = () => {
         // Navigate with search params without page reload
-        // Le formulaire de devis n'existe que sur l'accueil : on y navigue
-        // toujours, le composant HashScroll gère le défilement une fois la
+        // Le formulaire de devis est sur l'accueil et en bas des pages services :
+        // on reste sur la page s'il y est (le placeholder porte déjà l'id),
+        // sinon on va sur l'accueil. HashScroll gère le défilement une fois la
         // section (chargée en lazy) montée.
         navigate({
-            pathname: '/',
+            pathname: document.getElementById('devis') ? pathname : '/',
             hash: '#devis',
             search: `?category=${categoryId}&plan=${encodeURIComponent(plan.name)}`
         });

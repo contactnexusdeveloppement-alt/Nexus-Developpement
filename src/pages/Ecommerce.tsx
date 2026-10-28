@@ -23,6 +23,7 @@ import { projects } from "@/data/projects";
 import PricingCard from "@/components/PricingCard";
 import { motion } from "framer-motion";
 import SEO from "@/components/SEO";
+import ServiceQuoteSection from "@/components/ServiceQuoteSection";
 import { breadcrumbSchema, faqSchema, serviceSchema } from "@/lib/schemas";
 
 const FAQ_ECOMMERCE = [
@@ -326,6 +327,7 @@ const Ecommerce = () => {
           </div>
         </div>
 
+        <ServiceQuoteSection service="ecommerce" />
         <Footer />
       </div>
     </div>
