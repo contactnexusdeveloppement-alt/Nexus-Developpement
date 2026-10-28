@@ -8,6 +8,10 @@ import React, { Suspense, lazy } from "react";
 import Index from "./pages/Index";
 import ScrollToTop from "./components/ScrollToTop";
 import ClientOnly from "./components/ClientOnly";
+// Mesure d'audience sans cookie (Vercel Web Analytics) : pages vues agrégées,
+// aucune donnée personnelle stockée. Inactif tant que l'option n'est pas
+// activée dans le projet Vercel (le script répond alors 404, sans effet).
+import { Analytics } from "@vercel/analytics/react";
 import HashScroll from "./components/HashScroll";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { LOCAL_CITIES } from "./data/localCities";
@@ -55,6 +59,7 @@ const App = () => (
       <ClientOnly>
         <Toaster />
         <Sonner />
+        <Analytics />
       </ClientOnly>
       <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <ErrorBoundary>

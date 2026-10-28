@@ -63,13 +63,16 @@ const CookiePolicy = () => {
       content: (
         <div className="space-y-3 text-slate-300 text-sm leading-relaxed">
           <p>
-            Aucun outil de mesure d'audience n'est déployé sur le site à ce jour.
+            Le site utilise Vercel Web Analytics, l'outil de statistiques de notre hébergeur. Il ne
+            dépose <strong className="text-white">aucun cookie</strong> et n'écrit rien sur votre
+            appareil : les visites sont comptées à partir d'un hachage anonyme renouvelé chaque jour,
+            et seules des statistiques agrégées sont conservées (pages vues, pays, type d'appareil, site
+            d'origine). Aucun croisement avec d'autres sites, aucun profilage.
           </p>
           <p>
-            Si une solution était mise en place, elle serait soit exemptée de consentement au sens
-            des recommandations de la CNIL (statistiques anonymes, durée de vie ≤ 13 mois, pas de
-            croisement de données), soit conditionnée à votre consentement préalable, recueilli par un
-            bandeau proposant « Accepter » et « Refuser » au même niveau.
+            Cette mesure est exemptée de consentement au sens des recommandations de la CNIL. Tout
+            outil qui nécessiterait votre consentement serait conditionné à un bandeau proposant
+            « Accepter » et « Refuser » au même niveau.
           </p>
         </div>
       ),
