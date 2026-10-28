@@ -25,7 +25,7 @@ Analytics : (à activer)
 
 /* CONTACT */
 
-Email : contact.nexus.developpement@gmail.com
+Email : contact@nexusdeveloppement.fr
 Phone : +33 7 61 84 75 80
 Address : 4 rue de la Ferme, 78990 Élancourt, France
 

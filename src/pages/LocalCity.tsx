@@ -287,10 +287,10 @@ const LocalCity = ({ slug }: LocalCityProps) => {
                 <Phone className="w-4 h-4" /> +33 7 61 84 75 80
               </a>
               <a
-                href="mailto:contact.nexus.developpement@gmail.com"
+                href="mailto:contact@nexusdeveloppement.fr"
                 className="flex items-center gap-2 hover:text-cyan-400 transition-colors"
               >
-                <Mail className="w-4 h-4" /> contact.nexus.developpement@gmail.com
+                <Mail className="w-4 h-4" /> contact@nexusdeveloppement.fr
               </a>
             </div>
           </div>

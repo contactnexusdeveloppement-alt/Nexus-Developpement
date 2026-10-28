@@ -26,7 +26,7 @@ const LegalNotice = () => {
           <p><strong className="text-white">N° TVA intracommunautaire :</strong> FR49995394095</p>
           <p><strong className="text-white">Directeur de la publication :</strong> Adam Le Charlès</p>
           <p><strong className="text-white">Téléphone :</strong> <a href="tel:+33761847580" className="text-blue-400 hover:text-blue-300 underline">+33 7 61 84 75 80</a></p>
-          <p><strong className="text-white">Contact :</strong> <a href="mailto:contact.nexus.developpement@gmail.com" className="text-blue-400 hover:text-blue-300 underline">contact.nexus.developpement@gmail.com</a></p>
+          <p><strong className="text-white">Contact :</strong> <a href="mailto:contact@nexusdeveloppement.fr" className="text-blue-400 hover:text-blue-300 underline">contact@nexusdeveloppement.fr</a></p>
         </div>
       )
     },
@@ -177,11 +177,11 @@ const LegalNotice = () => {
             >
               <p className="text-slate-400 mb-4">Une question supplémentaire ?</p>
               <a
-                href="mailto:contact.nexus.developpement@gmail.com"
+                href="mailto:contact@nexusdeveloppement.fr"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-600/10 hover:bg-blue-600/20 border border-blue-500/20 text-blue-300 hover:text-blue-200 transition-all duration-300 break-all"
               >
                 <Mail className="w-4 h-4 shrink-0" />
-                <span className="break-all text-sm sm:text-base">contact.nexus.developpement@gmail.com</span>
+                <span className="break-all text-sm sm:text-base">contact@nexusdeveloppement.fr</span>
               </a>
             </motion.div>
           </div>

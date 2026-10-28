@@ -25,7 +25,7 @@ import {
   ShoppingCart,
 } from "lucide-react";
 
-const CONTACT_EMAIL = "contact.nexus.developpement@gmail.com";
+const CONTACT_EMAIL = "contact@nexusdeveloppement.fr";
 const REQUEST_TIMEOUT_MS = 15_000;
 
 // Limites alignées sur la validation serveur (api/send-quote.ts)

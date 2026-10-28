@@ -80,11 +80,11 @@ const ApporteursLegalModal = () => {
               prescription. Conformément au RGPD, vous disposez d'un droit d'accès, de
               rectification, d'effacement et d'opposition à l'adresse{" "}
               <a
-                href="mailto:contact.nexus.developpement@gmail.com"
+                href="mailto:contact@nexusdeveloppement.fr"
                 className="underline underline-offset-2 hover:no-underline"
                 style={{ color: "var(--ned-accent)" }}
               >
-                contact.nexus.developpement@gmail.com
+                contact@nexusdeveloppement.fr
               </a>
               .
             </Section>

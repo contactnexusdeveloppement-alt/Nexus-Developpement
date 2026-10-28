@@ -273,12 +273,12 @@ const CookiePolicy = () => {
             >
               <p className="text-slate-400 mb-4">Une question sur les cookies ?</p>
               <a
-                href="mailto:contact.nexus.developpement@gmail.com"
+                href="mailto:contact@nexusdeveloppement.fr"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-600/10 hover:bg-blue-600/20 border border-blue-500/20 text-blue-300 hover:text-blue-200 transition-all duration-300 break-all"
               >
                 <Mail className="w-4 h-4 shrink-0" />
                 <span className="break-all text-sm sm:text-base">
-                  contact.nexus.developpement@gmail.com
+                  contact@nexusdeveloppement.fr
                 </span>
               </a>
             </motion.div>

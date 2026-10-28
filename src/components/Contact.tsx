@@ -35,10 +35,10 @@ const Contact = () => {
                 </div>
                 <h3 className="text-2xl font-bold text-white mb-2">Email</h3>
                 <a
-                  href="mailto:contact.nexus.developpement@gmail.com"
+                  href="mailto:contact@nexusdeveloppement.fr"
                   className="text-blue-200 hover:text-white transition-colors font-medium text-sm sm:text-base break-words max-w-full block hover:scale-105 transform duration-300"
                 >
-                  contact.nexus.developpement@gmail.com
+                  contact@nexusdeveloppement.fr
                 </a>
               </CardContent>
             </Card>
