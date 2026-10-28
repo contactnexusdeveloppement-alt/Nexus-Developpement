@@ -3,10 +3,12 @@ import { intro } from "@/lib/motion";
 import { useTypewriter } from "@/hooks/useTypewriter";
 import { scrollToId } from "@/components/HashScroll";
 import { motion } from "framer-motion";
+import { clientProjects } from "@/data/projects";
 import { useState, useEffect } from "react";
 
 const Hero = () => {
-  const fullText = "Agence Web & Mobile : Création de sites et applications sur-mesure";
+  // Le bénéfice client d'abord, le mot-clé « agence web » ensuite (H1 indexé).
+  const fullText = "Agence web : des sites qui vous apportent des clients";
 
   // SSR-friendly mobile detection - initialize immediately to prevent animation flash
   const [isMobile, setIsMobile] = useState(() => {
@@ -53,8 +55,8 @@ const Hero = () => {
           </h1>
 
           <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
-            Sites web ultra-modernes, applications mobiles natives et automatisation de processus.
-            <span className="text-cyan-400 font-semibold block mt-2">Transformez votre vision en réalité technique.</span>
+            Création et refonte de sites pour les TPE et PME : plus de demandes de contact, de réservations et de ventes.
+            <span className="text-cyan-400 font-semibold block mt-2">Tarifs publics dès 950 € HT. Devis gratuit et sans engagement.</span>
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
@@ -63,16 +65,21 @@ const Hero = () => {
               onClick={() => scrollToId('devis')}
               className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-8 py-6 text-lg rounded-full shadow-[0_0_20px_rgba(34,211,238,0.5)] hover:shadow-[0_0_30px_rgba(34,211,238,0.8)] transition-all duration-300 transform hover:scale-105"
             >
-              Démarrer un projet
+              Parler de mon projet
             </MagneticButton>
             <MagneticButton
               size="lg"
-              onClick={() => scrollToId('services')}
+              onClick={() => scrollToId('tarifs')}
               className="bg-white/5 backdrop-blur-sm border border-white/20 text-white font-medium px-8 py-6 text-lg rounded-full hover:bg-white/10 transition-all duration-300"
             >
-              Explorer nos services
+              Voir les tarifs
             </MagneticButton>
           </div>
+
+          <p className="mt-10 text-sm text-gray-400">
+            {clientProjects.length} sites clients en ligne · Basés à Élancourt (78) · E-commerce, automatisation et
+            applications sur étude
+          </p>
         </motion.div>
       </div>
     </section>
