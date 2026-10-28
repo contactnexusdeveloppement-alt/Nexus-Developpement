@@ -53,7 +53,7 @@ const FAQ_ECOMMERCE = [
 const Ecommerce = () => {
   const navigate = useNavigate();
   const pricingPlans = pricingData.find((c) => c.id === "ecommerce")?.plans || [];
-  const clientProjects = projects.filter((p) => !p.isDemo);
+  const clientProjects = projects.filter((p) => p.category === "E-commerce");
 
   const processSteps = [
     {

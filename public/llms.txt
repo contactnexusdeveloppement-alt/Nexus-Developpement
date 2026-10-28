@@ -85,11 +85,13 @@ Maintenance et hébergement : à partir de 50 €/mois selon le pack.
 - /agence-web-montigny-le-bretonneux — Montigny-le-Bretonneux (78180), 8 km d'Élancourt.
 - /agence-web-maurepas — Maurepas (78310), 3 km d'Élancourt.
 
-### Démos sectorielles (exemples de réalisations)
-- /salon-coiffure — Démo site web pour salon de coiffure avec prise de rendez-vous.
-- /restaurant — Démo site web pour restaurant avec menu interactif et réservation.
-- /agence-immobiliere — Démo site web pour agence immobilière avec catalogue de biens.
-- /concession-automobile — Démo site web pour concession automobile avec stock de véhicules.
+### Réalisations clients (sites en ligne)
+- https://bodystart-nutrition.fr/ — BodyStart Nutrition, boutique de compléments alimentaires à Coignières (e-commerce, Click & Collect).
+- https://gym-coach.com/ — Gym Coach, salle de sport indépendante à Coignières (site vitrine, tarifs, inscription).
+- https://www.cookiesjo.fr/ — Cookies Jo, atelier de cookies et spécialités créoles à Chatou (boutique en ligne).
+- https://il-vicolo-site.vercel.app/ — Il Vicolo, pizzeria italienne à Nancy (réservation, click & collect).
+- https://www.arno-polynice.com/ — Arno Polynice, marque de vêtements sur mesure (e-commerce).
+- https://www.orient-relais.com/ — Orient Relais, produits bio (e-commerce).
 
 ### Autres pages
 - / — Accueil de l'agence avec présentation des services et appel à l'action.

@@ -30,11 +30,6 @@ const Automation = lazy(() => import("./pages/Automation"));
 const WebApps = lazy(() => import("./pages/WebApps"));
 const MobileApps = lazy(() => import("./pages/MobileApps"));
 const VisualIdentity = lazy(() => import("./pages/VisualIdentity"));
-const SalonCoiffure = lazy(() => import("./pages/SalonCoiffure"));
-const Restaurant = lazy(() => import("./pages/Restaurant"));
-const Concession = lazy(() => import("./pages/Concession"));
-const AgenceImmobiliere = lazy(() => import("./pages/AgenceImmobiliere"));
-const PropertyDetail = lazy(() => import("./pages/PropertyDetail"));
 const ProjectsCatalog = lazy(() => import("./pages/ProjectsCatalog"));
 const LocalCity = lazy(() => import("./pages/LocalCity"));
 const Apporteurs = lazy(() => import("./pages/Apporteurs"));
@@ -71,11 +66,6 @@ const App = () => (
             <Route path="/applications-web" element={withSuspense(<WebApps />)} />
             <Route path="/applications-mobiles" element={withSuspense(<MobileApps />)} />
             <Route path="/identite-visuelle" element={withSuspense(<VisualIdentity />)} />
-            <Route path="/salon-coiffure" element={withSuspense(<SalonCoiffure />)} />
-            <Route path="/restaurant" element={withSuspense(<Restaurant />)} />
-            <Route path="/agence-immobiliere" element={withSuspense(<AgenceImmobiliere />)} />
-            <Route path="/agence-immo/property/:id" element={withSuspense(<PropertyDetail />)} />
-            <Route path="/concession-automobile" element={withSuspense(<Concession />)} />
             <Route path="/catalogue" element={withSuspense(<ProjectsCatalog />)} />
 
             <Route path="/mentions-legales" element={withSuspense(<LegalNotice />)} />

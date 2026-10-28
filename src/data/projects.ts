@@ -6,15 +6,54 @@ export type Project = {
     technologies: string[];
     category: string;
     altText: string;
-    /**
-     * Démo sectorielle fictive (aucun client derrière) : affichée avec un badge
-     * « Démo », comptée à part et exclue du JSON-LD des réalisations.
-     */
-    isDemo?: boolean;
 };
 
+/**
+ * Réalisations clients en ligne (sites livrés par l'agence). Captures en
+ * 800×500 WebP dans public/projects/ : en cas de refonte d'un site client,
+ * refaire la capture et incrémenter le paramètre ?v= pour casser le cache.
+ */
 export const projects: Project[] = [
-    // --- Réalisations clients en ligne ----------------------------------
+    {
+        title: "BodyStart Nutrition",
+        description:
+            "Boutique en ligne d'une enseigne de compléments alimentaires à Coignières : catalogue, packs, Click & Collect et livraison, synchronisés avec la boutique physique.",
+        image: "/projects/bodystart.webp?v=4",
+        url: "https://bodystart-nutrition.fr/",
+        technologies: ["Next.js", "Shopify", "Vercel"],
+        category: "E-commerce",
+        altText: "Page d'accueil de la boutique BodyStart Nutrition",
+    },
+    {
+        title: "Gym Coach",
+        description:
+            "Site d'une salle de sport indépendante à Coignières : présentation du club, tarifs, offres et inscription en ligne, pensé d'abord pour le mobile.",
+        image: "/projects/gym-coach.webp?v=1",
+        url: "https://gym-coach.com/",
+        technologies: ["Next.js", "Vercel"],
+        category: "Site vitrine",
+        altText: "Page d'accueil du site de la salle Gym Coach",
+    },
+    {
+        title: "Cookies Jo",
+        description:
+            "Boutique en ligne d'un atelier de cookies et spécialités créoles à Chatou : catalogue, commande en ligne, retrait sur place ou livraison dans l'ouest parisien.",
+        image: "/projects/cookies-jo.webp?v=1",
+        url: "https://www.cookiesjo.fr/",
+        technologies: ["Next.js", "Shopify", "Vercel"],
+        category: "E-commerce",
+        altText: "Page d'accueil de la boutique Cookies Jo",
+    },
+    {
+        title: "Il Vicolo",
+        description:
+            "Site d'une pizzeria italienne à Nancy : carte, réservation de table en ligne, commande en click & collect et demande de privatisation.",
+        image: "/projects/il-vicolo.webp?v=1",
+        url: "https://il-vicolo-site.vercel.app/",
+        technologies: ["Next.js", "Resend", "Vercel"],
+        category: "Restaurant",
+        altText: "Page d'accueil du site de la pizzeria Il Vicolo",
+    },
     {
         title: "Arno Polynice",
         description:
@@ -35,71 +74,12 @@ export const projects: Project[] = [
         category: "E-commerce",
         altText: "Capture d'écran du site Orient Relais",
     },
-    {
-        title: "Bodystart Nutrition",
-        description:
-            "Boutique en ligne de compléments alimentaires, prolongement digital de la boutique physique. Catalogue, paiement et logistique synchronisés.",
-        image: "/projects/bodystart.webp?v=3",
-        url: "https://bodystart.vercel.app/",
-        technologies: ["React", "Shopify", "Resend"],
-        category: "E-commerce",
-        altText: "Capture d'écran de la boutique Bodystart Nutrition",
-    },
-
-    // --- Cas d'usage & démos sectorielles (fictives : isDemo) -----------
-    {
-        title: "Élégance Coiffure",
-        description:
-            "Site vitrine complet pour un salon de coiffure avec présentation des services, réalisations et histoire.",
-        image: "/salon/screenshot.webp",
-        url: "/salon-coiffure",
-        technologies: ["React", "Tailwind", "Framer Motion"],
-        category: "Démo sectorielle",
-        altText: "Interface du site Élégance Coiffure",
-        isDemo: true,
-    },
-    {
-        title: "Saveurs & Traditions",
-        description:
-            "Site vitrine élégant pour un restaurant gastronomique. Menu digital interactif, galerie photos immersive et formulaire de réservation de table présenté en démonstration.",
-        image: "/restaurant/screenshot.webp",
-        url: "/restaurant",
-        technologies: ["React", "Framer Motion", "CSS Modules"],
-        category: "Démo sectorielle",
-        altText: "Ambiance restaurant gastronomique",
-        isDemo: true,
-    },
-    {
-        title: "Héritage Auto",
-        description:
-            "Concession automobile de prestige. Vitrine immersive avec filtres dynamiques, galerie de véhicules et services d'atelier haut de gamme.",
-        image: "/projects/concession-home.webp",
-        url: "/concession-automobile",
-        technologies: ["React", "CSS Modules", "Responsive Design"],
-        category: "Démo sectorielle",
-        altText: "Garage Héritage Auto",
-        isDemo: true,
-    },
-    {
-        title: "Prestige Immobilier Vosges",
-        description:
-            "Agence immobilière de luxe. Site vitrine élégant avec catalogue de biens et présentation des services haut de gamme.",
-        image: "/agence-immo/screenshot.webp",
-        url: "/agence-immobiliere",
-        technologies: ["React", "Tailwind", "Responsive Design"],
-        category: "Démo sectorielle",
-        altText: "Agence immobilière de prestige",
-        isDemo: true,
-    },
 ];
 
-/** Réalisations clients réelles : compteur et ItemList JSON-LD. */
-export const clientProjects = projects.filter((project) => !project.isDemo);
+/** Toutes les réalisations sont des sites clients réels (les démos ont été retirées le 28/10/2026). */
+export const clientProjects = projects;
 
-/** Démos sectorielles fictives : compteur. */
-export const demoProjects = projects.filter((project) => project.isDemo);
-
-/** Site externe (client) : ouvre une nouvelle fenêtre. Sinon route interne (démo) ou ancre. */
+/** Site externe (client) : ouvre une nouvelle fenêtre. Sinon route interne ou ancre. */
 export const isExternalUrl = (url: string) => /^https?:\/\//i.test(url);
 
 /**

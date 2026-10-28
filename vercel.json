@@ -15,12 +15,31 @@
       "source": "/:path+/",
       "destination": "/:path+",
       "permanent": true
-    }
-  ],
-  "rewrites": [
+    },
     {
-      "source": "/agence-immo/property/:id",
-      "destination": "/index.html"
+      "source": "/salon-coiffure",
+      "destination": "/catalogue",
+      "permanent": true
+    },
+    {
+      "source": "/restaurant",
+      "destination": "/catalogue",
+      "permanent": true
+    },
+    {
+      "source": "/agence-immobiliere",
+      "destination": "/catalogue",
+      "permanent": true
+    },
+    {
+      "source": "/agence-immo/:path*",
+      "destination": "/catalogue",
+      "permanent": true
+    },
+    {
+      "source": "/concession-automobile",
+      "destination": "/catalogue",
+      "permanent": true
     }
   ],
   "headers": [
