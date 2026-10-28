@@ -46,7 +46,8 @@ const ApporteursLegalModal = () => {
               Pour bénéficier des commissions, l'Apporteur doit être majeur et disposer du statut
               d'auto-entrepreneur (micro-entrepreneur) avec un numéro SIRET valide à la date du
               versement de la commission. La validation de la candidature ne constitue pas une
-              garantie de revenus.
+              garantie de revenus. Le programme ne crée aucun lien de subordination : ce n'est ni
+              un contrat de travail, ni un stage, ni un contrat d'alternance.
             </Section>
 
             <Section title="Rémunération">
@@ -74,7 +75,7 @@ const ApporteursLegalModal = () => {
 
             <Section title="Données personnelles">
               Les informations collectées via le formulaire de candidature sont traitées par Nexus
-              Développement aux fins exclusives du recrutement et de la gestion du programme. Elles
+              Développement aux fins exclusives de la sélection des apporteurs et de la gestion du programme. Elles
               sont conservées pendant la durée du programme majorée des délais légaux de
               prescription. Conformément au RGPD, vous disposez d'un droit d'accès, de
               rectification, d'effacement et d'opposition à l'adresse{" "}

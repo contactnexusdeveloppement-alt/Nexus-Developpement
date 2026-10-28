@@ -35,7 +35,7 @@ const ApporteursHero = () => {
           className="text-xs md:text-sm font-semibold tracking-[0.3em] uppercase mb-6"
           style={{ color: "var(--ned-accent)" }}
         >
-          Recrutement — Apporteurs d'affaires
+          Programme d'apporteurs d'affaires indépendants
         </motion.p>
 
         <motion.h1
@@ -67,6 +67,17 @@ const ApporteursHero = () => {
           Présentez-le-nous. Si on signe, vous touchez{" "}
           <strong style={{ color: "var(--ned-silver-light)" }}>20&nbsp;% du montant HT encaissé</strong> sur la
           prestation. Pas de quota, pas d'engagement, pas de blabla.
+        </motion.p>
+
+        <motion.p
+          initial={intro({ opacity: 0, y: 16 })}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="text-sm md:text-base max-w-2xl mx-auto mb-10 rounded-xl border px-4 py-3"
+          style={{ color: "var(--ned-silver-light)", borderColor: "var(--ned-border)" }}
+        >
+          <strong>Ce n'est pas une offre d'emploi, de stage ni d'alternance.</strong> Collaboration
+          indépendante, rémunérée uniquement à la commission sur les projets signés et payés.
         </motion.p>
 
         <motion.div

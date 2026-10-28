@@ -56,7 +56,7 @@ const ApporteursFinalCTA = () => {
               color: "#050B1F",
             }}
           >
-            Postuler maintenant
+            Devenir apporteur
             <ArrowRight className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-1" />
           </button>
 

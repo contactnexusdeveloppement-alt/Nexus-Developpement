@@ -13,32 +13,17 @@ import ApporteursFAQ from "@/components/apporteurs/ApporteursFAQ";
 import ApporteursForm from "@/components/apporteurs/ApporteursForm";
 import ApporteursFinalCTA from "@/components/apporteurs/ApporteursFinalCTA";
 
-const jobPostingSchema = {
+// Pas de JobPosting : ce balisage faisait apparaître la page dans Google for
+// Jobs et les agrégateurs d'offres d'emploi, d'où des candidatures d'alternance
+// et de stage. Le programme est une collaboration indépendante à la commission.
+const programSchema = {
   "@context": "https://schema.org",
-  "@type": "JobPosting",
-  title: "Apporteur d'affaires — Nexus Développement",
+  "@type": "WebPage",
+  name: "Programme d'apporteurs d'affaires indépendants — Nexus Développement",
   description:
-    "Programme d'apport d'affaires rémunéré 20 % du chiffre d'affaires HT. Travail flexible, 100 % à distance, sans quota imposé.",
-  datePosted: "2026-05-07",
-  employmentType: "CONTRACTOR",
-  hiringOrganization: {
-    "@type": "Organization",
-    name: "Nexus Développement",
-    sameAs: "https://nexusdeveloppement.fr",
-    logo: "https://nexusdeveloppement.fr/nexus-logo.webp",
-  },
-  jobLocation: {
-    "@type": "Place",
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Élancourt",
-      addressRegion: "Île-de-France",
-      postalCode: "78990",
-      addressCountry: "FR",
-    },
-  },
-  jobLocationType: "TELECOMMUTE",
-  applicantLocationRequirements: { "@type": "Country", name: "France" },
+    "Programme d'apport d'affaires pour indépendants : 20 % du montant HT encaissé sur chaque projet signé. Ni emploi, ni stage, ni alternance.",
+  url: "https://nexusdeveloppement.fr/apporteurs",
+  publisher: { "@type": "Organization", name: "Nexus Développement", url: "https://nexusdeveloppement.fr" },
 };
 
 const Apporteurs = () => {
@@ -60,11 +45,11 @@ const Apporteurs = () => {
   return (
     <div className="min-h-screen relative" style={{ backgroundColor: "var(--ned-bg-deep)" }}>
       <SEO
-        title="Devenir apporteur d'affaires — Nexus Développement | 20 % de commission"
-        description="Recommandez Nexus Développement à votre réseau et touchez 20 % du montant HT encaissé sur chaque projet. Aucun engagement, paiement sous 30 jours, contrat clair. Postulez en 2 minutes."
+        title="Apporteur d'affaires indépendant — 20 % de commission | Nexus Développement"
+        description="Recommandez Nexus Développement à votre réseau et touchez 20 % du montant HT encaissé sur chaque projet. Programme indépendant à la commission (ni emploi, ni stage, ni alternance), paiement sous 30 jours, contrat clair."
         canonical="/apporteurs"
         image="/og-image.png"
-        schemas={[jobPostingSchema]}
+        schemas={[programSchema]}
       />
 
       {/* Skip link */}
@@ -73,7 +58,7 @@ const Apporteurs = () => {
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:outline-none focus:ring-2"
         style={{ backgroundColor: "var(--ned-accent)", color: "#050B1F" }}
       >
-        Aller au formulaire de candidature
+        Aller au formulaire d'inscription
       </a>
 
       {/* Fond animé canvas (particules + lignes) — même composant que sur le reste du site.
