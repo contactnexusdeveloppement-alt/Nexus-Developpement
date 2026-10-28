@@ -278,10 +278,10 @@ const PrivacyPolicy = () => {
             content: (
                 <div className="space-y-3 text-slate-300 leading-relaxed text-sm">
                     <p>
-                        Le site <strong className="text-white">ne dépose aucun cookie</strong> et n'utilise ni stockage local ni traceur : il n'y a donc pas de bandeau de consentement. Aucun outil de mesure d'audience, de publicité ou de réseau social n'est intégré.
+                        Le site <strong className="text-white">ne dépose aucun cookie</strong> et n'utilise ni stockage local ni traceur publicitaire : il n'y a donc pas de bandeau de consentement. Aucun outil de publicité ou de réseau social n'est intégré.
                     </p>
                     <p>
-                        Si un outil de mesure d'audience devait être ajouté, un bandeau conforme aux recommandations de la CNIL (refuser aussi simplement qu'accepter) serait mis en place avant tout dépôt. Voir la <Link to="/cookies" className="text-blue-400 hover:text-blue-300 underline">Politique cookies</Link> pour le détail.
+                        Pour savoir quelles pages sont consultées, nous utilisons <strong className="text-white">Vercel Web Analytics</strong>, notre hébergeur : mesure sans cookie ni stockage sur votre appareil, statistiques agrégées et anonymes (pages vues, pays, type d'appareil, site d'origine), sans suivi d'un site à l'autre ni profilage. L'identifiant technique utilisé pour compter les visites est un hachage qui change chaque jour et ne permet pas de vous identifier. Cette mesure est exemptée de consentement au sens des recommandations de la CNIL. Si un outil nécessitant votre consentement devait être ajouté, un bandeau conforme (refuser aussi simplement qu'accepter) serait mis en place avant tout dépôt. Voir la <Link to="/cookies" className="text-blue-400 hover:text-blue-300 underline">Politique cookies</Link> pour le détail.
                     </p>
                 </div>
             )
