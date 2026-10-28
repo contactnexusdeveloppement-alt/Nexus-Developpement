@@ -151,7 +151,7 @@ const ApporteursForm = () => {
         description:
           err instanceof Error
             ? err.message
-            : "Impossible d'envoyer la candidature. Réessayez plus tard.",
+            : "Impossible d'envoyer l'inscription. Réessayez plus tard.",
         variant: "destructive",
       });
     } finally {
@@ -191,7 +191,7 @@ const ApporteursForm = () => {
               className="text-3xl md:text-4xl font-extrabold mb-4 leading-tight"
               style={{ color: "var(--ned-silver-light)", letterSpacing: "-0.03em" }}
             >
-              Candidature reçue&nbsp;!
+              Inscription reçue&nbsp;!
             </h2>
             <p className="text-base md:text-lg leading-relaxed" style={{ color: "var(--ned-silver)" }}>
               On revient vers vous sous 48h ouvrées. Pensez à vérifier vos spams si vous ne voyez
@@ -203,7 +203,7 @@ const ApporteursForm = () => {
               className="mt-8 text-sm underline underline-offset-4 hover:no-underline focus:outline-none"
               style={{ color: "var(--ned-accent)" }}
             >
-              Envoyer une autre candidature
+              Envoyer une autre inscription
             </button>
           </motion.div>
         </div>
@@ -237,7 +237,7 @@ const ApporteursForm = () => {
             className="text-4xl md:text-5xl font-extrabold leading-tight mb-3"
             style={{ color: "var(--ned-silver-light)", letterSpacing: "-0.03em" }}
           >
-            Postuler en 2 minutes
+            Devenir apporteur en 2 minutes
           </h2>
           <p className="text-base md:text-lg" style={{ color: "var(--ned-silver)" }}>
             On revient vers vous sous 48h ouvrées.
@@ -543,7 +543,7 @@ const ApporteursForm = () => {
               onChange={(v) => update("consentRgpd", v)}
               error={errors.consentRgpd}
             >
-              J'accepte que Ned traite mes données personnelles dans le cadre de ma candidature,
+              J'accepte que Ned traite mes données personnelles dans le cadre de mon inscription,
               conformément à sa{" "}
               <a
                 href="/confidentialite"
@@ -563,7 +563,7 @@ const ApporteursForm = () => {
               onChange={(v) => update("consentContract", v)}
               error={errors.consentContract}
             >
-              J'accepte de recevoir le contrat d'apporteur d'affaires par email si ma candidature
+              J'accepte de recevoir le contrat d'apporteur d'affaires par email si mon inscription
               est validée. <Required />
             </CheckboxRow>
 
@@ -590,7 +590,7 @@ const ApporteursForm = () => {
               </>
             ) : (
               <>
-                Envoyer ma candidature
+                Envoyer mon inscription
                 <Send className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
               </>
             )}

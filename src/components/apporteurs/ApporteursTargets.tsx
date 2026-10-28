@@ -1,11 +1,11 @@
 import { motion } from "framer-motion";
-import { GraduationCap, Briefcase, Smartphone, Handshake } from "lucide-react";
+import { Store, Briefcase, Smartphone, Handshake } from "lucide-react";
 
 const targets = [
   {
-    icon: GraduationCap,
-    title: "Étudiants",
-    description: "École de commerce, BTS, prépa — un complément de revenu sans timing imposé.",
+    icon: Store,
+    title: "Commerçants & artisans",
+    description: "Vous côtoyez d'autres pros au quotidien : recommandez-nous quand l'un d'eux a un projet.",
   },
   {
     icon: Briefcase,

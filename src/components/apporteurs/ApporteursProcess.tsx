@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 const steps = [
   {
-    title: "Vous postulez ici en 2 minutes",
+    title: "Vous vous inscrivez en 2 minutes",
     description: "Formulaire simple. On valide votre profil sous 48h.",
   },
   {
