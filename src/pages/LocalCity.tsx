@@ -1,4 +1,4 @@
-import { useNavigate, Navigate, Link } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 import { intro } from "@/lib/motion";
 import { LOCAL_CITIES } from "@/data/localCities";
 import Navigation from "@/components/Navigation";
@@ -30,7 +30,6 @@ interface LocalCityProps {
 }
 
 const LocalCity = ({ slug }: LocalCityProps) => {
-  const navigate = useNavigate();
   const city = getCityBySlug(slug);
 
   if (!city) {
@@ -92,7 +91,12 @@ const LocalCity = ({ slug }: LocalCityProps) => {
   ];
 
   const url = `/${city.slug}`;
-  const title = `Agence web ${city.name} (${city.postalCode}) | Nexus Développement`;
+  // Titre ≤ 60 caractères pour ne pas être tronqué en SERP : le code postal
+  // cède la place au département pour les noms de ville longs.
+  const fullTitle = `Agence web ${city.name} (${city.postalCode}) | Nexus Développement`;
+  const title = fullTitle.length <= 60
+    ? fullTitle
+    : `Agence web ${city.name} (78) | Nexus Développement`;
   const description = `Agence web à ${city.distanceFromElancourt} de ${city.name} : sites web, applications mobiles et automatisation pour les TPE et PME. Devis gratuit sous 24 h.`;
 
   return (
@@ -128,9 +132,11 @@ const LocalCity = ({ slug }: LocalCityProps) => {
           <Button
             variant="ghost"
             className="text-white/70 hover:text-white hover:bg-white/10 mb-8 pl-0 transition-all rounded-full px-4"
-            onClick={() => navigate("/")}
+            asChild
           >
-            <ArrowLeft className="mr-2 h-4 w-4" /> Retour à l'accueil
+            <Link to="/">
+              <ArrowLeft className="mr-2 h-4 w-4" /> Retour à l'accueil
+            </Link>
           </Button>
 
           {/* Hero */}
@@ -159,18 +165,18 @@ const LocalCity = ({ slug }: LocalCityProps) => {
             <div className="flex flex-wrap gap-4">
               <Button
                 size="lg"
-                onClick={() => navigate("/#reservation")}
+                asChild
                 className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white rounded-full px-8 py-6 text-lg shadow-[0_0_20px_rgba(56,189,248,0.4)] transition-all hover:scale-105"
               >
-                Réserver un appel offert
+                <Link to="/#reservation">Réserver un appel offert</Link>
               </Button>
               <Button
                 size="lg"
                 variant="outline"
-                onClick={() => navigate("/#contact")}
+                asChild
                 className="border-white/10 text-white hover:bg-white/5 rounded-full px-8 py-6 text-lg backdrop-blur-sm"
               >
-                Demander un devis
+                <Link to="/#devis">Demander un devis</Link>
               </Button>
             </div>
           </motion.div>
@@ -216,10 +222,10 @@ const LocalCity = ({ slug }: LocalCityProps) => {
             </h2>
             <div className="grid md:grid-cols-2 gap-6">
               {services.map((service) => (
-                <button
+                <Link
                   key={service.title}
-                  onClick={() => navigate(service.href)}
-                  className="text-left h-full bg-slate-900/40 border border-white/5 p-8 rounded-2xl hover:bg-slate-800/60 hover:border-blue-500/30 transition-all duration-300 group"
+                  to={service.href}
+                  className="block text-left h-full bg-slate-900/40 border border-white/5 p-8 rounded-2xl hover:bg-slate-800/60 hover:border-blue-500/30 transition-all duration-300 group"
                 >
                   <div className="w-14 h-14 bg-blue-500/10 rounded-xl flex items-center justify-center text-blue-400 mb-6 group-hover:scale-110 transition-transform">
                     <service.icon className="w-7 h-7" />
@@ -233,7 +239,7 @@ const LocalCity = ({ slug }: LocalCityProps) => {
                   <span className="text-cyan-400 font-semibold text-sm">
                     {service.from} →
                   </span>
-                </button>
+                </Link>
               ))}
             </div>
           </div>
@@ -267,10 +273,10 @@ const LocalCity = ({ slug }: LocalCityProps) => {
             <div className="flex flex-wrap gap-4 justify-center mb-6">
               <Button
                 size="lg"
-                onClick={() => navigate("/#reservation")}
+                asChild
                 className="bg-white text-blue-900 hover:bg-blue-50 font-bold rounded-full px-8 py-6 shadow-lg hover:shadow-xl transition-all"
               >
-                Réserver mon appel offert
+                <Link to="/#reservation">Réserver mon appel offert</Link>
               </Button>
             </div>
             <div className="flex flex-wrap gap-6 justify-center text-blue-100/70 text-sm">
