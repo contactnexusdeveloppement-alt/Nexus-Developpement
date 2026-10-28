@@ -24,6 +24,7 @@ import PricingCard from "@/components/PricingCard";
 import { motion } from "framer-motion";
 import SEO from "@/components/SEO";
 import ServiceQuoteSection from "@/components/ServiceQuoteSection";
+import OptionsCatalog from "@/components/OptionsCatalog";
 import { breadcrumbSchema, faqSchema, serviceSchema } from "@/lib/schemas";
 
 const FAQ_ECOMMERCE = [
@@ -294,6 +295,10 @@ const Ecommerce = () => {
                 <PricingCard key={index} plan={plan} categoryId="ecommerce" index={index} />
               ))}
             </div>
+          </div>
+
+          <div id="options" className="mb-20 scroll-mt-32">
+            <OptionsCatalog />
           </div>
 
           {/* FAQ (même source que le JSON-LD FAQPage) */}

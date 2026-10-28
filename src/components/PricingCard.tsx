@@ -127,7 +127,7 @@ const PricingCard = ({ plan, categoryId, isVisible = true, index = 0 }: PricingC
                     onClick={scrollToQuote}
                     className={`w-full relative overflow-hidden bg-gradient-to-r ${plan.priceColor} text-white font-bold py-6 rounded-xl hover:opacity-90 transition-all duration-300 shadow-lg hover:shadow-cyan-500/25 hover:-translate-y-1 group/btn`}
                 >
-                    <span className="relative z-10">{plan.buttonText || "Commander maintenant"}</span>
+                    <span className="relative z-10">{plan.buttonText || "Demander un devis pour ce pack"}</span>
                     <div className="absolute inset-0 bg-white/20 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300" />
                 </Button>
 

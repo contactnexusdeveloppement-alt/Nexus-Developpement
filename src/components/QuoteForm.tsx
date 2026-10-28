@@ -9,6 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import { quoteOptions, SERVICES_WITH_OPTIONS } from "@/data/options";
 import { motion } from "framer-motion";
 import {
   AlertCircle,
@@ -147,6 +148,7 @@ const initialFormData = {
   phone: "",
   businessType: "",
   services: [] as string[],
+  options: [] as string[],
   projectDetails: "",
   budget: "",
   timeline: "",
@@ -244,6 +246,17 @@ const QuoteForm = ({ defaultService }: QuoteFormProps) => {
     }));
     clearFieldError("services");
   };
+
+  const handleOptionToggle = (optionId: string) => {
+    setFormData(prev => ({
+      ...prev,
+      options: prev.options.includes(optionId)
+        ? prev.options.filter(o => o !== optionId)
+        : [...prev.options, optionId]
+    }));
+  };
+
+  const showOptions = formData.services.some(s => SERVICES_WITH_OPTIONS.includes(s));
 
   const focusField = (field: FieldName) => {
     const target: HTMLElement | null | undefined =
@@ -368,6 +381,9 @@ const QuoteForm = ({ defaultService }: QuoteFormProps) => {
           phone: formData.phone.trim() || null,
           businessType: formData.businessType || null,
           services: formData.services,
+          // Les options ne concernent que les sites : on ne les envoie pas si le
+          // service correspondant a été décoché après coup.
+          options: showOptions ? formData.options : [],
           projectDetails: formData.projectDetails || null,
           budget: formData.budget || null,
           timeline: formData.timeline || null,
@@ -612,6 +628,47 @@ const QuoteForm = ({ defaultService }: QuoteFormProps) => {
                     <FieldError id="quote-services-error" message={fieldErrors.services} />
                   </div>
                 </fieldset>
+
+                {showOptions && (
+                  <fieldset className="min-w-0">
+                    <legend className="text-base font-semibold text-white">
+                      Options pour votre site <span className="font-normal text-blue-200/60">(facultatif, prix HT)</span>
+                    </legend>
+                    <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                      {quoteOptions.map((option) => {
+                        const isSelected = formData.options.includes(option.id);
+                        return (
+                          <button
+                            key={option.id}
+                            type="button"
+                            aria-pressed={isSelected}
+                            onClick={() => handleOptionToggle(option.id)}
+                            className={cn(
+                              "flex w-full items-center justify-between gap-3 rounded-lg border px-4 py-3 text-left text-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400",
+                              isSelected
+                                ? "border-blue-400 bg-blue-600/20 text-white"
+                                : "border-white/5 bg-slate-800/30 text-blue-100/70 hover:border-white/20",
+                            )}
+                          >
+                            <span className="flex items-center gap-2">
+                              <span
+                                className={cn(
+                                  "flex h-4 w-4 shrink-0 items-center justify-center rounded border",
+                                  isSelected ? "border-blue-400 bg-blue-500" : "border-white/30",
+                                )}
+                                aria-hidden="true"
+                              >
+                                {isSelected && <Check className="h-3 w-3 text-white" />}
+                              </span>
+                              {option.label}
+                            </span>
+                            <span className="shrink-0 whitespace-nowrap text-xs text-cyan-300">{option.price}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </fieldset>
+                )}
 
                 <div className="w-full h-px bg-white/5" />
 
