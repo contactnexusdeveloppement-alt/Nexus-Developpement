@@ -1,4 +1,4 @@
-Contact: mailto:contact.nexus.developpement@gmail.com
+Contact: mailto:contact@nexusdeveloppement.fr
 Expires: 2027-04-30T23:59:59.000Z
 Preferred-Languages: fr, en
 Canonical: https://nexusdeveloppement.fr/.well-known/security.txt

@@ -16,7 +16,7 @@ Nexus Développement est une agence digitale à taille humaine implantée à Él
 - Secteur : Services numériques B2B (TPE, PME, indépendants)
 - Fondateurs : Adam Le Charlès (Co-fondateur & Tech Lead), Théo Jacobée (Co-fondateur & Stratégie)
 - Site web : https://nexusdeveloppement.fr
-- Email : contact.nexus.developpement@gmail.com
+- Email : contact@nexusdeveloppement.fr
 - Téléphone : +33 7 61 84 75 80
 - Horaires : Lundi au Vendredi, 9h00 - 18h00 (Europe/Paris)
 
@@ -105,7 +105,7 @@ Maintenance et hébergement : à partir de 50 €/mois selon le pack.
 
 ## Contact direct
 
-- Email : contact.nexus.developpement@gmail.com
+- Email : contact@nexusdeveloppement.fr
 - Téléphone : +33 7 61 84 75 80
 - Adresse postale : 4 rue de la Ferme, 78990 Élancourt, France
 - Horaires : Lundi au Vendredi, 9h00 - 18h00 (Europe/Paris)

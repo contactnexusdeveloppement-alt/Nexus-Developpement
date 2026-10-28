@@ -27,7 +27,7 @@ export interface ApiError {
   code: ErrorCode;
 }
 
-export const CONTACT_EMAIL = "contact.nexus.developpement@gmail.com";
+export const CONTACT_EMAIL = "contact@nexusdeveloppement.fr";
 
 /** Messages français des erreurs transverses (identiques sur les 3 endpoints). */
 export const MESSAGES = {

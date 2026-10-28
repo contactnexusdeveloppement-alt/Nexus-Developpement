@@ -38,7 +38,7 @@ const PrivacyPolicy = () => {
                         <p>SIREN 995 394 095 — RCS Versailles</p>
                         <p>Représentée par son gérant : <strong className="text-white">Adam Le Charlès</strong></p>
                         <p>
-                            Contact : <a href="mailto:contact.nexus.developpement@gmail.com" className="text-blue-400 hover:text-blue-300 underline">contact.nexus.developpement@gmail.com</a> · <a href="tel:+33761847580" className="text-blue-400 hover:text-blue-300 underline">+33 7 61 84 75 80</a>
+                            Contact : <a href="mailto:contact@nexusdeveloppement.fr" className="text-blue-400 hover:text-blue-300 underline">contact@nexusdeveloppement.fr</a> · <a href="tel:+33761847580" className="text-blue-400 hover:text-blue-300 underline">+33 7 61 84 75 80</a>
                         </p>
                     </div>
                     <p className="text-sm text-slate-400">
@@ -170,6 +170,12 @@ const PrivacyPolicy = () => {
                             safeguard="Adhérent EU-US Data Privacy Framework + Clauses Contractuelles Types"
                         />
                         <SubProcessorItem
+                            name="ImprovMX Incorporation"
+                            country="États-Unis (réception des emails en France, AWS Paris)"
+                            role="Redirection des emails envoyés à contact@nexusdeveloppement.fr vers la boîte de réception de l'agence ; contenu supprimé dès la remise, métadonnées conservées 7 jours"
+                            safeguard="Clauses Contractuelles Types (accord de traitement des données)"
+                        />
+                        <SubProcessorItem
                             name="Google LLC (Gmail)"
                             country="États-Unis"
                             role="Boîte de réception de l'agence : les demandes envoyées via les formulaires y sont reçues et conservées"
@@ -246,7 +252,7 @@ const PrivacyPolicy = () => {
                         <RightItem label="Droit de définir des directives post-mortem" desc="vous pouvez définir des directives relatives au sort de vos données après votre décès" />
                     </ul>
                     <p className="pt-2">
-                        Pour exercer ces droits, contactez-nous à : <a href="mailto:contact.nexus.developpement@gmail.com" className="text-blue-400 hover:text-blue-300 underline">contact.nexus.developpement@gmail.com</a>. Une preuve d'identité pourra vous être demandée en cas de doute raisonnable.
+                        Pour exercer ces droits, contactez-nous à : <a href="mailto:contact@nexusdeveloppement.fr" className="text-blue-400 hover:text-blue-300 underline">contact@nexusdeveloppement.fr</a>. Une preuve d'identité pourra vous être demandée en cas de doute raisonnable.
                     </p>
                     <p>
                         Nous nous engageons à vous répondre dans un délai d'<strong className="text-white">un (1) mois</strong> à compter de la réception de votre demande. Ce délai peut être prolongé de deux mois supplémentaires en cas de demande complexe ou nombreuse, auquel cas nous vous en informerons dans le mois initial.
@@ -370,11 +376,11 @@ const PrivacyPolicy = () => {
                         >
                             <p className="text-slate-400 mb-4">Une question sur vos données ?</p>
                             <a
-                                href="mailto:contact.nexus.developpement@gmail.com"
+                                href="mailto:contact@nexusdeveloppement.fr"
                                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-600/10 hover:bg-blue-600/20 border border-blue-500/20 text-blue-300 hover:text-blue-200 transition-all duration-300 break-all"
                             >
                                 <Mail className="w-4 h-4 shrink-0" />
-                                <span className="break-all text-sm sm:text-base">contact.nexus.developpement@gmail.com</span>
+                                <span className="break-all text-sm sm:text-base">contact@nexusdeveloppement.fr</span>
                             </a>
                         </motion.div>
                     </div>

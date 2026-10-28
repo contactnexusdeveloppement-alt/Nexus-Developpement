@@ -63,11 +63,11 @@ const ApporteursFinalCTA = () => {
           <p className="text-sm" style={{ color: "var(--ned-silver)" }}>
             Une question avant&nbsp;?{" "}
             <a
-              href="mailto:contact.nexus.developpement@gmail.com"
+              href="mailto:contact@nexusdeveloppement.fr"
               className="underline underline-offset-4 hover:no-underline"
               style={{ color: "var(--ned-accent)" }}
             >
-              contact.nexus.developpement@gmail.com
+              contact@nexusdeveloppement.fr
             </a>
           </p>
         </motion.div>
