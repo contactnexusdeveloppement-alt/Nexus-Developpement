@@ -128,11 +128,11 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
                 <Badge className="bg-amber-400 text-slate-950 border border-amber-300 shadow-md">
                   Démo fictive
                 </Badge>
-              ) : (
+              ) : isExternalUrl(project.url) ? (
                 <Badge className="bg-emerald-600 text-white border border-emerald-400 shadow-md">
                   Client réel
                 </Badge>
-              )}
+              ) : null}
             </div>
             <div className="absolute top-4 right-4 z-20">
               <Badge className="bg-black/50 text-cyan-300 border border-cyan-500/50 backdrop-blur-md">
