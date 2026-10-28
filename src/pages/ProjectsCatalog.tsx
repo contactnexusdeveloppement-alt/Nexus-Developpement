@@ -128,13 +128,17 @@ const CatalogProjectCard = ({ project, index }: { project: Project; index: numbe
                     {/* Image Section — aspect-[8/5] = ratio 1.6 (cohérent avec les
                         captures clients en 800×500 qu'on affiche sans crop CSS) */}
                     <div className="relative aspect-[8/5] overflow-hidden transform transition-transform duration-300" style={{ transform: "translateZ(30px)" }}>
-                        {project.isDemo && (
-                            <div className="absolute top-4 left-4 z-20">
-                                <Badge className="bg-amber-500/20 text-amber-200 border border-amber-400/60 backdrop-blur-md">
-                                    Démo
+                        <div className="absolute top-4 left-4 z-20">
+                            {project.isDemo ? (
+                                <Badge className="bg-amber-400 text-slate-950 border border-amber-300 shadow-md">
+                                    Démo fictive
                                 </Badge>
-                            </div>
-                        )}
+                            ) : (
+                                <Badge className="bg-emerald-600 text-white border border-emerald-400 shadow-md">
+                                    Client réel
+                                </Badge>
+                            )}
+                        </div>
                         <div className="absolute top-4 right-4 z-20">
                             <Badge className="bg-black/50 text-cyan-300 border border-cyan-500/50 backdrop-blur-md">
                                 {project.category}

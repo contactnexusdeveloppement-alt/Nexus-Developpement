@@ -21,7 +21,7 @@ const useCases: UseCase[] = [
     solution:
       "Site avec module de prise de rendez-vous 24/7, synchronisé avec l'agenda du salon, rappels SMS et confirmation par email automatiques.",
     outcome:
-      "Plus de réservations capturées en dehors des heures d'ouverture, moins d'appels téléphoniques, gain de temps quotidien estimé à 1h30.",
+      "Plus de réservations capturées en dehors des heures d'ouverture, moins d'appels téléphoniques, du temps libéré chaque jour au téléphone.",
   },
   {
     id: 2,
@@ -32,7 +32,7 @@ const useCases: UseCase[] = [
     solution:
       "Site mobile-first avec créneaux d'intervention en temps réel, demande de devis structurée et notifications instantanées au gérant.",
     outcome:
-      "Captation des demandes hors horaires, taux de réponse client multiplié, qualification des leads avant le premier contact.",
+      "Captation des demandes hors horaires, moins de demandes perdues, qualification des leads avant le premier contact.",
   },
   {
     id: 3,
@@ -43,7 +43,7 @@ const useCases: UseCase[] = [
     solution:
       "Site avec menu interactif, panier, paiement Stripe en ligne ou sur place, intégration des principales plateformes de livraison.",
     outcome:
-      "Service plus fluide en heure de pointe, ticket moyen plus élevé sur les commandes en ligne, fidélisation via emails de remerciement.",
+      "Service plus fluide en heure de pointe, commandes en ligne plus simples à passer, fidélisation via emails de remerciement.",
   },
   {
     id: 4,
@@ -65,7 +65,7 @@ const useCases: UseCase[] = [
     solution:
       "Application web avec inscription aux cours, paiement par abonnement Stripe, suivi des présences et tableau de bord coach.",
     outcome:
-      "Automatisation complète du back-office, encaissement régulier sans relance manuelle, augmentation du LTV moyen.",
+      "Automatisation complète du back-office, encaissement régulier sans relance manuelle, des abonnements qui durent plus longtemps.",
   },
   {
     id: 6,
@@ -76,7 +76,7 @@ const useCases: UseCase[] = [
     solution:
       "Module de commande structurée avec choix de date, options détaillées, acompte en ligne et bon de commande imprimable côté boutique.",
     outcome:
-      "Zéro perte de commande, anticipation de la production, expérience client moderne qui justifie un panier plus élevé.",
+      "Plus de commandes égarées sur papier, anticipation de la production, expérience client moderne qui justifie un panier plus élevé.",
   },
 ];
 
@@ -110,7 +110,7 @@ const Testimonials = () => {
             </span>
           </h2>
           <p className="text-white/70 text-lg max-w-2xl mx-auto">
-            Des challenges concrets que nos solutions résolvent au quotidien pour les TPE et PME en Île-de-France.
+            Des situations fréquentes chez les TPE et PME, et la solution que nous mettons en place. Exemples illustratifs : les bénéfices décrits sont ceux visés, pas des résultats mesurés chez un client.
           </p>
         </motion.div>
 
@@ -162,7 +162,7 @@ const Testimonials = () => {
                         <p className="text-gray-300 mt-1">{useCase.solution}</p>
                       </div>
                       <div className="pt-3 border-t border-white/5">
-                        <span className="text-cyan-400 font-semibold uppercase tracking-wider text-xs">Bénéfice</span>
+                        <span className="text-cyan-400 font-semibold uppercase tracking-wider text-xs">Bénéfice visé</span>
                         <p className="text-gray-200 mt-1 font-medium">{useCase.outcome}</p>
                       </div>
                     </div>
