@@ -10,6 +10,7 @@ import { pricingData } from "@/data/pricingData";
 import PricingCard from "@/components/PricingCard";
 import { motion } from "framer-motion";
 import SEO from "@/components/SEO";
+import ServiceQuoteSection from "@/components/ServiceQuoteSection";
 import { breadcrumbSchema, faqSchema, serviceSchema } from "@/lib/schemas";
 
 const FAQ_AUTOMATION = [
@@ -298,6 +299,7 @@ const Automation = () => {
                     </div>
                 </div>
 
+                <ServiceQuoteSection service="automation" />
                 <Footer />
             </div>
         </div>
