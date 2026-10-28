@@ -253,7 +253,7 @@ const WebsiteCreation = () => {
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-5 h-5 text-cyan-400 mt-1 flex-shrink-0" />
-                <span><strong>Support technique réactif</strong> sous 48 h, 7j/7</span>
+                <span><strong>Support technique réactif</strong> : réponse sous 48 h ouvrées</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-5 h-5 text-cyan-400 mt-1 flex-shrink-0" />

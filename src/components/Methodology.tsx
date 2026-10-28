@@ -23,10 +23,10 @@ const commitments = [
   },
   {
     icon: Heart,
-    title: "Support 7j/7",
-    description: "Vous n'êtes jamais seul. Une équipe dédiée est disponible 7 jours sur 7 pour répondre à toutes vos questions et demandes d'assistance sous 48 heures maximum.",
+    title: "Support réactif",
+    description: "Vous n'êtes jamais seul. Vous écrivez directement aux deux fondateurs qui ont construit votre projet, et vous recevez une réponse sous 48 heures ouvrées.",
     image: supportImg,
-    altText: "Service client disponible 7j/7"
+    altText: "Support client réactif"
   },
   {
     icon: DollarSign,
