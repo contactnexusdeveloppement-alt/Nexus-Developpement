@@ -98,7 +98,7 @@ const Links = () => {
     <div className="min-h-screen relative" style={{ backgroundColor: "#0a0f1e" }}>
       <SEO
         title="Liens utiles · Nexus Développement"
-        description="Réservez votre audit gratuit, découvrez nos réalisations, demandez un devis ou rejoignez notre programme apporteur d'affaires."
+        description="Réservez un appel découverte gratuit, découvrez nos réalisations, demandez un devis ou rejoignez notre programme d'apporteurs d'affaires."
         canonical="https://nexusdeveloppement.fr/links"
       />
 

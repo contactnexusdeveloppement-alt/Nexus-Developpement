@@ -63,8 +63,8 @@ const Automation = () => {
     return (
         <div className="min-h-screen relative overflow-x-hidden">
             <SEO
-                title="Automatisation de Processus Métier | Nexus Développement"
-                description="Automatisez vos tâches répétitives et gagnez en productivité. Solutions d'automatisation sur-mesure pour TPE/PME. Zapier, Make, n8n. Devis gratuit."
+                title="Automatisation pour TPE et PME | Nexus Développement"
+                description="Automatisez devis, relances, factures et rendez-vous avec Make, Zapier ou n8n. Audit à 390 €, automatisation dès 450 € HT. Agence à Élancourt (78)."
                 type="website"
                 canonical="/automatisation"
                 schemas={[

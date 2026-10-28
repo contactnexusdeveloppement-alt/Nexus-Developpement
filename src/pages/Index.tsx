@@ -30,8 +30,8 @@ const Index = () => {
   return (
     <div className="min-h-screen relative overflow-x-hidden">
       <SEO
-        title="Nexus Développement — Agence Digitale Élancourt (78) | Sites Web, Apps, Automatisation"
-        description="Agence digitale à Élancourt (78) : sites web, e-commerce, applications mobiles, automatisation et identité visuelle pour TPE et PME. Devis gratuit sous 24 h."
+        title="Nexus Développement | Agence web Élancourt, Yvelines (78)"
+        description="Agence web à Élancourt (78) : création et refonte de sites, e-commerce et automatisation pour TPE et PME. Tarifs publics dès 950 € HT, devis gratuit."
         canonical="/"
       />
 

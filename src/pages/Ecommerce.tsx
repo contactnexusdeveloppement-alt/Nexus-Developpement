@@ -81,8 +81,8 @@ const Ecommerce = () => {
   return (
     <div className="min-h-screen relative overflow-x-hidden">
       <SEO
-        title="Création de site e-commerce | Nexus Développement Élancourt"
-        description="Boutique en ligne sur-mesure (Shopify, WooCommerce, Stripe) pour commerces et marques : catalogue, paiement, logistique. Devis gratuit sous 24 h."
+        title="Site e-commerce dès 2 000 € HT | Nexus Développement"
+        description="Boutique en ligne sur-mesure (Shopify, Stripe) : catalogue, paiement, commandes et stock. Packs dès 2 000 € HT, boutiques clients en ligne. Devis gratuit."
         type="website"
         canonical="/e-commerce"
         schemas={[

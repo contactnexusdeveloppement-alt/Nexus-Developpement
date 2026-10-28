@@ -92,12 +92,16 @@ const LocalCity = ({ slug }: LocalCityProps) => {
 
   const url = `/${city.slug}`;
   // Titre ≤ 60 caractères pour ne pas être tronqué en SERP : le code postal
-  // cède la place au département pour les noms de ville longs.
+  // cède la place au département pour les noms de ville longs, puis la marque
+  // est raccourcie (Saint-Quentin-en-Yvelines).
   const fullTitle = `Agence web ${city.name} (${city.postalCode}) | Nexus Développement`;
+  const shortTitle = `Agence web ${city.name} (78) | Nexus Développement`;
   const title = fullTitle.length <= 60
     ? fullTitle
-    : `Agence web ${city.name} (78) | Nexus Développement`;
-  const description = `Agence web à ${city.distanceFromElancourt} de ${city.name} : sites web, applications mobiles et automatisation pour les TPE et PME. Devis gratuit sous 24 h.`;
+    : shortTitle.length <= 60
+      ? shortTitle
+      : `Agence web ${city.name} (78) | Nexus`;
+  const description = `Agence web à ${city.distanceFromElancourt} de ${city.name} : sites dès 950 € HT, e-commerce, applications et automatisation pour TPE et PME. Devis gratuit.`;
 
   return (
     <div className="min-h-screen relative overflow-x-hidden">

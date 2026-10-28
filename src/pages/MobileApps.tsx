@@ -46,8 +46,8 @@ const MobileApps = () => {
     return (
         <div className="min-h-screen relative overflow-x-hidden">
             <SEO
-                title="Développement Applications Mobiles iOS & Android | Nexus"
-                description="Création d'applications mobiles natives et cross-platform. React Native, iOS, Android. App store optimization. Élancourt (78). Devis gratuit."
+                title="Agence application mobile (78) | Nexus Développement"
+                description="Création d'applications mobiles iOS et Android pour les entreprises de Saint-Quentin-en-Yvelines et des Yvelines. Dès 4 000 € HT, devis gratuit."
                 type="website"
                 canonical="/applications-mobiles"
                 schemas={[

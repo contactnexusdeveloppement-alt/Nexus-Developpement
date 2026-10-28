@@ -67,8 +67,8 @@ const WebsiteCreation = () => {
   return (
     <div className="min-h-screen relative overflow-x-hidden">
       <SEO
-        title="Création de Sites Web Professionnels | Nexus Développement Élancourt"
-        description="Création de sites vitrine modernes et performants à Élancourt (78). Design sur-mesure, SEO optimisé, responsive. Devis gratuit pour votre site web professionnel."
+        title="Création de site internet dès 950 € HT | Nexus Développement"
+        description="Site vitrine sur-mesure pour TPE, PME et artisans des Yvelines : 3 packs de 950 à 4 000 € HT, livraison dès 10 jours ouvrés, SEO inclus. Devis gratuit."
         type="website"
         canonical="/creation-site-web"
         schemas={[
