@@ -10,6 +10,7 @@ import Testimonials from "@/components/salon/testimonials/Testimonials";
 import BookingForm from "@/components/salon/booking/BookingForm";
 import Contact from "@/components/salon/contact/Contact";
 import SEO from "@/components/SEO";
+import DemoBanner from "@/components/DemoBanner";
 import { breadcrumbSchema, serviceSchema } from "@/lib/schemas";
 
 const SalonCoiffure = () => {
@@ -48,6 +49,7 @@ const SalonCoiffure = () => {
                 <Contact />
             </main>
             <Footer />
+            <DemoBanner />
         </div>
     );
 };

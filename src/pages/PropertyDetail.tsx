@@ -2,6 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { properties } from '@/data/agence-immo/properties';
 import Header from '@/components/agence-immo/layout/Header';
 import Footer from '@/components/agence-immo/layout/Footer';
+import DemoBanner from '@/components/DemoBanner';
 import ScrollToTop from '@/components/agence-immo/layout/ScrollToTop';
 import { ArrowLeft, BedDouble, Maximize, MapPin, Home, Phone, Mail } from 'lucide-react';
 
@@ -148,6 +149,7 @@ const PropertyDetail = () => {
             </main>
 
             <Footer />
+            <DemoBanner />
         </div>
     );
 };

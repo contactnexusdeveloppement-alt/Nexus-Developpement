@@ -4,6 +4,7 @@ import FeaturedProperties from '@/components/agence-immo/home/FeaturedProperties
 import ContactSection from '@/components/agence-immo/home/ContactSection';
 import Header from '@/components/agence-immo/layout/Header';
 import Footer from '@/components/agence-immo/layout/Footer';
+import DemoBanner from '@/components/DemoBanner';
 import ScrollToTop from '@/components/agence-immo/layout/ScrollToTop';
 import SEO from '@/components/SEO';
 import { breadcrumbSchema, serviceSchema } from '@/lib/schemas';
@@ -40,6 +41,7 @@ const AgenceImmobiliere = () => {
                 <ContactSection />
             </main>
             <Footer />
+            <DemoBanner />
         </div>
     );
 };

@@ -6,6 +6,7 @@ import Menu from '../components/restaurant/Menu';
 import Reservation from '../components/restaurant/Reservation';
 import Gallery from '../components/restaurant/Gallery';
 import Footer from '../components/restaurant/Footer';
+import DemoBanner from '@/components/DemoBanner';
 import SEO from '@/components/SEO';
 import { breadcrumbSchema, serviceSchema } from '@/lib/schemas';
 
@@ -45,6 +46,7 @@ function Restaurant() {
         <Gallery />
       </main>
       <Footer />
+      <DemoBanner />
     </div>
   );
 }
