@@ -22,6 +22,7 @@ const MAX_PHONE_LENGTH = 30;
 const MAX_BUSINESS_TYPE_LENGTH = 100;
 const MAX_PROJECT_DETAILS_LENGTH = 5000;
 const MAX_SERVICES = 10;
+const MAX_OPTIONS = 20;
 
 const SERVICE_LABELS: Record<string, string> = {
   website: "Création d'un site web",
@@ -32,6 +33,20 @@ const SERVICE_LABELS: Record<string, string> = {
   logo: "Création de logo",
   branding: "Branding visuel complet",
   custom: "Service sur mesure",
+};
+// Mêmes identifiants que src/data/options.ts (catalogue affiché sur le site).
+const OPTION_LABELS: Record<string, string> = {
+  "google-business": "Fiche Google Business Profile (190 €)",
+  "extra-page": "Page supplémentaire (150 € / page)",
+  copywriting: "Rédaction des textes (90 € / page)",
+  booking: "Réservation ou prise de rendez-vous en ligne (350 €)",
+  translation: "Version dans une autre langue (à partir de 450 € / langue)",
+  blog: "Blog + 3 premiers articles (390 €)",
+  "form-automation": "Automatisation des demandes (290 €)",
+  logo: "Logo Essential (250 €)",
+  "local-seo-monthly": "Suivi Google local (89 € / mois)",
+  "blog-monthly": "Un article de blog par mois (120 € / mois)",
+  "on-demand": "Intervention à la demande (60 € / heure)",
 };
 const BUDGET_LABELS: Record<string, string> = {
   "<500": "Moins de 500 €",
@@ -48,6 +63,7 @@ const TIMELINE_LABELS: Record<string, string> = {
   flexible: "Flexible",
 };
 const VALID_SERVICES = new Set(Object.keys(SERVICE_LABELS));
+const VALID_OPTIONS = new Set(Object.keys(OPTION_LABELS));
 const VALID_BUDGETS = new Set(Object.keys(BUDGET_LABELS));
 const VALID_TIMELINES = new Set(Object.keys(TIMELINE_LABELS));
 
@@ -59,6 +75,7 @@ interface ValidatedQuote {
   phone: string | null;
   businessType: string | null;
   services: string[];
+  options: string[];
   projectDetails: string | null;
   budget: string | null;
   timeline: string | null;
@@ -127,6 +144,20 @@ function validateBody(b: Record<string, unknown>): Validation {
     if (!services.includes(s)) services.push(s);
   }
 
+  // 5. Options (facultatives)
+  const options: string[] = [];
+  if (b.options !== undefined && b.options !== null) {
+    if (!Array.isArray(b.options) || b.options.length > MAX_OPTIONS) {
+      return fail("missing_fields", "Champs manquants ou invalides : options.");
+    }
+    for (const o of b.options as unknown[]) {
+      if (typeof o !== "string" || !VALID_OPTIONS.has(o)) {
+        return fail("missing_fields", "Champs manquants ou invalides : options.");
+      }
+      if (!options.includes(o)) options.push(o);
+    }
+  }
+
   return {
     ok: true,
     data: {
@@ -135,6 +166,7 @@ function validateBody(b: Record<string, unknown>): Validation {
       phone: phone || null,
       businessType: businessType || null,
       services,
+      options,
       projectDetails: projectDetails || null,
       budget: budget || null,
       timeline: timeline || null,
@@ -209,6 +241,9 @@ export default async function handler(req: Request): Promise<Response> {
   const servicesListHtml = data.services
     .map((id) => `<tr><td style="padding:8px 0;color:#e2e8f0;font-size:14px;">✓ ${escapeHtml(SERVICE_LABELS[id])}</td></tr>`)
     .join("");
+  const optionsListHtml = data.options
+    .map((id) => `<tr><td style="padding:8px 0;color:#e2e8f0;font-size:14px;">＋ ${escapeHtml(OPTION_LABELS[id])}</td></tr>`)
+    .join("");
 
   // ----- Email admin : toutes les données, échappées ------------------------
 
@@ -227,6 +262,7 @@ ${safeBusinessType ? `<tr><td style="padding:6px 0;color:#93c5fd;font-size:13px;
 </table></td></tr></table>
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#1e3a5a;border-radius:12px;margin-bottom:15px;border:2px solid #3b82f6;"><tr><td style="padding:20px;">
 <h2 style="margin:0 0 12px;color:#fff;font-size:16px;">🎯 Services Demandés</h2><table width="100%">${servicesListHtml}</table>
+${optionsListHtml ? `<h2 style="margin:16px 0 12px;color:#fff;font-size:16px;">➕ Options souhaitées</h2><table width="100%">${optionsListHtml}</table>` : ""}
 </td></tr></table>
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#1e3a5a;border-radius:12px;border:2px solid #3b82f6;"><tr><td style="padding:20px;">
 <h2 style="margin:0 0 12px;color:#fff;font-size:16px;">📋 Détails du Projet</h2><table width="100%">
@@ -252,6 +288,7 @@ ${safeProjectDetails ? `<tr><td colspan="2" style="padding:10px 0;"><span style=
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#1e3a5a;border-radius:16px;margin-bottom:20px;border:1px solid #3b82f6;"><tr><td style="padding:25px;">
 <h2 style="margin:0 0 15px;color:#fff;font-size:18px;font-weight:600;">📋 Récapitulatif</h2>
 <table width="100%" style="margin-bottom:15px;"><tr><td style="padding-bottom:10px;"><span style="color:#93c5fd;font-size:13px;">Services demandés</span></td></tr>${servicesListHtml}</table>
+${optionsListHtml ? `<table width="100%" style="margin-bottom:15px;"><tr><td style="padding-bottom:10px;"><span style="color:#93c5fd;font-size:13px;">Options souhaitées</span></td></tr>${optionsListHtml}</table>` : ""}
 ${safeBudget ? `<table width="100%" style="border-top:1px solid #3b82f6;padding-top:12px;margin-top:12px;"><tr><td><span style="color:#93c5fd;font-size:13px;">💰 Budget</span><br><span style="color:#4ade80;font-size:15px;">${safeBudget}</span></td></tr></table>` : ""}
 ${safeTimeline ? `<table width="100%" style="border-top:1px solid #3b82f6;padding-top:12px;margin-top:12px;"><tr><td><span style="color:#93c5fd;font-size:13px;">⏱️ Délai</span><br><span style="color:#fbbf24;font-size:15px;">${safeTimeline}</span></td></tr></table>` : ""}
 </td></tr></table>

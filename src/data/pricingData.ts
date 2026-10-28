@@ -36,7 +36,7 @@ export const pricingData: Category[] = [
                     "Certificat SSL inclus",
                     "Livraison sous 10 jours"
                 ],
-                additionalInfo: "Hébergement 50€/mois après 1 mois offert",
+                additionalInfo: "Hébergement & maintenance 50 €/mois, 1er mois offert, sans engagement",
                 targetAudience: "Entrepreneurs & Indépendants"
             },
             {
@@ -54,7 +54,7 @@ export const pricingData: Category[] = [
                     "Support 1 mois"
                 ],
                 isPopular: true,
-                additionalInfo: "Hébergement 75€/mois après 2 mois offerts",
+                additionalInfo: "Hébergement & maintenance 75 €/mois, 2 mois offerts, sans engagement",
                 targetAudience: "PME & Entreprises en croissance"
             },
             {
@@ -71,7 +71,7 @@ export const pricingData: Category[] = [
                     "Formation équipe complète",
                     "Support prioritaire 3 mois"
                 ],
-                additionalInfo: "Hébergement 115€/mois après 3 mois offerts",
+                additionalInfo: "Hébergement & maintenance 115 €/mois, 3 mois offerts, sans engagement",
                 targetAudience: "Marques & Projets ambitieux"
             }
         ]

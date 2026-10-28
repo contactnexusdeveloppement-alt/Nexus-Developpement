@@ -3,7 +3,7 @@ import { intro } from "@/lib/motion";
 import { pricingData } from "@/data/pricingData";
 import PricingCard from "@/components/PricingCard";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Pricing = () => {
   const [activeCategory, setActiveCategory] = useState("sites");
@@ -106,7 +106,10 @@ const Pricing = () => {
         </div>
 
         <p className="text-center text-sm text-gray-400 mt-8">
-          Prix indiqués hors taxes (HT), TVA de 20 % en sus.
+          Prix indiqués hors taxes (HT), TVA de 20 % en sus. Forfaits mensuels sans engagement.{" "}
+          <Link to="/creation-site-web#options" className="text-cyan-400 underline underline-offset-4 hover:text-cyan-300">
+            Voir les options à ajouter
+          </Link>
         </p>
 
         <motion.div
