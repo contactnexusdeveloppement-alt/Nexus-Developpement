@@ -4,7 +4,10 @@ import { ArrowUpRight, ArrowLeft, ExternalLink } from "lucide-react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useId, useRef } from "react";
 import { Link } from "react-router-dom";
-import { projects, ctaProject, clientProjects, demoProjects, isExternalUrl, Project } from "@/data/projects";
+import { projects, ctaProject, clientProjects, isExternalUrl, Project } from "@/data/projects";
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
+import AnimatedBackground from "@/components/AnimatedBackground";
 import { Button } from "@/components/ui/button";
 import SEO from "@/components/SEO";
 import { breadcrumbSchema } from "@/lib/schemas";
@@ -23,7 +26,7 @@ type ProjectLinkProps = {
 /**
  * Lien englobant la carte : un vrai <a> (clavier, lecteur d'écran, clic molette).
  * - site client externe : nouvelle fenêtre ;
- * - démo interne : route react-router ;
+ * - page interne : route react-router ;
  * - CTA « #contact » : la section n'existe pas sur /catalogue, on navigue vers
  *   /#contact ; le défilement une fois la home montée est assuré par <HashScroll />.
  */
@@ -59,7 +62,7 @@ const ProjectLink = ({ project, descriptionId, children }: ProjectLinkProps) => 
     return (
         <Link
             to={project.url}
-            aria-label={`Voir la démo ${project.title}`}
+            aria-label={`Voir ${project.title}`}
             aria-describedby={descriptionId}
             className={cardLinkClassName}
         >
@@ -129,11 +132,7 @@ const CatalogProjectCard = ({ project, index }: { project: Project; index: numbe
                         captures clients en 800×500 qu'on affiche sans crop CSS) */}
                     <div className="relative aspect-[8/5] overflow-hidden transform transition-transform duration-300" style={{ transform: "translateZ(30px)" }}>
                         <div className="absolute top-4 left-4 z-20">
-                            {project.isDemo ? (
-                                <Badge className="bg-amber-400 text-slate-950 border border-amber-300 shadow-md">
-                                    Démo fictive
-                                </Badge>
-                            ) : isExternalUrl(project.url) ? (
+                            {isExternalUrl(project.url) ? (
                                 <Badge className="bg-emerald-600 text-white border border-emerald-400 shadow-md">
                                     Client réel
                                 </Badge>
@@ -199,7 +198,6 @@ const CatalogProjectCard = ({ project, index }: { project: Project; index: numbe
 };
 
 const ProjectsCatalog = () => {
-    // JSON-LD limité aux sites clients réels : les démos fictives n'en font pas partie.
     const itemListSchema = {
         "@context": "https://schema.org",
         "@type": "ItemList",
@@ -215,10 +213,10 @@ const ProjectsCatalog = () => {
     };
 
     return (
-        <div className="min-h-screen bg-black text-white relative overflow-hidden pt-20 pb-20">
+        <div className="min-h-screen text-white relative overflow-x-hidden">
             <SEO
-                title="Nos Réalisations & Démos | Nexus Développement"
-                description="Réalisations et démos de Nexus Développement : boutiques en ligne clients et démos sectorielles (salon, restaurant, immobilier, concession). React et TypeScript."
+                title="Nos réalisations : sites clients en ligne | Nexus Développement"
+                description="Sites réalisés par Nexus Développement et en ligne : boutiques e-commerce, salle de sport, pizzeria, atelier de pâtisserie. Visitez-les et demandez votre devis."
                 type="website"
                 canonical="/catalogue"
                 schemas={[
@@ -229,62 +227,61 @@ const ProjectsCatalog = () => {
                     ]),
                 ]}
             />
-            {/* Background Decor */}
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
-            <div className="absolute top-[20%] left-[-10%] w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] pointer-events-none" />
-            <div className="absolute bottom-[20%] right-[-10%] w-[500px] h-[500px] bg-cyan-600/20 rounded-full blur-[120px] pointer-events-none" />
-            <div className="absolute top-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+            {/* Même fond et même navigation que le reste du site */}
+            <div className="fixed inset-0 z-0" aria-hidden="true">
+                <AnimatedBackground />
+            </div>
 
-            <div className="container mx-auto px-4 relative z-10">
+            <div className="relative z-10">
+                <Navigation />
 
-                <div className="mb-12 md:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
-                    <div className="space-y-6">
-                        <Button
-                            asChild
-                            variant="ghost"
-                            className="group pl-0 text-gray-400 hover:text-white hover:bg-transparent -ml-2"
-                        >
-                            <Link to="/">
-                                <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
-                                Retour à l'accueil
-                            </Link>
-                        </Button>
+                <main className="container mx-auto px-4 pt-32 pb-20">
 
-                        <div className="space-y-4">
-                            <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
-                                <span className="bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
-                                    Nos réalisations et démos
-                                </span>
-                            </h1>
-                            <p className="text-lg text-gray-400 max-w-2xl leading-relaxed">
-                                Nos sites clients en ligne, suivis de démos sectorielles fictives (salon de coiffure,
-                                restaurant, concession automobile, agence immobilière) qui illustrent ce que nous
-                                pouvons concevoir pour votre activité.
-                            </p>
+                    <div className="mb-12 md:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
+                        <div className="space-y-6">
+                            <Button
+                                asChild
+                                variant="ghost"
+                                className="group pl-0 text-gray-400 hover:text-white hover:bg-transparent -ml-2"
+                            >
+                                <Link to="/">
+                                    <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
+                                    Retour à l'accueil
+                                </Link>
+                            </Button>
+
+                            <div className="space-y-4">
+                                <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
+                                    <span className="bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
+                                        Nos réalisations
+                                    </span>
+                                </h1>
+                                <p className="text-lg text-gray-400 max-w-2xl leading-relaxed">
+                                    Les sites que nous avons conçus pour nos clients, en ligne aujourd'hui. Cliquez sur
+                                    une carte pour visiter le site.
+                                </p>
+                            </div>
                         </div>
+
+                        <p className="hidden md:flex items-baseline gap-2 pb-2 text-right">
+                            <span className="text-3xl font-bold text-cyan-400">{clientProjects.length}</span>
+                            <span className="text-sm text-gray-500 uppercase tracking-widest">
+                                {pluralize(clientProjects.length, "réalisation")}
+                            </span>
+                        </p>
                     </div>
 
-                    <p className="hidden md:flex items-baseline gap-2 pb-2 text-right">
-                        <span className="text-3xl font-bold text-cyan-400">{clientProjects.length}</span>
-                        <span className="text-sm text-gray-500 uppercase tracking-widest">
-                            {pluralize(clientProjects.length, "réalisation")}
-                        </span>
-                        <span className="px-1 text-gray-600" aria-hidden="true">·</span>
-                        <span className="text-3xl font-bold text-amber-300">{demoProjects.length}</span>
-                        <span className="text-sm text-gray-500 uppercase tracking-widest">
-                            {pluralize(demoProjects.length, "démo")}
-                        </span>
-                    </p>
-                </div>
+                    <div
+                        className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+                        style={{ perspective: "1000px" }}
+                    >
+                        {[...projects, ctaProject].map((project, index) => (
+                            <CatalogProjectCard key={project.title} project={project} index={index} />
+                        ))}
+                    </div>
+                </main>
 
-                <div
-                    className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-                    style={{ perspective: "1000px" }}
-                >
-                    {[...projects, ctaProject].map((project, index) => (
-                        <CatalogProjectCard key={project.title} project={project} index={index} />
-                    ))}
-                </div>
+                <Footer />
             </div>
         </div>
     );

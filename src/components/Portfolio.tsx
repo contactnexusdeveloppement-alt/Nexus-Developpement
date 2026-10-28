@@ -17,7 +17,7 @@ type ProjectLinkProps = {
 /**
  * Lien englobant la carte : un vrai <a> (clavier, lecteur d'écran, clic molette).
  * - site client externe : nouvelle fenêtre ;
- * - démo interne : route react-router ;
+ * - page interne : route react-router ;
  * - CTA « #contact » : navigation vers /#contact, le défilement jusqu'à la
  *   section (lazy-loadée) est assuré par <HashScroll /> monté dans App.tsx.
  */
@@ -53,7 +53,7 @@ const ProjectLink = ({ project, descriptionId, children }: ProjectLinkProps) => 
   return (
     <Link
       to={project.url}
-      aria-label={`Voir la démo ${project.title}`}
+      aria-label={`Voir ${project.title}`}
       aria-describedby={descriptionId}
       className={cardLinkClassName}
     >
@@ -124,11 +124,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
               captures clients en 800×500 qu'on affiche sans crop CSS) */}
           <div className="relative aspect-[8/5] overflow-hidden transform transition-transform duration-300" style={{ transform: "translateZ(30px)" }}>
             <div className="absolute top-4 left-4 z-20">
-              {project.isDemo ? (
-                <Badge className="bg-amber-400 text-slate-950 border border-amber-300 shadow-md">
-                  Démo fictive
-                </Badge>
-              ) : isExternalUrl(project.url) ? (
+              {isExternalUrl(project.url) ? (
                 <Badge className="bg-emerald-600 text-white border border-emerald-400 shadow-md">
                   Client réel
                 </Badge>
@@ -210,12 +206,12 @@ const Portfolio = () => {
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             <span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-400 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(59,130,246,0.5)]">
-              Nos réalisations et démos
+              Nos réalisations
             </span>
           </h2>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-            Nos sites clients en ligne, complétés par des démos sectorielles fictives qui illustrent
-            ce que nous pouvons concevoir pour votre activité. Design sur-mesure et rigueur technique.
+            Des sites clients en ligne, que vous pouvez visiter : commerces, restauration, sport,
+            e-commerce. Design sur-mesure et rigueur technique.
           </p>
         </motion.div>
 
@@ -239,7 +235,7 @@ const Portfolio = () => {
           className="text-center mt-20"
         >
           <p className="text-gray-400 font-medium">
-            Retrouvez l'ensemble de nos réalisations et démos.
+            Retrouvez l'ensemble de nos réalisations.
             <Link
               to="/catalogue"
               className="text-cyan-400 hover:text-cyan-300 underline underline-offset-4 transition-colors ml-2 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
