@@ -62,8 +62,8 @@ const WebApps = () => {
     return (
         <div className="min-h-screen relative overflow-x-hidden">
             <SEO
-                title="Développement Applications Web | Nexus Développement Élancourt"
-                description="Développement d'applications web sur-mesure avec React, Node.js. Solutions SaaS, dashboards, plateformes métier. Élancourt (78). Devis gratuit."
+                title="Application web sur-mesure dès 5 000 € | Nexus Développement"
+                description="Agence de développement web à Élancourt (78) : applications web, SaaS et outils métier sur-mesure pour TPE et PME. Dès 5 000 € HT, devis gratuit."
                 type="website"
                 canonical="/applications-web"
                 schemas={[

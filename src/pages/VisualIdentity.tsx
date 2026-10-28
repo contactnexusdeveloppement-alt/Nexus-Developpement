@@ -46,8 +46,8 @@ const VisualIdentity = () => {
     return (
         <div className="min-h-screen relative overflow-x-hidden">
             <SEO
-                title="Création Logo & Identité Visuelle | Nexus Développement"
-                description="Conception de logos professionnels et identité visuelle complète. Charte graphique, branding, design moderne. Élancourt (78). Devis gratuit."
+                title="Création de logo et identité visuelle | Nexus Développement"
+                description="Logo professionnel dès 250 € HT, logo et supports 600 €, branding complet 1 200 €. Fichiers sources et cession des droits inclus. Agence à Élancourt (78)."
                 type="website"
                 canonical="/identite-visuelle"
                 schemas={[
