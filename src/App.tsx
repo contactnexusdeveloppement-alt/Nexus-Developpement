@@ -34,6 +34,7 @@ const ProjectsCatalog = lazy(() => import("./pages/ProjectsCatalog"));
 const LocalCity = lazy(() => import("./pages/LocalCity"));
 const Apporteurs = lazy(() => import("./pages/Apporteurs"));
 const Links = lazy(() => import("./pages/Links"));
+const AuditGratuit = lazy(() => import("./pages/AuditGratuit"));
 
 const queryClient = new QueryClient();
 
@@ -76,6 +77,7 @@ const App = () => (
             <Route path="/equipe" element={withSuspense(<Team />)} />
             <Route path="/apporteurs" element={withSuspense(<Apporteurs />)} />
             <Route path="/links" element={withSuspense(<Links />)} />
+            <Route path="/audit-gratuit" element={withSuspense(<AuditGratuit />)} />
 
             {LOCAL_CITIES.map((city) => (
               <Route

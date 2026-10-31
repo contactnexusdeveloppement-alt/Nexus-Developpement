@@ -21,6 +21,7 @@ const ROUTES_TO_PRERENDER = [
   "/equipe",
   "/apporteurs",
   "/links",
+  "/audit-gratuit",
   "/mentions-legales",
   "/confidentialite",
   "/cgu",
