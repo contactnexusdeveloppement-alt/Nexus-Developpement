@@ -25,7 +25,7 @@ import {
   ShoppingCart,
 } from "lucide-react";
 
-const CONTACT_EMAIL = "contact@nexusdeveloppement.fr";
+import { CONTACT_EMAIL, CONTACT_PHONE, SEND_FAILED_MESSAGE } from "@/data/company";
 const REQUEST_TIMEOUT_MS = 15_000;
 
 // Limites alignées sur la validation serveur (api/send-quote.ts)
@@ -320,6 +320,12 @@ const QuoteForm = ({ defaultService }: QuoteFormProps) => {
         return;
       case "upstream_error":
       case "not_configured":
+        toast({
+          title: "Envoi impossible",
+          description: SEND_FAILED_MESSAGE,
+          variant: "destructive",
+        });
+        return;
       case "payload_too_large":
         toast({
           title: "Envoi impossible",
@@ -410,8 +416,8 @@ const QuoteForm = ({ defaultService }: QuoteFormProps) => {
       toast({
         title: isTimeout ? "Délai dépassé" : "Connexion impossible",
         description: isTimeout
-          ? `Le serveur n'a pas répondu en ${REQUEST_TIMEOUT_MS / 1000} secondes. Si vous ne recevez pas d'email de confirmation, réessayez ou écrivez-nous à ${CONTACT_EMAIL}.`
-          : `Impossible de joindre le serveur. Vérifiez votre connexion puis réessayez, ou écrivez-nous à ${CONTACT_EMAIL}.`,
+          ? `Le serveur n'a pas répondu en ${REQUEST_TIMEOUT_MS / 1000} secondes. Si vous ne recevez pas d'email de confirmation, appelez-nous au ${CONTACT_PHONE} ou écrivez à ${CONTACT_EMAIL}.`
+          : `Impossible de joindre le serveur. Vérifiez votre connexion puis réessayez, ou appelez-nous au ${CONTACT_PHONE}, ou écrivez à ${CONTACT_EMAIL}.`,
         variant: "destructive",
       });
     } finally {

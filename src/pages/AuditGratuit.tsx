@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { intro } from "@/lib/motion";
 import { readCampaign, trackEvent } from "@/lib/analytics";
+import { SEND_FAILED_MESSAGE } from "@/data/company";
 import logo from "@/assets/nexus-logo.webp";
 
 /**
@@ -232,7 +233,7 @@ const AuditForm = ({ campaign }: { campaign: string | null }) => {
       });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
-        throw new Error(body.error || `Erreur ${res.status}`);
+        throw new Error(body.error || SEND_FAILED_MESSAGE);
       }
       trackEvent("Audit gratuit - demande", { campaign: campaign ?? "direct" });
       setSuccess(true);
@@ -240,9 +241,9 @@ const AuditForm = ({ campaign }: { campaign: string | null }) => {
     } catch (err) {
       setErrors({
         form:
-          err instanceof Error
+          err instanceof Error && !(err instanceof TypeError)
             ? err.message
-            : "Impossible d'envoyer la demande. Réessayez ou écrivez à contact@nexusdeveloppement.fr.",
+            : SEND_FAILED_MESSAGE,
       });
     } finally {
       setIsSubmitting(false);

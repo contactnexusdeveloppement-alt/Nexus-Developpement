@@ -16,6 +16,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useToast } from "@/hooks/use-toast";
 import ApporteursLegalModal from "@/components/apporteurs/ApporteursLegalModal";
+import { SEND_FAILED_MESSAGE } from "@/data/company";
 
 const PHONE_REGEX = /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/;
 const MIN_REASON_LENGTH = 200;
@@ -139,7 +140,7 @@ const ApporteursForm = () => {
 
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
-        throw new Error(body.error || `HTTP ${res.status}`);
+        throw new Error(body.error || SEND_FAILED_MESSAGE);
       }
 
       setSuccess(true);
@@ -149,9 +150,9 @@ const ApporteursForm = () => {
       toast({
         title: "Erreur",
         description:
-          err instanceof Error
+          err instanceof Error && !(err instanceof TypeError)
             ? err.message
-            : "Impossible d'envoyer l'inscription. Réessayez plus tard.",
+            : SEND_FAILED_MESSAGE,
         variant: "destructive",
       });
     } finally {
