@@ -89,7 +89,7 @@ const PrivacyPolicy = () => {
                     </p>
                     <ul className="space-y-2 ml-0">
                         <LegalBasisItem
-                            finality="Réponse aux formulaires (devis, contact, réservation d'appel, candidature apporteur)"
+                            finality="Réponse aux formulaires (devis, contact, réservation d'appel, demande d'audit gratuit, candidature apporteur)"
                             basis="Exécution de mesures précontractuelles prises à votre demande"
                             article="art. 6.1.b RGPD"
                         />

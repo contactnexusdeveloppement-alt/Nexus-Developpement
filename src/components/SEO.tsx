@@ -7,6 +7,8 @@ interface SEOProps {
     type?: string;
     canonical?: string;
     schemas?: object[];
+    /** Page hors index (pages de campagne) : meta robots noindex. */
+    noindex?: boolean;
 }
 
 const SITE_URL = "https://nexusdeveloppement.fr";
@@ -30,6 +32,7 @@ const SEO = ({
     type = "website",
     canonical,
     schemas = [],
+    noindex = false,
 }: SEOProps) => {
     const siteTitle = title.includes("Nexus") ? title : `${title} | Nexus Développement`;
     const canonicalUrl = canonical
@@ -83,6 +86,7 @@ const SEO = ({
         setMeta("name", "twitter:title", siteTitle);
         setMeta("name", "twitter:description", description);
         setMeta("name", "twitter:image", absoluteImage);
+        if (noindex) setMeta("name", "robots", "noindex, follow");
 
         let canonicalEl: HTMLLinkElement | null = null;
         let previousCanonical: string | null = null;
@@ -128,7 +132,7 @@ const SEO = ({
                 canonicalEl.setAttribute("href", previousCanonical);
             }
         };
-    }, [siteTitle, description, type, absoluteImage, canonicalUrl, schemas]);
+    }, [siteTitle, description, type, absoluteImage, canonicalUrl, schemas, noindex]);
 
     return null;
 };
