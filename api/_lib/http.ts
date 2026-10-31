@@ -28,6 +28,10 @@ export interface ApiError {
 }
 
 export const CONTACT_EMAIL = "contact@nexusdeveloppement.fr";
+export const CONTACT_PHONE = "06 13 94 31 78";
+
+/** Affiché quand la demande n'a pas pu nous parvenir : le visiteur sait qu'elle n'est pas partie et comment nous joindre. */
+const NOT_SENT = `Votre demande n'est pas partie. Appelez-nous au ${CONTACT_PHONE} ou écrivez à ${CONTACT_EMAIL}.`;
 
 /** Messages français des erreurs transverses (identiques sur les 3 endpoints). */
 export const MESSAGES = {
@@ -36,8 +40,8 @@ export const MESSAGES = {
   unsupported_media_type: "Le corps de la requête doit être envoyé en JSON (Content-Type: application/json).",
   payload_too_large: "Requête trop volumineuse.",
   invalid_json: "Requête invalide : le corps doit être un objet JSON.",
-  not_configured: `Service d'envoi non configuré. Écrivez-nous directement à ${CONTACT_EMAIL}.`,
-  upstream_error: `Impossible d'envoyer votre demande pour le moment. Écrivez-nous directement à ${CONTACT_EMAIL}.`,
+  not_configured: NOT_SENT,
+  upstream_error: NOT_SENT,
 } as const;
 
 type Headers = Record<string, string>;

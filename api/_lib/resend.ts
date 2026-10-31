@@ -1,6 +1,9 @@
 // Envoi d'emails via l'API HTTP Resend + politique de livraison commune aux
-// 3 endpoints :
+// endpoints des formulaires :
 //   - l'email ADMIN est le critère de succès (échec → le handler répond 502) ;
+//   - si Resend refuse l'email admin et que BREVO_API_KEY est définie, il
+//     part en secours par l'API Brevo, objet préfixé « [Secours Resend] » :
+//     la demande n'est pas perdue et le préfixe signale la panne ;
 //   - l'email de confirmation au visiteur n'est envoyé qu'après succès de
 //     l'email admin, en best-effort (échec → console.warn, statut inchangé) ;
 //   - un console.log structuré (JSON, une ligne) par envoi réussi, exploitable
@@ -8,6 +11,10 @@
 //     l'endpoint, l'événement, les ids Resend et le corps d'erreur Resend.
 
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
+const BREVO_ENDPOINT = "https://api.brevo.com/v3/smtp/email";
+// Expéditeur du secours : adresse du domaine authentifié dans Brevo.
+const BREVO_DEFAULT_SENDER = "contact@nexusdeveloppement.fr";
+const FALLBACK_SUBJECT_PREFIX = "[Secours Resend] ";
 const MAX_REASON_CHARS = 500;
 const RETRY_DELAY_MS = 700;
 
@@ -33,13 +40,21 @@ function isRetryable(result: SendResult): boolean {
   return result.status === null || result.status === 429 || result.status >= 500;
 }
 
-async function sendOnce(apiKey: string, payload: EmailPayload): Promise<SendResult> {
+interface HttpRequest {
+  url: string;
+  headers: Record<string, string>;
+  body: unknown;
+  /** Champ de la réponse JSON qui porte l'identifiant du message. */
+  idField: string;
+}
+
+async function postOnce(request: HttpRequest): Promise<SendResult> {
   let res: Response;
   try {
-    res = await fetch(RESEND_ENDPOINT, {
+    res = await fetch(request.url, {
       method: "POST",
-      headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
+      headers: { ...request.headers, "Content-Type": "application/json" },
+      body: JSON.stringify(request.body),
     });
   } catch (err) {
     return { ok: false, status: null, reason: truncate(err instanceof Error ? err.message : String(err)) };
@@ -50,8 +65,8 @@ async function sendOnce(apiKey: string, payload: EmailPayload): Promise<SendResu
 
   let id: string | null = null;
   try {
-    const parsed = JSON.parse(text) as { id?: unknown };
-    if (typeof parsed.id === "string") id = parsed.id;
+    const parsed = JSON.parse(text) as Record<string, unknown>;
+    if (typeof parsed[request.idField] === "string") id = parsed[request.idField] as string;
   } catch {
     // Corps non JSON : l'envoi a réussi, on garde id = null.
   }
@@ -59,11 +74,37 @@ async function sendOnce(apiKey: string, payload: EmailPayload): Promise<SendResu
 }
 
 /** Un envoi, avec une seule nouvelle tentative sur erreur réseau / 429 / 5xx. */
-export async function sendEmail(apiKey: string, payload: EmailPayload): Promise<SendResult> {
-  const first = await sendOnce(apiKey, payload);
+async function postWithRetry(request: HttpRequest): Promise<SendResult> {
+  const first = await postOnce(request);
   if (!isRetryable(first)) return first;
   await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY_MS));
-  return sendOnce(apiKey, payload);
+  return postOnce(request);
+}
+
+/** Envoi par Resend. */
+export function sendEmail(apiKey: string, payload: EmailPayload): Promise<SendResult> {
+  return postWithRetry({
+    url: RESEND_ENDPOINT,
+    headers: { Authorization: `Bearer ${apiKey}` },
+    body: payload,
+    idField: "id",
+  });
+}
+
+/** Envoi de secours par Brevo (API transactionnelle), même contenu, objet préfixé. */
+export function sendFallbackEmail(apiKey: string, senderEmail: string, payload: EmailPayload): Promise<SendResult> {
+  return postWithRetry({
+    url: BREVO_ENDPOINT,
+    headers: { "api-key": apiKey, Accept: "application/json" },
+    body: {
+      sender: { name: "Nexus Développement", email: senderEmail },
+      to: payload.to.map((email) => ({ email })),
+      ...(payload.reply_to ? { replyTo: { email: payload.reply_to } } : {}),
+      subject: `${FALLBACK_SUBJECT_PREFIX}${payload.subject}`,
+      htmlContent: payload.html,
+    },
+    idField: "messageId",
+  });
 }
 
 export interface DeliveryInput {
@@ -80,7 +121,7 @@ export interface DeliveryInput {
  *          (le handler doit alors répondre 502 `upstream_error`).
  */
 export async function deliverAdminThenClient(input: DeliveryInput): Promise<boolean> {
-  const admin = await sendEmail(input.apiKey, input.admin);
+  let admin = await sendEmail(input.apiKey, input.admin);
   if (admin.ok === false) {
     console.error(
       JSON.stringify({
@@ -90,7 +131,22 @@ export async function deliverAdminThenClient(input: DeliveryInput): Promise<bool
         reason: admin.reason,
       }),
     );
-    return false;
+
+    const brevoKey = process.env.BREVO_API_KEY;
+    if (!brevoKey) return false;
+    admin = await sendFallbackEmail(brevoKey, process.env.BREVO_SENDER_EMAIL || BREVO_DEFAULT_SENDER, input.admin);
+    if (admin.ok === false) {
+      console.error(
+        JSON.stringify({
+          endpoint: input.endpoint,
+          event: "fallback_email_failed",
+          status: admin.status,
+          reason: admin.reason,
+        }),
+      );
+      return false;
+    }
+    console.warn(JSON.stringify({ endpoint: input.endpoint, event: "fallback_email_sent", adminId: admin.id }));
   }
 
   const client = await sendEmail(input.apiKey, input.client);

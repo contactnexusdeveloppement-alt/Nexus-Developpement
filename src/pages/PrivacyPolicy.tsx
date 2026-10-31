@@ -170,6 +170,12 @@ const PrivacyPolicy = () => {
                             safeguard="Adhérent EU-US Data Privacy Framework + Clauses Contractuelles Types"
                         />
                         <SubProcessorItem
+                            name="Brevo (Sendinblue SAS)"
+                            country="France (Union européenne)"
+                            role="Envoi des emails que nous vous adressons depuis contact@nexusdeveloppement.fr, et envoi de secours des notifications de formulaires si Resend est indisponible"
+                            safeguard="Société établie dans l'Union européenne, soumise au RGPD (accord de traitement des données)"
+                        />
+                        <SubProcessorItem
                             name="ImprovMX Incorporation"
                             country="États-Unis (réception des emails en France, AWS Paris)"
                             role="Redirection des emails envoyés à contact@nexusdeveloppement.fr vers la boîte de réception de l'agence ; contenu supprimé dès la remise, métadonnées conservées 7 jours"
