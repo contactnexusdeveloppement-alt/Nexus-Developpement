@@ -90,7 +90,7 @@ Maintenance et hébergement : à partir de 50 €/mois selon le pack.
 - https://gym-coach.com/ — Gym Coach, salle de sport indépendante à Coignières (site vitrine, tarifs, inscription).
 - https://www.cookiesjo.fr/ — Cookies Jo, atelier de cookies et spécialités créoles à Chatou (boutique en ligne).
 - https://il-vicolo-site.vercel.app/ — Il Vicolo, pizzeria italienne à Nancy (réservation, click & collect).
-- https://www.arno-polynice.com/ — Arno Polynice, marque de vêtements sur mesure (e-commerce).
+- https://www.arno-polynice.com/ — Arno Polynice, marque de vêtements sur mesure (boutique Shopify livrée, catalogue en cours de mise en ligne par la marque).
 - https://www.orient-relais.com/ — Orient Relais, produits bio (e-commerce).
 
 ### Autres pages

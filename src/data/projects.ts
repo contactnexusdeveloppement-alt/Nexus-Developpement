@@ -57,7 +57,7 @@ export const projects: Project[] = [
     {
         title: "Arno Polynice",
         description:
-            "Conception complète d'un e-commerce pour une marque de vêtements sur mesure fait main. Catalogue produits, paiement sécurisé et tunnel de commande optimisé.",
+            "Boutique Shopify headless livrée pour une marque de vêtements faits main à Épinal, catalogue en cours de mise en ligne par la marque. Collections Femme, Homme, Unisexe et Accessoires, page sur mesure, site en trois langues.",
         image: "/projects/arno-polynice.webp?v=3",
         url: "https://www.arno-polynice.com/",
         technologies: ["React", "Shopify", "Resend"],

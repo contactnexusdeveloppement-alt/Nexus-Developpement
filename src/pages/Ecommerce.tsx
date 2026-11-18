@@ -138,7 +138,7 @@ const Ecommerce = () => {
                 <span className="text-3xl md:text-5xl text-blue-200/50">Vendre en ligne, sans friction</span>
               </h1>
               <p className="text-xl text-blue-100/70 leading-relaxed mb-10 max-w-lg">
-                Trois boutiques livrées et en production : Arno Polynice, Orient Relais, Bodystart Nutrition.
+                Trois boutiques livrées : Orient Relais et Bodystart Nutrition en vente, Arno Polynice en attente de son catalogue.
                 Catalogue, paiement, logistique : une boutique pensée pour convertir et simple à gérer au quotidien.
               </p>
               <div className="flex flex-wrap gap-4">
