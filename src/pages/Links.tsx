@@ -100,6 +100,7 @@ const Links = () => {
         title="Liens utiles · Nexus Développement"
         description="Réservez un appel découverte gratuit, découvrez nos réalisations, demandez un devis ou rejoignez notre programme d'apporteurs d'affaires."
         canonical="https://nexusdeveloppement.fr/links"
+        noindex
       />
 
       <div className="fixed inset-0 z-0" aria-hidden="true">
